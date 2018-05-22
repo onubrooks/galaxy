@@ -1,0 +1,49 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@dwqs/react-native-image-viewer": "^2.0.0",
+    "@expo/samples": "2.1.1",
+    "@nlabs/react-native-image-gallery": "^1.1.0",
+    "axios": "^0.18.0",
+    "color": "^3.0.0",
+    "expo": "^27.0.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.22.1",
+    "native-base": "^2.4.2",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react-native-animatable": "^1.2.4",
+    "react-native-easy-grid": "^0.1.17",
+    "react-native-keyboard-aware-scroll-view": "^0.5.0",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal": "^6.0.0",
+    "react-native-track-player": "^0.2.4",
+    "react-navigation": "1.5.11",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.3.0",
+    "redux-axios-middleware": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-loop": "^4.2.4",
+    "redux-persist": "^5.9.1",
+    "redux-persist-transform-encrypt": "^2.0.1",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
+    "jest-expo": "^27.0.0",
+    "react-native-scripts": "^1.13.1"
+  }
+}
