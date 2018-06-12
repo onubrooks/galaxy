@@ -9,7 +9,10 @@ const ADDITIONAL_OFFSET = 35 + 50;
 class KeyboardAvoidingScrollView extends React.Component {
   componentWillMount() {
     this.subscriptions = [
-      Keyboard.addListener("keyboardDidShow", this.keyboardDidShow)
+      Keyboard.addListener("keyboardDidShow", this.keyboardDidShow),
+      Keyboard.addListener("keyboardDidHide", this.keyboardDidHide),
+      Keyboard.addListener("keyboardWillShow", this.keyboardDidShow),
+      Keyboard.addListener("keyboardWillHide", this.keyboardDidHide)
     ];
   }
 
@@ -23,8 +26,18 @@ class KeyboardAvoidingScrollView extends React.Component {
     scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
       findNodeHandle(currentlyFocusedField),
       ADDITIONAL_OFFSET,
-      true
+      false
     );
+  };
+  keyboardDidHide = () => {
+    // const currentlyFocusedField = TextInput.State.currentlyFocusedField();
+    // //this.refs.keyboardAvoidingScrollView.scrollTo({x:50, y:50, animated: true});
+    // const scrollResponder = this.refs.keyboardAvoidingScrollView.getScrollResponder();
+    // scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+    //   findNodeHandle(currentlyFocusedField),
+    //   -30,
+    //   false
+    // );
   };
 
   render() {
@@ -34,7 +47,7 @@ class KeyboardAvoidingScrollView extends React.Component {
       <ScrollView
         {...props}
         ref="keyboardAvoidingScrollView"
-        keyboardDismissMode="on-drag"
+        keyboardDismissMode="none"
       >
         {children}
       </ScrollView>

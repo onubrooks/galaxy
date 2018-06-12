@@ -25,7 +25,7 @@ import Icon from "react-native-vector-icons/EvilIcons";
 import { Dropdown } from "react-native-material-dropdown";
 import styles from "./styles";
 import KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView";
-import AddCommentMini from "./AddCommentMini";
+import CommentInput from "./CommentInput";
 
 export class FeedItem extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ export class FeedItem extends Component {
     this.setState({inputFocused: true});
     console.log('focus');
     //console.log(event);
-    this.props._scrollToInput(ReactNative.findNodeHandle(event.target));
+    //this.props._scrollToInput(ReactNative.findNodeHandle(event.target));
   }
   onInputBlur() {
     this.setState({inputFocused: false});
@@ -101,22 +101,7 @@ export class FeedItem extends Component {
           <Text>
             <Text>{post.handle}</Text> {post.text}
           </Text>
-          <View style={{ flexDirection:"row", marginTop:4 }}>
-            <KeyboardAvoidingScrollView>
-            <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
-            <Form style={{width:"90%"}}>
-              <Item underline>
-                <Input placeholder='Add a comment...' onFocus={(event) => this.onInputFocus(event)} onBlur={this.onInputBlur} value={this.state.comment} onChangeText={(text)=>this.setState({comment:text})} />
-                {this.state.inputFocused && this.state.comment.length < 1 ?
-                 <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
-                :
-              (this.state.comment.length > 0 ?
-                <Button small transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button> : null)
-              }
-              </Item>
-            </Form>
-            </KeyboardAvoidingScrollView>
-          </View>
+          <CommentInput user={user} />
           <Text style={styles.note} note>
             {post.ago}
           </Text>

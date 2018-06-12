@@ -1,17 +1,23 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\onu\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-keyboard-aware-scroll-view
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-navigation
 
 PATH: 
-  C:\Program Files\Microsoft MPI\Bin\;C:\wamp64\bin\php\php7.2.0;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\composer;C:\Program Files\nodejs\;C:\Users\onu\AppData\Local\Android\android-sdk;C:\wamp64\bin\mysql\mysql5.7.14\bin;C:\Program Files\MongoDB\Server\3.4\bin;C:\Program Files\dotnet\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Users\onu\AppData\Local\Microsoft\WindowsApps;C:\Users\onu\AppData\Roaming\Composer\vendor\bin;C:\Users\onu\AppData\Roaming\npm;C:\Users\onu\AppData\Local\GitHubDesktop\bin;C:\Users\onu\AppData\Local\Android\android-sdk;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Heroku\bin;C:\Users\onu\AppData\Local\Microsoft\WindowsApps;C:\Users\onu\AppData\Local\atom\bin
+  C:\Program Files\Java\jdk1.8.0_161\bin;C:\Users\onu\Downloads\programs\WinPython-64bit-3.5.3.1Qt5\python-3.5.3.amd64;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin\;C:\wamp64\bin\php\php7.2.0;C:\wamp64\bin\mysql\mysql5.7.14\bin;C:\Program Files\Git\bin;C:\Program Files\Java\jdk1.8.0_161;C:\Program Files\nodejs;C:\Users\onu\AppData\Local\Yarn\bin
 
 Yarn version: 
-  0.27.5
+  1.6.0
 
 Node version: 
   6.11.2
 
 Platform: 
   win32 x64
+
+Trace: 
+  Error: connect ETIMEDOUT 104.18.94.96:443
+      at Object.exports._errnoException (util.js:1020:11)
+      at exports._exceptionWithHostPort (util.js:1043:20)
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1086:14)
 
 npm manifest: 
   {
@@ -33,30 +39,33 @@ npm manifest:
       "@nlabs/react-native-image-gallery": "^1.1.0",
       "axios": "^0.18.0",
       "color": "^3.0.0",
-      "expo": "26.0.0",
+      "expo": "^27.0.0",
       "lodash": "^4.17.5",
       "moment": "^2.22.1",
       "native-base": "^2.4.2",
-      "react": "16.3.0-alpha.1",
-      "react-native": "https://github.com/expo/react-native/archive/sdk-26.0.0.tar.gz",
+      "react": "16.3.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
       "react-native-animatable": "^1.2.4",
       "react-native-easy-grid": "^0.1.17",
+      "react-native-keyboard-aware-scroll-view": "^0.5.0",
       "react-native-material-dropdown": "^0.11.1",
       "react-native-modal": "^6.0.0",
       "react-native-track-player": "^0.2.4",
-      "react-navigation": "1.5.10",
+      
       "react-redux": "^5.0.7",
       "redux": "^3.7.2",
       "redux-actions": "^2.3.0",
       "redux-axios-middleware": "^4.0.0",
+      "redux-logger": "^3.0.6",
       "redux-loop": "^4.2.4",
       "redux-persist": "^5.9.1",
       "redux-persist-transform-encrypt": "^2.0.1",
+      "redux-thunk": "^2.2.0",
       "reselect": "^3.0.1"
     },
     "devDependencies": {
       "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
-      "jest-expo": "^26.0.0",
+      "jest-expo": "^27.0.0",
       "react-native-scripts": "^1.13.1"
     }
   }
@@ -74,6 +83,12 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.44.tgz#2a02643368de80916162be70865c97774f3adbd9"
     dependencies:
       "@babel/highlight" "7.0.0-beta.44"
+  
+  "@babel/code-frame@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.46.tgz#e0d002100805daab1461c0fcb32a07e304f3a4f4"
+    dependencies:
+      "@babel/highlight" "7.0.0-beta.46"
   
   "@babel/core@^7.0.0-beta":
     version "7.0.0-beta.44"
@@ -105,11 +120,28 @@ Lockfile:
       source-map "^0.5.0"
       trim-right "^1.0.1"
   
+  "@babel/generator@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.0.0-beta.46.tgz#6f57159bcc28bf8c3ed6b549789355cebfa3faa7"
+    dependencies:
+      "@babel/types" "7.0.0-beta.46"
+      jsesc "^2.5.1"
+      lodash "^4.2.0"
+      source-map "^0.5.0"
+      trim-right "^1.0.1"
+  
   "@babel/helper-annotate-as-pure@7.0.0-beta.44":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.0.0-beta.44.tgz#8ecf33cc5235295afcc7f160a63cab17ce7776f4"
     dependencies:
       "@babel/types" "7.0.0-beta.44"
+  
+  "@babel/helper-builder-binary-assignment-operator-visitor@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.0.0-beta.46.tgz#b6c8de48693b66bf90239e99856be4c2257e43ba"
+    dependencies:
+      "@babel/helper-explode-assignable-expression" "7.0.0-beta.46"
+      "@babel/types" "7.0.0-beta.46"
   
   "@babel/helper-builder-react-jsx@7.0.0-beta.44":
     version "7.0.0-beta.44"
@@ -134,6 +166,13 @@ Lockfile:
       "@babel/types" "7.0.0-beta.44"
       lodash "^4.2.0"
   
+  "@babel/helper-explode-assignable-expression@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-explode-assignable-expression/-/helper-explode-assignable-expression-7.0.0-beta.46.tgz#6a34a7533761b97ce4f7bf6fc586dcfb204ffa11"
+    dependencies:
+      "@babel/traverse" "7.0.0-beta.46"
+      "@babel/types" "7.0.0-beta.46"
+  
   "@babel/helper-function-name@7.0.0-beta.44":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.44.tgz#e18552aaae2231100a6e485e03854bc3532d44dd"
@@ -142,11 +181,25 @@ Lockfile:
       "@babel/template" "7.0.0-beta.44"
       "@babel/types" "7.0.0-beta.44"
   
+  "@babel/helper-function-name@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.46.tgz#d0c4eed2e220e180f91b02e008dcc4594afe1d39"
+    dependencies:
+      "@babel/helper-get-function-arity" "7.0.0-beta.46"
+      "@babel/template" "7.0.0-beta.46"
+      "@babel/types" "7.0.0-beta.46"
+  
   "@babel/helper-get-function-arity@7.0.0-beta.44":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.44.tgz#d03ca6dd2b9f7b0b1e6b32c56c72836140db3a15"
     dependencies:
       "@babel/types" "7.0.0-beta.44"
+  
+  "@babel/helper-get-function-arity@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.46.tgz#7161bfe449b4183dbe25d1fe5579338b7429e5f2"
+    dependencies:
+      "@babel/types" "7.0.0-beta.46"
   
   "@babel/helper-hoist-variables@7.0.0-beta.44":
     version "7.0.0-beta.44"
@@ -182,6 +235,10 @@ Lockfile:
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.44.tgz#9f590bc3ae6daa8a10b853233baa3e25d263751d"
   
+  "@babel/helper-plugin-utils@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.46.tgz#f630adbd9d645d0ba2e43f4955b4ad61f44ccdf4"
+  
   "@babel/helper-remap-async-to-generator@^7.0.0-beta":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.0.0-beta.44.tgz#8ad8c12a57444042ca281bdb16734841425938ad"
@@ -215,6 +272,12 @@ Lockfile:
     dependencies:
       "@babel/types" "7.0.0-beta.44"
   
+  "@babel/helper-split-export-declaration@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.0.0-beta.46.tgz#6903893c72bb2a3d54ed20b5ff2aa8a28e8d2ea1"
+    dependencies:
+      "@babel/types" "7.0.0-beta.46"
+  
   "@babel/helper-wrap-function@7.0.0-beta.44":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/helper-wrap-function/-/helper-wrap-function-7.0.0-beta.44.tgz#d128718a543f313264dff7cb386957e3e465c95d"
@@ -240,9 +303,13 @@ Lockfile:
       esutils "^2.0.2"
       js-tokens "^3.0.0"
   
-  "@babel/plugin-check-constants@^7.0.0-beta":
-    version "7.0.0-beta.38"
-    resolved "https://registry.yarnpkg.com/@babel/plugin-check-constants/-/plugin-check-constants-7.0.0-beta.38.tgz#bbda6306d45a4f097ccb416c0b52d6503f6502cf"
+  "@babel/highlight@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-beta.46.tgz#c553c51e65f572bdedd6eff66fc0bb563016645e"
+    dependencies:
+      chalk "^2.0.0"
+      esutils "^2.0.2"
+      js-tokens "^3.0.0"
   
   "@babel/plugin-external-helpers@^7.0.0-beta":
     version "7.0.0-beta.44"
@@ -332,6 +399,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@babel/plugin-transform-destructuring/-/plugin-transform-destructuring-7.0.0-beta.44.tgz#57c8b40d56db45eaa39b44696818b24004306752"
     dependencies:
       "@babel/helper-plugin-utils" "7.0.0-beta.44"
+  
+  "@babel/plugin-transform-exponentiation-operator@^7.0.0-beta":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.0.0-beta.46.tgz#95ae2e03456e417d2f5eace6d05a8fccb7af1bcc"
+    dependencies:
+      "@babel/helper-builder-binary-assignment-operator-visitor" "7.0.0-beta.46"
+      "@babel/helper-plugin-utils" "7.0.0-beta.46"
   
   "@babel/plugin-transform-flow-strip-types@^7.0.0-beta":
     version "7.0.0-beta.44"
@@ -427,6 +501,18 @@ Lockfile:
       "@babel/helper-annotate-as-pure" "7.0.0-beta.44"
       "@babel/helper-plugin-utils" "7.0.0-beta.44"
   
+  "@babel/register@^7.0.0-beta":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.0.0-beta.46.tgz#695629b28902b832be02b418c96e17e6b099e9d5"
+    dependencies:
+      core-js "^2.5.3"
+      find-cache-dir "^1.0.0"
+      home-or-tmp "^3.0.0"
+      lodash "^4.2.0"
+      mkdirp "^0.5.1"
+      pirates "^3.0.1"
+      source-map-support "^0.4.2"
+  
   "@babel/template@7.0.0-beta.44", "@babel/template@^7.0.0-beta":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.44.tgz#f8832f4fdcee5d59bf515e595fc5106c529b394f"
@@ -434,6 +520,15 @@ Lockfile:
       "@babel/code-frame" "7.0.0-beta.44"
       "@babel/types" "7.0.0-beta.44"
       babylon "7.0.0-beta.44"
+      lodash "^4.2.0"
+  
+  "@babel/template@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.46.tgz#8b23982411d5b5dbfa479437bfe414adb1411bb9"
+    dependencies:
+      "@babel/code-frame" "7.0.0-beta.46"
+      "@babel/types" "7.0.0-beta.46"
+      babylon "7.0.0-beta.46"
       lodash "^4.2.0"
   
   "@babel/traverse@7.0.0-beta.44", "@babel/traverse@^7.0.0-beta":
@@ -451,9 +546,32 @@ Lockfile:
       invariant "^2.2.0"
       lodash "^4.2.0"
   
+  "@babel/traverse@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.0.0-beta.46.tgz#29a0c0395b3642f0297e6f8e475bde89f9343755"
+    dependencies:
+      "@babel/code-frame" "7.0.0-beta.46"
+      "@babel/generator" "7.0.0-beta.46"
+      "@babel/helper-function-name" "7.0.0-beta.46"
+      "@babel/helper-split-export-declaration" "7.0.0-beta.46"
+      "@babel/types" "7.0.0-beta.46"
+      babylon "7.0.0-beta.46"
+      debug "^3.1.0"
+      globals "^11.1.0"
+      invariant "^2.2.0"
+      lodash "^4.2.0"
+  
   "@babel/types@7.0.0-beta.44", "@babel/types@^7.0.0-beta":
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.44.tgz#6b1b164591f77dec0a0342aca995f2d046b3a757"
+    dependencies:
+      esutils "^2.0.2"
+      lodash "^4.2.0"
+      to-fast-properties "^2.0.0"
+  
+  "@babel/types@7.0.0-beta.46":
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.46.tgz#eb84399a699af9fcb244440cce78e1acbeb40e0c"
     dependencies:
       esutils "^2.0.2"
       lodash "^4.2.0"
@@ -1105,7 +1223,7 @@ Lockfile:
       babel-runtime "^6.22.0"
       babel-template "^6.24.1"
   
-  babel-jest@^22.1.0, babel-jest@^22.4.3:
+  babel-jest@^22.4.1, babel-jest@^22.4.3:
     version "22.4.3"
     resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-22.4.3.tgz#4b7a0b6041691bbd422ab49b3b73654a49a6627a"
     dependencies:
@@ -1648,6 +1766,10 @@ Lockfile:
     version "7.0.0-beta.44"
     resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.44.tgz#89159e15e6e30c5096e22d738d8c0af8a0e8ca1d"
   
+  babylon@7.0.0-beta.46:
+    version "7.0.0-beta.46"
+    resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.46.tgz#b6ddaba81bbb130313932757ff9c195d527088b6"
+  
   babylon@^6.18.0:
     version "6.18.0"
     resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
@@ -2098,6 +2220,10 @@ Lockfile:
     version "2.14.1"
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
   
+  commondir@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
+  
   compare-versions@^3.1.0:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-3.1.0.tgz#43310256a5c555aaed4193c04d8f154cf9c6efd5"
@@ -2196,6 +2322,10 @@ Lockfile:
   core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
     version "2.5.5"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.5.tgz#b14dde936c640c0579a6b50cabcc132dd6127e3b"
+  
+  core-js@^2.5.3:
+    version "2.5.6"
+    resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.6.tgz#0fe6d45bf3cac3ac364a9d72de7576f4eb221b9d"
   
   core-util-is@1.0.2, core-util-is@~1.0.0:
     version "1.0.2"
@@ -2312,6 +2442,10 @@ Lockfile:
   deep-diff@0.3.4:
     version "0.3.4"
     resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.4.tgz#aac5c39952236abe5f037a2349060ba01b00ae48"
+  
+  deep-diff@^0.3.5:
+    version "0.3.8"
+    resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
   
   deep-extend@~0.4.0:
     version "0.4.2"
@@ -2538,6 +2672,16 @@ Lockfile:
     optionalDependencies:
       source-map "~0.6.1"
   
+  eslint-plugin-react-native-globals@^0.1.1:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/eslint-plugin-react-native-globals/-/eslint-plugin-react-native-globals-0.1.2.tgz#ee1348bc2ceb912303ce6bdbd22e2f045ea86ea2"
+  
+  eslint-plugin-react-native@^3.2.1:
+    version "3.2.1"
+    resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.2.1.tgz#04fcadd3285b7cd2f27146e640c941b00acc4e7e"
+    dependencies:
+      eslint-plugin-react-native-globals "^0.1.1"
+  
   esprima@3.x.x, esprima@^3.1.3:
     version "3.1.3"
     resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
@@ -2643,9 +2787,9 @@ Lockfile:
       jest-message-util "^22.4.3"
       jest-regex-util "^22.4.3"
   
-  expo@26.0.0:
-    version "26.0.0"
-    resolved "https://registry.yarnpkg.com/expo/-/expo-26.0.0.tgz#19636fbcf760d284313d6e8cd891ae186baa48be"
+  expo@^27.0.0:
+    version "27.0.1"
+    resolved "https://registry.yarnpkg.com/expo/-/expo-27.0.1.tgz#556a37121282f4509b0821d8d4e7c8a8da0c11d8"
     dependencies:
       "@expo/vector-icons" "^6.3.1"
       babel-preset-expo "^4.0.0"
@@ -2661,7 +2805,7 @@ Lockfile:
       qs "^6.5.0"
       react-native-branch "2.0.0-beta.3"
       react-native-gesture-handler "1.0.0-alpha.41"
-      react-native-maps "https://github.com/expo/react-native-maps/archive/0.20.1-exp.0.tar.gz"
+      react-native-maps "0.21.0"
       react-native-svg "6.2.2"
       uuid-js "^0.7.5"
       websql "https://github.com/expo/node-websql/archive/18.0.0.tar.gz"
@@ -2888,6 +3032,14 @@ Lockfile:
     dependencies:
       json5 "^0.5.1"
       path-exists "^3.0.0"
+  
+  find-cache-dir@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-1.0.0.tgz#9288e3e9e3cc3748717d39eade17cf71fc30ee6f"
+    dependencies:
+      commondir "^1.0.1"
+      make-dir "^1.0.0"
+      pkg-dir "^2.0.0"
   
   find-up@^1.0.0:
     version "1.1.2"
@@ -3363,6 +3515,10 @@ Lockfile:
     dependencies:
       os-homedir "^1.0.0"
       os-tmpdir "^1.0.1"
+  
+  home-or-tmp@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-3.0.0.tgz#57a8fe24cf33cdd524860a15821ddc25c86671fb"
   
   hosted-git-info@^2.1.4:
     version "2.6.0"
@@ -3957,14 +4113,14 @@ Lockfile:
       jest-mock "^22.4.3"
       jest-util "^22.4.3"
   
-  jest-expo@^26.0.0:
-    version "26.0.0"
-    resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-26.0.0.tgz#a20f0e2d1ccb445814982e5fdc9bfcddb5c13ee3"
+  jest-expo@^27.0.0:
+    version "27.0.1"
+    resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-27.0.1.tgz#8b1a97a8be167528b4b6cdfa5f459348f0b66026"
     dependencies:
-      babel-jest "^22.1.0"
-      jest "^22.2.1"
+      babel-jest "^22.4.1"
+      jest "^22.4.2"
       json5 "^0.5.1"
-      react-test-renderer "^16.3.0-alpha.2"
+      react-test-renderer "^16.3.1"
   
   jest-get-type@^22.4.3:
     version "22.4.3"
@@ -4145,7 +4301,7 @@ Lockfile:
     dependencies:
       merge-stream "^1.0.1"
   
-  jest@^22.2.1:
+  jest@^22.4.2:
     version "22.4.3"
     resolved "https://registry.yarnpkg.com/jest/-/jest-22.4.3.tgz#2261f4b117dc46d9a4a1a673d2150958dee92f16"
     dependencies:
@@ -4612,6 +4768,12 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/macos-release/-/macos-release-1.1.0.tgz#831945e29365b470aa8724b0ab36c8f8959d10fb"
   
+  make-dir@^1.0.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
+    dependencies:
+      pify "^3.0.0"
+  
   makeerror@1.0.x:
     version "1.0.11"
     resolved "https://registry.yarnpkg.com/makeerror/-/makeerror-1.0.11.tgz#e01a5c9109f2af79660e4e8b9587790184f5a96c"
@@ -4680,51 +4842,51 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   
-  metro-babylon7@0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-babylon7/-/metro-babylon7-0.28.0.tgz#cf9701ffdc1992d1562b4cb667d9692164950df4"
+  metro-babylon7@0.30.2:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-babylon7/-/metro-babylon7-0.30.2.tgz#73784a958916bf5541b6a930598b62460fc376f5"
     dependencies:
       babylon "^7.0.0-beta"
   
-  metro-cache@0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-cache/-/metro-cache-0.28.0.tgz#c5164a361985fc0294059fccdf4ea824e3173c1d"
+  metro-cache@0.30.2:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-cache/-/metro-cache-0.30.2.tgz#1fb1ff92d3d8c596fd8cddc1635a9cb1c26e4cba"
     dependencies:
       jest-serializer "^22.4.0"
       mkdirp "^0.5.1"
   
-  metro-core@0.28.0, metro-core@^0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-core/-/metro-core-0.28.0.tgz#e1ced4cf07ca8fb5196a6e5ca853b5d893f06038"
+  metro-core@0.30.2, metro-core@^0.30.0:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-core/-/metro-core-0.30.2.tgz#380ae13cceee29e5be166df7acca9f1daa19fd7e"
     dependencies:
       lodash.throttle "^4.1.1"
+      wordwrap "^1.0.0"
   
-  metro-minify-uglify@0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-minify-uglify/-/metro-minify-uglify-0.28.0.tgz#c9aecb8e893430d2fd58e00cf799c00b99dc0f79"
+  metro-minify-uglify@0.30.2:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-minify-uglify/-/metro-minify-uglify-0.30.2.tgz#7299a0376ad6340e9acf415912d54b5309702040"
     dependencies:
       uglify-es "^3.1.9"
   
-  metro-resolver@0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-resolver/-/metro-resolver-0.28.0.tgz#813802d60fc762772927c81d02e01c7eec84bad8"
+  metro-resolver@0.30.2:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-resolver/-/metro-resolver-0.30.2.tgz#c26847e59cdc6a8ab1fb4b92d765165ec06946dd"
     dependencies:
       absolute-path "^0.0.0"
   
-  metro-source-map@0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro-source-map/-/metro-source-map-0.28.0.tgz#ec8c3161d8516ad3c4e7149f2c3d4802f4fd6fa2"
+  metro-source-map@0.30.2:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro-source-map/-/metro-source-map-0.30.2.tgz#4ac056642a2c521d974d42a617c8731d094365bb"
     dependencies:
       source-map "^0.5.6"
   
-  metro@^0.28.0:
-    version "0.28.0"
-    resolved "https://registry.yarnpkg.com/metro/-/metro-0.28.0.tgz#22999c96c3129682a76acd4e1f2adc17f7d77cac"
+  metro@^0.30.0:
+    version "0.30.2"
+    resolved "https://registry.yarnpkg.com/metro/-/metro-0.30.2.tgz#e722e0eb106530f6d5bcf8de1f50353a0732cfb3"
     dependencies:
       "@babel/core" "^7.0.0-beta"
       "@babel/generator" "^7.0.0-beta"
       "@babel/helper-remap-async-to-generator" "^7.0.0-beta"
-      "@babel/plugin-check-constants" "^7.0.0-beta"
       "@babel/plugin-external-helpers" "^7.0.0-beta"
       "@babel/plugin-proposal-class-properties" "^7.0.0-beta"
       "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta"
@@ -4734,6 +4896,7 @@ Lockfile:
       "@babel/plugin-transform-classes" "^7.0.0-beta"
       "@babel/plugin-transform-computed-properties" "^7.0.0-beta"
       "@babel/plugin-transform-destructuring" "^7.0.0-beta"
+      "@babel/plugin-transform-exponentiation-operator" "^7.0.0-beta"
       "@babel/plugin-transform-flow-strip-types" "^7.0.0-beta"
       "@babel/plugin-transform-for-of" "^7.0.0-beta"
       "@babel/plugin-transform-function-name" "^7.0.0-beta"
@@ -4748,6 +4911,7 @@ Lockfile:
       "@babel/plugin-transform-shorthand-properties" "^7.0.0-beta"
       "@babel/plugin-transform-spread" "^7.0.0-beta"
       "@babel/plugin-transform-template-literals" "^7.0.0-beta"
+      "@babel/register" "^7.0.0-beta"
       "@babel/template" "^7.0.0-beta"
       "@babel/traverse" "^7.0.0-beta"
       "@babel/types" "^7.0.0-beta"
@@ -4756,10 +4920,13 @@ Lockfile:
       babel-core "^6.24.1"
       babel-generator "^6.26.0"
       babel-plugin-external-helpers "^6.22.0"
+      babel-plugin-react-transform "^3.0.0"
+      babel-plugin-transform-flow-strip-types "^6.21.0"
       babel-preset-es2015-node "^6.1.1"
       babel-preset-fbjs "^2.1.4"
       babel-preset-react-native "^4.0.0"
       babel-register "^6.24.1"
+      babel-template "^6.24.1"
       babylon "^6.18.0"
       chalk "^1.1.1"
       concat-stream "^1.6.0"
@@ -4780,15 +4947,16 @@ Lockfile:
       left-pad "^1.1.3"
       lodash.throttle "^4.1.1"
       merge-stream "^1.0.1"
-      metro-babylon7 "0.28.0"
-      metro-cache "0.28.0"
-      metro-core "0.28.0"
-      metro-minify-uglify "0.28.0"
-      metro-resolver "0.28.0"
-      metro-source-map "0.28.0"
+      metro-babylon7 "0.30.2"
+      metro-cache "0.30.2"
+      metro-core "0.30.2"
+      metro-minify-uglify "0.30.2"
+      metro-resolver "0.30.2"
+      metro-source-map "0.30.2"
       mime-types "2.1.11"
       mkdirp "^0.5.1"
-      request "^2.79.0"
+      node-fetch "^1.3.3"
+      resolve "^1.5.0"
       rimraf "^2.5.4"
       serialize-error "^2.1.0"
       source-map "^0.5.6"
@@ -5051,7 +5219,11 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   
-  node-notifier@^5.1.2, node-notifier@^5.2.1:
+  node-modules-regexp@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
+  
+  node-notifier@^5.2.1:
     version "5.2.1"
     resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-5.2.1.tgz#fa313dd08f5517db0e2502e5758d664ac69f9dea"
     dependencies:
@@ -5444,6 +5616,12 @@ Lockfile:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   
+  pirates@^3.0.1:
+    version "3.0.2"
+    resolved "https://registry.yarnpkg.com/pirates/-/pirates-3.0.2.tgz#7e6f85413fd9161ab4e12b539b06010d85954bb9"
+    dependencies:
+      node-modules-regexp "^1.0.0"
+  
   pkg-dir@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
@@ -5684,9 +5862,9 @@ Lockfile:
       shell-quote "^1.6.1"
       ws "^2.0.3"
   
-  react-is@^16.3.1:
-    version "16.3.1"
-    resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.1.tgz#ee66e6d8283224a83b3030e110056798488359ba"
+  react-is@^16.3.2:
+    version "16.3.2"
+    resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.2.tgz#f4d3d0e2f5fbb6ac46450641eb2e25bf05d36b22"
   
   react-lifecycles-compat@^1.0.2:
     version "1.1.4"
@@ -5743,16 +5921,16 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
   
-  react-native-keyboard-aware-scroll-view@0.5.0:
+  react-native-keyboard-aware-scroll-view@0.5.0, react-native-keyboard-aware-scroll-view@^0.5.0:
     version "0.5.0"
     resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.5.0.tgz#57ab933089375bf62f4324797e8be949ad97849d"
     dependencies:
       prop-types "^15.6.0"
       react-native-iphone-x-helper "^1.0.1"
   
-  "react-native-maps@https://github.com/expo/react-native-maps/archive/0.20.1-exp.0.tar.gz":
-    version "0.20.1"
-    resolved "https://github.com/expo/react-native-maps/archive/0.20.1-exp.0.tar.gz#81d607e2d77481c0441aecfdbc303389a34084c0"
+  react-native-maps@0.21.0:
+    version "0.21.0"
+    resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.21.0.tgz#005f58e93d7623ad59667e8002101970ddf235c2"
     dependencies:
       babel-plugin-module-resolver "^2.3.0"
       babel-preset-react-native "1.9.0"
@@ -5868,9 +6046,9 @@ Lockfile:
       prop-types "^15.5.10"
       yargs "^8.0.2"
   
-  "react-native@https://github.com/expo/react-native/archive/sdk-26.0.0.tar.gz":
-    version "0.54.2"
-    resolved "https://github.com/expo/react-native/archive/sdk-26.0.0.tar.gz#0e55599929c08c1d2100fdd2b90926ad9f567b42"
+  "react-native@https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz":
+    version "0.55.2"
+    resolved "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz#13850be33f38b0ddc7257a4a30109a41c6305a76"
     dependencies:
       absolute-path "^0.0.0"
       art "^0.10.0"
@@ -5893,6 +6071,7 @@ Lockfile:
       denodeify "^1.2.1"
       envinfo "^3.0.0"
       errorhandler "^1.5.0"
+      eslint-plugin-react-native "^3.2.1"
       event-target-shim "^1.0.5"
       fbjs "^0.8.14"
       fbjs-scripts "^0.8.1"
@@ -5901,14 +6080,14 @@ Lockfile:
       graceful-fs "^4.1.3"
       inquirer "^3.0.6"
       lodash "^4.17.5"
-      metro "^0.28.0"
-      metro-core "^0.28.0"
+      metro "^0.30.0"
+      metro-core "^0.30.0"
       mime "^1.3.4"
       minimist "^1.2.0"
       mkdirp "^0.5.1"
       morgan "^1.9.0"
       node-fetch "^1.3.3"
-      node-notifier "^5.1.2"
+      node-notifier "^5.2.1"
       npmlog "^2.0.4"
       opn "^3.0.2"
       optimist "^0.6.1"
@@ -5931,9 +6110,9 @@ Lockfile:
       xmldoc "^0.4.0"
       yargs "^9.0.0"
   
-  react-navigation@1.5.10:
-    version "1.5.10"
-    resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.10.tgz#0e94c720f9bcbf14e40682ccaf81893f1edb654e"
+  react-navigation@1.5.11:
+    version "1.5.11"
+    resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.11.tgz#fba6ab45d7b9987c1763a5aaac53b4f6d62b7f5c"
     dependencies:
       clamp "^1.0.1"
       hoist-non-react-statics "^2.2.0"
@@ -5962,14 +6141,14 @@ Lockfile:
       loose-envify "^1.1.0"
       prop-types "^15.6.0"
   
-  react-test-renderer@^16.3.0-alpha.2:
-    version "16.3.1"
-    resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.3.1.tgz#d9257936d8535bd40f57f3d5a84e7b0452fb17f2"
+  react-test-renderer@^16.3.1:
+    version "16.3.2"
+    resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.3.2.tgz#3d1ed74fda8db42521fdf03328e933312214749a"
     dependencies:
       fbjs "^0.8.16"
       object-assign "^4.1.1"
       prop-types "^15.6.0"
-      react-is "^16.3.1"
+      react-is "^16.3.2"
   
   react-timer-mixin@^0.13.2:
     version "0.13.3"
@@ -5989,16 +6168,7 @@ Lockfile:
       raf "^3.1.0"
       tween-functions "^1.0.1"
   
-  react@16.3.0-alpha.1:
-    version "16.3.0-alpha.1"
-    resolved "https://registry.yarnpkg.com/react/-/react-16.3.0-alpha.1.tgz#de20f646e31e8b3c004e6bcbd3c54d51b48e1120"
-    dependencies:
-      fbjs "^0.8.16"
-      loose-envify "^1.1.0"
-      object-assign "^4.1.1"
-      prop-types "^15.6.0"
-  
-  react@^16.0.0:
+  react@16.3.1, react@^16.0.0:
     version "16.3.1"
     resolved "https://registry.yarnpkg.com/react/-/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
     dependencies:
@@ -6094,6 +6264,12 @@ Lockfile:
     dependencies:
       deep-diff "0.3.4"
   
+  redux-logger@^3.0.6:
+    version "3.0.6"
+    resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
+    dependencies:
+      deep-diff "^0.3.5"
+  
   redux-loop@^4.2.4:
     version "4.2.4"
     resolved "https://registry.yarnpkg.com/redux-loop/-/redux-loop-4.2.4.tgz#d497ddf79ebdfc16b3aa9006f5d0a7a442e6bd6c"
@@ -6109,6 +6285,10 @@ Lockfile:
   redux-persist@^5.9.1:
     version "5.9.1"
     resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.9.1.tgz#83bd4abd526ef768f63fceee338fa9d8ed6552d6"
+  
+  redux-thunk@^2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
   
   redux@^3.6.0, redux@^3.7.2:
     version "3.7.2"
@@ -6253,7 +6433,7 @@ Lockfile:
       tunnel-agent "^0.6.0"
       uuid "^3.0.0"
   
-  request@^2.79.0, request@^2.81.0, request@^2.83.0:
+  request@^2.81.0, request@^2.83.0:
     version "2.85.0"
     resolved "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
     dependencies:
@@ -6310,7 +6490,7 @@ Lockfile:
     version "1.1.7"
     resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
   
-  resolve@^1.2.0, resolve@^1.3.2:
+  resolve@^1.2.0, resolve@^1.3.2, resolve@^1.5.0:
     version "1.7.1"
     resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.7.1.tgz#aadd656374fd298aee895bc026b8297418677fd3"
     dependencies:
@@ -7632,7 +7812,3 @@ Lockfile:
   yesno@^0.0.1:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/yesno/-/yesno-0.0.1.tgz#ffbc04ff3d6f99dad24f7463134e9b92ae41bef6"
-
-Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\onu\galaxy\node_modules\@expo\json-file\node_modules\.bin'
-      at Error (native)

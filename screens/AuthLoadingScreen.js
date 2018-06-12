@@ -6,6 +6,25 @@ import {
   StyleSheet,
   View
 } from "react-native";
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Button,
+  Footer,
+  FooterTab,
+  Body,
+  Left,
+  Right,
+  //Icon,
+  Text,
+  Thumbnail,
+  Form,
+  Item,
+  Input
+} from "native-base";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../components/styles";
 
 export class AuthLoadingScreen extends React.Component {
@@ -28,7 +47,10 @@ export class AuthLoadingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <ActivityIndicator />
+        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
+          
+        </Header>
+        <ActivityIndicator style={{marginTop: 20}} />
       </View>
     );
   }

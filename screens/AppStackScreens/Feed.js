@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, View } from "react-native";
+import { Image, View, KeyboardAvoidingView } from "react-native";
 import {
   Container,
   Header,
@@ -22,6 +22,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/EvilIcons";
 import FeedItem from "../../components/FeedItem";
 import FooterNav from "../../components/FooterNav";
+import KeyboardAvoidingScrollView from "../../components/KeyboardAvoidingScrollView";
 
 import { connect } from 'react-redux';
 
@@ -40,7 +41,7 @@ export class Feed extends Component {
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.addComment = this.addComment.bind(this);
-    this._scrollToInput = this._scrollToInput.bind(this);
+    //this._scrollToInput = this._scrollToInput.bind(this);
     this.toggleLike = this.toggleLike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
   }
@@ -51,11 +52,7 @@ export class Feed extends Component {
     });
   }
   addComment() {
-    this.props.navigation.navigate("AddComment");
-  }
-  _scrollToInput (reactNode) {
-  // Add a 'scroll' ref to your ScrollView
-  this.scroll.scrollToFocusedInput(reactNode);
+    this.props.navigation.navigate("AddComment", {user: this.props.user});
   }
 
   toggleLike(post_id) { // bookmark action dispatcher
@@ -94,13 +91,13 @@ export class Feed extends Component {
             <Ionicons style={styles.title} name="ios-send-outline" size={33} />
           </Right>
         </Header>
-        <KeyboardAwareScrollView ref={ref => {this.scroll = ref}} innerRef={ref => {this.scroll = ref}}>
+      <KeyboardAvoidingScrollView> 
         <Content>
           {feed.loading ? <Spinner color='blue' /> : null}
           {Object.keys(feed.byId).map((post, idx) => <FeedItem key={idx} post={feed.byId[post]} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} addComment={this.addComment} _scrollToInput={this._scrollToInput} />)}
           <Spinner color='blue' />
         </Content>
-        </KeyboardAwareScrollView>
+      </KeyboardAvoidingScrollView>
         <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isModalVisible: false })}>
           <Modal1Content setModalVisible={this.setModalVisible} />
         </Modal>
