@@ -3,6 +3,7 @@ import {
   GET_FEED,
   GET_FEED_SUCCESS,
   GET_FEED_FAIL,
+  GET_USERS,
   ADD_POST,
   LIKE_POST,
   UNLIKE_POST,
@@ -45,7 +46,14 @@ function posts(state = [], action) {
       return state
   }
 }
-
+function users(state = initialState.users, action) {
+  switch(action.type) {
+    case GET_USERS:
+      return {...state}
+    default:
+      return { ...state }
+  }
+}
 function feed(state = initialState.feed, action) {
   switch (action.type) {
     case GET_FEED:
@@ -65,8 +73,8 @@ function feed(state = initialState.feed, action) {
       return {
         ...state, 
         byId: {
-          ...state.byId, 
-          [action.payload.post_id]: {
+          ...state.byId, // all other ids stay the same 
+          [action.payload.post_id]: {  // edit the post which is being liked
             ...state.byId[action.payload.post_id], 
             hits: state.byId[action.payload.post_id].hits.concat(action.payload.user_id)
           }
@@ -77,8 +85,8 @@ function feed(state = initialState.feed, action) {
         return {
           ...state, 
           byId: {
-            ...state.byId, 
-            [action.payload.post_id]: {
+            ...state.byId, // all other ids stay the same
+            [action.payload.post_id]: { // edit the post which is being unliked
               ...state.byId[action.payload.post_id], 
               hits: state.byId[action.payload.post_id].hits.filter(item => item !== action.payload.user_id)
             }
@@ -92,7 +100,15 @@ function feed(state = initialState.feed, action) {
 function comment(state = initialState.comments, action) {
       switch (action.type) {
         case COMMENT_POST:
-          return [...state, action.payload]; // payload consists of post_id and text
+          return { 
+            ...state, 
+            byId: { 
+              ...state.byId, 
+              [action.payload.comment]: { // new comment id is the comment for now
+                id: action.payload.comment, author: action.payload.user_id, comment: action.payload.comment, post_id: action.payload.post_id 
+              }
+            }, 
+            allIds: [...state.allIds, action.payload.comment] };// payload consists of post_id, user_id and comment text
         default:
           return state
       }
@@ -171,6 +187,7 @@ function getProfile(state = {}, action) {
 
 const rootReducer = combineReducers({
   feed,
+  users,
   posts: posts,
   comments: comment,
   //likes: like,

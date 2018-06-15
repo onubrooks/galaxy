@@ -28,7 +28,7 @@ import {
   Input
 } from "native-base";
 import styles from "../../components/styles";
-import CommentInput from "../../components/CommentInput";
+
 import Comments from "../../components/Comments";
 import { Dimensions } from 'react-native';
 
@@ -45,25 +45,25 @@ export class AddCommentScreen extends React.Component {
    AsyncStorage.removeItem("userToken");
    this.props.navigation.navigate("AuthLoading");
   }
-  render() {
-    let user = this.props.navigation.state.params.user;
-    return <Container style={styles.container}>
-      <KeyboardAvoidingView behavior="padding"> 
-          <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
-            <Left>
-              <Ionicons style={styles.title} name="ios-arrow-back" onPress={() => this.props.navigation.goBack()} size={33} />
-            </Left>
-            <Body style={{ marginHorizontal: 85 }}>
-              <Title style={styles.title}>Comments</Title>
-            </Body>
-          </Header>
 
-          <Content>
-            <Comments user={user} />
-            <CommentInput user={user} />
-            <View />
-          </Content>
-      </KeyboardAvoidingView>
+  addComment(post_id, comment) {
+    this.props.navigation.state.params.addComment(post_id, comment);
+  }
+  render() {
+    let { user, post, comments, users} = this.props.navigation.state.params; // passed from the feed page
+    return <Container style={styles.container}>
+        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
+          <Left>
+            <Ionicons style={styles.title} name="ios-arrow-back" onPress={() => this.props.navigation.goBack()} size={33} />
+          </Left>
+          <Body style={{ marginHorizontal: 85 }}>
+            <Title style={styles.title}>Comments</Title>
+          </Body>
+        </Header>
+
+        <Content>
+        <Comments user={user} post={post} users={users} comments={comments} />
+        </Content>
       </Container>;
   }
 }

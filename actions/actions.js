@@ -6,6 +6,8 @@ const onu = require("../assets/onu.jpg");
 export const ADD_POST = 'ADD_POST';
 // fetch feed async when feed component mounts
 export const GET_FEED = 'GET_FEED'
+// fetch users
+export const GET_USERS = 'GET_USERS'
 // successful fetch
 export const GET_FEED_SUCCESS = 'GET_FEED_SUCCESS';
 // failed to get feed for some reason
@@ -61,6 +63,11 @@ export function getFeed(user) {
     type: GET_FEED,
   }
 }
+export function getUsers() {
+  return {
+    type: GET_USERS,
+  }
+}
 
 export function getFeedSuccess(data) {
   return {
@@ -101,12 +108,13 @@ export function unLikePost(post_id, user_id) {
    }
 }
 
-export function commentPost(post_id, comment) {
+export function commentPost(post_id, comment, user_id) {
   return { 
     type: COMMENT_POST, 
     payload: {
       post_id, 
-      comment
+      comment,
+      user_id
     }
   }
 }

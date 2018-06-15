@@ -9,7 +9,7 @@ export const loggedInUser = {
       username: 'onubrooks',
       loggedIn: true,
       thumbnail: onu,
-      avatar: "../assets/onu.jpg"
+      avatar: onu
 };
 
 const sampleFeed =  {
@@ -66,48 +66,61 @@ const sampleFeed =  {
 };
 
 const sampleComments = {
-        byId : {
-            "comment1" : {
-                id : "comment1",
-                author : "user2",
-                comment : ".....",
-            },
-            "comment2" : {
-                id : "comment2",
-                author : "user3",
-                comment : ".....",
-            },
-            "comment3" : {
-                id : "comment3",
-                author : "user3",
-                comment : ".....",
-            },
-            "comment4" : {
-                id : "comment4",
-                author : "user1",
-                comment : ".....",
-            },
-            "comment5" : {
-                id : "comment5",
-                author : "user3",
-                comment : ".....",
-            },
-        },
-        allIds : ["comment1", "comment2", "comment3", "commment4", "comment5"]
+  byId: {
+    comment1: {
+      id: "comment1",
+      author: "user2",
+      comment: ".....",
+      post_id: "post1"
+    },
+    comment2: {
+      id: "comment2",
+      author: "user3",
+      comment: ".....",
+        post_id: "post2"
+    },
+    comment3: {
+      id: "comment3",
+      author: "user3",
+      comment: ".....",
+      post_id: "post3"
+    },
+    comment4: {
+      id: "comment4",
+      author: "user1",
+      comment: ".....",
+        post_id: "post4"
+    },
+    comment5: {
+      id: "comment5",
+      author: "user3",
+      comment: ".....",
+        post_id: "post1"
+    }
+  },
+  allIds: ["comment1", "comment2", "comment3", "commment4", "comment5"]
 };
 const sampleUsers =  {
         byId : {
+              "user0": {
+                    username: "user0",
+                    name: "onubrooks",
+                    avatar: onu
+              },
             "user1" : {
                 username : "user1",
                 name : "User 1",
+                avatar: sly
             },
             "user2" : {
                 username : "user2",
                 name : "User 2",
+                avatar: sly
             },
             "user3" : {
                 username : "user3",
                 name : "User 3",
+                avatar: onu
             }
         },
         allIds : ["user1", "user2", "user3"]

@@ -1,4 +1,8 @@
 const React = require("react-native");
+import { Dimensions } from "react-native";
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const { StyleSheet } = React;
 
@@ -6,9 +10,9 @@ export default {
   container: {
     backgroundColor: "white"
   },
-  header: {
-    marginTop: 24
-  },
+  // header: {
+  //   marginTop: 24
+  // },
   title: {
     color: "white",
     fontWeight: "bold",
@@ -24,7 +28,7 @@ export default {
   },
   // ig handle text style
   handle: {
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
   // note text, eg 5 days ago
   note: {
@@ -80,5 +84,32 @@ export default {
   },
   photo: {
     //flex: 1
+  },
+  commentView: {
+    // backgroundColor: "#4286f4",
+    flex: 1,
+    flexDirection: "column",
+    //justifyContent: "center",
+    height: (height * 80) / 100
+  },
+  comment: {
+    //flex: 1,
+    margin: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    //alignItems: "center",
+    
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "gray",
+    // flex: 1,
+    // fontSize: 16,
+    paddingHorizontal: 10
+  },
+  commentLeft: {
+    alignSelf: "flex-start"
+  },
+  commentRight: {
+    alignSelf: "flex-end"
   }
 };
