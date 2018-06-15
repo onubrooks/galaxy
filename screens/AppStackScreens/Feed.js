@@ -117,7 +117,13 @@ export class Feed extends Component {
                        _scrollToInput={this._scrollToInput}
                      />
                    ))}
-                   <Spinner color="grey" size={20} />
+                 <Spinner onLayout={event => {
+                   const layout = event.nativeEvent.layout;
+                   console.log('height:', layout.height);
+                   console.log('width:', layout.width);
+                   console.log('x:', layout.x);
+                   console.log('y:', layout.y);
+                 }} color="grey" size={20} />
                  <View style={{ height: 150 }} />
                  </Content>
                </KeyboardAvoidingScrollView>
@@ -126,7 +132,7 @@ export class Feed extends Component {
                    )}>
                  <Modal1Content setModalVisible={this.setModalVisible} />
                </Modal>
-               <FooterNav navigation={this.props.navigation} style={{position:"fixed"}} />
+               <FooterNav navigation={this.props.navigation} />
              </Container>;
          }
        }

@@ -10,9 +10,9 @@ export default {
   container: {
     backgroundColor: "white"
   },
-  // header: {
-  //   marginTop: 24
-  // },
+  header: {
+    marginTop: 24
+  },
   title: {
     color: "white",
     fontWeight: "bold",

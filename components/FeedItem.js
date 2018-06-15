@@ -80,16 +80,30 @@ export class FeedItem extends Component {
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-               <Image style={{
-                 backgroundColor: '#cc0',
-                 flex: 1,
-                 resizeMode: 'center',
-                 position: 'absolute',
-                 width: '100%',
-                 height: '100%',
-                 justifyContent: 'center',
-               }} source={post.artwork} />
+               <View
+                 style={{
+                   position: 'absolute',
+                   top: 0,
+                   left: 0,
+                   width: '100%',
+                   height: '100%',
+                 }}
+               >
+                 <Image style={{
+                   flex: 1,
+                   resizeMode: 'cover',
+                   alignSelf: 'stretch'
+                 }} source={post.artwork} />
+               </View>
+               <View
+                 style={{
+                   flex: 1,
+                   backgroundColor: 'transparent',
+                   justifyContent: 'center',
+                 }}
+               >
                  <Player />
+               </View>
                </CardItem>
 
                <CardItem style={{ paddingVertical: 0 }}>
