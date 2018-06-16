@@ -21,7 +21,6 @@ import Modal1Content from "../../components/Modal1Content";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/EvilIcons";
 import FeedItem from "../../components/FeedItem";
-import FooterNav from "../../components/FooterNav";
 import KeyboardAvoidingScrollView from "../../components/KeyboardAvoidingScrollView";
 
 import { connect } from 'react-redux';
@@ -132,7 +131,6 @@ export class Feed extends Component {
                    )}>
                  <Modal1Content setModalVisible={this.setModalVisible} />
                </Modal>
-               <FooterNav navigation={this.props.navigation} />
              </Container>;
          }
        }

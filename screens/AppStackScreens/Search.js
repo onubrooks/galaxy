@@ -14,7 +14,7 @@ import {
   Input,
   Text
 } from "native-base";
-import FooterNav from "../../components/FooterNav";
+
 import ImageView from "../../components/ImageView";
 import styles from "../../components/styles";
 
@@ -36,7 +36,6 @@ export class Search extends Component {
             <ImageView />
           </ScrollView>
         </Content>
-        <FooterNav navigation={this.props.navigation} />
       </Container>
     );
   }

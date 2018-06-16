@@ -23,7 +23,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import { Dropdown } from "react-native-material-dropdown";
-import FooterNav from "../../components/FooterNav";
+
 import { Col, Row, Grid } from "react-native-easy-grid";
 import ImageView from "../../components/ImageView";
 import FeedItem from "../../components/FeedItem";
@@ -119,7 +119,6 @@ export class Profile extends Component {
                     </Tab>
                   </Tabs>
                </ScrollView>
-               <FooterNav navigation={this.props.navigation} />
              </Container>;
          }
        }

@@ -84,32 +84,5 @@ export default {
   },
   photo: {
     //flex: 1
-  },
-  commentView: {
-    // backgroundColor: "#4286f4",
-    flex: 1,
-    flexDirection: "column",
-    //justifyContent: "center",
-    height: (height * 80) / 100
-  },
-  comment: {
-    //flex: 1,
-    margin: 20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    //alignItems: "center",
-    
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "gray",
-    // flex: 1,
-    // fontSize: 16,
-    paddingHorizontal: 10
-  },
-  commentLeft: {
-    alignSelf: "flex-start"
-  },
-  commentRight: {
-    alignSelf: "flex-end"
   }
 };

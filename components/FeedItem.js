@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import ReactNative, { Image, View } from "react-native";
+import ReactNative, {
+  Image,
+  View,
+  TouchableHighlight,
+  TouchableOpacity
+} from "react-native";
 import {
   Container,
   Header,
@@ -73,9 +78,9 @@ export class FeedItem extends Component {
                    </Body>
                  </Left>
                  <Right>
-                   <Button transparent onPress={this.handlePress}>
+                   <TouchableOpacity transparent onPress={this.handlePress}>
                      <Ionicons name="md-more" size={30} />
-                   </Button>
+                   </TouchableOpacity>
                  </Right>
                </CardItem>
 

@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-navigation
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js upgrade react-navigation
 
 PATH: 
-  C:\Program Files\Java\jdk1.8.0_161\bin;C:\Users\onu\Downloads\programs\WinPython-64bit-3.5.3.1Qt5\python-3.5.3.amd64;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin\;C:\wamp64\bin\php\php7.2.0;C:\wamp64\bin\mysql\mysql5.7.14\bin;C:\Program Files\Git\bin;C:\Program Files\Java\jdk1.8.0_161;C:\Program Files\nodejs;C:\Users\onu\AppData\Local\Yarn\bin
+  C:\Program Files\Java\jdk1.8.0_161\bin;C:\Users\onu\Downloads\programs\WinPython-64bit-3.5.3.1Qt5\python-3.5.3.amd64;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin\;C:\wamp64\bin\php\php7.2.0;C:\wamp64\bin\mysql\mysql5.7.14\bin;C:\Program Files\Git\bin;C:\Program Files\Java\jdk1.8.0_161;C:\Program Files\nodejs;C:\Users\onu\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin
 
 Yarn version: 
   1.6.0
@@ -14,10 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: connect ETIMEDOUT 104.18.94.96:443
-      at Object.exports._errnoException (util.js:1020:11)
-      at exports._exceptionWithHostPort (util.js:1043:20)
-      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1086:14)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\onu\galaxy\node_modules\@babel\generator\node_modules\.bin'
+      at Error (native)
 
 npm manifest: 
   {
@@ -51,7 +49,7 @@ npm manifest:
       "react-native-material-dropdown": "^0.11.1",
       "react-native-modal": "^6.0.0",
       "react-native-track-player": "^0.2.4",
-      
+      "react-navigation": "1.5.11",
       "react-redux": "^5.0.7",
       "redux": "^3.7.2",
       "redux-actions": "^2.3.0",

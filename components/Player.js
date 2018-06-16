@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 class Icon {
   constructor(module, width, height) {
@@ -36,32 +37,7 @@ const PLAYLIST = [
     "Local Audio",
     require("../audio/1.mp3"),
     false
-  ),
-  new PlaylistItem(
-    "Comfort Fit - “Sorry”",
-    "https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Comfort_Fit_-_03_-_Sorry.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "Big Buck Bunny",
-    "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    true
-  ),
-  new PlaylistItem(
-    "Mildred Bailey – “All Of Me”",
-    "https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "Popeye - I don't scare",
-    "https://ia800501.us.archive.org/11/items/popeye_i_dont_scare/popeye_i_dont_scare_512kb.mp4",
-    true
-  ),
-  new PlaylistItem(
-    "Podington Bear - “Rubber Robot”",
-    "https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Podington_Bear_-_Rubber_Robot.mp3",
-    false
-  ),
+  )
 ];
 
 const ICON_PLAY_BUTTON = new Icon(require('../assets/images/play_button.png'), 34, 51);
@@ -91,7 +67,7 @@ const FONT_SIZE = 14;
 const LOADING_STRING = '... loading ...';
 const BUFFERING_STRING = '...buffering...';
 const RATE_SCALE = 3.0;
-const VIDEO_CONTAINER_HEIGHT = 30;//DEVICE_HEIGHT * 2.0 / 5.0 - FONT_SIZE * 2;
+const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 6.0 - FONT_SIZE * 2;
 
 export default class Player extends React.Component {
   constructor(props) {
@@ -280,56 +256,10 @@ export default class Player extends React.Component {
     }
   };
 
-  _onStopPressed = () => {
-    if (this.playbackInstance != null) {
-      this.playbackInstance.stopAsync();
-    }
-  };
-
-  _onForwardPressed = () => {
-    if (this.playbackInstance != null) {
-      this._advanceIndex(true);
-      this._updatePlaybackInstanceForIndex(this.state.shouldPlay);
-    }
-  };
-
-  _onBackPressed = () => {
-    if (this.playbackInstance != null) {
-      this._advanceIndex(false);
-      this._updatePlaybackInstanceForIndex(this.state.shouldPlay);
-    }
-  };
-
   _onMutePressed = () => {
     if (this.playbackInstance != null) {
       this.playbackInstance.setIsMutedAsync(!this.state.muted);
     }
-  };
-
-  _onLoopPressed = () => {
-    if (this.playbackInstance != null) {
-      this.playbackInstance.setIsLoopingAsync(this.state.loopingType !== LOOPING_TYPE_ONE);
-    }
-  };
-
-  _onVolumeSliderValueChange = value => {
-    if (this.playbackInstance != null) {
-      this.playbackInstance.setVolumeAsync(value);
-    }
-  };
-
-  _trySetRate = async (rate, shouldCorrectPitch) => {
-    if (this.playbackInstance != null) {
-      try {
-        await this.playbackInstance.setRateAsync(rate, shouldCorrectPitch);
-      } catch (error) {
-        // Rate changing could not be performed, possibly because the client's Android API is too old.
-      }
-    }
-  };
-
-  _onRateSliderSlidingComplete = async value => {
-    this._trySetRate(value * RATE_SCALE, this.state.shouldCorrectPitch);
   };
 
   _onPitchCorrectionPressed = async value => {
@@ -477,94 +407,25 @@ export default class Player extends React.Component {
                 opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0,
               },
             ]}>
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onBackPressed}
-              disabled={this.state.isLoading}>
-              <Image style={styles.button} source={ICON_BACK_BUTTON.module} />
-            </TouchableHighlight>
+            
             <TouchableHighlight
               underlayColor={BACKGROUND_COLOR}
               style={styles.wrapper}
               onPress={this._onPlayPausePressed}
               disabled={this.state.isLoading}>
-              <Image
-                style={styles.button}
-                source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
-              />
+              {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} /> }
             </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onStopPressed}
-              disabled={this.state.isLoading}>
-              <Image style={styles.button} source={ICON_STOP_BUTTON.module} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onForwardPressed}
-              disabled={this.state.isLoading}>
-              <Image style={styles.button} source={ICON_FORWARD_BUTTON.module} />
-            </TouchableHighlight>
-          </View>
-          <View style={[styles.buttonsContainerBase, styles.buttonsContainerMiddleRow]}>
             <View style={styles.volumeContainer}>
               <TouchableHighlight
                 underlayColor={BACKGROUND_COLOR}
                 style={styles.wrapper}
                 onPress={this._onMutePressed}>
-                <Image
-                  style={styles.button}
-                  source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
-                />
+                {this.state.muted ? <Ionicons name="ios-volume-off" size={30} /> : <Ionicons name="ios-volume-up" size={30} />}
               </TouchableHighlight>
-              <Slider
-                style={styles.volumeSlider}
-                trackImage={ICON_TRACK_1.module}
-                thumbImage={ICON_THUMB_2.module}
-                value={1}
-                onValueChange={this._onVolumeSliderValueChange}
-              />
             </View>
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onLoopPressed}>
-              <Image
-                style={styles.button}
-                source={LOOPING_TYPE_ICONS[this.state.loopingType].module}
-              />
-            </TouchableHighlight>
+
           </View>
-          <View style={[styles.buttonsContainerBase, styles.buttonsContainerBottomRow]}>
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={() => this._trySetRate(1.0, this.state.shouldCorrectPitch)}>
-              <View style={styles.button}>
-                <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>Rate:</Text>
-              </View>
-            </TouchableHighlight>
-            <Slider
-              style={styles.rateSlider}
-              trackImage={ICON_TRACK_1.module}
-              thumbImage={ICON_THUMB_1.module}
-              value={this.state.rate / RATE_SCALE}
-              onSlidingComplete={this._onRateSliderSlidingComplete}
-            />
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onPitchCorrectionPressed}>
-              <View style={styles.button}>
-                <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>
-                  PC: {this.state.shouldCorrectPitch ? 'yes' : 'no'}
-                </Text>
-              </View>
-            </TouchableHighlight>
-          </View>
+          
           <View />
           {this.state.showVideo ? (
             <View>
@@ -617,108 +478,111 @@ export default class Player extends React.Component {
 
 const styles = StyleSheet.create({
   emptyContainer: {
-    alignSelf: 'stretch',
-    backgroundColor: BACKGROUND_COLOR,
+    alignSelf: "stretch",
+    backgroundColor: BACKGROUND_COLOR
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: DEVICE_WIDTH - 10,
-    backgroundColor: BACKGROUND_COLOR,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignSelf: "center",
+    width: DEVICE_WIDTH,
+    backgroundColor: BACKGROUND_COLOR
   },
   wrapper: {},
   nameContainer: {
-    height: FONT_SIZE,
+    height: FONT_SIZE
   },
   space: {
-    height: FONT_SIZE,
+    height: FONT_SIZE
   },
   videoContainer: {
-    height: VIDEO_CONTAINER_HEIGHT,
+    height: VIDEO_CONTAINER_HEIGHT
   },
   video: {
-    width: DEVICE_WIDTH,
+    width: DEVICE_WIDTH
   },
   playbackContainer: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    //alignSelf: 'stretch',
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignSelf: "stretch",
     minHeight: ICON_THUMB_1.height * 2.0,
-    maxHeight: ICON_THUMB_1.height * 2.0,
+    maxHeight: ICON_THUMB_1.height * 2.0
   },
   playbackSlider: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch"
   },
   timestampRow: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
-    minHeight: FONT_SIZE,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    //alignSelf: 'stretch',
+    minHeight: FONT_SIZE
   },
   text: {
     fontSize: FONT_SIZE,
-    minHeight: FONT_SIZE,
+    minHeight: FONT_SIZE
   },
   buffering: {
-    textAlign: 'left',
-    paddingLeft: 20,
+    textAlign: "left",
+    paddingLeft: 20
   },
   timestamp: {
-    textAlign: 'right',
-    paddingRight: 20,
+    textAlign: "right",
+    paddingRight: 20
   },
   button: {
-    backgroundColor: BACKGROUND_COLOR,
+    backgroundColor: BACKGROUND_COLOR
   },
   buttonsContainerBase: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   buttonsContainerTopRow: {
     maxHeight: ICON_PLAY_BUTTON.height,
     minWidth: DEVICE_WIDTH / 2.0,
-    maxWidth: DEVICE_WIDTH / 2.0,
+    width: "100%",
+    alignSelf: 'stretch',
+    marginLeft: 20
   },
   buttonsContainerMiddleRow: {
     maxHeight: ICON_MUTED_BUTTON.height,
     //alignSelf: 'stretch',
-    paddingRight: 20,
+    paddingRight: 20
   },
   volumeContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: DEVICE_WIDTH / 2.0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    //minWidth: DEVICE_WIDTH / 2.0,
     maxWidth: DEVICE_WIDTH / 2.0,
+    paddingRight: -50
   },
   volumeSlider: {
-    width: DEVICE_WIDTH / 2.0 - ICON_MUTED_BUTTON.width,
+    width: DEVICE_WIDTH / 2.0 - ICON_MUTED_BUTTON.width
   },
   buttonsContainerBottomRow: {
     maxHeight: ICON_THUMB_1.height,
     //alignSelf: 'stretch',
     paddingRight: 20,
-    paddingLeft: 20,
+    paddingLeft: 20
   },
   rateSlider: {
-    width: DEVICE_WIDTH / 2.0,
+    width: DEVICE_WIDTH / 2.0
   },
   buttonsContainerTextRow: {
     maxHeight: FONT_SIZE,
-    alignItems: 'center',
+    alignItems: "center",
     paddingRight: 20,
     paddingLeft: 20,
     minWidth: DEVICE_WIDTH,
-    maxWidth: DEVICE_WIDTH,
-  },
+    maxWidth: DEVICE_WIDTH
+  }
 });

@@ -15,7 +15,6 @@ import {
   ScrollableTab,
   Text
 } from "native-base";
-import FooterNav from "../../components/FooterNav";
 import {Recent, Recent2} from "../../components/Recent";
 import styles from "../../components/styles";
 
@@ -31,7 +30,6 @@ export class Following extends Component {
             <Recent person="onubrooks" activity="started following you" time="11:45pm" following={true} />
           </Tab>
         </Tabs>
-        <FooterNav navigation={this.props.navigation} />
       </Container>;
   }
 }

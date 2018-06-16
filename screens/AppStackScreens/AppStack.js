@@ -1,13 +1,17 @@
-import { StackNavigator } from 'react-navigation';
+import React from "react";
+import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
 import Feed from "./Feed";
 import { Search } from "./Search";
+import { Add } from "./Add";
 import { Following } from "./Following";
 import { Profile } from "./Profile";
 
 import {ModalScreen} from "./ModalScreen";
 import {AddCommentScreen} from "./AddCommentScreen";
 
-const FeedStackNavigator = StackNavigator(
+import { Icon } from "native-base";
+
+const FeedStackNavigator = createStackNavigator(
   {
     Feed: {
       screen: Feed
@@ -22,7 +26,7 @@ const FeedStackNavigator = StackNavigator(
     mode: "modal"
   }
 );
-const MainStackNavigator = StackNavigator(
+const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {
       screen: FeedStackNavigator
@@ -30,20 +34,54 @@ const MainStackNavigator = StackNavigator(
     Search: {
       screen: Search
     },
-    Profile: {
-      screen: Profile
+    Add: {
+      screen: Add
     },
     Following: {
       screen: Following
+    },
+    Profile: {
+      screen: Profile
     }
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed"
+    initialRouteName: "Feed",
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "Feed") {
+          iconName = "home";
+        } else if (routeName === "Search") {
+          iconName = "search";
+        } else if (routeName === "Add") {
+          iconName = "add";
+        } else if (routeName === "Profile") {
+          iconName = "contact";
+        } else if (routeName === "Following") {
+          iconName = "heart";
+        }
+
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Icon name={iconName} size={15} style={{ color: tintColor }} />;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: "white",
+      inactiveTintColor: "#b3c6ff",
+      //activeBackgroundColor: "",
+      //inactiveBackgroundColor: "",
+      showLabel: false,
+      style: {
+        backgroundColor: "#2e5cb8"
+      }
+    }
   }
 );
 
-export default AppStack = StackNavigator(
+export default AppStack = createStackNavigator(
   {
     Main: {
       screen: MainStackNavigator

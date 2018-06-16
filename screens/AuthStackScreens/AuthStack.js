@@ -2,9 +2,9 @@ import {LoginScreen} from "./LoginScreen";
 import {LoginAsScreen} from "./LoginAsScreen";
 import {SignUpAsScreen} from "./SignUpAsScreen";
 
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
-export default AuthStack = StackNavigator(
+export default AuthStack = createStackNavigator(
   { 
         Login: LoginScreen,
         LoginAs: LoginAsScreen,
