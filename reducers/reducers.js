@@ -69,7 +69,7 @@ function feed(state = initialState.feed, action) {
         ...state, loading:false
       }
     case LIKE_POST:
-    console.log("loke post");
+    console.log("l1ke post");
       return {
         ...state, 
         byId: {

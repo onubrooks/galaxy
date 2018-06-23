@@ -52,10 +52,10 @@ export default class Comments extends Component {
              });
              return <Container>
                  <Content>
-                   <List style={{ height: (height * 80) / 100, maxHeight: (height * 80) / 100 }}>
+                   <List>
                      <ListItem avatar>
                        <Left>
-                       <Thumbnail small source={post.thumbnail} />
+                         <Thumbnail small source={post.thumbnail} />
                        </Left>
                        <Body>
                          <Text>
@@ -65,22 +65,30 @@ export default class Comments extends Component {
                        </Body>
                        <Right />
                      </ListItem>
-                   {thisComments.map((data, idx) => <ListItem avatar key={idx}>
+                     {thisComments.map((data, idx) => (
+                       <ListItem avatar key={idx}>
                          <Left>
-                       <Thumbnail small source={data.commenter.avatar} />
+                           <Thumbnail
+                             small
+                             source={data.commenter.avatar}
+                           />
                          </Left>
                          <Body>
                            <Text>
-                             {data.commenter.username} {data.comment.comment}
+                             {data.commenter.username}{" "}
+                             {data.comment.comment}
                            </Text>
                            <Text note>4m</Text>
                          </Body>
                          <Right>
-                       <Ionicons size={15} name="md-heart-outline" />
+                           <Ionicons
+                             size={15}
+                             name="md-heart-outline"
+                           />
                          </Right>
-                       </ListItem>)}
+                       </ListItem>
+                     ))}
                    </List>
-                   <CommentInput user={user} post={post} addComment={this.addComment} style={{ flex: 0.1, position: "fixed", bottom: 0 }} />
                  </Content>
                </Container>;
            }

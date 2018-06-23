@@ -20,7 +20,7 @@ const onu = require("../../assets/onu.jpg");
 export class LoginAsScreen extends React.Component {
 
   render() {
-    const status = "Not Implemented Yet, exercise some patience for once dude!";
+    const status = "Not Implemented Yet!";
     return <View style={{ flexDirection:"column", justifyContent: "space-between", alignItems:"center", height:500}}>
         <View style={{marginVertical:50}}>
           <Text style={{fontSize: 50}}>Leedder</Text>

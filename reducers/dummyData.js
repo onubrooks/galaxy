@@ -2,7 +2,13 @@ const logo = require("../assets/logo.png");
 const cardImage = require("../assets/drawer-cover.png");
 const sly = require("../assets/sly.jpg");
 const onu = require("../assets/onu.jpg");
-export const initialFeed = [{ handle: "28thsly", artwork: cardImage, thumbnail: sly, liked: true, bookmarked: true, hits: 12, text: "My jaaaaam!!!!!", ago: "5 days ago" }, { handle: "onubrooks", artwork: onu, thumbnail: onu, liked: false, bookmarked: false, hits: 4, text: "love this though!", ago: "5 days ago" }, { handle: "28thsly", artwork: sly, thumbnail: cardImage, liked: false, bookmarked: true, hits: 1, text: "jaming!!!!!", ago: "5H" }, { handle: "28thsly", artwork: cardImage, thumbnail: sly, liked: true, bookmarked: true, hits: 12, text: "My jaaaaam!!!!!", ago: "5 days ago" }];
+const cov1 = require("../assets/album-cover/1.jpg");
+const cov2 = require("../assets/album-cover/2.jpg");
+const cov3 = require("../assets/album-cover/3.jpg");
+const cov4 = require("../assets/album-cover/4.jpg");
+const cov5 = require("../assets/album-cover/5.jpg");
+const cov6 = require("../assets/album-cover/6.jpg");
+const covDef = require("../assets/album-cover/default.jpg");
 export const loggedInUser = {
       id: "user0",
       email: 'onu@email.com',
@@ -12,57 +18,68 @@ export const loggedInUser = {
       avatar: onu
 };
 
-const sampleFeed =  {
-      byId: {
-            "post1": {
-                  id: "post1", 
-                  handle: "28thsly", 
-                  artwork: cardImage, 
-                  thumbnail: sly,  
-                  //hits: 12, 
-                  text: "My jaaaaam!!!!!", 
-                  ago: "5 days ago" ,
-                  comments: ["comment1","comment2"],
-                  hits: ["user1", "user2", "user3", "user4"]
-            },
-            "post2": { 
-                  id: "post2",
-                  handle: "onubrooks", 
-                  artwork: onu, 
-                  thumbnail: onu, 
-                  //hits: 4, 
-                  text: "love this though!", 
-                  ago: "5 days ago",
-                  comments: ["comment3"],
-                  hits: ["user1", "user3", "user4"]
-            },
-            "post3": { 
-                  id: "post3",
-                  handle: "28thsly", 
-                  artwork: sly, 
-                  thumbnail: cardImage,
-                  //hits: 1, 
-                  text: "jaming!!!!!", 
-                  ago: "5H" ,
-                  comments: ["comment4", "comment5"],
-                  hits: ["user1", "user0", "user4"]
-            },
-            "post4": { 
-                  id: "post4",
-                  handle: "28thsly", 
-                  artwork: cardImage, 
-                  thumbnail: sly, 
-                  // hits: 12, 
-                  text: "My jaaaaam!!!!!", 
-                  comments: [],
-                  ago: "5 days ago",
-                  hits: ["user1", "user0", "user4"]
-            }
-      },
-      allIds: ["post1", "post2", "post3", "post4"],
-      loading: false,
-      updated: true,
-      lastUpdated: 2 // Date.now()
+const sampleFeed = {
+  byId: {
+    post1: {
+      id: "post1",
+      handle: "28thsly",
+      artwork: cov5,
+      thumbnail: sly,
+      //hits: 12,
+      text: "My jaaaaam!!!!!",
+      ago: "5 days ago",
+      comments: ["comment1", "comment2"],
+      hits: ["user1", "user2", "user3", "user4"]
+    },
+    post2: {
+      id: "post2",
+      handle: "onubrooks",
+      artwork: cov2,
+      thumbnail: onu,
+      //hits: 4,
+      text: "love this though!",
+      ago: "5 days ago",
+      comments: ["comment3"],
+      hits: ["user1", "user3", "user4"]
+    },
+    post3: {
+      id: "post3",
+      handle: "28thsly",
+      artwork: cov3,
+      thumbnail: cardImage,
+      //hits: 1,
+      text: "jaming!!!!!",
+      ago: "5H",
+      comments: ["comment4", "comment5"],
+      hits: ["user1", "user0", "user4"]
+    },
+    post4: {
+      id: "post4",
+      handle: "28thsly",
+      artwork: cov2,
+      thumbnail: sly,
+      // hits: 12,
+      text: "My jaaaaam!!!!!",
+      comments: [],
+      ago: "5 days ago",
+      hits: ["user1", "user0", "user4"]
+    },
+    post5: {
+      id: "post5",
+      handle: "28thsly",
+      artwork: cov5,
+      thumbnail: sly,
+      // hits: 12,
+      text: "My jaaaaam!!!!!",
+      comments: [],
+      ago: "5 days ago",
+      hits: ["user1", "user3", "user4"]
+    }
+  },
+  allIds: ["post1", "post2", "post3", "post4", "post5"],
+  loading: false,
+  updated: true,
+  lastUpdated: 2 // Date.now()
 };
 
 const sampleComments = {

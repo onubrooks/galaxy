@@ -19,17 +19,17 @@ import {
 import Modal from "react-native-modal";
 import Modal1Content from "../../components/Modal1Content";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Icon from "react-native-vector-icons/EvilIcons";
+
 import FeedItem from "../../components/FeedItem";
 import KeyboardAvoidingScrollView from "../../components/KeyboardAvoidingScrollView";
 
+// redux related imports
 import { connect } from 'react-redux';
 
 // get feed action to trigger fetching of feed
 import { fetchFeed, bookmarkPost, unBookmarkPost, likePost, unLikePost, commentPost } from '../../actions/actions';
 
 import styles from "../../components/styles";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export class Feed extends Component {
          scroll;
@@ -82,10 +82,11 @@ export class Feed extends Component {
 
          componentDidMount() {
            this.props.fetchFeed();
+           //console.log(this.props);
          }
 
          render() {
-           const { feed = [], user = {}, bookmarks = [], bookmarkPost } = this.props;
+           const { feed = {}, user = {}, bookmarks = [], bookmarkPost } = this.props;
            // console.log(feed);
            return <Container style={styles.container}>
                <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
@@ -99,7 +100,7 @@ export class Feed extends Component {
                    <Ionicons style={styles.title} name="ios-send-outline" size={33} />
                  </Right>
                </Header>
-               <KeyboardAvoidingScrollView>
+             <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
                  <Content>
                  {feed.loading ? <Spinner color="grey" size={20} /> : null}
                    {Object.keys(feed.byId).map((post, idx) => (
@@ -116,13 +117,7 @@ export class Feed extends Component {
                        _scrollToInput={this._scrollToInput}
                      />
                    ))}
-                 <Spinner onLayout={event => {
-                   const layout = event.nativeEvent.layout;
-                   console.log('height:', layout.height);
-                   console.log('width:', layout.width);
-                   console.log('x:', layout.x);
-                   console.log('y:', layout.y);
-                 }} color="grey" size={20} />
+                 <Spinner  color="grey" size={20} />
                  <View style={{ height: 150 }} />
                  </Content>
                </KeyboardAvoidingScrollView>

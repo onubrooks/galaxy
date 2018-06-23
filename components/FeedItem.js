@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactNative, {
   Image,
+  ImageBackground,
   View,
   TouchableHighlight,
   TouchableOpacity
@@ -79,50 +80,38 @@ export class FeedItem extends Component {
                  </Left>
                  <Right>
                    <TouchableOpacity transparent onPress={this.handlePress}>
-                     <Ionicons name="md-more" size={30} />
+                     <Ionicons name="md-more" size={25} />
                    </TouchableOpacity>
                  </Right>
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-               <View
-                 style={{
-                   position: 'absolute',
-                   top: 0,
-                   left: 0,
-                   width: '100%',
-                   height: '100%',
-                 }}
-               >
-                 <Image style={{
+               
+               <ImageBackground style={{
                    flex: 1,
-                   resizeMode: 'cover',
                    alignSelf: 'stretch'
-                 }} source={post.artwork} />
-               </View>
-               <View
-                 style={{
-                   flex: 1,
-                   backgroundColor: 'transparent',
-                   justifyContent: 'center',
-                 }}
-               >
+                 }} source={post.artwork} >
+               
                  <Player />
-               </View>
+                 </ImageBackground>
+               
                </CardItem>
 
                <CardItem style={{ paddingVertical: 0 }}>
                  <Left>
-                   <Button transparent>
-                     <Ionicons onPress={() => this.props.toggleLike(post.id)} name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} />
-                     <Text />
-                     <Icon name="comment" size={30} onPress={() => this.gotoComments(post)} />
-                     <Text />
-                   </Button>
+                   <TouchableOpacity onPress={() => this.props.toggleLike(post.id)}>
+                     <Ionicons name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} />
+                   </TouchableOpacity>
+                   <Text />
+                   <TouchableOpacity onPress={() => this.gotoComments(post)} >
+                     <Icon name="comment" size={30} />
+                   </TouchableOpacity>
                  </Left>
                  <Body />
                  <Right>
-                   <Ionicons name={bookmarks.some(id => id === post.id) ? "ios-bookmark" : "ios-bookmark-outline"} onPress={() => this.props.toggleBookmark(post.id)} size={25} />
+                 <TouchableOpacity onPress={() => this.props.toggleBookmark(post.id)}>
+                   <Ionicons name={bookmarks.some(id => id === post.id) ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
+                   </TouchableOpacity>
                  </Right>
                </CardItem>
                <View style={{ paddingLeft: 10, marginTop: -15, overflow: "hidden", flex: 1 }}>
@@ -132,10 +121,10 @@ export class FeedItem extends Component {
                  <Text>
                    <Text>{post.handle}</Text> {post.text}
                  </Text>
-               <CommentInput user={user} post={post} addComment={this.addComment} />
                  <Text style={styles.note} note>
                    {post.ago}
                  </Text>
+               <CommentInput user={user} post={post} addComment={this.addComment} />
                </View>
              </Card>;
          }

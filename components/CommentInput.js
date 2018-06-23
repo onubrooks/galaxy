@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { Thumbnail, Form, Item, Input, Button, Text } from "native-base";
 
@@ -40,12 +41,20 @@ export default class CommentInput extends Component {
   }
   
   render() {
-    let { user, post } = this.props;
-      return <View style={{ flex: 0.1, flexDirection:"row", bottom: 0, marginHorizontal:9 }}>      
+    let { user, post, multiline = false, editable = true, autoFocus = false } = this.props;
+      return <View style={{ flex: 0.1, flexDirection:"row", bottom: 0, marginHorizontal:8 }}>
             <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
             <Form style={{width:"90%"}}>
               <Item>
-                <Input placeholder='Add a comment...' onFocus={(event) => this.onInputFocus(event)} onBlur={(event) => this.onInputBlur(event)} value={this.state.comment} onChangeText={(text)=>this.setState({comment:text})} />
+                <Input 
+                  placeholder='Add a comment...' 
+                  onFocus={(event) => this.onInputFocus(event)} 
+                  onBlur={(event) => this.onInputBlur(event)} 
+                  value={this.state.comment} 
+                  onChangeText={(text)=>this.setState({comment:text})} 
+                  multiline={multiline}
+                  editable={editable}
+                  autoFocus={autoFocus} />
                 {this.state.inputFocused && this.state.comment.length < 1 ?
                  <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
                 :
@@ -55,7 +64,7 @@ export default class CommentInput extends Component {
                 </Button> : null)
               }
               </Item>
-            </Form>       
+            </Form>     
           </View>
   }
 }

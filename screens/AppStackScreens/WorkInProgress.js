@@ -20,7 +20,7 @@ import { Recent, Recent2 } from "../../components/Recent";
 import styles from "../../components/styles";
 
 
-export class Add extends Component {
+export class WorkInProgress extends Component {
   render() {
     return <Container style={{flex:1, justifyContent:"center", alignItems:"center"}}>
       <Text>Work in Progress </Text>
@@ -28,4 +28,4 @@ export class Add extends Component {
   }
 }
 
-export default Add;
+export default WorkInProgress;

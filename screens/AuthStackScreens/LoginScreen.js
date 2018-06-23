@@ -23,7 +23,7 @@ import styles from "../../components/styles";
 
 export class LoginScreen extends React.Component {
   render() {
-    const status = "Not Implemented Yet, exercise some patience for once dude!";
+    const status = "Not Implemented Yet!";
     return <View style={{ flex:1,flexDirection:"column", justifyContent: "space-between", alignItems:"center", height:500}}>
         <View style={{flex:1, justifyContent: "center", alignItems:"center", height:height - 90}}>
           <View style={{marginBottom:30, marginTop:0}}>

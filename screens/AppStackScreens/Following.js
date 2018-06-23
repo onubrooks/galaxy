@@ -24,10 +24,10 @@ export class Following extends Component {
     return <Container>
         <Tabs style={{ marginTop: 24 }}>
           <Tab heading="Following">
-            <Recent2 person="onubrooks" activity="started following you" time="11:45pm" following={true} />
+            {/*<Recent2 person="onubrooks" activity="started following you" time="11:45pm" following={true} />*/}
           </Tab>
           <Tab heading="You">
-            <Recent person="onubrooks" activity="started following you" time="11:45pm" following={true} />
+  {/*<Recent person="onubrooks" activity="started following you" time="11:45pm" following={true} />*/}
           </Tab>
         </Tabs>
       </Container>;

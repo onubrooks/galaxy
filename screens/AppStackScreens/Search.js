@@ -25,7 +25,7 @@ export class Search extends Component {
         <Header style={{ marginTop: 24 }} searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" />
+            <Input placeholder="Search" editable={false} />
           </Item>
           <Button transparent>
             <Text>Search</Text>

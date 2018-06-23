@@ -10,10 +10,11 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Button } from "native-base";
 
 class Icon {
   constructor(module, width, height) {
@@ -34,7 +35,7 @@ class PlaylistItem {
 
 const PLAYLIST = [
   new PlaylistItem(
-    "Local Audio",
+    "Track 1",
     require("../audio/1.mp3"),
     false
   )
@@ -408,20 +409,19 @@ export default class Player extends React.Component {
               },
             ]}>
             
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
+            <Button transparent
+              
               style={styles.wrapper}
               onPress={this._onPlayPausePressed}
               disabled={this.state.isLoading}>
               {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} /> }
-            </TouchableHighlight>
+            </Button>
             <View style={styles.volumeContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
+              <Button transparent
                 style={styles.wrapper}
                 onPress={this._onMutePressed}>
                 {this.state.muted ? <Ionicons name="ios-volume-off" size={30} /> : <Ionicons name="ios-volume-up" size={30} />}
-              </TouchableHighlight>
+              </Button>
             </View>
 
           </View>
@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     width: DEVICE_WIDTH,
-    backgroundColor: BACKGROUND_COLOR
+    //backgroundColor: BACKGROUND_COLOR
   },
   wrapper: {},
   nameContainer: {

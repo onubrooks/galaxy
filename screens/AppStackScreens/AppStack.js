@@ -3,8 +3,9 @@ import { createStackNavigator, createBottomTabNavigator } from "react-navigation
 import Feed from "./Feed";
 import { Search } from "./Search";
 import { Add } from "./Add";
+import WorkInProgress from "./WorkInProgress";
 import { Following } from "./Following";
-import { Profile } from "./Profile";
+import Profile from "./Profile";
 
 import {ModalScreen} from "./ModalScreen";
 import {AddCommentScreen} from "./AddCommentScreen";
@@ -26,6 +27,18 @@ const FeedStackNavigator = createStackNavigator(
     mode: "modal"
   }
 );
+// make tab bar hide on the add comment screen
+FeedStackNavigator.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return { tabBarVisible };
+  // alternative implementation
+  // let { routeName } = navigation.state.routes[navigation.state.index];
+  // return { tabBarVisible: routeName == "AddComment" ? false : true };
+};
 const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {
@@ -35,13 +48,13 @@ const MainStackNavigator = createBottomTabNavigator(
       screen: Search
     },
     Add: {
-      screen: Add
+      screen: WorkInProgress
     },
     Following: {
       screen: Following
     },
     Profile: {
-      screen: Profile
+      screen: WorkInProgress
     }
   },
   {
@@ -75,13 +88,13 @@ const MainStackNavigator = createBottomTabNavigator(
       //inactiveBackgroundColor: "",
       showLabel: false,
       style: {
-        backgroundColor: "#2e5cb8"
+        backgroundColor: "#006E8C"
       }
     }
   }
 );
 
-export default AppStack = createStackNavigator(
+let AppStack = createStackNavigator(
   {
     Main: {
       screen: MainStackNavigator
@@ -95,3 +108,5 @@ export default AppStack = createStackNavigator(
     mode: "modal"
   }
 );
+
+export default AppStack;

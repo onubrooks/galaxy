@@ -11,7 +11,8 @@ export default {
     backgroundColor: "white"
   },
   header: {
-    marginTop: 24
+    marginTop: 24,
+    backgroundColor: "#006E8C"
   },
   title: {
     color: "white",
@@ -33,7 +34,8 @@ export default {
   // note text, eg 5 days ago
   note: {
     fontSize: 12,
-    marginTop: 4
+    marginTop: 2,
+    marginBottom: 3
   },
   pc: {
     // profile container

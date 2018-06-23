@@ -4,7 +4,9 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  KeyboardAvoidingView
+  ScrollView,
+  KeyboardAvoidingView,
+  TextInput
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import KeyboardAvoidingScrollView from "../../components/KeyboardAvoidingScrollView";
@@ -31,39 +33,41 @@ import styles from "../../components/styles";
 
 import Comments from "../../components/Comments";
 import { Dimensions } from 'react-native';
+import CommentInput from "../../components/CommentInput";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export class AddCommentScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    
-  }
-  
-  _logout(){
-   AsyncStorage.removeItem("userToken");
-   this.props.navigation.navigate("AuthLoading");
-  }
+  static navigationOptions = { tabBarVisible: false };
+         constructor(props) {
+           super(props);
+         }
 
-  addComment(post_id, comment) {
-    this.props.navigation.state.params.addComment(post_id, comment);
-  }
-  render() {
-    let { user, post, comments, users} = this.props.navigation.state.params; // passed from the feed page
-    return <Container style={styles.container}>
-        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
-          <Left>
-            <Ionicons style={styles.title} name="ios-arrow-back" onPress={() => this.props.navigation.goBack()} size={33} />
-          </Left>
-          <Body style={{ marginHorizontal: 85 }}>
-            <Title style={styles.title}>Comments</Title>
-          </Body>
-        </Header>
+         _logout() {
+           AsyncStorage.removeItem("userToken");
+           this.props.navigation.navigate("AuthLoading");
+         }
 
-        <Content>
-        <Comments user={user} post={post} users={users} comments={comments} />
-        </Content>
-      </Container>;
-  }
-}
+         addComment(post_id, comment) {
+           this.props.navigation.state.params.addComment(post_id, comment);
+         }
+         render() {
+           let { user, post, comments, users } = this.props.navigation.state.params; // passed from the feed page
+           return <Container style={[styles.container, {}]}>
+               <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
+                 <Left>
+                   <Ionicons style={styles.title} name="ios-arrow-back" onPress={() => this.props.navigation.goBack()} size={33} />
+                 </Left>
+                 <Body style={{ marginHorizontal: 85 }}>
+                   <Title style={styles.title}>Comments</Title>
+                 </Body>
+               </Header>
+
+               <Content>
+                 <Comments user={user} post={post} users={users} comments={comments} multiline={true} />
+               </Content>
+             <CommentInput user={user} post={post} addComment={this.addComment} editable={false} autoFocus={false} />
+             </Container>;
+         }
+       }
