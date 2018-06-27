@@ -15,7 +15,7 @@ const photos = [
     { label: "sunset", src: require("../assets/f.jpg") },
     { label: "lake", src: require("../assets/g.jpg") },
     { label: "nature", src: require("../assets/h.jpg") },
-    { label: "pink", src: require("../assets/onu.jpg") },
+    { label: "pink", src: require("../assets/i.jpg") },
     { label: "rails", src: require("../assets/sly.jpg") }
   ];
 

@@ -41,7 +41,7 @@ export class LoginScreen extends React.Component {
           </View>
           
           <View style={{width: 300}}>
-            <Button block bordered onPress={this._signInAsync}><Text>Login</Text></Button>
+          <Button block bordered onPress={this._signInAsync} style={styles.buttonBordered}><Text style={styles.primaryText}>Login</Text></Button>
           </View>
           <View style={{width:250, marginVertical:6}}>
             <Text style={{fontSize:15,textAlign:"center"}} note>Forgot your login details? <Text style={{fontWeight:"bold",fontSize:15}} onPress={()=>alert(status)}>Get help signing in.</Text></Text>
@@ -52,7 +52,7 @@ export class LoginScreen extends React.Component {
             <Hr />
           </View>
           <View style={{width: 300}}>
-            <Button iconLeft block onPress={()=>this.props.navigation.navigate("LoginAs")}>
+          <Button iconLeft block onPress={() => this.props.navigation.navigate("LoginAs")} style={styles.buttonBlock}>
               <Icon name="home" />
               <Text>Login With Facebook</Text>
             </Button>

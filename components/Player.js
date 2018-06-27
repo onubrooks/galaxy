@@ -12,18 +12,11 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import { Asset, Audio, Font, Video } from 'expo';
+import { Audio, Font, Video } from 'expo';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "native-base";
 
-class Icon {
-  constructor(module, width, height) {
-    this.module = module;
-    this.width = width;
-    this.height = height;
-    Asset.fromModule(this.module).downloadAsync();
-  }
-}
+import IconAsset from "./IconAsset";
 
 class PlaylistItem {
   constructor(name, uri, isVideo) {
@@ -41,21 +34,21 @@ const PLAYLIST = [
   )
 ];
 
-const ICON_PLAY_BUTTON = new Icon(require('../assets/images/play_button.png'), 34, 51);
-const ICON_PAUSE_BUTTON = new Icon(require('../assets/images/pause_button.png'), 34, 51);
-const ICON_STOP_BUTTON = new Icon(require('../assets/images/stop_button.png'), 22, 22);
-const ICON_FORWARD_BUTTON = new Icon(require('../assets/images/forward_button.png'), 33, 25);
-const ICON_BACK_BUTTON = new Icon(require('../assets/images/back_button.png'), 33, 25);
+const ICON_PLAY_BUTTON = new IconAsset(require('../assets/images/play_button.png'), 34, 51);
+const ICON_PAUSE_BUTTON = new IconAsset(require('../assets/images/pause_button.png'), 34, 51);
+const ICON_STOP_BUTTON = new IconAsset(require('../assets/images/stop_button.png'), 22, 22);
+const ICON_FORWARD_BUTTON = new IconAsset(require('../assets/images/forward_button.png'), 33, 25);
+const ICON_BACK_BUTTON = new IconAsset(require('../assets/images/back_button.png'), 33, 25);
 
-const ICON_LOOP_ALL_BUTTON = new Icon(require('../assets/images/loop_all_button.png'), 77, 35);
-const ICON_LOOP_ONE_BUTTON = new Icon(require('../assets/images/loop_one_button.png'), 77, 35);
+const ICON_LOOP_ALL_BUTTON = new IconAsset(require('../assets/images/loop_all_button.png'), 77, 35);
+const ICON_LOOP_ONE_BUTTON = new IconAsset(require('../assets/images/loop_one_button.png'), 77, 35);
 
-const ICON_MUTED_BUTTON = new Icon(require('../assets/images/muted_button.png'), 67, 58);
-const ICON_UNMUTED_BUTTON = new Icon(require('../assets/images/unmuted_button.png'), 67, 58);
+const ICON_MUTED_BUTTON = new IconAsset(require('../assets/images/muted_button.png'), 67, 58);
+const ICON_UNMUTED_BUTTON = new IconAsset(require('../assets/images/unmuted_button.png'), 67, 58);
 
-const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
-const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
-const ICON_THUMB_2 = new Icon(require('../assets/images/thumb_2.png'), 15, 19);
+const ICON_TRACK_1 = new IconAsset(require('../assets/images/track_1.png'), 166, 5);
+const ICON_THUMB_1 = new IconAsset(require('../assets/images/thumb_1.png'), 18, 19);
+const ICON_THUMB_2 = new IconAsset(require('../assets/images/thumb_2.png'), 15, 19);
 
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;

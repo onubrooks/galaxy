@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
+const primaryColor = "#006E8C";
 
 const { StyleSheet } = React;
 
@@ -12,7 +13,7 @@ export default {
   },
   header: {
     marginTop: 24,
-    backgroundColor: "#006E8C"
+    backgroundColor: primaryColor
   },
   title: {
     color: "white",
@@ -23,6 +24,15 @@ export default {
   text: {
     alignSelf: "center",
     marginBottom: 7
+  },
+  primaryText: {
+    color: primaryColor
+  },
+  buttonBordered: {
+    borderColor: primaryColor
+  },
+  buttonBlock: {
+    backgroundColor: primaryColor
   },
   mb: {
     marginBottom: 15

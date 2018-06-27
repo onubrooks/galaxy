@@ -23,7 +23,7 @@ const sampleFeed = {
     post1: {
       id: "post1",
       handle: "28thsly",
-      artwork: cov5,
+      artwork: require("../assets/a.jpg"),
       thumbnail: sly,
       //hits: 12,
       text: "My jaaaaam!!!!!",
@@ -34,7 +34,7 @@ const sampleFeed = {
     post2: {
       id: "post2",
       handle: "onubrooks",
-      artwork: cov2,
+      artwork: require("../assets/b.jpg"),
       thumbnail: onu,
       //hits: 4,
       text: "love this though!",
@@ -45,7 +45,7 @@ const sampleFeed = {
     post3: {
       id: "post3",
       handle: "28thsly",
-      artwork: cov3,
+      artwork: require("../assets/f.jpg"),
       thumbnail: cardImage,
       //hits: 1,
       text: "jaming!!!!!",
@@ -56,7 +56,7 @@ const sampleFeed = {
     post4: {
       id: "post4",
       handle: "28thsly",
-      artwork: cov2,
+      artwork: require("../assets/d.jpg"),
       thumbnail: sly,
       // hits: 12,
       text: "My jaaaaam!!!!!",
@@ -67,7 +67,18 @@ const sampleFeed = {
     post5: {
       id: "post5",
       handle: "28thsly",
-      artwork: cov5,
+      artwork: require("../assets/i.jpg"),
+      thumbnail: sly,
+      // hits: 12,
+      text: "My jaaaaam!!!!!",
+      comments: [],
+      ago: "5 days ago",
+      hits: ["user1", "user3", "user4"]
+    },
+    post6: {
+      id: "post6",
+      handle: "28thsly",
+      artwork: require("../assets/h.jpg"),
       thumbnail: sly,
       // hits: 12,
       text: "My jaaaaam!!!!!",

@@ -27,7 +27,7 @@ export class SignUpAsScreen extends React.Component {
           </View>
           
           <View style={{width: 300}}>
-            <Button block onPress={()=>alert(status)}><Text>Continue as Onu Abah</Text></Button>
+            <Button block onPress={()=>alert(status)} style={styles.buttonBlock}><Text>Continue as Steve Rogers</Text></Button>
           </View>
           
           <View style={{ flexDirection:"row", alignItems:"center", width: 300}}>
@@ -37,7 +37,7 @@ export class SignUpAsScreen extends React.Component {
           </View>
           <View style={{width: 300}}>
             <Button block transparent onPress={()=>alert(status)}>
-              <Text>Sign up with email</Text>
+              <Text style={styles.primaryText}>Sign up with email</Text>
             </Button>
           </View>
         

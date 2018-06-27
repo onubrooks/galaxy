@@ -21,36 +21,37 @@ export class LoginAsScreen extends React.Component {
 
   render() {
     const status = "Not Implemented Yet!";
-    return <View style={{ flexDirection:"column", justifyContent: "space-between", alignItems:"center", height:500}}>
-        <View style={{marginVertical:50}}>
-          <Text style={{fontSize: 50}}>Leedder</Text>
+    return <View style={{ flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500 }}>
+        <View style={{ marginVertical: 50 }}>
+          <Text style={{ fontSize: 50 }}>Leedder</Text>
         </View>
         <View>
-          <Image
-            style={{
-              height: 100,
-              width: 100,
-              borderWidth: 1,
-              borderRadius: 75
-            }}
-            source={onu}
-            resizeMode="cover"
-          />
+          <Image style={{ height: 100, width: 100, borderWidth: 1, borderRadius: 75 }} source={onu} resizeMode="cover" />
         </View>
         <View>
-          <Text>onubrooks</Text>
+          <Text>slysteve</Text>
         </View>
-        <View style={{width: 300}}>
-          <Button block onPress={this._signInAsync}><Text>Login</Text></Button>
+        <View style={{ width: 300 }}>
+          <Button block onPress={this._signInAsync} style={styles.buttonBlock}>
+            <Text>Login</Text>
+          </Button>
         </View>
-        <View style={{flex:0.2,width: 300, marginBottom: 150}}>
-          <Button transparent block><Text>Remove</Text></Button>
+        <View style={{ flex: 0.2, width: 300, marginBottom: 150 }}>
+          <Button transparent block>
+            <Text style={styles.primaryText}>Remove</Text>
+          </Button>
         </View>
-        <View style={{flexDirection: "row", left:0, right: 0, bottom:0, marginBottom:-90}}>
-          <Button style={{width:width / 2}} bordered onPress={()=> alert(status)}><Text>Switch Accounts</Text></Button>
-          <Button style={{width:width / 2}} bordered><Text style={{textAlign:"center", marginLeft:40}} onPress={()=> this.props.navigation.navigate("SignUpAs")}>Sign Up</Text></Button>
+        <View style={{ flexDirection: "row", left: 0, right: 0, bottom: 0, marginBottom: -90 }}>
+        <Button style={[styles.buttonBordered, { width: width / 2 }]} bordered onPress={() => alert(status)}>
+            <Text style={styles.primaryText}>Switch Accounts</Text>
+          </Button>
+          <Button style={[styles.buttonBordered, { width: width / 2 }]} bordered onPress={() => this.props.navigation.navigate("SignUpAs")}>
+            <Text style={{ textAlign: "center", marginLeft: 40 }} style={styles.primaryText}>
+              Sign Up
+            </Text>
+          </Button>
         </View>
-      </View>
+      </View>;
   }
 
   _signInAsync = async () => {
