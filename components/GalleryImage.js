@@ -6,25 +6,28 @@ import { Button } from "native-base";
 import { Image } from "react-native-animatable";
 const WIDTH = Dimensions.get("window").width;
 export default class GalleryImage extends Component {
+  goto = (idx) => {
+    this.props.navigation.navigate('Explore', { idx });
+  };
   render() {
-    const { uri, index, onPress } = this.props;
+    const { uri, idx } = this.props;
     return (
       <Button
-        //onPress={() => onPress(index)}
+        onPress={() => this.goto(idx)}
         style={{
           backgroundColor: "transparent",
           borderRadius: 0,
-          height: 80,
+          height: 120,
           width: WIDTH / 3
         }}
       >
         <Image
           animation={"bounceIn"}
-          delay={100 * index}
+          delay={100 * idx}
           duration={500}
           source={uri}
           style={{
-            height: 80,
+            height: 120,
             left: 0,
             position: "absolute",
             resizeMode: "cover",

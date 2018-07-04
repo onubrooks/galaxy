@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 
-import { StyleSheet, View, ScrollView, Image } from "react-native";
+import { connect } from "react-redux";
 
-import Icon from "react-native-vector-icons/FontAwesome";
 import Gallery from "./Gallery";
-import * as styles from "./styles";
 const sly = require("../assets/sly.jpg");
 const photos = [
     { label: "beach", src: require("../assets/a.jpg") },
@@ -21,8 +19,17 @@ const photos = [
 
 export class ImageView extends Component {
   render() {
-    return <Gallery images={photos} />   
+    const postArray = Object.keys(this.props.feed.byId).map((post_id, idx) => this.props.feed.byId[post_id]);
+    return <Gallery images={postArray} navigation={this.props.navigation} />;   
   }
          
-       }
-export default ImageView;
+}
+
+const mapStateToProps = (state) => {
+  return {
+    feed: state.feed
+  };
+};
+
+
+export default connect(mapStateToProps)(ImageView);

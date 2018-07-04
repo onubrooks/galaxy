@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-present, Artinict, Inc.
+ * Copyright (c) 2018, Artinict, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,7 +12,8 @@ import {
   ImageBackground,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  StyleSheet
 } from "react-native";
 import {
   Body,
@@ -29,6 +30,7 @@ import IconAsset from "./IconAsset";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
 import Player from "./Player";
+import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);
 const ICON_UNHIT_BUTTON = new IconAsset(require('../assets/icons/fist-white.png'), 30, 30);
@@ -41,8 +43,9 @@ export class FeedItem extends Component {
            this.onInputBlur = this.onInputBlur.bind(this);
            this.gotoComments = this.gotoComments.bind(this);
            this.addComment = this.addComment.bind(this);
-           this.state = { inputFocused: false, comment: "" };
+           this.state = { inputFocused: false, comment: "", show: false };
          }
+
          onInputFocus() {
            this.setState({ inputFocused: true });
            console.log("focus");
@@ -67,7 +70,7 @@ export class FeedItem extends Component {
 
          render() {
            const { post, user, bookmarks } = this.props;
-           return <Card transparent>
+           return <Card transparent style={styles.noBorder}>
                <CardItem style={{ height: 50 }}>
                  <Left>
                    <Thumbnail small source={post.thumbnail} style={{ padding: -20 }} />
@@ -83,8 +86,10 @@ export class FeedItem extends Component {
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-               <ImageBackground style={{ flex: 1 }} source={post.artwork} resizeMode="stretch">
-                   <Player />
+                 <ImageBackground style={{ flex: 1 }} source={post.artwork} resizeMode="contain">
+                 <TouchableOpacity>
+                   <Player show={this.state.show} />
+                   </TouchableOpacity>
                  </ImageBackground>
                </CardItem>
 
@@ -92,8 +97,7 @@ export class FeedItem extends Component {
                  <Left>
                    <TouchableOpacity onPress={() => this.props.toggleLike(post.id)}>
                      {/* <Ionicons name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} /> */}
-                   <Image fadeDuration={0}
-                     style={{ width: 20, height: 20 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON.module : ICON_UNHIT_BUTTON.module} />
+                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON.module : ICON_UNHIT_BUTTON.module} />
                    </TouchableOpacity>
                    <Text />
                    <TouchableOpacity onPress={() => this.gotoComments(post)}>
@@ -108,11 +112,11 @@ export class FeedItem extends Component {
                  </Right>
                </CardItem>
                <View style={{ paddingLeft: 10, marginTop: -15, overflow: "hidden", flex: 1 }}>
-                 {post.hits.length ? <Text>
+                 {post.hits.length ? <Text style={styles.hits}>
                      {post.hits.length} hits
                    </Text> : null}
-                 <Text>
-                   <Text>{post.handle}</Text> {post.text}
+                 <Text style={styles.comment_handle}>
+                   <Text style={styles.handle}>{post.handle}</Text> {post.text}
                  </Text>
                  <Text style={styles.note} note>
                    {post.ago}

@@ -7,6 +7,12 @@ import {
 } from "react-native";
 import { Thumbnail, Form, Item, Input, Button, Text } from "native-base";
 
+let styles = StyleSheet.create({
+  noBorder: {
+    borderColor: "white"
+  }
+});
+
 export default class CommentInput extends Component {
   constructor(props) {
     super(props);
@@ -42,29 +48,30 @@ export default class CommentInput extends Component {
   
   render() {
     let { user, post, multiline = false, editable = true, autoFocus = false } = this.props;
-      return <View style={{ flex: 0.1, flexDirection:"row", bottom: 0, marginHorizontal:8 }}>
-            <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
-            <Form style={{width:"90%"}}>
-              <Item>
-                <Input 
-                  placeholder='Add a comment...' 
-                  onFocus={(event) => this.onInputFocus(event)} 
-                  onBlur={(event) => this.onInputBlur(event)} 
-                  value={this.state.comment} 
-                  onChangeText={(text)=>this.setState({comment:text})} 
-                  multiline={multiline}
-                  editable={editable}
-                  autoFocus={autoFocus} />
-                {this.state.inputFocused && this.state.comment.length < 1 ?
-                 <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
-                :
-              (this.state.comment.length > 0 ?  
-                <Button small transparent style={{ right:0, paddingBottom:-15 }} onPress={ this.postComment }>
-                  <Text>POST</Text>
-                </Button> : null)
-              }
-              </Item>
-            </Form>     
-          </View>
+      return <View style={{ flex: 0.1, flexDirection:"row", bottom: 0, marginHorizontal:1 }}>
+        <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
+        <Form style={{width:"90%"}}>
+          <Item style={styles.noBorder}>
+            <Input 
+              style={{fontSize: 14}}
+              placeholder='Add a comment...' 
+              onFocus={(event) => this.onInputFocus(event)} 
+              onBlur={(event) => this.onInputBlur(event)} 
+              value={this.state.comment} 
+              onChangeText={(text)=>this.setState({comment:text})} 
+              multiline={multiline}
+              editable={editable}
+              autoFocus={autoFocus} />
+            {this.state.inputFocused && this.state.comment.length < 1 ?
+              <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
+            :
+          (this.state.comment.length > 0 ?  
+            <Button small transparent style={{ right:0, paddingBottom:-15 }} onPress={ this.postComment }>
+              <Text>POST</Text>
+            </Button> : null)
+          }
+          </Item>
+        </Form>     
+      </View>
   }
 }

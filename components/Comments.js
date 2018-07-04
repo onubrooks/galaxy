@@ -23,9 +23,6 @@ import {
   Thumbnail
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import CommentInput from "./CommentInput";
-
-import styles from "./styles";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;

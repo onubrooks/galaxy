@@ -1,21 +1,22 @@
 import React from "react";
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
-import Feed from "./Feed";
-import { Search } from "./Search";
+import FeedScreen from "./FeedScreen";
+import { SearchScreen } from "./SearchScreen";
+import ExploreScreen from "./ExploreScreen";
 import { Add } from "./Add";
 import WorkInProgress from "./WorkInProgress";
-import { Following } from "./Following";
-import Profile from "./Profile";
+import { NotificationsScreen } from "./NotificationsScreen";
+import ProfileScreen from "./ProfileScreen";
 
 import {ModalScreen} from "./ModalScreen";
-import {AddCommentScreen} from "./AddCommentScreen";
+import AddCommentScreen from "./AddCommentScreen";
 
 import { Icon } from "native-base";
 
 const FeedStackNavigator = createStackNavigator(
   {
     Feed: {
-      screen: Feed
+      screen: FeedScreen
     },
     AddComment: {
       screen: AddCommentScreen
@@ -39,22 +40,37 @@ FeedStackNavigator.navigationOptions = ({ navigation }) => {
   // let { routeName } = navigation.state.routes[navigation.state.index];
   // return { tabBarVisible: routeName == "AddComment" ? false : true };
 };
+const SearchStackNavigator = createStackNavigator(
+  {
+    Search: {
+      screen: SearchScreen
+    },
+    Explore: {
+      screen: ExploreScreen
+    }
+  },
+  {
+    headerMode: "none",
+    initialRouteName: "Search",
+    mode: "modal"
+  }
+);
 const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {
       screen: FeedStackNavigator
     },
     Search: {
-      screen: Search
+      screen: SearchStackNavigator
     },
     Add: {
       screen: WorkInProgress
     },
-    Following: {
-      screen: Following
+    Notifications: {
+      screen: NotificationsScreen
     },
     Profile: {
-      screen: WorkInProgress
+      screen: ProfileScreen
     }
   },
   {
@@ -72,7 +88,7 @@ const MainStackNavigator = createBottomTabNavigator(
           iconName = "add";
         } else if (routeName === "Profile") {
           iconName = "contact";
-        } else if (routeName === "Following") {
+        } else if (routeName === "Notifications") {
           iconName = "heart";
         }
 

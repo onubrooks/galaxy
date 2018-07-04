@@ -34,6 +34,9 @@ export default {
   buttonBlock: {
     backgroundColor: primaryColor
   },
+  noBorder: {
+    borderColor: "white"
+  },
   mb: {
     marginBottom: 15
   },
@@ -41,11 +44,18 @@ export default {
   handle: {
     fontWeight: "bold"
   },
+  comment_handle: {
+    fontSize: 14
+  },
   // note text, eg 5 days ago
   note: {
     fontSize: 12,
     marginTop: 2,
     marginBottom: 3
+  },
+  // hits
+  hits: {
+    fontSize: 12
   },
   pc: {
     // profile container

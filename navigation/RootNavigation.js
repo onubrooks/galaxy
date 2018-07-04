@@ -16,7 +16,7 @@ const SwitchNavigation = createSwitchNavigator(
     Auth: AuthStack
   },
   {
-    initialRouteName: "AuthLoading"
+    initialRouteName: "App"
   }
 );
 

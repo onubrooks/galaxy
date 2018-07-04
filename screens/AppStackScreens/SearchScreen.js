@@ -18,27 +18,27 @@ import {
 import ImageView from "../../components/ImageView";
 import styles from "../../components/styles";
 
-export class Search extends Component {
+export class SearchScreen extends Component {
   render() {
-    return (
-      <Container>
-        <Header style={{ marginTop: 24 }} searchBar rounded>
-          <Item>
+    return <Container>
+      <Header style={[styles.header, { backgroundColor: 'white'}]} searchBar rounded>
+          <Item> 
             <Icon name="ios-search" />
-            <Input placeholder="Search" editable={false} />
+            <Input placeholder="Search" editable={true} />
           </Item>
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
+          <Right>
+            <Button transparent>
+              <Text>Search</Text> 
+            </Button>
+          </Right>
         </Header>
         <Content>
           <ScrollView>
-            <ImageView />
+            <ImageView navigation={this.props.navigation}/>
           </ScrollView>
         </Content>
-      </Container>
-    );
+      </Container>;
   }
 }
 
-export default Search;
+export default SearchScreen;

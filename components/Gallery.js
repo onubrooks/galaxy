@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Dimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
-import ImageViewer from "@dwqs/react-native-image-viewer";
+// import ImageViewer from "@dwqs/react-native-image-viewer";
 import GalleryImage from './GalleryImage';
 export default class Gallery extends Component {
   constructor(props) {
@@ -13,18 +13,6 @@ export default class Gallery extends Component {
     };
   }
   
-  openLightbox = (index) => {
-      this.setState({
-        index,
-        shown: true,
-      });
-    };
-    hideLightbox = () => {
-      this.setState({
-        index: 0,
-        shown: false,
-      });
-    };
   render() {
     const { images } = this.props;
     const { index, shown } = this.state;
@@ -35,13 +23,8 @@ export default class Gallery extends Component {
           flexWrap: 'wrap',
         }}
       >
-        {images.map((image, idx) => <GalleryImage index={idx} key={idx} onPress={this.showLightbox} uri={image.src} /> )}
-        <ImageViewer          
-          shown={shown}          
-          imageUrls={images}          
-          onClose={this.hideLightbox}
-          index={index}        
-        />
+        {images.map((image, idx) => <GalleryImage idx={idx} key={idx} navigation={this.props.navigation} uri={image.artwork} /> )}
+        
       </View>
     );
   }

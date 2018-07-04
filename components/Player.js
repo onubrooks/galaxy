@@ -1,5 +1,5 @@
 /**
- * @flow
+ * 
  */
 
 import React from 'react';
@@ -90,7 +90,15 @@ export default class Player extends React.Component {
       poster: false,
       useNativeControls: true,
       fullscreen: false,
+      show: true
     };
+    // setInterval(() => this.setState({ show: !this.state.show }), 500);
+  }
+
+  playerTouched() {
+    console.log('player touched...');
+    this.setState({ show: true });
+    setTimeout(() => this.setState({ show: false }), 500);
   }
 
   componentDidMount() {
@@ -109,6 +117,10 @@ export default class Player extends React.Component {
     })();
   }
 
+  componentWillUnmount() {
+    // Audio.setIsEnabledAsync(false);
+  }
+
   async _loadNewPlaybackInstance(playing) {
     if (this.playbackInstance != null) {
       await this.playbackInstance.unloadAsync();
@@ -125,7 +137,7 @@ export default class Player extends React.Component {
       isMuted: this.state.muted,
       isLooping: this.state.loopingType === LOOPING_TYPE_ONE,
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
-      // androidImplementation: 'MediaPlayer',
+      androidImplementation: 'MediaPlayer',
     };
 
     if (PLAYLIST[this.index].isVideo) {
@@ -336,136 +348,102 @@ export default class Player extends React.Component {
   };
 
   render() {
-    return !this.state.fontLoaded ? (
-      <View style={styles.emptyContainer} />
-    ) : (
-        <View style={styles.container}>
-          <View />
-          <View style={styles.nameContainer}>
-            <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>
-              {this.state.playbackInstanceName}
-            </Text>
-          </View>
-          <View style={styles.space} />
-          <View style={styles.videoContainer}>
-            <Video
-              ref={this._mountVideo}
-              style={[
-                styles.video,
-                {
-                  opacity: this.state.showVideo ? 1.0 : 0.0,
-                  width: this.state.videoWidth,
-                  height: this.state.videoHeight,
-                },
-              ]}
-              resizeMode={Video.RESIZE_MODE_CONTAIN}
-              onPlaybackStatusUpdate={this._onPlaybackStatusUpdate}
-              onLoadStart={this._onLoadStart}
-              onLoad={this._onLoad}
-              onError={this._onError}
-              onFullscreenUpdate={this._onFullscreenUpdate}
-              onReadyForDisplay={this._onReadyForDisplay}
-              useNativeControls={this.state.useNativeControls}
-            />
-          </View>
-          <View
-            style={[
-              styles.playbackContainer,
-              {
-                opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0,
-              },
-            ]}>
-            <Slider
-              style={styles.playbackSlider}
-              trackImage={ICON_TRACK_1.module}
-              thumbImage={ICON_THUMB_1.module}
-              value={this._getSeekSliderPosition()}
-              onValueChange={this._onSeekSliderValueChange}
-              onSlidingComplete={this._onSeekSliderSlidingComplete}
-              disabled={this.state.isLoading}
-            />
-            <View style={styles.timestampRow}>
-              <Text style={[styles.text, styles.buffering, { fontFamily: 'cutive-mono-regular' }]}>
-                {this.state.isBuffering ? BUFFERING_STRING : ''}
-              </Text>
-              <Text style={[styles.text, styles.timestamp, { fontFamily: 'cutive-mono-regular' }]}>
-                {this._getTimestamp()}
-              </Text>
-            </View>
-          </View>
-          <View
-            style={[
-              styles.buttonsContainerBase,
-              styles.buttonsContainerTopRow,
-              {
-                opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0,
-              },
-            ]}>
-            
-            <Button transparent
-              
-              style={styles.wrapper}
-              onPress={this._onPlayPausePressed}
-              disabled={this.state.isLoading}>
-              {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} /> }
+    return !this.state.fontLoaded ? <View style={styles.emptyContainer} /> : <View style={styles.container} onPress={() => this.playerTouched()}>
+        <View />
+        <View style={styles.nameContainer}>
+          <Text
+            style={[styles.text, { fontFamily: "cutive-mono-regular" }]}
+          >
+            {this.state.playbackInstanceName}
+          </Text>
+        </View>
+        <View style={styles.space} />
+        <View style={styles.videoContainer}>
+          <Video ref={this._mountVideo} style={[styles.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
+        </View>
+        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.7 }]}>
+            <Button transparent style={styles.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
+              {this.state.isPlaying ? <Ionicons name="ios-pause-outline" size={30} /> : <Ionicons name="ios-play-outline" size={30} />}
             </Button>
+
+            <Text
+              style={[
+                styles.text,
+                styles.buffering,
+                { fontFamily: "cutive-mono-regular" }
+              ]}
+            >
+              {this.state.isBuffering ? BUFFERING_STRING : ""}
+            </Text>
+            <Text
+              style={[
+                styles.text,
+                styles.timestamp,
+                { fontFamily: "cutive-mono-regular" }
+              ]}
+            >
+              {this._getTimestamp()}
+            </Text>
+
+            <Slider style={styles.playbackSlider} trackImage={ICON_TRACK_1.module} thumbImage={ICON_THUMB_1.module} value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
             <View style={styles.volumeContainer}>
-              <Button transparent
-                style={styles.wrapper}
-                onPress={this._onMutePressed}>
-                {this.state.muted ? <Ionicons name="ios-volume-off" size={30} /> : <Ionicons name="ios-volume-up" size={30} />}
+              <Button transparent style={styles.wrapper} onPress={this._onMutePressed}>
+                {this.state.muted ? <Ionicons name="ios-volume-off-outline" size={30} /> : <Ionicons name="ios-volume-up-outline" size={30} />}
               </Button>
             </View>
+          </View> : null}
 
-          </View>
-          
-          <View />
-          {this.state.showVideo ? (
-            <View>
-              <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
-                <View />
-                <TouchableHighlight
-                  underlayColor={BACKGROUND_COLOR}
-                  style={styles.wrapper}
-                  onPress={this._onPosterPressed}>
-                  <View style={styles.button}>
-                    <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>
-                      Poster: {this.state.poster ? 'yes' : 'no'}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-                <View />
-                <TouchableHighlight
-                  underlayColor={BACKGROUND_COLOR}
-                  style={styles.wrapper}
-                  onPress={this._onFullscreenPressed}>
-                  <View style={styles.button}>
-                    <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>
-                      Fullscreen
+        <View />
+        {this.state.showVideo ? <View>
+            <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
+              <View />
+              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onPosterPressed}>
+                <View style={styles.button}>
+                  <Text
+                    style={[
+                      styles.text,
+                      { fontFamily: "cutive-mono-regular" }
+                    ]}
+                  >
+                    Poster: {this.state.poster ? "yes" : "no"}
                   </Text>
-                  </View>
-                </TouchableHighlight>
-                <View />
-              </View>
-              <View style={styles.space} />
-              <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
-                <View />
-                <TouchableHighlight
-                  underlayColor={BACKGROUND_COLOR}
-                  style={styles.wrapper}
-                  onPress={this._onUseNativeControlsPressed}>
-                  <View style={styles.button}>
-                    <Text style={[styles.text, { fontFamily: 'cutive-mono-regular' }]}>
-                      Native Controls: {this.state.useNativeControls ? 'yes' : 'no'}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-                <View />
-              </View>
+                </View>
+              </TouchableHighlight>
+              <View />
+              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onFullscreenPressed}>
+                <View style={styles.button}>
+                  <Text
+                    style={[
+                      styles.text,
+                      { fontFamily: "cutive-mono-regular" }
+                    ]}
+                  >
+                    Fullscreen
+                  </Text>
+                </View>
+              </TouchableHighlight>
+              <View />
             </View>
-          ) : null}
-        </View>
-      );
+            <View style={styles.space} />
+            <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
+              <View />
+              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onUseNativeControlsPressed}>
+                <View style={styles.button}>
+                  <Text
+                    style={[
+                      styles.text,
+                      { fontFamily: "cutive-mono-regular" }
+                    ]}
+                  >
+                    Native Controls:{" "}
+                    {this.state.useNativeControls ? "yes" : "no"}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+              <View />
+            </View>
+          </View> : null}
+      </View>;
   }
 }
 
@@ -480,10 +458,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     alignSelf: "center",
-    width: DEVICE_WIDTH,
+    width: DEVICE_WIDTH
     //backgroundColor: BACKGROUND_COLOR
   },
-  wrapper: {},
+  wrapper: {
+    width: DEVICE_WIDTH / 10,
+    marginLeft: 20,
+    alignSelf: "center"
+  },
   nameContainer: {
     height: FONT_SIZE
   },
@@ -498,35 +480,41 @@ const styles = StyleSheet.create({
   },
   playbackContainer: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    alignSelf: "stretch",
+    //alignSelf: "stretch",
     minHeight: ICON_THUMB_1.height * 2.0,
-    maxHeight: ICON_THUMB_1.height * 2.0
+    maxHeight: ICON_THUMB_1.height * 2.0,
+    maxWidth: DEVICE_WIDTH,
+    width: DEVICE_WIDTH,
+    opacity: 0.8,
+    backgroundColor: "#000000"
   },
   playbackSlider: {
-    alignSelf: "stretch"
+    width: DEVICE_WIDTH / 3
   },
   timestampRow: {
-    flex: 1,
+    //flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     //alignSelf: 'stretch',
-    minHeight: FONT_SIZE
+    minHeight: FONT_SIZE,
+    maxWidth: DEVICE_WIDTH / 6
   },
   text: {
     fontSize: FONT_SIZE,
-    minHeight: FONT_SIZE
+    minHeight: FONT_SIZE,
+    color: "#fff"
   },
   buffering: {
     textAlign: "left",
-    paddingLeft: 20
+    paddingLeft: 2
   },
   timestamp: {
     textAlign: "right",
-    paddingRight: 20
+    paddingRight: 2
   },
   button: {
     backgroundColor: BACKGROUND_COLOR
@@ -541,7 +529,7 @@ const styles = StyleSheet.create({
     maxHeight: ICON_PLAY_BUTTON.height,
     minWidth: DEVICE_WIDTH / 2.0,
     width: "100%",
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     marginLeft: 20
   },
   buttonsContainerMiddleRow: {
