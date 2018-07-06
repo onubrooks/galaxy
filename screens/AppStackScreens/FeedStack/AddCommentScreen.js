@@ -55,7 +55,7 @@ export class AddCommentScreen extends React.Component {
         <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
           <Left>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons style={styles.title} name="ios-arrow-back" size={33} />
+            <Ionicons style={styles.title} name="md-arrow-back" size={33} />
           </TouchableOpacity>
           </Left>
           <Body>

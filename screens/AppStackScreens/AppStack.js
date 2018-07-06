@@ -8,6 +8,10 @@ import WorkInProgress from "./WorkInProgress";
 import { NotificationsScreen } from "./NotificationsStack/NotificationsScreen";
 import ProfileScreen from "./ProfileStack/ProfileScreen";
 import EditProfileScreen from "./ProfileStack/EditProfileScreen";
+import SettingsScreen from "./ProfileStack/SettingsScreen";
+import PasswordScreen from "./ProfileStack/PasswordScreen";
+import LikesScreen from "./ProfileStack/LikesScreen";
+import SongScreen from "./ProfileStack/SongScreen";
 
 import {ModalScreen} from "./Modals/ModalScreen";
 import AddCommentScreen from "./FeedStack/AddCommentScreen";
@@ -66,7 +70,16 @@ const ProfileStackNavigator = createStackNavigator(
       screen: EditProfileScreen
     },
     Settings: {
-      screen: WorkInProgress// SettingsScreen
+      screen: SettingsScreen
+    },
+    Password: {
+      screen: PasswordScreen
+    },
+    Likes: {
+      screen: LikesScreen
+    },
+    Song: {
+      screen: SongScreen
     }
   },
   {

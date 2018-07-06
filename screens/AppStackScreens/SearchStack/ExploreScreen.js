@@ -27,7 +27,7 @@ export class ExploreScreen extends Component {
         <Header style={[styles.header]}>
           <Left>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}> 
-              <Ionicons style={styles.title} name="ios-arrow-back" size={33} />
+              <Ionicons style={styles.title} name="md-arrow-back" size={33} />
             </TouchableOpacity>
           </Left>
           <Body>

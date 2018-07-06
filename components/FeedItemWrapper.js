@@ -87,7 +87,11 @@ export class FeedItemWrapper extends Component {
     if (this.props.navigation.state.routeName == 'Explore') {
       const idx = this.props.navigation.getParam("idx", 0);
       display = postArray.filter((post, index) => index >= idx);
-    } else if (this.props.navigation.state.routeName == "Post") {
+    } else if (this.props.navigation.state.routeName == 'Song') {
+      const idx = this.props.navigation.getParam("idx", 0);
+      display = postArray.filter((post, index) => index == idx);
+    }
+     else if (this.props.navigation.state.routeName == "Post") {
       const post_id = this.props.navigation.getParam("post_id", 0);
       display = postArray.filter((post, index) => post.id == post_id);
     } else if(bookmarkedOnly) {
@@ -114,6 +118,7 @@ export class FeedItemWrapper extends Component {
               setModalVisible={this.setModalVisible}
               gotoComments={this.gotoComments}
               addComment={this.addComment}
+              navigation={this.props.navigation}
             />
           ))}
           <Spinner color="grey" size={20} />

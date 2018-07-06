@@ -21,7 +21,7 @@ var Dimensions = require('Dimensions')
 var {width, height} = Dimensions.get('window');
 import { WebBrowser } from "expo";
 import styles from "../../components/styles";
-import { ShowTocFooter } from "../../components/ShowTocFooter";
+import { ShowTosFooter } from "../../components/ShowTosFooter";
 
 export class LoginScreen extends React.Component {
   resetPassword = async () => {
@@ -67,7 +67,7 @@ export class LoginScreen extends React.Component {
           </View>
         
         </View>
-        <ShowTocFooter />
+        <ShowTosFooter />
       </View>
   }
 

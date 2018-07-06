@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Dimensions, View } from 'react-native';
 import PropTypes from 'prop-types';
-// import ImageViewer from "@dwqs/react-native-image-viewer";
 import GalleryImage from './GalleryImage';
 export default class Gallery extends Component {
   constructor(props) {
@@ -14,8 +13,17 @@ export default class Gallery extends Component {
   }
   
   render() {
-    const { images } = this.props;
+    let display;
+    const { images, user } = this.props;
     const { index, shown } = this.state;
+    if(this.props.navigation.state.routeName == 'Explore') {
+      display = images;
+    }
+    else if (this.props.navigation.state.routeName == 'Likes') {
+      display = images.filter((post, index) => {
+        return post.hits.some((id) => id == user.id)
+      });
+    }
     return (
       <View
         style={{

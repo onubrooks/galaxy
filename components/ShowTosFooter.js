@@ -11,17 +11,17 @@ import { WebBrowser } from "expo";
 var Dimensions = require("Dimensions");
 var { width, height } = Dimensions.get("window");
 
-export class ShowTocFooter extends React.Component {
-  showToc = async () => {
+export class ShowTosFooter extends React.Component {
+  showTos = async () => {
     let result = await WebBrowser.openBrowserAsync('http://leedder.com/leedder/tos');
     //this.setState({ result });
   };
 
   render() {
     return <View style={styles.container}>
-      <TouchableOpacity onPress={this.showToc} transparent style={styles.touchable}>
+      <TouchableOpacity onPress={this.showTos} transparent style={styles.touchable}>
         <Text style={styles.note} note>Leedder Inc. ©2018. All rights reserved</Text>
-        <Text style={styles.toc} > Terms of Service</Text>
+        <Text style={styles.tos} > Terms of Service</Text>
       </TouchableOpacity>
     </View>
   }
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   note: { fontWeight: "bold", marginLeft: 30 },
-  toc: { fontWeight: "bold", fontSize: 15 }
+  tos: { fontWeight: "bold", fontSize: 15 }
 });

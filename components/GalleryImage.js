@@ -7,7 +7,12 @@ import { Image } from "react-native-animatable";
 const WIDTH = Dimensions.get("window").width;
 export default class GalleryImage extends Component {
   goto = (idx) => {
-    this.props.navigation.navigate('Explore', { idx });
+    if(this.props.navigation.state.routeName == 'Search') {
+      this.props.navigation.navigate("Explore", { idx });
+    } else if (this.props.navigation.state.routeName == 'Likes') {
+      this.props.navigation.navigate("Song", { idx });
+    }
+      
   };
   render() {
     const { uri, idx } = this.props;

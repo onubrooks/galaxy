@@ -23,7 +23,7 @@ import {
 var Dimensions = require('Dimensions')
 var { width, height } = Dimensions.get('window');
 import styles from "../../components/styles";
-import { ShowTocFooter } from "../../components/ShowTocFooter";
+import { ShowTosFooter } from "../../components/ShowTosFooter";
 
 export class SignUpScreen extends React.Component {
 
@@ -63,7 +63,7 @@ export class SignUpScreen extends React.Component {
             </Text>
           </View>
         </View>
-        <ShowTocFooter />
+        <ShowTosFooter />
       </View>;
   }
 

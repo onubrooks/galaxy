@@ -121,7 +121,7 @@ export class FeedItem extends Component {
                  <Text style={styles.note} note>
                    {post.ago}
                  </Text>
-                 <CommentInput user={user} post={post} addComment={this.addComment} />
+               {this.props.navigation.state.routeName == 'Feed' ? <CommentInput user={user} post={post} addComment={this.addComment} /> : null}
                </View>
              </Card>;
          }

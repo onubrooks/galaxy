@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TouchableOpacity } from "react-native";
 import {
   Container,
   Header,
@@ -26,13 +27,17 @@ export class FeedScreen extends Component {
     return <Container style={styles.container}>
         <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
           <Left>
-            <Ionicons style={styles.title} name="ios-camera-outline" size={33} />
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
+              <Ionicons style={styles.title} name="ios-camera-outline" size={33} />
+            </TouchableOpacity>
           </Left>
           <Body style={{ marginHorizontal: 85 }}>
             <Title style={styles.title}>Leedder</Title>
           </Body>
           <Right>
-            <Ionicons style={styles.title} name="ios-send-outline" size={33} />
+            <TouchableOpacity>
+              <Ionicons style={styles.title} name="ios-send-outline" size={33} />
+            </TouchableOpacity>
           </Right>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />

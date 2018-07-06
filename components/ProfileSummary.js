@@ -19,7 +19,7 @@ export default class ProfileSummary extends Component {
               <Text style={stl.statNum}>1</Text>
         </View>
         <View>
-              <Text style={stl.statTxt}>posts</Text>
+              <Text style={stl.statTxt}>songs</Text>
         </View>
       </View>
       <View>
