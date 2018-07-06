@@ -63,13 +63,13 @@ export class PasswordScreen extends Component {
   render() {
     return <Container style={styles.container}>
         <Header style={[styles.header, { backgroundColor: "white" }]}>
-          <Left>
+        <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-close" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={stl.heading}>Settings</Text>
+            <Text style={stl.heading}>Change Password</Text>
           </Body>
           <Right>
             {this.state.input1 && this.state.input2 && this.state.input3 ? <Button onPress={this.saveAndGoBack} transparent>

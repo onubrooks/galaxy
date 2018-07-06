@@ -53,7 +53,7 @@ export class AddCommentScreen extends React.Component {
     let { user, comments } = this.props;
     return <Container style={[styles.container, {}]}>
         <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
-          <Left>
+        <Left style={{ maxWidth: 50 }}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Ionicons style={styles.title} name="md-arrow-back" size={33} />
           </TouchableOpacity>

@@ -65,7 +65,7 @@ export class SettingsScreen extends Component {
   render() {
     return <Container style={styles.container}>
         <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
-          <Left>
+        <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" />
             </TouchableOpacity>
