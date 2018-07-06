@@ -79,7 +79,7 @@ export class FeedItem extends Component {
                    </Body>
                  </Left>
                  <Right>
-                   <TouchableOpacity transparent onPress={this.handlePress}>
+                   <TouchableOpacity style={{width: 25, paddingLeft: 12 }} transparent onPress={this.handlePress}>
                      <Ionicons name="md-more" size={25} />
                    </TouchableOpacity>
                  </Right>

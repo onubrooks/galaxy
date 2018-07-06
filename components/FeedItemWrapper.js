@@ -17,7 +17,7 @@ import {
 import FeedItem from "./FeedItem";
 import KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView";
 import Modal from "react-native-modal";
-import Modal1Content from "./Modal1Content";
+import { FeedScreenModalContent } from "./ModalContent";
 
 // redux related imports
 import { connect } from "react-redux";
@@ -82,7 +82,7 @@ export class FeedItemWrapper extends Component {
 
   render() {
     let display;
-    const { feed = {}, user = {}, bookmarks = [], bookmarkPost } = this.props;
+    const { feed = {}, user = {}, bookmarks = [], bookmarkPost, bookmarkedOnly = false } = this.props;
     const postArray = Object.keys(feed.byId).map((post_id, idx) => this.props.feed.byId[post_id]);
     if (this.props.navigation.state.routeName == 'Explore') {
       const idx = this.props.navigation.getParam("idx", 0);
@@ -90,7 +90,12 @@ export class FeedItemWrapper extends Component {
     } else if (this.props.navigation.state.routeName == "Post") {
       const post_id = this.props.navigation.getParam("post_id", 0);
       display = postArray.filter((post, index) => post.id == post_id);
-    } else {
+    } else if(bookmarkedOnly) {
+      display = postArray.filter((post, index) => {
+        return bookmarks.some((id) => id == post.id )
+      });
+    }
+    else {
       display = postArray;
     }
 
@@ -118,7 +123,7 @@ export class FeedItemWrapper extends Component {
       <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
         { isModalVisible: false }
       )}>
-        <Modal1Content setModalVisible={this.setModalVisible} />
+        <FeedScreenModalContent setModalVisible={this.setModalVisible} />
       </Modal>
     </Container>;
   }

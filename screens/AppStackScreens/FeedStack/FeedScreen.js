@@ -16,9 +16,9 @@ import {
   Spinner
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FeedItemWrapper from "../../components/FeedItemWrapper";
+import FeedItemWrapper from "../../../components/FeedItemWrapper";
 
-import styles from "../../components/styles";
+import styles from "../../../components/styles";
 
 export class FeedScreen extends Component {
   scroll;

@@ -15,8 +15,8 @@ import {
   Text
 } from "native-base";
 
-import ImageView from "../../components/ImageView";
-import styles from "../../components/styles";
+import ImageView from "../../../components/ImageView";
+import styles from "../../../components/styles";
 
 export class SearchScreen extends Component {
   render() {

@@ -9,7 +9,7 @@ const { StyleSheet } = React;
 
 export default {
   container: {
-    backgroundColor: "white"
+    backgroundColor: "#FFFFFF"
   },
   header: {
     marginTop: 24,

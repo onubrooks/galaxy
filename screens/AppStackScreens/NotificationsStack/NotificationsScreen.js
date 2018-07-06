@@ -8,8 +8,8 @@ import {
   Icon,
   Text
 } from "native-base";
-import { Recent } from "../../components/Recent";
-import styles from "../../components/styles";
+import { Recent } from "../../../components/Recent";
+import styles from "../../../components/styles";
 
 export class NotificationsScreen extends Component {
   render() {

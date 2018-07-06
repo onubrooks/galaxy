@@ -1,15 +1,16 @@
 import React from "react";
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
-import FeedScreen from "./FeedScreen";
-import { SearchScreen } from "./SearchScreen";
-import ExploreScreen from "./ExploreScreen";
+import FeedScreen from "./FeedStack/FeedScreen";
+import { SearchScreen } from "./SearchStack/SearchScreen";
+import ExploreScreen from "./SearchStack/ExploreScreen";
 import { Add } from "./Add";
 import WorkInProgress from "./WorkInProgress";
-import { NotificationsScreen } from "./NotificationsScreen";
-import ProfileScreen from "./ProfileScreen";
+import { NotificationsScreen } from "./NotificationsStack/NotificationsScreen";
+import ProfileScreen from "./ProfileStack/ProfileScreen";
+import EditProfileScreen from "./ProfileStack/EditProfileScreen";
 
-import {ModalScreen} from "./ModalScreen";
-import AddCommentScreen from "./AddCommentScreen";
+import {ModalScreen} from "./Modals/ModalScreen";
+import AddCommentScreen from "./FeedStack/AddCommentScreen";
 
 import { Icon } from "native-base";
 
@@ -55,6 +56,25 @@ const SearchStackNavigator = createStackNavigator(
     mode: "modal"
   }
 );
+
+const ProfileStackNavigator = createStackNavigator(
+  {
+    Profile: {
+      screen: ProfileScreen
+    },
+    EditProfile: {
+      screen: EditProfileScreen
+    },
+    Settings: {
+      screen: WorkInProgress// SettingsScreen
+    }
+  },
+  {
+    headerMode: "none",
+    initialRouteName: "Profile",
+    mode: "modal"
+  }
+);
 const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {
@@ -70,12 +90,12 @@ const MainStackNavigator = createBottomTabNavigator(
       screen: NotificationsScreen
     },
     Profile: {
-      screen: ProfileScreen
+      screen: ProfileStackNavigator
     }
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed",
+    initialRouteName: "Profile",
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

@@ -19,14 +19,14 @@ import {
   Body,
   Left
 } from "native-base";
-import styles from "../../components/styles";
+import styles from "../../../components/styles";
 
-import Comments from "../../components/Comments";
+import Comments from "../../../components/Comments";
 import { Dimensions } from 'react-native';
-import CommentInput from "../../components/CommentInput";
+import CommentInput from "../../../components/CommentInput";
 
 import { connect } from "react-redux";
-import { commentPost } from "../../actions/actions";
+import { commentPost } from "../../../actions/actions";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
