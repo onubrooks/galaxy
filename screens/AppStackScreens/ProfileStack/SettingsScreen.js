@@ -71,14 +71,14 @@ export class SettingsScreen extends Component {
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={stl.heading}>Settings</Text>
+            <Text style={{fontWeight: '500'}}>Settings</Text>
           </Body>
         </Header>
         <Content>
           <View style={stl.grid}>
             <Text style={stl.group}>Account</Text>
             <Text style={stl.item} onPress={() => this.props.navigation.navigate('Password')}>Password</Text>
-            <Text style={stl.item}>Saved</Text>
+          <Text style={stl.item} onPress={() => this.props.navigation.navigate('SavedGrid')}>Saved</Text>
           <Text style={stl.item} onPress={() => this.props.navigation.navigate('Likes')}>Songs You've Liked</Text>
             <Hr />
             <Text style={stl.group}>About</Text>

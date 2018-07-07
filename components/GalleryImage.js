@@ -11,6 +11,11 @@ export default class GalleryImage extends Component {
       this.props.navigation.navigate("Explore", { idx });
     } else if (this.props.navigation.state.routeName == 'Likes') {
       this.props.navigation.navigate("Song", { idx });
+    } else if (this.props.navigation.state.routeName == 'SavedGrid') {
+      this.props.navigation.navigate("SavedList", { idx });
+    } else {
+      // if profile page
+      this.props.navigation.navigate("Post", { idx });
     }
       
   };

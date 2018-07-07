@@ -12,7 +12,7 @@ const covDef = require("../assets/album-cover/default.jpg");
 export const loggedInUser = {
       id: "user0",
       email: 'onu@email.com',
-      username: 'onubrooks',
+      username: 'steverog',
       loggedIn: true,
       thumbnail: onu,
       avatar: onu
@@ -22,7 +22,7 @@ const sampleFeed = {
   byId: {
     post1: {
       id: "post1",
-      handle: "28thsly",
+      handle: "steverog",
       artwork: require("../assets/a.jpg"),
       thumbnail: sly,
       //hits: 12,
@@ -44,7 +44,7 @@ const sampleFeed = {
     },
     post3: {
       id: "post3",
-      handle: "28thsly",
+      handle: "madrock60",
       artwork: require("../assets/f.jpg"),
       thumbnail: cardImage,
       //hits: 1,
@@ -55,7 +55,7 @@ const sampleFeed = {
     },
     post4: {
       id: "post4",
-      handle: "28thsly",
+      handle: "steverog",
       artwork: require("../assets/d.jpg"),
       thumbnail: sly,
       // hits: 12,
@@ -131,22 +131,22 @@ const sampleComments = {
 const sampleUsers =  {
         byId : {
               "user0": {
-                    username: "user0",
+                    username: "onubrooks",
                     name: "onubrooks",
                     avatar: onu
               },
             "user1" : {
-                username : "user1",
+                username : "madrock60",
                 name : "User 1",
                 avatar: sly
             },
             "user2" : {
-                username : "user2",
+                username : "28thsly",
                 name : "User 2",
                 avatar: sly
             },
             "user3" : {
-                username : "user3",
+                username : "steverog",
                 name : "User 3",
                 avatar: onu
             }

@@ -12,6 +12,9 @@ import SettingsScreen from "./ProfileStack/SettingsScreen";
 import PasswordScreen from "./ProfileStack/PasswordScreen";
 import LikesScreen from "./ProfileStack/LikesScreen";
 import SongScreen from "./ProfileStack/SongScreen";
+import SavedGridScreen from "./ProfileStack/SavedGridScreen";
+import SavedListScreen from "./ProfileStack/SavedListScreen";
+import PostScreen from "./ProfileStack/PostScreen";
 
 import {ModalScreen} from "./Modals/ModalScreen";
 import AddCommentScreen from "./FeedStack/AddCommentScreen";
@@ -80,6 +83,15 @@ const ProfileStackNavigator = createStackNavigator(
     },
     Song: {
       screen: SongScreen
+    },
+    SavedGrid: {
+      screen: SavedGridScreen
+    },
+    SavedList: {
+      screen: SavedListScreen
+    },
+    Post: {
+      screen: PostScreen
     }
   },
   {

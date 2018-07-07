@@ -3,6 +3,7 @@
  * functionality provided by all the methods in this class was noticed and had to be abstracted out
  * for code reuse, therefore avoiding repetition of the same functionality across different classes/components
  * example components that use this same functionality include: Feed.js, ExploreScreen.js and Profile.js 
+ * the class does all the necessary filtering based on the route name and passes the filtered data to the FeedItem component for display
  */
 
 import React, { Component } from "react";
@@ -82,23 +83,40 @@ export class FeedItemWrapper extends Component {
 
   render() {
     let display;
+    const idx = this.props.navigation.getParam("idx", 0);
     const { feed = {}, user = {}, bookmarks = [], bookmarkPost, bookmarkedOnly = false } = this.props;
     const postArray = Object.keys(feed.byId).map((post_id, idx) => this.props.feed.byId[post_id]);
+    // from search screen
     if (this.props.navigation.state.routeName == 'Explore') {
-      const idx = this.props.navigation.getParam("idx", 0);
       display = postArray.filter((post, index) => index >= idx);
+      // songs you've liked from settings screen
     } else if (this.props.navigation.state.routeName == 'Song') {
-      const idx = this.props.navigation.getParam("idx", 0);
-      display = postArray.filter((post, index) => index == idx);
+      display = postArray
+        .filter((post, index) => {
+          return post.hits.some(id => id == user.id);
+        })
+        .filter((post, index) => index == idx);
     }
+    // display a single post identified by post id
      else if (this.props.navigation.state.routeName == "Post") {
-      const post_id = this.props.navigation.getParam("post_id", 0);
-      display = postArray.filter((post, index) => post.id == post_id);
-    } else if(bookmarkedOnly) {
       display = postArray.filter((post, index) => {
-        return bookmarks.some((id) => id == post.id )
+        return post.handle == user.username;
+      }).filter((post, index) => index == idx);
+    // saved/bookmarked post from settings screen
+    } else if (this.props.navigation.state.routeName == "SavedList" || bookmarkedOnly) {
+      display = postArray
+        .filter((post, index) => {
+          return bookmarks.some(id => id == post.id);
+        })
+        .filter((post, index) => index == idx);
+    }
+    // profile page, posts by the logged in user
+    else if (this.props.navigation.state.routeName == "Profile") {
+      display = postArray.filter((post, index) => {
+        return post.handle == user.username;
       });
     }
+    // if none of the above hold, then we are probably in the feed screen
     else {
       display = postArray;
     }

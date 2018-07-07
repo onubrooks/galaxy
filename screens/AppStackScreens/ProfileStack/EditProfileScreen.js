@@ -22,9 +22,10 @@ import {
   Input,
   Label,
   Text,
+  Textarea,
   Thumbnail
 } from "native-base";
-
+import { Dropdown } from "react-native-material-dropdown";
 import styles from "../../../components/styles";
 const onu = require("../../../assets/onu.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
@@ -53,6 +54,7 @@ export class EditProfileScreen extends Component {
     this.setState({ isModalVisible: visible });
   }
   render() {
+    let data = [{ value: "Male" }, { value: "Female" }];
     return <Container style={styles.container}>
         <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
         <Left style={{ maxWidth: 50 }}>
@@ -79,7 +81,7 @@ export class EditProfileScreen extends Component {
               <Form style={{alignSelf:'stretch'}}>
                 <Item floatingLabel>
                   <Label>Name</Label>
-                  <Input value="Onu Abah"/>
+                  <Input value="Steve Rogers"/>
                 </Item>
                 <Item floatingLabel last>
                   <Label>Username</Label>
@@ -95,11 +97,17 @@ export class EditProfileScreen extends Component {
                 </Item>
                 <Item floatingLabel last>
                   <Label>Gender</Label>
-                  <Input />
+                  <Dropdown
+                    label='Gender'
+                    data={data} />
+                </Item>
+                <Item floatingLabel last>
+                  <Label>Bio</Label>
+                  <Textarea rowSpan={5} bordered placeholder="Textarea" />
                 </Item>
               </Form>
             </View>
-            <View style={{height:15}} />
+            <View style={{height:10}} />
           </KeyboardAvoidingView>
         </Content>
         <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(

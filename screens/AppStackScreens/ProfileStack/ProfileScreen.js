@@ -62,7 +62,7 @@ export class ProfileScreen extends Component {
                          <Ionicons name="ios-bookmark-outline" size={30} />
                        </TabHeading>} >
                    <ScrollView>
-                     <FeedItemWrapper navigation={this.props.navigation} bookmarkedOnly={true} />
+                     <ImageView navigation={this.props.navigation} bookmarkedOnly={true} />
                    </ScrollView>
                        </Tab>
                  </Tabs>

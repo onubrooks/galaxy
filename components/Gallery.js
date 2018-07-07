@@ -13,17 +13,9 @@ export default class Gallery extends Component {
   }
   
   render() {
-    let display;
-    const { images, user } = this.props;
+    const { display = [] } = this.props;
     const { index, shown } = this.state;
-    if(this.props.navigation.state.routeName == 'Explore') {
-      display = images;
-    }
-    else if (this.props.navigation.state.routeName == 'Likes') {
-      display = images.filter((post, index) => {
-        return post.hits.some((id) => id == user.id)
-      });
-    }
+    
     return (
       <View
         style={{
@@ -31,7 +23,7 @@ export default class Gallery extends Component {
           flexWrap: 'wrap',
         }}
       >
-        {images.map((image, idx) => <GalleryImage idx={idx} key={idx} navigation={this.props.navigation} uri={image.artwork} /> )}
+        {display.map((image, idx) => <GalleryImage idx={idx} key={idx} navigation={this.props.navigation} uri={image.artwork} /> )}
         
       </View>
     );
