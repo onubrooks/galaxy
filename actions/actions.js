@@ -233,7 +233,7 @@ export function fetchFeed(user) {
                   text: "this is a new post!", 
                   ago: "5min",
                   comments: [],
-                  hits: ["user0", "user2", "user3"]}
+                  hits: ["onubrooks", "madrock60", "28thsly"]}
 },
         // Do not use catch, because that will also catch
         // any errors in the dispatch and resulting render,

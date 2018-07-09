@@ -12,7 +12,7 @@ export default {
     backgroundColor: "#FFFFFF"
   },
   header: {
-    marginTop: 24,
+    //marginTop: 24,
     backgroundColor: primaryColor
   },
   title: {

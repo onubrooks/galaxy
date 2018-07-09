@@ -1,11 +1,22 @@
 import React from "react";
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
+
+// Feed Stack
 import FeedScreen from "./FeedStack/FeedScreen";
+import AddCommentScreen from "./FeedStack/AddCommentScreen";
+import DMListScreen from "./FeedStack/DMListScreen";
+import DMChatScreen from "./FeedStack/DMChatScreen";
+
+// Search Stack
 import { SearchScreen } from "./SearchStack/SearchScreen";
 import ExploreScreen from "./SearchStack/ExploreScreen";
-import { Add } from "./Add";
+import Add from "./Add";
 import WorkInProgress from "./WorkInProgress";
+
+// Notification Stack
 import { NotificationsScreen } from "./NotificationsStack/NotificationsScreen";
+
+// Profile Stack
 import ProfileScreen from "./ProfileStack/ProfileScreen";
 import EditProfileScreen from "./ProfileStack/EditProfileScreen";
 import SettingsScreen from "./ProfileStack/SettingsScreen";
@@ -17,7 +28,6 @@ import SavedListScreen from "./ProfileStack/SavedListScreen";
 import PostScreen from "./ProfileStack/PostScreen";
 
 import {ModalScreen} from "./Modals/ModalScreen";
-import AddCommentScreen from "./FeedStack/AddCommentScreen";
 
 import { Icon } from "native-base";
 
@@ -28,6 +38,12 @@ const FeedStackNavigator = createStackNavigator(
     },
     AddComment: {
       screen: AddCommentScreen
+    },
+    DMList: {
+      screen: DMListScreen
+    },
+    DMChat: {
+      screen: DMChatScreen
     }
   },
   {
@@ -109,7 +125,7 @@ const MainStackNavigator = createBottomTabNavigator(
       screen: SearchStackNavigator
     },
     Add: {
-      screen: WorkInProgress
+      screen: Add
     },
     Notifications: {
       screen: NotificationsScreen
@@ -120,7 +136,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Profile",
+    initialRouteName: "Feed",
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

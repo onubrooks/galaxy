@@ -95,63 +95,63 @@ const sampleFeed = {
 
 const sampleComments = {
   byId: {
-    comment1: {
+    "comment1": {
       id: "comment1",
-      author: "user2",
+      author: "28thsly",
       comment: ".....",
       post_id: "post1"
     },
-    comment2: {
+    "comment2": {
       id: "comment2",
-      author: "user3",
-      comment: ".....",
-        post_id: "post2"
+      author: "steverog",
+      comment: "Oh boyyyy",
+      post_id: "post2"
     },
-    comment3: {
+    "comment3": {
       id: "comment3",
-      author: "user3",
-      comment: ".....",
+      author: "steverog",
+      comment: "hmmmm",
       post_id: "post3"
     },
-    comment4: {
+    "comment4": {
       id: "comment4",
-      author: "user1",
-      comment: ".....",
-        post_id: "post4"
+      author: "madrock60",
+      comment: "...littttt",
+      post_id: "post4"
     },
-    comment5: {
+    "comment5": {
       id: "comment5",
-      author: "user3",
-      comment: ".....",
-        post_id: "post1"
+      author: "steverog",
+      comment: "I love this...",
+      post_id: "post1"
     }
   },
   allIds: ["comment1", "comment2", "comment3", "commment4", "comment5"]
 };
 const sampleUsers =  {
         byId : {
-              "user0": {
+              "onubrooks": {
                     username: "onubrooks",
                     name: "onubrooks",
                     avatar: onu
               },
-            "user1" : {
+            "madrock60" : {
                 username : "madrock60",
                 name : "User 1",
                 avatar: sly
             },
-            "user2" : {
+            "28thsly" : {
                 username : "28thsly",
                 name : "User 2",
                 avatar: sly
             },
-            "user3" : {
+            "steverog" : {
                 username : "steverog",
                 name : "User 3",
                 avatar: onu
             }
         },
-        allIds : ["user1", "user2", "user3"]
+  allIds: ["madrock60", "28thsly", "steverog", "onubrooks"]
 };
 const sampleBookmarks = ["post1", "post4"];
 

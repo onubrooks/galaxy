@@ -47,7 +47,7 @@ export class FeedItemWrapper extends Component {
     this.setState({ isModalVisible: visible });
   }
   addComment(post_id, comment) {
-    let user_id = this.props.user.id;
+    let user_id = this.props.user.username;
     this.props.commentPost(post_id, comment, user_id);
   }
   gotoComments(post) {

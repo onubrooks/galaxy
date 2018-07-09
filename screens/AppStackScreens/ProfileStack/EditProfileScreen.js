@@ -97,14 +97,15 @@ export class EditProfileScreen extends Component {
                 </Item>
                 <Item floatingLabel last>
                   <Label>Gender</Label>
-                  <Dropdown
+                  <Input />
+                  {/* <Dropdown
                     label='Gender'
-                    data={data} />
+                    data={data} /> */}
                 </Item>
-                <Item floatingLabel last>
+                {/* <Item floatingLabel last>
                   <Label>Bio</Label>
                   <Textarea rowSpan={5} bordered placeholder="Textarea" />
-                </Item>
+                </Item> */}
               </Form>
             </View>
             <View style={{height:10}} />

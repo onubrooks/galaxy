@@ -35,7 +35,7 @@ export class FeedScreen extends Component {
             <Title style={styles.title}>Leedder</Title>
           </Body>
           <Right>
-            <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('DMList')}>
               <Ionicons style={styles.title} name="ios-send-outline" size={33} />
             </TouchableOpacity>
           </Right>

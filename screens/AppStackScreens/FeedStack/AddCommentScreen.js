@@ -10,7 +10,6 @@ import {
   TouchableOpacity
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   Container,
   Header,
@@ -38,13 +37,8 @@ export class AddCommentScreen extends React.Component {
     this.addComment = this.addComment.bind(this);
   }
 
-  _logout() {
-    AsyncStorage.removeItem("userToken");
-    this.props.navigation.navigate("AuthLoading");
-  }
-
   addComment(post_id, comment) {
-    let user_id = this.props.user.id;
+    let user_id = this.props.user.username;
     this.props.commentPost(post_id, comment, user_id);
   }
 
@@ -53,10 +47,10 @@ export class AddCommentScreen extends React.Component {
     let { user, comments } = this.props;
     return <Container style={[styles.container, {}]}>
         <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
-        <Left style={{ maxWidth: 50 }}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons style={styles.title} name="md-arrow-back" size={33} />
-          </TouchableOpacity>
+          <Left style={{ maxWidth: 50 }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Ionicons style={styles.title} name="md-arrow-back" size={33} />
+            </TouchableOpacity>
           </Left>
           <Body>
             <Title style={styles.title}>Comments</Title>
@@ -65,10 +59,10 @@ export class AddCommentScreen extends React.Component {
 
         <Content>
           <ScrollView>
-            <Comments user={user} post={post} users={users} comments={comments.byId} multiline={true} />
+            <Comments user={user} post={post} users={users} comments={comments.byId} />
           </ScrollView>
         </Content>
-      <CommentInput user={user} post={post} addComment={this.addComment} editable={true} autoFocus={false} />
+        <CommentInput user={user} post={post} addComment={this.addComment} editable={false} autoFocus={false} multiline={false} />
       </Container>;
   }
 }

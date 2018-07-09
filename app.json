@@ -8,11 +8,11 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icons/fist-red.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/icons/fist-red.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#006E8C"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,12 @@
       "bundleIdentifier": "com.yourcompany.yourappname"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "com.yourcompany.yourappname",
+      "windowSoftInputMode": "adjustPan"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#FFFF"
     }
   }
 }
