@@ -25,11 +25,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import ProfileSummary from "../../../components/ProfileSummary";
 import ImageView from "../../../components/ImageView";
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
+import styles from "../../../components/styles";
 
 export class ProfileScreen extends Component {
          render() {
            return <Container style={{ backgroundColor: "white" }}>
-               <Header style={{ marginTop: 30 }} backgroundColor="white">
+             <Header style={[styles.header, { backgroundColor: "white" }]}>
                  <Left>
                    <Title style={{ color: "black" }}>Steverogers</Title>
                  </Left>

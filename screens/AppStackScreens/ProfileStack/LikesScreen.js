@@ -22,8 +22,8 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class LikesScreen extends Component {
   render() {
-    return <Container>
-        <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
+    return <Container style={styles.container}>
+        <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" />

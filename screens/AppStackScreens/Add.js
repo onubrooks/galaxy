@@ -35,56 +35,89 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 
 export class Add extends Component {
-         saveAndGoBack = () => {
-           // dispatch a redux action
-           console.log("profile updated...");
-           // then go back
-           this.props.navigation.goBack();
-         };
-         render() {
-           return <Container style={styles.container}>
-               <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
-                 <Left style={{ maxWidth: 50 }}>
-                   <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                     <Icon name="md-close" />
-                   </TouchableOpacity>
-                 </Left>
-                 <Body>
-                   <Text style={stl.heading}>Upload a Song</Text>
-                 </Body>
-                 <Right>
-                   <Button onPress={this.saveAndGoBack} transparent>
-                     <Icon name="md-checkmark" style={{ color: primaryColor }} />
-                   </Button>
-                 </Right>
-               </Header>
-               <Content>
-                 <View style={stl.grid}>
-                   <View style={stl.col1}>
-                   <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={require("../../assets/default.jpg")} />
-                     
-                   </View>
-                   <View style={stl.col2}>
-                     <Form style={{ alignSelf: "stretch" }}>
-                       <Item floatingLabel>
-                         <Label>Title</Label>
-                         <Input />
-                       </Item>
-                       <Item floatingLabel last>
-                         <Label>Choose Song(.mp3, .wav)</Label>
-                         <Input />
-                       </Item>
-                       <Item floatingLabel last>
-                         <Label>Description</Label>
-                         <Textarea rowSpan={5} bordered placeholder="About the song" />
-                       </Item>
-                     </Form>
-                   </View>
-                 </View>
-               </Content>
-             </Container>;
-         }
-       }
+  constructor(props) {
+    super(props);
+    this.state = {
+      audio: null,
+      coverArt: null
+    };
+  }
+  saveAndGoBack = () => {
+    // dispatch a redux action
+    this.setState({ audio: null, coverArt: null });
+    // then go back
+    this.props.navigation.goBack();
+  };
+  pickAudio = async () => {
+    const result = await Expo.DocumentPicker.getDocumentAsync({
+      type: 'audio/*' // audio/mpeg, audio/mp4, audio/vnd.wav
+    });
+    console.log('result', result);
+    if (result.type == 'success') {
+      this.setState({ audio: result });
+      console.log('state', this.state);
+    }
+  }
+  pickCoverArt = async () => {
+    const result = await Expo.ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      base64: true
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({ coverArt: result });
+    }
+  };
+
+  render() {
+    let audioLabel = this.state.audio ? this.state.audio.name : "Choose Song(.mp3, .wav)";
+    let coverArtUri = this.state.coverArt ? this.state.coverArt.uri : null;
+    return <Container style={styles.container}>
+        <Header style={[styles.header, { backgroundColor: "white" }]}>
+          <Left style={{ maxWidth: 50 }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name="md-close" />
+            </TouchableOpacity>
+          </Left>
+          <Body>
+            <Text style={stl.heading}>Upload a Song</Text>
+          </Body>
+          <Right>
+            <Button onPress={this.saveAndGoBack} transparent>
+              <Icon name="md-checkmark" style={{ color: primaryColor }} />
+            </Button>
+          </Right>
+        </Header>
+        <Content>
+          <View style={stl.grid}>
+            <View style={stl.col1}>
+            <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
+              <TouchableOpacity onPress={this.pickCoverArt}>
+                <Text>Cover Art (Optional)</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={stl.col2}>
+              <Form style={{ alignSelf: "stretch" }}>
+                <Item floatingLabel>
+                  <Label>Title</Label>
+                  <Input />
+                </Item>
+                <Item style={{ marginTop: 30 }}>
+                  <TouchableOpacity onPress={this.pickAudio}>
+                    <Label>{audioLabel}</Label>
+                  </TouchableOpacity>
+                </Item>
+                <Item floatingLabel last>
+                  <Label>Description</Label>
+                  <Textarea rowSpan={5} bordered placeholder="About the song" />
+                </Item>
+              </Form>
+            </View>
+          </View>
+        </Content>
+      </Container>;
+  }
+}
 
 export default Add;
 
@@ -104,8 +137,8 @@ const stl = StyleSheet.create({
   col1: {
     width: 150,
     height: 150,
-    backgroundColor: 'yellow',
-    marginLeft: 10
+    //backgroundColor: 'yellow',
+    marginLeft: 20
   },
   col2: {
     //width: 500,

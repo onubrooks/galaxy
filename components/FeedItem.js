@@ -29,7 +29,8 @@ import Icon from "react-native-vector-icons/EvilIcons";
 import IconAsset from "./IconAsset";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
-import Player from "./Player";
+import Player from "./OldPlayer";
+import PlayerControls from "./PlayerControls";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);
@@ -79,7 +80,7 @@ export class FeedItem extends Component {
                    </Body>
                  </Left>
                  <Right>
-                   <TouchableOpacity style={{width: 25, paddingLeft: 12 }} transparent onPress={this.handlePress}>
+                   <TouchableOpacity style={{ width: 25, paddingLeft: 12 }} transparent onPress={this.handlePress}>
                      <Ionicons name="md-more" size={25} />
                    </TouchableOpacity>
                  </Right>
@@ -87,8 +88,8 @@ export class FeedItem extends Component {
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
                  <ImageBackground style={{ flex: 1 }} source={post.artwork} resizeMode="contain">
-                 <TouchableOpacity>
-                   <Player show={this.state.show} />
+                   <TouchableOpacity>
+                     <Player post_id={post.id} />
                    </TouchableOpacity>
                  </ImageBackground>
                </CardItem>
@@ -121,7 +122,7 @@ export class FeedItem extends Component {
                  <Text style={styles.note} note>
                    {post.ago}
                  </Text>
-               {this.props.navigation.state.routeName == 'Feed' ? <CommentInput user={user} post={post} addComment={this.addComment} /> : null}
+                 {this.props.navigation.state.routeName == "Feed" ? <CommentInput user={user} post={post} addComment={this.addComment} /> : null}
                </View>
              </Card>;
          }

@@ -22,11 +22,11 @@ import ImageView from "../../../components/ImageView";
 
 export class SavedGridScreen extends Component {
   render() {
-    return <Container>
+    return <Container style={styles.container}>
         <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name="md-arrow-back" />
+              <Icon name="md-arrow-back" />
             </TouchableOpacity>
           </Left>
           <Body>

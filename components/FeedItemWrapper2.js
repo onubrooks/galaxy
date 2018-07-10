@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, FlatList } from "react-native";
 import {
   Container,
   Content,
@@ -100,11 +100,11 @@ export class FeedItemWrapper extends Component {
         .filter((post, index) => index == idx);
     }
     // display a single post identified by post id
-     else if (this.props.navigation.state.routeName == "Post") {
+    else if (this.props.navigation.state.routeName == "Post") {
       display = postArray.filter((post, index) => {
         return post.handle == user.username;
       }).filter((post, index) => index == idx);
-    // saved/bookmarked post from settings screen
+      // saved/bookmarked post from settings screen
     } else if (this.props.navigation.state.routeName == "SavedList" || bookmarkedOnly) {
       display = postArray
         .filter((post, index) => {
@@ -127,10 +127,11 @@ export class FeedItemWrapper extends Component {
       <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
         <Content>
           {feed.loading ? <Spinner color="grey" size={20} /> : null}
-          {display.map((post, idx) => (
-            <FeedItem
-              key={idx}
-              post={post}
+          <FlatList
+            data={display}
+            renderItem={({ item, index }) => <FeedItem
+              key={index}
+              post={item}
               user={user}
               bookmarks={bookmarks}
               toggleLike={this.toggleLike}
@@ -139,8 +140,9 @@ export class FeedItemWrapper extends Component {
               gotoComments={this.gotoComments}
               addComment={this.addComment}
               navigation={this.props.navigation}
-            />
-          ))}
+            />}
+          />
+          
           {this.props.navigation.routeName == "Feed" ? <Spinner color="grey" size={20} /> : null}
           <View style={{ height: 150 }} />
         </Content>

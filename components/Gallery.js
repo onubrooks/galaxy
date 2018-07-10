@@ -21,6 +21,7 @@ export default class Gallery extends Component {
         style={{
           flexDirection: 'row',
           flexWrap: 'wrap',
+          backgroundColor: '#FFFFFF'
         }}
       >
         {display.map((image, idx) => <GalleryImage idx={idx} key={idx} navigation={this.props.navigation} uri={image.artwork} /> )}

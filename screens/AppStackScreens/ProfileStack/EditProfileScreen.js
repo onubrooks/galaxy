@@ -23,6 +23,7 @@ import {
   Label,
   Text,
   Textarea,
+  Picker,
   Thumbnail
 } from "native-base";
 import { Dropdown } from "react-native-material-dropdown";
@@ -42,7 +43,12 @@ import { ProfileScreenModalContent } from "../../../components/ModalContent";
 export class EditProfileScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false };
+    this.state = { isModalVisible: false, selected: "key1", removePhoto: false, newPhoto: null };
+  }
+  onValueChange(value) {
+    this.setState({
+      selected: value
+    });
   }
   saveAndGoBack = () => {
     // dispatch a redux action
@@ -50,14 +56,33 @@ export class EditProfileScreen extends Component {
     // then go back
     this.props.navigation.goBack();
   }
-  setModalVisible = (visible) => {
+  setModalVisible = (visible, options = null) => {
     this.setState({ isModalVisible: visible });
+    if(options && options.newPhoto) {
+      this.pickNewPhoto();
+    }
+    if(options && options.removePhoto) {
+      this.removePhoto();
+    }
   }
+  removePhoto = () => {
+    this.setState({ removePhoto: !this.state.removePhoto, newPhoto: null });
+  }
+  pickNewPhoto = async () => {
+    const result = await Expo.ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      base64: true
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({ newPhoto: result });
+    }
+  };
   render() {
     let data = [{ value: "Male" }, { value: "Female" }];
     return <Container style={styles.container}>
         <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
-        <Left style={{ maxWidth: 50 }}>
+          <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-close" />
             </TouchableOpacity>
@@ -75,13 +100,13 @@ export class EditProfileScreen extends Component {
           <KeyboardAvoidingView behavior="position" enabled>
             <View style={stl.grid}>
               <TouchableOpacity activeOpacity={0.9} style={stl.changePhoto} onPress={() => this.setModalVisible(true)}>
-                <Thumbnail large style={stl.thumbnail} source={onu} />
+                <Thumbnail large style={stl.thumbnail} source={this.state.newPhoto ? { uri: this.state.newPhoto.uri } : this.state.removePhoto ? require("../../../assets/avatar.png") : onu} />
                 <Text style={stl.changePhotoText}>Change Photo</Text>
               </TouchableOpacity>
-              <Form style={{alignSelf:'stretch'}}>
+              <Form style={{ alignSelf: "stretch" }}>
                 <Item floatingLabel>
                   <Label>Name</Label>
-                  <Input value="Steve Rogers"/>
+                  <Input value="Steve Rogers" />
                 </Item>
                 <Item floatingLabel last>
                   <Label>Username</Label>
@@ -93,14 +118,14 @@ export class EditProfileScreen extends Component {
                 </Item>
                 <Item floatingLabel last>
                   <Label>Phone Number</Label>
-                  <Input />
+                  <Input keyboardType={"numeric"} />
                 </Item>
-                <Item floatingLabel last>
+                <Item style={{ justifyContent: "space-between" }}>
                   <Label>Gender</Label>
-                  <Input />
-                  {/* <Dropdown
-                    label='Gender'
-                    data={data} /> */}
+                  <Picker note mode="dropdown" style={{ width: 120 }} selectedValue={this.state.selected} onValueChange={this.onValueChange.bind(this)}>
+                    <Picker.Item label="Male" value="male" />
+                    <Picker.Item label="Female" value="female" />
+                  </Picker>
                 </Item>
                 {/* <Item floatingLabel last>
                   <Label>Bio</Label>
@@ -108,7 +133,7 @@ export class EditProfileScreen extends Component {
                 </Item> */}
               </Form>
             </View>
-            <View style={{height:10}} />
+            <View style={{ height: 10 }} />
           </KeyboardAvoidingView>
         </Content>
         <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(

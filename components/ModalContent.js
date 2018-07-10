@@ -29,11 +29,15 @@ export class FeedScreenModalContent extends Component {
 export class ProfileScreenModalContent extends Component {
   constructor(props) {
     super(props);
-    this.handlePress = this.handlePress.bind(this);
   }
-  handlePress() {
-    this.props.setModalVisible(false);
+  newPhoto = () => {
+    this.props.setModalVisible(false, {newPhoto: true});
   }
+
+  removePhoto = () => {
+    this.props.setModalVisible(false, {removePhoto: true});
+  }
+
   render() {
     return <View style={{ marginHorizontal: 20, backgroundColor: "white", width: "90%", borderRadius: 6 }}>
         <View style={{ marginLeft: 20 }}>
@@ -41,10 +45,10 @@ export class ProfileScreenModalContent extends Component {
             Set a Profile Photo
           </Text>
           <Hr />
-        <Text onPress={this.handlePress} style={{ marginVertical: 13, fontSize: 17, fontWeight: '300' }}>
+        <Text onPress={this.newPhoto} style={{ marginVertical: 13, fontSize: 17, fontWeight: '300' }}>
             New Profile Photo
           </Text>
-        <Text onPress={this.handlePress} style={{ marginVertical: 13, fontSize: 17, fontWeight: '300' }}>
+        <Text onPress={this.removePhoto} style={{ marginVertical: 13, fontSize: 17, fontWeight: '300' }}>
             Remove Profile Photo
           </Text> 
         </View>

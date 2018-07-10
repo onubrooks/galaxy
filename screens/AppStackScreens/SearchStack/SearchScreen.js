@@ -20,21 +20,21 @@ import styles from "../../../components/styles";
 
 export class SearchScreen extends Component {
   render() {
-    return <Container>
-      <Header style={[styles.header, { backgroundColor: 'white'}]} searchBar rounded>
-          <Item> 
+    return <Container style={styles.container}>
+        <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
+          <Item>
             <Icon name="ios-search" />
             <Input placeholder="Search" editable={true} />
           </Item>
           <Right>
             <Button transparent>
-              <Text>Search</Text> 
+              <Text>Search</Text>
             </Button>
           </Right>
         </Header>
         <Content>
           <ScrollView>
-            <ImageView navigation={this.props.navigation}/>
+            <ImageView navigation={this.props.navigation} />
           </ScrollView>
         </Content>
       </Container>;
