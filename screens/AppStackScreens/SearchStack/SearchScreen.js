@@ -9,7 +9,8 @@ import {
   Icon,
   Item,
   Input,
-  Text
+  Text,
+  Body
 } from "native-base";
 
 import ImageView from "../../../components/ImageView";
@@ -18,11 +19,13 @@ import styles from "../../../components/styles";
 export class SearchScreen extends Component {
   render() {
     return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C" searchBar rounded>
+          <Body>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" editable={true} />
+            <Input placeholder="Search" />
           </Item>
+          </Body>
           <Right>
             <Button transparent>
               <Text>Search</Text>

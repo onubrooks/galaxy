@@ -116,6 +116,10 @@ const ProfileStackNavigator = createStackNavigator(
     mode: "modal"
   }
 );
+ProfileStackNavigator.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  return { tabBarVisible: routeName == "EditProfile" || routeName =="Password" ? false : true };
+};
 const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {

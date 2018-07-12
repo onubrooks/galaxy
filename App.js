@@ -47,8 +47,8 @@ const store = createStore(
   )
 );
 console.reportErrorsAsExceptions = false;
-// console._errorOriginal = console.error.bind(console);
-// console.error = () => { };
+console._errorOriginal = console.error.bind(console);
+console.error = () => { };
 
 export default class App extends React.Component {
   state = {

@@ -24,6 +24,10 @@
     },
     "android": {
       "package": "com.yourcompany.yourappname"
+    },
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor":"#006E8C"
     }
   }
 }

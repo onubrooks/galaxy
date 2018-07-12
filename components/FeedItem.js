@@ -34,7 +34,7 @@ import PlayerControls from "./PlayerControls";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);
-const ICON_UNHIT_BUTTON = new IconAsset(require('../assets/icons/fist-white.png'), 30, 30);
+const ICON_UNHIT_BUTTON = new IconAsset(require('../assets/icons/fist.png'), 30, 30);
 
 export class FeedItem extends Component {
          constructor(props) {
