@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import {
-  AsyncStorage,
-  StatusBar,
   StyleSheet,
   View,
   ScrollView,
   KeyboardAvoidingView,
-  TextInput,
   TouchableOpacity,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  Keyboard
 } from "react-native";
 import {
   Container,
   Header,
-  Title,
   Content,
   Button,
   Body,
@@ -26,8 +23,7 @@ import {
   Input,
   Label,
   Text,
-  Textarea,
-  Thumbnail
+  Textarea
 } from "native-base";
 import styles from "../../components/styles";
 const onu = require("../../assets/onu.jpg");
@@ -35,6 +31,7 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 
 export class Add extends Component {
+  cont;
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +39,7 @@ export class Add extends Component {
       coverArt: null
     };
   }
+  
   saveAndGoBack = () => {
     // dispatch a redux action
     this.setState({ audio: null, coverArt: null });
@@ -52,10 +50,8 @@ export class Add extends Component {
     const result = await Expo.DocumentPicker.getDocumentAsync({
       type: 'audio/*' // audio/mpeg, audio/mp4, audio/vnd.wav
     });
-    console.log('result', result);
     if (result.type == 'success') {
       this.setState({ audio: result });
-      console.log('state', this.state);
     }
   }
   pickCoverArt = async () => {
@@ -63,7 +59,6 @@ export class Add extends Component {
       allowsEditing: true,
       base64: true
     });
-    console.log(result);
     if (!result.cancelled) {
       this.setState({ coverArt: result });
     }
@@ -73,7 +68,7 @@ export class Add extends Component {
     let audioLabel = this.state.audio ? this.state.audio.name : "Choose Song(.mp3, .wav)";
     let coverArtUri = this.state.coverArt ? this.state.coverArt.uri : null;
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]}>
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-close" />
@@ -89,11 +84,11 @@ export class Add extends Component {
           </Right>
         </Header>
         <Content>
-          <View style={stl.grid}>
+        <View style={stl.grid}>
             <View style={stl.col1}>
             <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
               <TouchableOpacity onPress={this.pickCoverArt}>
-                <Text>Cover Art (Optional)</Text>
+                <Text>Cover Art (Optional)</Text>  
               </TouchableOpacity>
             </View>
             <View style={stl.col2}>

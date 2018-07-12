@@ -1,24 +1,16 @@
 import React from "react";
 import {
   AsyncStorage,
-  StatusBar,
-  StyleSheet,
   View,
   TouchableOpacity,
 } from "react-native";
 import {
   Button,
-  Container,
-  Header,
-  Content,
   Form,
   Item,
   Input,
-  Label,
   Text,
-  Icon,
-  H1,
-  Separator
+  H1
 } from "native-base";
 var Dimensions = require('Dimensions')
 var { width, height } = Dimensions.get('window');

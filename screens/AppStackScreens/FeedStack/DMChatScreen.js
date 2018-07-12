@@ -1,8 +1,5 @@
 import React from "react";
 import {
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
   View,
   ScrollView,
   KeyboardAvoidingView,
@@ -13,17 +10,10 @@ import {
 import {
   Container,
   Header,
-  Title,
-  Content,
-  Button,
   Body,
   Left,
   Right,
   Icon,
-  Form,
-  Item,
-  Input,
-  Label,
   Text,
   Thumbnail
 } from "native-base";
@@ -104,7 +94,7 @@ export class DMChatScreen extends React.Component {
          render() {
            let { user, comments } = this.props;
            return <Container style={styles.container}>
-               <Header style={[styles.header, { backgroundColor: "white", height: 70 }]}>
+             <Header style={[styles.header, { backgroundColor: "white", height: 70 }]} androidStatusBarColor="#006E8C">
                  <Left>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                      <Icon name="md-arrow-back" />
@@ -119,7 +109,7 @@ export class DMChatScreen extends React.Component {
                </Header>
              <View style={{ flex: 1 }}>
                <GiftedChat messages={this.state.messages} onSend={messages => this.onSend(messages)} user={{ _id: 1 }} />
-               <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={80} />
+               {/* <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={80} /> */}
              </View>
              </Container>;
          }

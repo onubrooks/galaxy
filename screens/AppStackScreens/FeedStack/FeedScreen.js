@@ -25,7 +25,7 @@ export class FeedScreen extends Component {
   scroll;
   render() {
     return <Container style={styles.container}>
-        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
+      <Header style={styles.header} androidStatusBarColor="#006E8C">
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
               <Ionicons style={styles.title} name="ios-camera-outline" size={33} />

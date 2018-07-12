@@ -21,7 +21,7 @@ export class LoginAsScreen extends React.Component {
 
   render() {
     const status = "Not Implemented Yet!";
-    return <View style={{ flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500 }}>
+    return <View style={{ flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500 }} iosBarStyle="dark-content" androidStatusBarColor="#006E8C">
         <View style={{ marginVertical: 50 }}>
           <Text style={{ fontSize: 50 }}>Leedder</Text>
         </View>
@@ -42,7 +42,7 @@ export class LoginAsScreen extends React.Component {
           </Button>
         </View>
         <View style={{ flexDirection: "row", left: 0, right: 0, bottom: 0, marginBottom: -90 }}>
-        <Button style={[styles.buttonBordered, { width: width / 2 }]} bordered onPress={() => alert(status)}>
+          <Button style={[styles.buttonBordered, { width: width / 2 }]} bordered onPress={() => alert(status)}>
             <Text style={styles.primaryText}>Switch Accounts</Text>
           </Button>
           <Button style={[styles.buttonBordered, { width: width / 2 }]} bordered onPress={() => this.props.navigation.navigate("SignUpAs")}>

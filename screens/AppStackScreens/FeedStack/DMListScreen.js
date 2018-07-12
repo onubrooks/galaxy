@@ -1,29 +1,19 @@
 import React from "react";
 import {
-  AsyncStorage,
-  StatusBar,
   StyleSheet,
   View,
-  ScrollView,
-  KeyboardAvoidingView,
-  TextInput,
   TouchableOpacity,
   Dimensions
 } from "react-native";
 import {
   Container,
   Header,
-  Title,
   Content,
   Button,
   Body,
   Left,
   Right,
   Icon,
-  Form,
-  Item,
-  Input,
-  Label,
   Text,
   Thumbnail
 } from "native-base";
@@ -43,7 +33,7 @@ export class DMListScreen extends React.Component {
   }
   render() {
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" />

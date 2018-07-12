@@ -7,18 +7,12 @@ import {
   Tabs,
   TabHeading,
   Title,
-  List,
-  ListItem,
-  Content,
   Button,
   Body,
   Left,
   Right,
-  Icon,
   ScrollableTab,
-  Text,
-  Thumbnail,
-  Spinner
+  Text
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -30,20 +24,26 @@ import styles from "../../../components/styles";
 export class ProfileScreen extends Component {
          render() {
            return <Container style={{ backgroundColor: "white" }}>
-             <Header style={[styles.header, { backgroundColor: "white" }]}>
+               <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                  <Left>
-                   <Title style={{ color: "black" }}>Steverogers</Title>
+                   <Title style={{ color: "black" }}>
+                     Steverogers
+                   </Title>
                  </Left>
 
                  <Right>
-                   <Button transparent onPress={() => this.props.navigation.navigate('Settings')}>
+                   <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
                      <Ionicons name="md-more" size={33} />
-                 </Button>
+                   </Button>
                  </Right>
                </Header>
                <ScrollView>
                  <ProfileSummary navigation={this.props.navigation} />
-               <Text style={{fontWeight:'bold', marginLeft: 15}}>Steven Strange </Text> 
+                 <Text
+                   style={{ fontWeight: "bold", marginLeft: 15 }}
+                 >
+                   Steven Strange{" "}
+                 </Text>
                  <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="md-apps" size={30} />
@@ -61,11 +61,11 @@ export class ProfileScreen extends Component {
                    </Tab>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="ios-bookmark-outline" size={30} />
-                       </TabHeading>} >
-                   <ScrollView>
-                     <ImageView navigation={this.props.navigation} bookmarkedOnly={true} />
-                   </ScrollView>
-                       </Tab>
+                       </TabHeading>}>
+                     <ScrollView>
+                       <ImageView navigation={this.props.navigation} bookmarkedOnly={true} />
+                     </ScrollView>
+                   </Tab>
                  </Tabs>
                </ScrollView>
              </Container>;

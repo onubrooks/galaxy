@@ -1,37 +1,29 @@
 import React, { Component } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import {
   Container,
   Header,
-  Title,
-  Content,
-  Button,
+  Text,
   Body,
   Left,
-  Right,
-  Icon,
-  Item,
-  Input,
-  Text,
-  Spinner
+  Icon
 } from "native-base";
 
 import styles from "../../../components/styles";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
 
 export class ExploreScreen extends Component {
   render() {
     return <Container>
-        <Header style={[styles.header]}>
-        <Left style={{ maxWidth: 50 }}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}> 
-              <Ionicons style={styles.title} name="md-arrow-back" size={33} />
+        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+          <Left style={{ maxWidth: 50 }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name="md-arrow-back" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Title style={styles.title}>Explore</Title>
+            <Text style={{ fontWeight: "900" }}>Explore</Text>
           </Body>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
@@ -46,8 +46,9 @@ const store = createStore(
     loggerMiddleware // neat middleware that logs actions
   )
 );
-console.log("store get state ...");
-console.log(store.getState());
+console.reportErrorsAsExceptions = false;
+// console._errorOriginal = console.error.bind(console);
+// console.error = () => { };
 
 export default class App extends React.Component {
   state = {
@@ -66,15 +67,13 @@ export default class App extends React.Component {
         </Provider>
       );
     } else {
-      return (
-        <Provider store={store}>
+      return <Provider store={store}>
           <Root style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {Platform.OS === 'android' && <StatusBar barStyle="dark-content" />}
+          {Platform.OS === "ios" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" />}
+            {Platform.OS === "android" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" />}
             <RootNavigation />
           </Root>
-        </Provider>
-      );
+        </Provider>;
     }
   }
 

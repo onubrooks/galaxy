@@ -23,12 +23,7 @@
       "bundleIdentifier": "com.yourcompany.yourappname"
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
-      "windowSoftInputMode": "adjustPan"
-    },
-    "androidStatusBar": {
-      "barStyle": "light-content",
-      "backgroundColor": "#FFFF"
+      "package": "com.yourcompany.yourappname"
     }
   }
 }

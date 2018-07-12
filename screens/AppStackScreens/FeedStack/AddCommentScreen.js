@@ -1,22 +1,18 @@
 import React from "react";
 import {
-  AsyncStorage,
-  StatusBar,
   StyleSheet,
   View,
   ScrollView,
-  KeyboardAvoidingView,
-  TextInput,
   TouchableOpacity
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import {
   Container,
   Header,
-  Title,
+  Text,
   Content,
   Body,
-  Left
+  Left,
+  Icon
 } from "native-base";
 import styles from "../../../components/styles";
 
@@ -45,15 +41,16 @@ export class AddCommentScreen extends React.Component {
   render() {
     let { post, users } = this.props.navigation.state.params; // passed from the feed page
     let { user, comments } = this.props;
+    let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
     return <Container style={[styles.container, {}]}>
-        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
+        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Ionicons style={styles.title} name="md-arrow-back" size={33} />
+              <Icon name="md-arrow-back" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Title style={styles.title}>Comments</Title>
+          <Text style={{fontWeight: '900',}}>Comments</Text>
           </Body>
         </Header>
 
@@ -62,7 +59,7 @@ export class AddCommentScreen extends React.Component {
             <Comments user={user} post={post} users={users} comments={comments.byId} />
           </ScrollView>
         </Content>
-        <CommentInput user={user} post={post} addComment={this.addComment} editable={false} autoFocus={false} multiline={false} />
+      <CommentInput user={user} post={post} addComment={this.addComment} editable={true} commentScreen={commentScreen} multiline={false} />
       </Container>;
   }
 }

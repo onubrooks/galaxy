@@ -4,7 +4,7 @@ import ReactNative from "react-native";
 const { Keyboard, TextInput, ScrollView, findNodeHandle } = ReactNative;
 
 // tab height + listitem bottom padding + textinput height
-const ADDITIONAL_OFFSET = 35 + 90; // initially 50
+const ADDITIONAL_OFFSET = 35 + 50;
 
 class KeyboardAvoidingScrollView extends React.Component {
   componentWillMount() {

@@ -4,16 +4,8 @@ import {
   Container,
   Header,
   Title,
-  Content,
-  Button,
   Body,
-  Left,
-  Right,
-  Icon,
-  Item,
-  Input,
-  Text,
-  Spinner
+  Left
 } from "native-base";
 
 import styles from "../../../components/styles";
@@ -24,7 +16,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 export class SongScreen extends Component {
   render() {
     return <Container>
-        <Header style={[styles.header]}>
+      <Header style={[styles.header]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Ionicons style={styles.title} name="md-arrow-back" size={33} />

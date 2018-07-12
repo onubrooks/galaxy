@@ -3,15 +3,10 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import {
   Container,
   Header,
-  Title,
-  Content,
-  Button,
   Body,
   Left,
   Right,
   Icon,
-  Item,
-  Input,
   Text,
   Spinner
 } from "native-base";
@@ -23,7 +18,7 @@ import ImageView from "../../../components/ImageView";
 export class SavedGridScreen extends Component {
   render() {
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]}>
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" />

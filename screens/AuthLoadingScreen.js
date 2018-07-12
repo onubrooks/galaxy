@@ -7,22 +7,7 @@ import {
   View
 } from "react-native";
 import {
-  Container,
   Header,
-  Title,
-  Content,
-  Button,
-  Footer,
-  FooterTab,
-  Body,
-  Left,
-  Right,
-  //Icon,
-  Text,
-  Thumbnail,
-  Form,
-  Item,
-  Input
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../components/styles";
@@ -44,14 +29,10 @@ export class AuthLoadingScreen extends React.Component {
 
   // Render any loading content that you like here
   render() {
-    return (
-      <View style={styles.container}>
+    return <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="black">
-          
-        </Header>
-        <ActivityIndicator style={{marginTop: 20}} />
-      </View>
-    );
+        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="#006E8C" />
+        <ActivityIndicator style={{ marginTop: 20 }} />
+      </View>;
   }
 }

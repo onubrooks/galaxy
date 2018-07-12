@@ -2,14 +2,23 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
-  ScrollView
+  Keyboard
 } from "react-native";
 import { Thumbnail, Form, Item, Input, Button, Text } from "native-base";
 
 let styles = StyleSheet.create({
   noBorder: {
     borderColor: "white"
+  },
+  grid: { 
+    flex: 0.1, 
+    flexDirection: "row", 
+    marginHorizontal: 1, 
+    marginBottom: 5 
+  },
+  commentScreen: {
+    marginHorizontal: 15,
+    marginBottom: 15
   }
 });
 
@@ -25,9 +34,9 @@ export default class CommentInput extends Component {
     }
   }
   onInputFocus(event) {
+    //Keyboard.dismiss();
     this.setState({inputFocused: true});
     console.log('focus');
-    //console.log(event);
     //this.props._scrollToInput(ReactNative.findNodeHandle(event.target));
   }
   onInputBlur() {
@@ -40,15 +49,16 @@ export default class CommentInput extends Component {
   }
   postComment() {
     if(this.state.comment.length > 0) {
+      Keyboard.dismiss();
       this.props.addComment(this.props.post.id, this.state.comment);
       this.setState({ comment: '' });
     } else
     alert('Please type a comment before posting...');
   }
   
-  render() {
-    let { user, post, multiline = false, editable = true, autoFocus = false } = this.props;
-      return <View style={{ flex: 0.1, flexDirection:"row", bottom: 0, marginHorizontal:1 }}>
+  render() { 
+    let { user, post, multiline = false, editable = true, commentScreen = false } = this.props;
+      return <View style={[styles.grid, commentScreen ? styles.commentScreen : {}]}>
         <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
         <Form style={{width:"90%"}}>
           <Item style={styles.noBorder}>
@@ -61,7 +71,8 @@ export default class CommentInput extends Component {
               onChangeText={(text)=>this.setState({comment:text})} 
               multiline={multiline}
               editable={editable}
-              autoFocus={autoFocus} />
+              autoFocus={commentScreen} 
+              onSubmitEditing={this.postComment} />
             {this.state.inputFocused && this.state.comment.length < 1 ?
               <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
             :

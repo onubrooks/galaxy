@@ -3,11 +3,8 @@ import { ScrollView } from "react-native";
 import {
   Container,
   Header,
-  Title,
   Content,
   Button,
-  Body,
-  Left,
   Right,
   Icon,
   Item,
@@ -21,7 +18,7 @@ import styles from "../../../components/styles";
 export class SearchScreen extends Component {
   render() {
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Search" editable={true} />

@@ -11,19 +11,12 @@ import { WebBrowser } from "expo";
 import {
   Container,
   Header,
-  Title,
   Content,
-  Button,
   Body,
   Left,
   Right,
   Icon,
-  Form,
-  Item,
-  Input,
-  Label,
-  Text,
-  Thumbnail
+  Text
 } from "native-base";
 
 import styles from "../../../components/styles";
@@ -64,7 +57,7 @@ export class SettingsScreen extends Component {
   };
   render() {
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} searchBar rounded>
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
         <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" />

@@ -1,28 +1,20 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
   Dimensions
 } from "react-native";
 
 import {
   Container,
-  Header,
-  Title,
   Content,
-  Button,
   Body,
   Left,
   Right,
-  //Icon,
+  Icon,
   List,
   ListItem,
   Text,
   Thumbnail
 } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -56,7 +48,7 @@ export default class Comments extends Component {
                        </Left>
                        <Body>
                          <Text>
-                           {post.handle} {post.text}
+                         <Text style={{ fontWeight: '900' }}>{post.handle} </Text>{post.text}
                          </Text>
                          <Text note>{post.ago}</Text>
                        </Body>
@@ -72,13 +64,13 @@ export default class Comments extends Component {
                          </Left>
                          <Body>
                            <Text>
-                             {data.commenter.username}{" "}
+                             <Text style={{fontWeight:'900'}}>{data.commenter.username} </Text>
                              {data.comment.comment}
                            </Text>
                            <Text note>4m</Text>
                          </Body>
                          <Right>
-                           <Ionicons
+                           <Icon
                              size={15}
                              name="md-heart-outline"
                            />
