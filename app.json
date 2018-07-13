@@ -20,10 +20,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname"
+      "bundleIdentifier": "com.artinict.leedder"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "com.artinict.leedder"
     },
     "androidStatusBar": {
       "barStyle": "dark-content",

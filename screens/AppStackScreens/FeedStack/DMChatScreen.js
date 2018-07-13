@@ -97,13 +97,13 @@ export class DMChatScreen extends React.Component {
              <Header style={[styles.header, { backgroundColor: "white", height: 70 }]} androidStatusBarColor="#006E8C">
                  <Left>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                     <Icon name="md-arrow-back" />
+                   <Icon name="md-arrow-back" style={{ color: "#006E8C" }}/>
                    </TouchableOpacity>
                  </Left>
                  <Body>
                    <View style={{ alignItems: "center" }}>
                      <Thumbnail small source={sly} />
-                     <Text>max_payne</Text>
+                   <Text style={{ fontWeight: '500', color: "#006E8C" }}>max_payne</Text>
                    </View>
                  </Body>
                </Header>

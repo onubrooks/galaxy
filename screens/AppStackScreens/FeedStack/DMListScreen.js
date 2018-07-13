@@ -36,11 +36,11 @@ export class DMListScreen extends React.Component {
       <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" />
+            <Icon name="md-arrow-back" style={{ color: "#006E8C" }}/>
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "500" }}>Direct</Text>
+            <Text style={{ fontWeight: "500", color:"#006E8C" }}>Direct</Text>
           </Body>
         </Header>
         <Content>

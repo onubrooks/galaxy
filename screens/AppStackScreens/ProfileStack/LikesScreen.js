@@ -17,7 +17,7 @@ import {
 
 import ImageView from "../../../components/ImageView";
 import styles from "../../../components/styles";
-const onu = require("../../../assets/onu.jpg");
+import Ionicons from "react-native-vector-icons/Ionicons";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class LikesScreen extends Component {
@@ -26,11 +26,11 @@ export class LikesScreen extends Component {
       <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" />
+            <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text>Likes</Text>
+          <Text style={{ fontWeight:"900", color: "#006E8C"}}>Likes</Text>
           </Body>
         </Header>
         <Content>

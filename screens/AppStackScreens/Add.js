@@ -25,6 +25,7 @@ import {
   Text,
   Textarea
 } from "native-base";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../components/styles";
 const onu = require("../../assets/onu.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
@@ -71,7 +72,7 @@ export class Add extends Component {
       <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-close" />
+            <Icon name="md-close" style={{ color: primaryColor }} />
             </TouchableOpacity>
           </Left>
           <Body>
@@ -128,6 +129,7 @@ const stl = StyleSheet.create({
   },
   heading: {
     fontWeight: '900',
+    color: primaryColor
   },
   col1: {
     width: 150,

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
-
+import { TabBarComponent } from "./TabBarComponent";
 // Feed Stack
 import FeedScreen from "./FeedStack/FeedScreen";
 import AddCommentScreen from "./FeedStack/AddCommentScreen";
@@ -171,7 +171,9 @@ const MainStackNavigator = createBottomTabNavigator(
       style: {
         backgroundColor: "#006E8C"
       }
-    }
+    },
+    tabBarComponent : props => <TabBarComponent {...props} />,
+    tabBarPosition: 'bottom'
   }
 );
 

@@ -5,14 +5,13 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const primaryColor = "#006E8C";
 
-const { StyleSheet } = React;
 
 export default {
   container: {
     backgroundColor: "#FFFFFF"
   },
   header: {
-    //marginTop: 24,
+    marginTop: 24,
     backgroundColor: primaryColor
   },
   title: {

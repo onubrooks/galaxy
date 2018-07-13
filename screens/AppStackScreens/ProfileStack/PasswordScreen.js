@@ -21,6 +21,7 @@ import {
   Input,
   Text
 } from "native-base";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import styles from "../../../components/styles";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
@@ -56,7 +57,7 @@ export class PasswordScreen extends Component {
                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                     <Icon name="md-close" />
+                   <Ionicons name="md-close" size={33} color="#006E8C" />
                    </TouchableOpacity>
                  </Left>
                  <Body>
@@ -127,7 +128,8 @@ const stl = StyleSheet.create({
     marginLeft: 4
   },
   heading: {
-    fontWeight: "900"
+    fontWeight: "900",
+    color: primaryColor
   },
   reset: {
     color: primaryColor,

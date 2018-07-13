@@ -5,25 +5,25 @@ import {
   Header,
   Title,
   Body,
-  Left
+  Left,
+  Text
 } from "native-base";
-
-import styles from "../../../components/styles";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "../../../components/styles";
 
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
 
 export class SongScreen extends Component {
   render() {
     return <Container>
-      <Header style={[styles.header]} androidStatusBarColor="#006E8C">
+      <Header style={[styles.header, {backgroundColor: 'white'}]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Ionicons style={styles.title} name="md-arrow-back" size={33} />
+              <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Title style={styles.title}>Song</Title>
+          <Text style={{ fontWeight: "900", color: "#006E8C" }}>Song</Text>
           </Body>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />

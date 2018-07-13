@@ -18,7 +18,7 @@ import {
   Icon,
   Text
 } from "native-base";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";
 const onu = require("../../../assets/onu.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
@@ -60,11 +60,11 @@ export class SettingsScreen extends Component {
       <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
         <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" />
+            <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{fontWeight: '500'}}>Settings</Text>
+            <Text style={{fontWeight: '500', color:"#006E8C"}}>Settings</Text>
           </Body>
         </Header>
         <Content>

@@ -46,11 +46,11 @@ export class AddCommentScreen extends React.Component {
         <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" />
+            <Icon name="md-arrow-back" style={{ color: "#006E8C" }}/>
             </TouchableOpacity>
           </Left>
           <Body>
-          <Text style={{fontWeight: '900',}}>Comments</Text>
+          <Text style={{ fontWeight: '900', color:"#006E8C"}}>Comments</Text>
           </Body>
         </Header>
 

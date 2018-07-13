@@ -4,17 +4,9 @@ import {
   Container,
   Header,
   Title,
-  Content,
-  Button,
   Body,
   Left,
-  Right,
-  //Icon,
-  Card,
-  CardItem,
-  Text,
-  Thumbnail,
-  Spinner
+  Right
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
@@ -22,13 +14,12 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 import styles from "../../../components/styles";
 
 export class FeedScreen extends Component {
-  scroll;
   render() {
     return <Container style={styles.container}>
       <Header style={styles.header} androidStatusBarColor="#006E8C">
           <Left>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
-              <Ionicons style={styles.title} name="ios-camera-outline" size={33} />
+              <Ionicons style={styles.title} name="ios-musical-notes" size={30} />
             </TouchableOpacity>
           </Left>
           <Body style={{ marginHorizontal: 85 }}>
