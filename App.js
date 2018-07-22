@@ -74,9 +74,9 @@ const store = createStore(
 );
 //console.reportErrorsAsExceptions = false;
 console._errorOriginal = console.error.bind(console);
-console.error = () => { 
-   console.warn('an error occurred')
- //   console._errorOriginal();
+console.error = (error) => { 
+  if(error.match('Error measuring text field:')) console.log(error);
+  else console.warn(error);
 };
 
 export default class App extends React.Component {
