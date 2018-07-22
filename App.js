@@ -6,18 +6,44 @@ import RootNavigation from './navigation/RootNavigation';
 import { Root } from "native-base";
 
 import { createStore, applyMiddleware } from "redux";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import { fetchFeed } from './actions/actions'
 
 import axios from "axios";
 import axiosMiddleware from "redux-axios-middleware";
 
 import rootReducer from "./reducers/reducers";
 import { initialFeed } from "./reducers/dummyData";
- 
+// error handling
+// import stacktraceParser from 'stacktrace-parser';
+// const parseErrorStack = (error) => {
+//   if (!error || !error.stack) {
+//     return [];
+//   }
+//   return Array.isArray(error.stack) ? error.stack :
+//     stacktraceParser.parse(error.stack);
+// };
+
+
+// // intercept react-native error handling
+// if (ErrorUtils._globalHandler) {
+//   this.defaultHandler = (ErrorUtils.getGlobalHandler
+//     && ErrorUtils.getGlobalHandler())
+//     || ErrorUtils._globalHandler;
+//   ErrorUtils.setGlobalHandler(this.wrapGlobalHandler); // feed errors directly to our wrapGlobalHandler function
+// }
+
+// async function wrapGlobalHandler(error, isFatal) {
+
+//   const stack = parseErrorStack(error);
+
+//   //do anything with the error here
+//   console.warn(stack);
+
+//   //this.defaultHandler(error, isFatal);  //after you're finished, call the defaultHandler so that react-native also gets the error
+// }
 
 const client = axios.create({
   baseURL: 'https://api.github.com',
@@ -46,9 +72,12 @@ const store = createStore(
     loggerMiddleware // neat middleware that logs actions
   )
 );
-console.reportErrorsAsExceptions = false;
+//console.reportErrorsAsExceptions = false;
 console._errorOriginal = console.error.bind(console);
-console.error = () => { };
+console.error = () => { 
+   console.warn('an error occurred')
+ //   console._errorOriginal();
+};
 
 export default class App extends React.Component {
   state = {
@@ -58,20 +87,18 @@ export default class App extends React.Component {
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
-        <Provider store={store}>
           <AppLoading
             startAsync={this._loadResourcesAsync}
             onError={this._handleLoadingError}
             onFinish={this._handleFinishLoading}
           />
-        </Provider>
       );
     } else {
       return <Provider store={store}>
           <Root style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" />}
             {Platform.OS === "android" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" translucent={true} />}
-            <RootNavigation />
+              <RootNavigation />
           </Root>
         </Provider>;
     }

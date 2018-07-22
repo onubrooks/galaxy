@@ -18,6 +18,8 @@ import { Button } from "native-base";
 
 import IconAsset from "./IconAsset";
 
+import { PlayerSingleton } from "../PlayerSingleton";
+
 class PlaylistItem {
   constructor(name, uri, isVideo) {
     this.name = name;
@@ -63,6 +65,8 @@ const BUFFERING_STRING = '...buffering...';
 const RATE_SCALE = 3.0;
 const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 6.0 - FONT_SIZE * 2;
 
+let playerService = new PlayerSingleton;
+
 export default class Player extends React.Component {
   constructor(props) {
     super(props);
@@ -93,7 +97,6 @@ export default class Player extends React.Component {
       fullscreen: false,
       show: true
     };
-    // setInterval(() => this.setState({ show: !this.state.show }), 500);
   }
 
   componentDidMount() {
@@ -150,6 +153,7 @@ export default class Player extends React.Component {
         this._onPlaybackStatusUpdate
       );
       this.playbackInstance = sound;
+      playerService.addPlayer(this.playbackInstance);
     }
 
     this._updateScreenForLoading(false);
@@ -255,6 +259,7 @@ export default class Player extends React.Component {
   }
 
   _onPlayPausePressed = () => {
+    playerService.stopAll();
     if (this.playbackInstance != null) {
       if (this.state.isPlaying) {
         this.playbackInstance.pauseAsync();

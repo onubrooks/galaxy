@@ -30,7 +30,8 @@ import IconAsset from "./IconAsset";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
 import Player from "./OldPlayer";
-import PlayerControls from "./PlayerControls";
+// import { PlayerProvider } from "../PlayerProvider";
+// import { Subscribe } from "unstated";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);
@@ -88,9 +89,7 @@ export class FeedItem extends Component {
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
                  <ImageBackground style={{ flex: 1 }} source={post.artwork} resizeMode="contain">
-                   <TouchableOpacity>
-                     <Player post_id={post.id} />
-                   </TouchableOpacity>
+                   <Player post_id={post.id} />
                  </ImageBackground>
                </CardItem>
 
