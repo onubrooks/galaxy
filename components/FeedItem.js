@@ -11,15 +11,12 @@ import React, { Component } from "react";
 import {
   ImageBackground,
   View,
-  TouchableOpacity,
-  Image,
-  StyleSheet
+  TouchableOpacity
 } from "react-native";
 import {
   Body,
   Left,
   Right,
-  //Icon,
   Card,
   CardItem,
   Text,
@@ -30,8 +27,6 @@ import IconAsset from "./IconAsset";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
 import Player from "./OldPlayer";
-// import { PlayerProvider } from "../PlayerProvider";
-// import { Subscribe } from "unstated";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);

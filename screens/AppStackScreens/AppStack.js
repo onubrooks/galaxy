@@ -11,6 +11,7 @@ import DMChatScreen from "./FeedStack/DMChatScreen";
 import { SearchScreen } from "./SearchStack/SearchScreen";
 import ExploreScreen from "./SearchStack/ExploreScreen";
 import Add from "./Add";
+import PlaylistScreen from "./PlaylistScreen2";
 import WorkInProgress from "./WorkInProgress";
 
 // Notification Stack
@@ -108,11 +109,14 @@ const ProfileStackNavigator = createStackNavigator(
     },
     Post: {
       screen: PostScreen
+    },
+    Playlist: {
+      screen: PlaylistScreen
     }
   },
   {
     headerMode: "none",
-    initialRouteName: "Profile",
+    initialRouteName: "Playlist",
     mode: "modal"
   }
 );
@@ -140,7 +144,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed",
+    initialRouteName: "Profile",
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
@@ -172,8 +176,8 @@ const MainStackNavigator = createBottomTabNavigator(
         backgroundColor: "#006E8C"
       }
     },
-    tabBarComponent : props => <TabBarComponent {...props} />,
-    tabBarPosition: 'bottom'
+    tabBarComponent: props => <TabBarComponent {...props} />,
+    tabBarPosition: "bottom"
   }
 );
 
