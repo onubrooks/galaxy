@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Icon as IconBase, Button } from "native-base";
+import { Icon as IconBase, Button, List, ListItem, Left, Body, Right, Thumbnail } from "native-base";
 import * as Animatable from "react-native-animatable";
 
 class Icon {
@@ -511,25 +511,38 @@ export default class PlaylistPlayer extends React.Component {
           </View>
           <Hr />
           <View style={stl.shuffleRepeatControls}>
-          <Button iconLeft light style={{ width: 110 }} onPress={this._shufflePressed}>
-              <IconBase name="ios-shuffle" style={{ fontSize: 26, color: "red" }} />
-            <Text style={{ fontSize: 17, color: "red" }}>Shuffle</Text>
+          <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._shufflePressed}>
+              <IconBase name="ios-shuffle" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
+              <Text style={{ fontSize: 17, color: "red" }}>Shuffle</Text>
             </Button>
-          <Button iconLeft light style={{ width: 100 }} onPress={this._onLoopPressed}>
-            <IconBase name="ios-repeat" style={{ fontSize: 26, color: "red" }} />
-            <Text style={{ fontSize: 17, color: "red" }}>{ this.state.loopingType == 0 ? "All" : "1" }</Text>
+            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._onLoopPressed}>
+            <IconBase name="ios-repeat" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
+              <Text style={{ fontSize: 17, color: "red" }}>
+                {this.state.loopingType == 0 ? "All" : "Current"}
+              </Text>
             </Button>
           </View>
-          <Hr />
           <View style={stl.upNextList}>
-            <Text>upNextList</Text>
+            <Text
+              style={{
+                fontWeight: "900",
+                fontSize: 25,
+                marginVertical: 10,
+                alignSelf: "flex-start",
+                marginLeft: 15
+              }}
+            >
+              Up Next
+            </Text>
+            {PLAYLIST.map((item, idx) => (
+              <UpNext key={idx} idx={idx} item={item} />
+            ))}
           </View>
         </View>
-        <View />
-        
+
         <View style={stl.videoContainer}>
           <Video ref={this._mountVideo} style={[stl.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
-        </View>   
+        </View>
       </View>;
   }
 }
@@ -552,19 +565,21 @@ const stl = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     marginVertical: 30,
-    height: DEVICE_HEIGHT,
     width: DEVICE_WIDTH - 10
   },
-  albumCover: {},
+  albumCover: {
+    marginBottom: 50
+  },
   playbackProgress: {
-    //alignSelf: 'stretch',
     width: "90%",
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 20,
     justifyContent: "flex-start"
   },
   songTitle: {
     maxWidth: "90%",
-    alignItems: "center"
+    alignItems: "center",
+    //marginBottom: 10
   },
   text: {
     fontSize: FONT_SIZE,
@@ -579,13 +594,13 @@ const stl = StyleSheet.create({
     paddingRight: 20
   },
   buttonsContainerBase: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   buttonsContainerTopRow: {
-    maxHeight: ICON_PLAY_BUTTON.height,
+    maxHeight: 80,
     minWidth: DEVICE_WIDTH / 2.0,
     maxWidth: DEVICE_WIDTH / 2.0
   },
@@ -594,6 +609,7 @@ const stl = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     minWidth: DEVICE_WIDTH / 2.0,
+    marginBottom: 30,
     width: "90%"
   },
   volumeSlider: {
@@ -607,10 +623,23 @@ const stl = StyleSheet.create({
   shuffleRepeatControls: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "90%"
+    width: "90%",
+    height: 10,
+    // alignItems: 'center',
+  },
+  upNextList: {
+    borderTopWidth: 1,
+    borderTopColor: "#BABEC0",
+    backgroundColor: "#F1F5F8",
+    marginTop: 50,
+    marginBottom: 15,
+    width: "100%",
+    minWidth: DEVICE_WIDTH,
+    alignItems: "center",
+    height: "auto"
   },
   videoContainer: {
-    height: 0//VIDEO_CONTAINER_HEIGHT
+    height: 0 //VIDEO_CONTAINER_HEIGHT
   },
   video: {
     maxWidth: DEVICE_WIDTH
@@ -620,7 +649,33 @@ const stl = StyleSheet.create({
 });
 
 const Hr = () => {
-  return <View style={{ borderTopWidth: 0.4, width: '90%', marginVertical: 30, marginHorizontal: 10 }}>
+  return <View style={{ borderTopWidth: 0.4, width: '90%', marginTop: 20, marginBottom: 10, marginHorizontal: 10 }}>
     <Text></Text>
   </View>
 }
+const UpNext = (props) => {
+  return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%", borderTopWidth: 1, borderTopColor: "#BABEC0", borderTopStartRadius: props.idx == 0 ? 0 : 90 }}>
+      <View style={{ width: "20%", marginTop: 4 }}>
+        <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
+      </View>
+      <View style={{ width: "60%", justifyContent: "center" }}>
+        <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 17, fontWeight: "400" }}>
+          {props.item.name}
+        </Text>
+      <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "100", color: "#BABEC0" }}>
+          Artist.
+        </Text>
+      </View>
+      <View style={{ width: "20%", marginLeft: "auto", justifyContent: "center" }}>
+        <Button transparent>
+          <IconBase name="ios-reorder" style={{ fontSize: 26, color: "#7A7E80" }} />
+        </Button>
+      </View>
+    </View>;
+}
+
+function Shuffle(o) {
+  for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
+//yourArray.sort(function() { return 0.5 - Math.random() });
