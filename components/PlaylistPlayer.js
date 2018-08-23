@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
@@ -31,23 +32,37 @@ class PlaylistItem {
   }
 }
 
-const PLAYLIST = [
+let PLAYLIST = [
   new PlaylistItem(
-    "Comfort Fit - “Sorry”",
+    "Davido - If",
     //"https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Comfort_Fit_-_03_-_Sorry.mp3",
     require("../audio/1.mp3"),
     false
   ),
   new PlaylistItem(
-    "Mildred Bailey – “All Of Me”",
-    "https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
-    //require("../audio/1.mp3"),
+    "Aaron Neville – “Crazy Love”",
+    "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
+    //"https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
     false
   ),
   new PlaylistItem(
-    "Podington Bear - “Rubber Robot”",
-    "https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Podington_Bear_-_Rubber_Robot.mp3",
-    //require("../audio/1.mp3"),
+    "Daughtry - “Home (acoustic)”",
+    "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
+    false
+  ),
+  new PlaylistItem(
+    "John Pagano - “Change in my Life”",
+    "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
+    false
+  ),
+  new PlaylistItem(
+    "Kenny Loggins - “House At Pooh Corner”",
+    "https://archive.org/download/Mp3Playlist_555/KennyLoggins-04HouseAtPoohCorner.mp3",
+    false
+  ),
+  new PlaylistItem(
+    "Kris Aquino - “I Will be Here”",
+    "https://archive.org/download/Mp3Playlist_555/KrisAquino-SongsOfLoveAndHealing2007-11-IWillBeHere.mp3",
     false
   )
 ];
@@ -79,6 +94,7 @@ const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 5.0 - FONT_SIZE * 2;
 export default class PlaylistPlayer extends React.Component {
   constructor(props) {
     super(props);
+    this.unmounted = false;
     this.index = 0;
     this.isSeeking = false;
     this.shouldPlayAtEndOfSeek = false;
@@ -104,6 +120,8 @@ export default class PlaylistPlayer extends React.Component {
       useNativeControls: false,
       fullscreen: false,
       throughEarpiece: false,
+      // set playlist so that screen reacts to shuffling
+      playlist: PLAYLIST
     };
   }
 
@@ -125,6 +143,13 @@ export default class PlaylistPlayer extends React.Component {
     })();
   }
 
+  componentWillUnmount() {
+    this.unmounted = true;
+    if (this.playbackInstance != null) {
+      this.playbackInstance.unloadAsync();
+    }
+  }
+
   async _loadNewPlaybackInstance(playing) {
     if (this.playbackInstance != null) {
       await this.playbackInstance.unloadAsync();
@@ -132,7 +157,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance = null;
     }
 
-    const source = this.index == 0 ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };//{ uri: PLAYLIST[this.index].uri };
+    const source = typeof this.state.playlist[this.index].uri == "number" ? this.state.playlist[this.index].uri : { uri: PLAYLIST[this.index].uri };//{ uri: PLAYLIST[this.index].uri };
     const initialStatus = {
       shouldPlay: playing,
       rate: this.state.rate,
@@ -144,7 +169,7 @@ export default class PlaylistPlayer extends React.Component {
       androidImplementation: 'MediaPlayer',
     };
 
-    if (PLAYLIST[this.index].isVideo) {
+    if (this.state.playlist[this.index].isVideo) {
       this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await this._video.loadAsync(source, initialStatus);
       this.playbackInstance = this._video;
@@ -178,8 +203,8 @@ export default class PlaylistPlayer extends React.Component {
       });
     } else {
       this.setState({
-        playbackInstanceName: PLAYLIST[this.index].name,
-        showVideo: PLAYLIST[this.index].isVideo,
+        playbackInstanceName: this.state.playlist[this.index].name,
+        showVideo: this.state.playlist[this.index].isVideo,
         isLoading: false,
       });
     }
@@ -242,7 +267,17 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _advanceIndex(forward) {
-    this.index = (this.index + (forward ? 1 : PLAYLIST.length - 1)) % PLAYLIST.length;
+    this.index = (this.index + (forward ? 1 : this.state.playlist.length - 1)) % this.state.playlist.length;
+  }
+
+  _setIndex(index) {
+    // set index to the index passed to the function and then play
+    // this function should be called when a particular track in the 
+    // upNext list is pressed
+    if(this.index !== index ) {
+      this.index = index;
+      this._updatePlaybackInstanceForIndex(true);
+    }
   }
 
   async _updatePlaybackInstanceForIndex(playing) {
@@ -300,6 +335,8 @@ export default class PlaylistPlayer extends React.Component {
 
   _onShufflePressed = () => {
     // todo: shuffle the playlist array
+    this.setState({playlist: shuffle(PLAYLIST)});
+    this._setIndex(0);
   };
 
   _onVolumeSliderValueChange = value => {
@@ -511,7 +548,7 @@ export default class PlaylistPlayer extends React.Component {
           </View>
           <Hr />
           <View style={stl.shuffleRepeatControls}>
-          <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._shufflePressed}>
+          <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._onShufflePressed}>
               <IconBase name="ios-shuffle" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
               <Text style={{ fontSize: 17, color: "red" }}>Shuffle</Text>
             </Button>
@@ -534,8 +571,10 @@ export default class PlaylistPlayer extends React.Component {
             >
               Up Next
             </Text>
-            {PLAYLIST.map((item, idx) => (
-              <UpNext key={idx} idx={idx} item={item} />
+          {this.state.playlist.map((item, idx) => (
+            <TouchableOpacity key={idx} onPress={() => this._setIndex(idx)}>
+              <UpNext idx={idx} item={item} />
+            </TouchableOpacity>
             ))}
           </View>
         </View>
@@ -672,9 +711,9 @@ const UpNext = (props) => {
         </Button>
       </View>
     </View>;
-}
+};
 
-function Shuffle(o) {
+function shuffle(o) {
   for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
   return o;
 };
