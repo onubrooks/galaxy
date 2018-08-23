@@ -69,15 +69,15 @@ const store = createStore(
   applyMiddleware(
     axiosMiddleware(client),
     thunkMiddleware, // lets us dispatch() functions
-    loggerMiddleware // neat middleware that logs actions
+    //loggerMiddleware // neat middleware that logs actions
   )
 );
-//console.reportErrorsAsExceptions = false;
-// console._errorOriginal = console.error.bind(console);
-// console.error = (error) => { 
-//   if(error.match('Error measuring text field:')) console.log(error);
-//   else console.warn(error);
-// };
+console.reportErrorsAsExceptions = false;
+ console._errorOriginal = console.error.bind(console);
+ console.error = (error) => { 
+   if(error.match('Error measuring text field:')) console.log(error);
+   else console.warn(error);
+ };
 
 export default class App extends React.Component {
   state = {

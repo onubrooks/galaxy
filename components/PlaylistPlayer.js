@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Icon as IconBase, Button, List, ListItem, Left, Body, Right, Thumbnail } from "native-base";
+import { Icon as IconBase, Button } from "native-base";
 import * as Animatable from "react-native-animatable";
+
+import { PlayerSingleton } from "../PlayerSingleton";
 
 class Icon {
   constructor(module, width, height) {
@@ -67,12 +69,8 @@ let PLAYLIST = [
   )
 ];
 
-const ICON_PLAY_BUTTON = new Icon(require('../assets/images/play_button.png'), 34, 51);
-
 const ICON_LOOP_ALL_BUTTON = new Icon(require('../assets/images/loop_all_button.png'), 77, 35);
 const ICON_LOOP_ONE_BUTTON = new Icon(require('../assets/images/loop_one_button.png'), 77, 35);
-
-const ICON_MUTED_BUTTON = new Icon(require('../assets/images/muted_button.png'), 67, 58);
 
 const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
 const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
@@ -90,6 +88,13 @@ const LOADING_STRING = '... loading ...';
 const BUFFERING_STRING = '...buffering...';
 const RATE_SCALE = 3.0;
 const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 5.0 - FONT_SIZE * 2;
+
+/**let playerService = new PlayerSingleton;
+ ** a bit of a hack here: the above line wasnt producing the singleton behaviour 
+ ** expected so making player service in OldPlayer.js an export and importing and 
+ ** using it here seems to produce the expected behaviour!
+**/
+import { playerService } from "./OldPlayer";
 
 export default class PlaylistPlayer extends React.Component {
   constructor(props) {
@@ -119,9 +124,7 @@ export default class PlaylistPlayer extends React.Component {
       poster: false,
       useNativeControls: false,
       fullscreen: false,
-      throughEarpiece: false,
-      // set playlist so that screen reacts to shuffling
-      playlist: PLAYLIST
+      throughEarpiece: false, 
     };
   }
 
@@ -141,6 +144,7 @@ export default class PlaylistPlayer extends React.Component {
       });
       this.setState({ fontLoaded: true });
     })();
+    console.log('players1 list1', playerService.state.players.length);
   }
 
   componentWillUnmount() {
@@ -157,7 +161,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance = null;
     }
 
-    const source = typeof this.state.playlist[this.index].uri == "number" ? this.state.playlist[this.index].uri : { uri: PLAYLIST[this.index].uri };//{ uri: PLAYLIST[this.index].uri };
+    const source = typeof PLAYLIST[this.index].uri == "number" ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };//{ uri: PLAYLIST[this.index].uri };
     const initialStatus = {
       shouldPlay: playing,
       rate: this.state.rate,
@@ -169,18 +173,15 @@ export default class PlaylistPlayer extends React.Component {
       androidImplementation: 'MediaPlayer',
     };
 
-    if (this.state.playlist[this.index].isVideo) {
+    if (PLAYLIST[this.index].isVideo) {
       this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await this._video.loadAsync(source, initialStatus);
       this.playbackInstance = this._video;
       const status = await this._video.getStatusAsync();
     } else {
-      const { sound, status } = await Audio.Sound.create(
-        source,
-        initialStatus,
-        this._onPlaybackStatusUpdate
-      );
+      const { sound, status } = await Audio.Sound.create(source, initialStatus, this._onPlaybackStatusUpdate);
       this.playbackInstance = sound;
+      playerService.addPlayer(this.playbackInstance);
     }
 
     this._updateScreenForLoading(false);
@@ -192,6 +193,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _updateScreenForLoading(isLoading) {
+    if (this.unmounted) return;
     if (isLoading) {
       this.setState({
         showVideo: false,
@@ -203,14 +205,15 @@ export default class PlaylistPlayer extends React.Component {
       });
     } else {
       this.setState({
-        playbackInstanceName: this.state.playlist[this.index].name,
-        showVideo: this.state.playlist[this.index].isVideo,
-        isLoading: false,
+        playbackInstanceName: PLAYLIST[this.index].name,
+        showVideo: PLAYLIST[this.index].isVideo,
+        isLoading: false
       });
     }
   }
 
   _onPlaybackStatusUpdate = status => {
+    if (this.unmounted) return;
     if (status.isLoaded) {
       this.setState({
         playbackInstancePosition: status.positionMillis,
@@ -248,6 +251,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onReadyForDisplay = event => {
+    if (this.unmounted) return;
     const widestHeight = DEVICE_WIDTH * event.naturalSize.height / event.naturalSize.width;
     if (widestHeight > VIDEO_CONTAINER_HEIGHT) {
       this.setState({
@@ -267,20 +271,19 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _advanceIndex(forward) {
-    this.index = (this.index + (forward ? 1 : this.state.playlist.length - 1)) % this.state.playlist.length;
+    this.index = (this.index + (forward ? 1 : PLAYLIST.length - 1)) % PLAYLIST.length;
   }
 
   _setIndex(index) {
     // set index to the index passed to the function and then play
     // this function should be called when a particular track in the 
     // upNext list is pressed
-    if(this.index !== index ) {
       this.index = index;
       this._updatePlaybackInstanceForIndex(true);
-    }
   }
 
   async _updatePlaybackInstanceForIndex(playing) {
+    if (this.unmounted) return;
     this._updateScreenForLoading(true);
 
     this.setState({
@@ -292,6 +295,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _onPlayPausePressed = () => {
+    playerService.stopAll();
     if (this.playbackInstance != null) {
       if (this.state.isPlaying) {
         this.playbackInstance.pauseAsync();
@@ -335,7 +339,8 @@ export default class PlaylistPlayer extends React.Component {
 
   _onShufflePressed = () => {
     // todo: shuffle the playlist array
-    this.setState({playlist: shuffle(PLAYLIST)});
+    //this.setState({playlist: shuffle(PLAYLIST)});
+    PLAYLIST = shuffle(PLAYLIST);
     this._setIndex(0);
   };
 
@@ -434,10 +439,12 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _onPosterPressed = () => {
+    if (this.unmounted) return;
     this.setState({ poster: !this.state.poster });
   };
 
   _onUseNativeControlsPressed = () => {
+    if (this.unmounted) return;
     this.setState({ useNativeControls: !this.state.useNativeControls });
   };
 
@@ -571,7 +578,7 @@ export default class PlaylistPlayer extends React.Component {
             >
               Up Next
             </Text>
-          {this.state.playlist.map((item, idx) => (
+          {PLAYLIST.map((item, idx) => (
             <TouchableOpacity key={idx} onPress={() => this._setIndex(idx)}>
               <UpNext idx={idx} item={item} />
             </TouchableOpacity>

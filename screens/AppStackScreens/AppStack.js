@@ -45,6 +45,9 @@ const FeedStackNavigator = createStackNavigator(
     },
     DMChat: {
       screen: DMChatScreen
+    },
+    Playlist: {
+      screen: PlaylistScreen
     }
   },
   {
@@ -109,14 +112,11 @@ const ProfileStackNavigator = createStackNavigator(
     },
     Post: {
       screen: PostScreen
-    },
-    Playlist: {
-      screen: PlaylistScreen
     }
   },
   {
     headerMode: "none",
-    initialRouteName: "Playlist",
+    initialRouteName: "Profile",
     mode: "modal"
   }
 );
@@ -144,7 +144,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Profile",
+    initialRouteName: "Feed",
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

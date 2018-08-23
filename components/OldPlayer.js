@@ -65,7 +65,7 @@ const BUFFERING_STRING = '...buffering...';
 const RATE_SCALE = 3.0;
 const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 6.0 - FONT_SIZE * 2;
 
-let playerService = new PlayerSingleton;
+export let playerService = new PlayerSingleton;
 
 export default class Player extends React.Component {
   constructor(props) {
@@ -113,6 +113,7 @@ export default class Player extends React.Component {
       });
       this.setState({ fontLoaded: true });
     })();
+    console.log('players list', playerService.state.players.length);
   }
 
   componentWillUnmount() {
