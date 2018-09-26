@@ -1,9 +1,10 @@
 /**
- * this wrapper class for FeedItem componont was created because a recurring pattern of the 
+ * this wrapper class/component for FeedItem componont was created because a recurring pattern of the 
  * functionality provided by all the methods in this class was noticed and had to be abstracted out
  * for code reuse, therefore avoiding repetition of the same functionality across different classes/components
  * example components that use this same functionality include: Feed.js, ExploreScreen.js and Profile.js 
- * the class does all the necessary filtering based on the route name and passes the filtered data to the FeedItem component for display
+ * the class/component does all the necessary filtering based on the route name in the _getItemsToDisplay() method 
+ * and passes the filtered data to the FeedItem component for display
  */
 
 import React, { Component } from "react";
@@ -26,11 +27,11 @@ import { FeedScreenModalContent } from "./ModalContent";
 import { connect } from "react-redux";
 import {
   fetchFeed,
-  bookmarkPost,
-  unBookmarkPost,
-  likePost,
-  unLikePost,
-  commentPost
+  hitASong,
+  unHitASong,
+  bookmarkASong,
+  unBookmarkASong,
+  commentASong
 } from "../actions/actions";
 
 import styles from "./styles";
@@ -42,7 +43,6 @@ export class FeedItemWrapper extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
-    //this._scrollToInput = this._scrollToInput.bind(this);
     this.toggleLike = this.toggleLike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
   }
@@ -50,9 +50,9 @@ export class FeedItemWrapper extends Component {
   setModalVisible(visible) {
     this.setState({ isModalVisible: visible });
   }
-  addComment(post_id, comment) {
+  addComment(songId, comment) {
     let user_id = this.props.user.username;
-    this.props.commentPost(post_id, comment, user_id);
+    this.props.commentASong(songId, comment, user_id);
   }
   gotoComments(post) {
     this.props.navigation.navigate("AddComment", {
@@ -60,23 +60,21 @@ export class FeedItemWrapper extends Component {
       users: this.props.users.byId
     });
   }
-  toggleLike(post_id) {
-    return;
+  toggleLike(songId) {
     // like/hit action dispatcher
-    let user_id = this.props.user.id;
-    if (this.props.feed.byId[post_id].hits.indexOf(user_id) < 0) {
-      this.props.likePost(post_id, user_id);
+    if (!this.props.feed.byId[songId].iHit) {
+      this.props.hitASong(songId);
     } else {
-      this.props.unLikePost(post_id, user_id);
+      this.props.unHitASong(songId);
     }
   }
 
-  toggleBookmark(post_id) {
+  toggleBookmark(songId) {
     // bookmark action dispatcher
-    if (this.props.bookmarks.indexOf(post_id) < 0) {
-      this.props.bookmarkPost(post_id);
+    if (!this.props.feed.byId[songId].iFav) {
+      this.props.bookmarkASong(songId);
     } else {
-      this.props.unBookmarkPost(post_id);
+      this.props.unBookmarkASong(songId);
     }
   }
 
@@ -86,30 +84,32 @@ export class FeedItemWrapper extends Component {
     }
   }
 
-  render() {
-    let display;
-    const idx = this.props.navigation.getParam("idx", 0);
-    const { feed = {}, user = {}, bookmarks = [], bookmarkPost, bookmarkedOnly = false } = this.props;
-    const postArray = Object.keys(feed.byId).map((post_id, idx) => feed.byId[post_id]);
+  _getItemsToDisplay = (postArray, idx, bookmarkedOnly) => {
+    /**
+     * this is a helper function that is called in the render method
+     * it filters the feed to display based on the current route the app is in
+     * this is necessary because the component is used by several routes in the app
+     * therefore it has to filter what to display based on what page the app is currently in.
+     */
     // from search screen
     if (this.props.navigation.state.routeName == 'Explore') {
-      display = postArray.filter((post, index) => index >= idx);
+      return postArray.filter((post, index) => index >= idx);
       // songs you've liked from settings screen
     } else if (this.props.navigation.state.routeName == 'Song') {
-      display = postArray
+      return postArray
         .filter((post, index) => {
           return post.hits.some(id => id == user.id);
         })
         .filter((post, index) => index == idx);
     }
     // display a single post identified by post id
-     else if (this.props.navigation.state.routeName == "Post") {
-      display = postArray.filter((post, index) => {
+    else if (this.props.navigation.state.routeName == "Post") {
+      return postArray.filter((post, index) => {
         return post.handle == user.username;
       }).filter((post, index) => index == idx);
-    // saved/bookmarked post from settings screen
+      // saved/bookmarked post from settings screen
     } else if (this.props.navigation.state.routeName == "SavedList" || bookmarkedOnly) {
-      display = postArray
+      return postArray
         .filter((post, index) => {
           return bookmarks.some(id => id == post.id);
         })
@@ -117,15 +117,22 @@ export class FeedItemWrapper extends Component {
     }
     // profile page, posts by the logged in user
     else if (this.props.navigation.state.routeName == "Profile") {
-      display = postArray.filter((post, index) => {
+      return postArray.filter((post, index) => {
         return post.handle == user.username;
       });
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
-      display = postArray;
+      return postArray;
     }
-    console.log('display is ', postArray);
+  }
+
+  render() {
+    const idx = this.props.navigation.getParam("idx", 0);
+    const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
+    const postArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
+    let display = this._getItemsToDisplay(postArray, idx, bookmarkedOnly);
+    console.log('display is ', display);
 
     return <Container style={styles.container}>
         <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
@@ -171,19 +178,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFeed,
-  bookmarkPost,
-  unBookmarkPost,
-  likePost,
-  unLikePost,
-  commentPost
+  hitASong,
+  unHitASong,
+  bookmarkASong,
+  unBookmarkASong,
+  commentASong
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);
 
 const CouldntLoad = props => {
   return <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 50, marginVertical: 20 }}>
-      <TouchableOpacity onPress={props.retry} light>
-      <Text>Couldn't load your feed, Tap to retry</Text><Icon name="ios-refresh-circle-outline" />
+      <TouchableOpacity onPress={props.retry} style={{flexDirection:'column', alignItems:'center'}} light>
+      <Text>Couldn't refresh your feed, Tap to retry</Text><Icon name="ios-refresh-circle-outline" />
       </TouchableOpacity>
     </View>;
 }

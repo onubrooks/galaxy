@@ -1,5 +1,3 @@
-const logo = require("../assets/logo.png");
-const cardImage = require("../assets/drawer-cover.png");
 const sly = require("../assets/sly.jpg");
 const onu = require("../assets/onu.jpg");
 const cov1 = require("../assets/album-cover/1.jpg");
@@ -10,12 +8,12 @@ const cov5 = require("../assets/album-cover/5.jpg");
 const cov6 = require("../assets/album-cover/6.jpg");
 const covDef = require("../assets/album-cover/default.jpg");
 export const loggedInUser = {
-      id: "user0",
-      email: 'onu@email.com',
-      username: 'steverog',
-      loggedIn: true,
-      thumbnail: onu,
-      avatar: onu
+      id: null,
+      email: null,
+      username: null,
+      loggedIn: false,
+      thumbnail: null,
+      avatar: null
 };
 
 const sampleFeed = {

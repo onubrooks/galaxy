@@ -50,7 +50,7 @@ export default class CommentInput extends Component {
   postComment() {
     if(this.state.comment.length > 0) {
       Keyboard.dismiss();
-      this.props.addComment(this.props.post.id, this.state.comment);
+      this.props.addComment(this.props.post.songId, this.state.comment);
       this.setState({ comment: '' });
     } else
     alert('Please type a comment before posting...');

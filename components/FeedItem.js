@@ -61,8 +61,8 @@ export class FeedItem extends Component {
          gotoComments(post) {
            this.props.gotoComments(post);
          }
-        addComment(post_id, comment) {
-          this.props.addComment(post_id, comment);
+        addComment(songId, comment) {
+          this.props.addComment(songId, comment);
         }
 
          render() {
@@ -90,7 +90,7 @@ export class FeedItem extends Component {
 
                <CardItem style={{ paddingVertical: -50 }}>
                  <Left>
-                   <TouchableOpacity onPress={() => this.props.toggleLike(post.id)}>
+                   <TouchableOpacity onPress={() => this.props.toggleLike(post.songId)}>
                      {/* <Ionicons name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} /> */}
                      <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
                      {/* <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} /> */}
@@ -102,9 +102,8 @@ export class FeedItem extends Component {
                  </Left>
                  <Body />
                  <Right>
-                   <TouchableOpacity onPress={() => this.props.toggleBookmark(post.id)}>
+                   <TouchableOpacity onPress={() => this.props.toggleBookmark(post.songId)}>
                    <Ionicons name={post.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
-                     {/* <Ionicons name={bookmarks.some(id => id === post.id) ? "ios-bookmark" : "ios-bookmark-outline"} size={25} /> */}
                    </TouchableOpacity>
                  </Right>
                </CardItem>
@@ -112,9 +111,6 @@ export class FeedItem extends Component {
                <Text style={styles.hits}>
                      {post.noHits} hits
                    </Text>
-                 {/* {post.hits.length ? <Text style={styles.hits}>
-                     {post.hits.length} hits
-                   </Text> : null} */}
                  <Text style={styles.comment_handle}>
                    <Text style={styles.handle}>{post.userHandle}</Text> {post.songDescription}
                  </Text>

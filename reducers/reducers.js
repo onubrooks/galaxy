@@ -5,11 +5,11 @@ import {
   GET_FEED_FAIL,
   GET_USERS,
   ADD_POST,
-  LIKE_POST,
-  UNLIKE_POST,
-  COMMENT_POST,
-  BOOKMARK_POST,
-  UNBOOKMARK_POST,
+  LIKE_SONG,
+  UNLIKE_SONG,
+  COMMENT_SONG,
+  BOOKMARK_SONG,
+  UNBOOKMARK_SONG,
   TOGGLE_TAB,
   LOGIN,
   LOGOUT,
@@ -19,19 +19,6 @@ import {
   GET_PROFILE_fAIL
 } from "../actions/actions";
 import { initialState } from "./dummyData";
-
-// const initialState = {
-//       posts: [], // posts by the logged in user
-//       feed: initialFeed, // initial feed for the main page
-//       comments: [], // 
-//       bookmarks: [], // ids of posts that logged in user has bookmarked
-//       selected_tab: {
-//             tab: 1,// tab 1 is the default navigation
-//             modal:false
-//       },
-//       user: null, // logged in user data
-//       getProfile: null // id of a user profile to be fetched and displayed on profile view
-// }
 
 // this action adds a post to my(logged in user) posts
 function posts(state = [], action) {
@@ -66,30 +53,52 @@ function feed(state = initialState.feed, action) {
       return {
         ...state, loading:false, updated: false
       }
-    case LIKE_POST:
-    console.log("l1ke post");
+    case LIKE_SONG:
+    console.log("l1ke song");
       return {
         ...state, 
         byId: {
           ...state.byId, // all other ids stay the same 
-          [action.payload.post_id]: {  // edit the post which is being liked
-            ...state.byId[action.payload.post_id], 
-            hits: state.byId[action.payload.post_id].hits.concat(action.payload.user_id)
+          [action.payload.songId]: {  // edit the song which is being liked
+            ...state.byId[action.payload.songId], 
+            iHit: true
           }
         }
       }
-      case UNLIKE_POST:
-        console.log("unlike");
+      case UNLIKE_SONG:
+        console.log("unlike song");
         return {
           ...state, 
           byId: {
             ...state.byId, // all other ids stay the same
-            [action.payload.post_id]: { // edit the post which is being unliked
-              ...state.byId[action.payload.post_id], 
-              hits: state.byId[action.payload.post_id].hits.filter(item => item !== action.payload.user_id)
+            [action.payload.songId]: { // edit the post which is being unliked
+              ...state.byId[action.payload.songId], 
+              iHit: false
             }
           }
         }
+      case BOOKMARK_SONG:
+          return {
+            ...state,
+            byId: {
+              ...state.byId, // all other ids stay the same 
+              [action.payload.songId]: {  // edit the song which is being liked
+                ...state.byId[action.payload.songId],
+                iFav: true
+              }
+            }
+          }
+      case UNBOOKMARK_SONG:
+          return {
+            ...state,
+            byId: {
+              ...state.byId, // all other ids stay the same
+              [action.payload.songId]: { // edit the post which is being unliked
+                ...state.byId[action.payload.songId],
+                iFav: false
+              }
+            }
+          } 
       default:
         return state;
     }
@@ -97,7 +106,7 @@ function feed(state = initialState.feed, action) {
 
 function comment(state = initialState.comments, action) {
       switch (action.type) {
-        case COMMENT_POST:
+        case COMMENT_SONG:
           return { 
             ...state, 
             byId: { 
@@ -107,26 +116,6 @@ function comment(state = initialState.comments, action) {
               }
             }, 
             allIds: [...state.allIds, action.payload.comment] };// payload consists of post_id, user_id and comment text
-        default:
-          return state
-      }
-}
-
-function like(state = [], action) {
-      switch (action.type) {
-        case LIKE_POST:
-          return [...state, action.post_id];
-        default:
-          return state
-      }
-}
-
-function bookmark(state = initialState.bookmarks, action) {
-      switch (action.type) {
-        case BOOKMARK_POST:
-          return [...state, action.payload.post_id];
-        case UNBOOKMARK_POST:
-          return state.filter(item => item !== action.payload.post_id);
         default:
           return state
       }
@@ -169,7 +158,7 @@ function getProfile(state = {}, action) {
             id: action.payload.id, 
             loading: true
       }
-    case GET_FEED_SUCCESS:
+    case GET_PROFILE_SUCCESS:
       return {
         ...state,  
         loading: false, 
@@ -189,8 +178,6 @@ const rootReducer = combineReducers({
   users,
   posts: posts,
   comments: comment,
-  //likes: like,
-  bookmarks: bookmark,
   tab: tab,
   user: user,
   getProfile: getProfile
