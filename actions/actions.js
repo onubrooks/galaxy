@@ -1,4 +1,4 @@
-const onu = require("../assets/onu.jpg");
+import { AsyncStorage } from 'react-native';
 /*
  * action types
  */
@@ -70,11 +70,16 @@ export function getUsers() {
 }
 
 export function getFeedSuccess(data) {
+  let ids = data.map((item) => item.songId);
+  let byIds = {};
+  for(let item of data) {
+    byIds = { [item.songId]: item, ...byIds }
+  }
   return {
     type: GET_FEED_SUCCESS,
     payload: {
-      id: data.id,
-      data: data
+      ids,
+      byIds
     }
   }
 }
@@ -148,11 +153,11 @@ export function toggleTab(tab) {
 }
 
 // auth: cred is an object with keys username and password
-export function login(cred) {
+export function login(id) {
   return { 
     type: LOGIN, 
     payload: {
-      cred
+      id
     }
   }
 }
@@ -219,22 +224,20 @@ export function fetchFeed(user) {
 
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
-
-      return new Promise(function(resolve, reject) {
-        setTimeout(resolve, 5000, 'foo');
-      })
-      .then(
-        () => { 
-                  return {id: "post5",
-                  handle: "onubrooks", 
-                  artwork: onu, 
-                  thumbnail: onu, 
-                  // hits: 4, 
-                  text: "this is a new post!", 
-                  ago: "5min",
-                  comments: [],
-                  hits: ["onubrooks", "madrock60", "28thsly"]}
-},
+    let userId = AsyncStorage.getItem("userToken");
+    let limit = 10;
+    const PUSH_ENDPOINT = `http://api.leedder.com/api/feeds/${user.id}/${limit}`;
+    fetch(PUSH_ENDPOINT, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      }
+    }).then((response) => response.json()).then(data => {
+        // We can dispatch many times!
+        // Here, we update the app state with the results of the API call.
+        console.log(data.length, ' items');
+        dispatch(getFeedSuccess(data));
+    },
         // Do not use catch, because that will also catch
         // any errors in the dispatch and resulting render,
         // causing a loop of 'Unexpected batch number' errors.
@@ -244,11 +247,48 @@ export function fetchFeed(user) {
           dispatch(getFeedFail(error))
         }
       )
-      .then(data =>
-        // We can dispatch many times!
-        // Here, we update the app state with the results of the API call.
 
-        dispatch(getFeedSuccess(data))
-      )
+//       return new Promise(function(resolve, reject) {
+//         setTimeout(resolve, 5000, 'foo');
+//       })
+//       .then(
+//         () => { 
+//           return [
+//             {id: "post5",
+//             handle: "onubrooks", 
+//             artwork: require("../assets/a.jpg"), 
+//             thumbnail: onu, 
+//             // hits: 4, 
+//             text: "this is a new post!", 
+//             ago: "5min",
+//             comments: [],
+//             hits: ["onubrooks", "madrock60", "28thsly"]
+//           },
+//           {
+//             id: "post2",
+//             handle: "onubrooks",
+//             artwork: require("../assets/b.jpg"),
+//             thumbnail: onu,
+//             //hits: 4,
+//             text: "love this though!",
+//             ago: "5 days ago",
+//             comments: ["comment3"],
+//             hits: ["user1", "user3", "user4"]
+//           } ]
+// })
+//       .then(data =>
+//         // We can dispatch many times!
+//         // Here, we update the app state with the results of the API call.
+
+//           dispatch(getFeedSuccess(data)),
+//         // Do not use catch, because that will also catch
+//         // any errors in the dispatch and resulting render,
+//         // causing a loop of 'Unexpected batch number' errors.
+//         // https://github.com/facebook/react/issues/6895
+//         error => {
+//           console.log('An error occurred.', error);
+//           dispatch(getFeedFail(error))
+//         }
+//       )
   }
 }

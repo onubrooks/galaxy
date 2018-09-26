@@ -36,25 +36,8 @@ const PLAYLIST = [
   )
 ];
 
-const ICON_PLAY_BUTTON = new IconAsset(require('../assets/images/play_button.png'), 34, 51);
-const ICON_PAUSE_BUTTON = new IconAsset(require('../assets/images/pause_button.png'), 34, 51);
-const ICON_STOP_BUTTON = new IconAsset(require('../assets/images/stop_button.png'), 22, 22);
-const ICON_FORWARD_BUTTON = new IconAsset(require('../assets/images/forward_button.png'), 33, 25);
-const ICON_BACK_BUTTON = new IconAsset(require('../assets/images/back_button.png'), 33, 25);
-
-const ICON_LOOP_ALL_BUTTON = new IconAsset(require('../assets/images/loop_all_button.png'), 77, 35);
-const ICON_LOOP_ONE_BUTTON = new IconAsset(require('../assets/images/loop_one_button.png'), 77, 35);
-
-const ICON_MUTED_BUTTON = new IconAsset(require('../assets/images/muted_button.png'), 67, 58);
-const ICON_UNMUTED_BUTTON = new IconAsset(require('../assets/images/unmuted_button.png'), 67, 58);
-
-const ICON_TRACK_1 = new IconAsset(require('../assets/images/track_1.png'), 166, 5);
-const ICON_THUMB_1 = new IconAsset(require('../assets/images/thumb_1.png'), 18, 19);
-const ICON_THUMB_2 = new IconAsset(require('../assets/images/thumb_2.png'), 15, 19);
-
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
-const LOOPING_TYPE_ICONS = { 0: ICON_LOOP_ALL_BUTTON, 1: ICON_LOOP_ONE_BUTTON };
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFF8ED';
@@ -113,7 +96,6 @@ export default class Player extends React.Component {
       });
       this.setState({ fontLoaded: true });
     })();
-    console.log('players list', playerService.state.players.length);
   }
 
   componentWillUnmount() {
@@ -130,7 +112,8 @@ export default class Player extends React.Component {
       this.playbackInstance = null;
     }
 
-    const source = this.index == 0 ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };
+    // const source = this.index == 0 ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };
+    const source = { uri: this.props.songPath };
     const initialStatus = {
       shouldPlay: playing,
       rate: this.state.rate,
@@ -178,7 +161,7 @@ export default class Player extends React.Component {
       });
     } else {
       this.setState({
-        playbackInstanceName: PLAYLIST[this.index].name,
+        playbackInstanceName: this.props.title,
         showVideo: PLAYLIST[this.index].isVideo,
         isLoading: false,
       });
@@ -395,7 +378,7 @@ export default class Player extends React.Component {
               {this._getTimestamp()}
             </Text>
 
-            <Slider style={styles.playbackSlider} trackImage={ICON_TRACK_1.module} thumbImage={ICON_THUMB_1.module} value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
+            <Slider style={styles.playbackSlider} value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
             <View style={styles.volumeContainer}>
               <Button transparent style={styles.wrapper} onPress={this._onMutePressed}>
                 {this.state.muted ? <Ionicons name="ios-volume-off-outline" size={30} /> : <Ionicons name="ios-volume-up-outline" size={30} />}
@@ -494,8 +477,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     //alignSelf: "stretch",
-    minHeight: ICON_THUMB_1.height * 2.0,
-    maxHeight: ICON_THUMB_1.height * 2.0,
+    //minHeight: ICON_THUMB_1.height * 2.0,
+    //maxHeight: ICON_THUMB_1.height * 2.0,
     maxWidth: DEVICE_WIDTH,
     width: DEVICE_WIDTH,
     opacity: 0.8,
@@ -535,18 +518,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  buttonsContainerTopRow: {
-    maxHeight: ICON_PLAY_BUTTON.height,
-    minWidth: DEVICE_WIDTH / 2.0,
-    width: "100%",
-    alignSelf: "stretch",
-    marginLeft: 20
-  },
-  buttonsContainerMiddleRow: {
-    maxHeight: ICON_MUTED_BUTTON.height,
-    //alignSelf: 'stretch',
-    paddingRight: 20
-  },
   volumeContainer: {
     flex: 1,
     flexDirection: "row",
@@ -555,15 +526,6 @@ const styles = StyleSheet.create({
     //minWidth: DEVICE_WIDTH / 2.0,
     maxWidth: DEVICE_WIDTH / 2.0,
     paddingRight: -50
-  },
-  volumeSlider: {
-    width: DEVICE_WIDTH / 2.0 - ICON_MUTED_BUTTON.width
-  },
-  buttonsContainerBottomRow: {
-    maxHeight: ICON_THUMB_1.height,
-    //alignSelf: 'stretch',
-    paddingRight: 20,
-    paddingLeft: 20
   },
   rateSlider: {
     width: DEVICE_WIDTH / 2.0

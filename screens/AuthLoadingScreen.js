@@ -11,6 +11,11 @@ import {
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../components/styles";
+// redux
+import { connect } from "react-redux";
+import {
+  login
+} from "../actions/actions";
 
 export class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -21,6 +26,7 @@ export class AuthLoadingScreen extends React.Component {
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
+    this.props.login(userToken);
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
@@ -36,3 +42,15 @@ export class AuthLoadingScreen extends React.Component {
       </View>;
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  login
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLoadingScreen);

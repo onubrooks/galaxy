@@ -7,12 +7,14 @@
  */
 
 import React, { Component } from "react";
-import { ScrollView, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import {
   Container,
   Content,
   Text,
-  Spinner
+  Spinner,
+  Button,
+  Icon
 } from "native-base";
 
 import FeedItem from "./FeedItem";
@@ -59,7 +61,8 @@ export class FeedItemWrapper extends Component {
     });
   }
   toggleLike(post_id) {
-    // bookmark action dispatcher
+    return;
+    // like/hit action dispatcher
     let user_id = this.props.user.id;
     if (this.props.feed.byId[post_id].hits.indexOf(user_id) < 0) {
       this.props.likePost(post_id, user_id);
@@ -79,7 +82,7 @@ export class FeedItemWrapper extends Component {
 
   componentWillMount() {
     if (this.props.navigation.state.routeName == "Feed") {
-      this.props.fetchFeed();
+      this.props.fetchFeed(this.props.user);
     }
   }
 
@@ -87,7 +90,7 @@ export class FeedItemWrapper extends Component {
     let display;
     const idx = this.props.navigation.getParam("idx", 0);
     const { feed = {}, user = {}, bookmarks = [], bookmarkPost, bookmarkedOnly = false } = this.props;
-    const postArray = Object.keys(feed.byId).map((post_id, idx) => this.props.feed.byId[post_id]);
+    const postArray = Object.keys(feed.byId).map((post_id, idx) => feed.byId[post_id]);
     // from search screen
     if (this.props.navigation.state.routeName == 'Explore') {
       display = postArray.filter((post, index) => index >= idx);
@@ -122,35 +125,37 @@ export class FeedItemWrapper extends Component {
     else {
       display = postArray;
     }
+    console.log('display is ', postArray);
 
     return <Container style={styles.container}>
-      <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
-        <Content>
-          {feed.loading ? <Spinner color="grey" size={20} /> : null}
-          {display.map((post, idx) => (
-            <FeedItem
-              key={idx}
-              post={post}
-              user={user}
-              bookmarks={bookmarks}
-              toggleLike={this.toggleLike}
-              toggleBookmark={this.toggleBookmark}
-              setModalVisible={this.setModalVisible}
-              gotoComments={this.gotoComments}
-              addComment={this.addComment}
-              navigation={this.props.navigation}
-            />
-          ))}
-          {this.props.navigation.routeName == "Feed" ? <Spinner color="grey" size={20} /> : null}
-          <View style={{ height: 150 }} />
-        </Content>
-      </KeyboardAvoidingScrollView>
-      <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
-        { isModalVisible: false }
-      )}>
-        <FeedScreenModalContent setModalVisible={this.setModalVisible} />
-      </Modal>
-    </Container>;
+        <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
+          <Content>
+            {feed.loading ? <Spinner color="grey" size={20} /> : null}
+            {!feed.loading && !feed.updated ? <CouldntLoad retry={() => this.props.fetchFeed(this.props.user)} /> : null}
+            {display.map((post, idx) => (
+              <FeedItem
+                key={idx}
+                post={post}
+                user={user}
+                bookmarks={bookmarks}
+                toggleLike={this.toggleLike}
+                toggleBookmark={this.toggleBookmark}
+                setModalVisible={this.setModalVisible}
+                gotoComments={this.gotoComments}
+                addComment={this.addComment}
+                navigation={this.props.navigation}
+              />
+            ))}
+           {this.props.navigation.routeName == "Feed" && feed.updated ? <LoadMore load={() => this.props.fetchFeed(this.props.user)} loading={feed.loading} /> : null}
+            <View style={{ height: 150 }} />
+          </Content>
+        </KeyboardAvoidingScrollView>
+        <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
+              { isModalVisible: false }
+            )}>
+          <FeedScreenModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
+      </Container>;
   }
 }
 
@@ -174,3 +179,17 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);
+
+const CouldntLoad = props => {
+  return <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 50, marginVertical: 20 }}>
+      <TouchableOpacity onPress={props.retry} light>
+      <Text>Couldn't load your feed, Tap to retry</Text><Icon name="ios-refresh-circle-outline" />
+      </TouchableOpacity>
+    </View>;
+}
+
+const LoadMore = props => {
+  return props.loading ? <Spinner color="grey" size={20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
+      <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-sync-outline" /></Button>
+    </View>;
+}

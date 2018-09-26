@@ -19,8 +19,6 @@ import {
   GET_PROFILE_fAIL
 } from "../actions/actions";
 import { initialState } from "./dummyData";
-import { initialUser } from "./dummyData";
-const onu = require("../assets/onu.jpg");
 
 // const initialState = {
 //       posts: [], // posts by the logged in user
@@ -62,11 +60,11 @@ function feed(state = initialState.feed, action) {
       }
     case GET_FEED_SUCCESS:
       return {
-        ...state, lastUpdated: 0, loading:false, byId: {[action.payload.id]: action.payload.data, ...state.byId}, allIds: state.allIds.concat(action.id)
+        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: {...action.payload.byIds, ...state.byId}, allIds: state.allIds.concat(action.payload.ids)
       }
     case GET_FEED_FAIL:
       return {
-        ...state, loading:false
+        ...state, loading:false, updated: false
       }
     case LIKE_POST:
     console.log("l1ke post");
@@ -149,7 +147,8 @@ function user(state = initialState.user, action) {
       switch (action.type) {
             case LOGIN:
               return {
-                    ...state, email:action.payload.email,username: action.payload.username, loggedIn: true
+                    ...state, id:action.payload.id, loggedIn: true
+                    // ...state, email:action.payload.email,username: action.payload.username, loggedIn: true
               }
             case LOGOUT: 
               return {

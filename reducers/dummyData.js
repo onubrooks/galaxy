@@ -20,77 +20,77 @@ export const loggedInUser = {
 
 const sampleFeed = {
   byId: {
-    post1: {
-      id: "post1",
-      handle: "steverog",
-      artwork: require("../assets/a.jpg"),
-      thumbnail: sly,
-      //hits: 12,
-      text: "My jaaaaam!!!!!",
-      ago: "5 days ago",
-      comments: ["comment1", "comment2"],
-      hits: ["user1", "user2", "user3", "user4"]
-    },
-    post2: {
-      id: "post2",
-      handle: "onubrooks",
-      artwork: require("../assets/b.jpg"),
-      thumbnail: onu,
-      //hits: 4,
-      text: "love this though!",
-      ago: "5 days ago",
-      comments: ["comment3"],
-      hits: ["user1", "user3", "user4"]
-    },
-    post3: {
-      id: "post3",
-      handle: "madrock60",
-      artwork: require("../assets/f.jpg"),
-      thumbnail: cardImage,
-      //hits: 1,
-      text: "jaming!!!!!",
-      ago: "5H",
-      comments: ["comment4", "comment5"],
-      hits: ["user1", "user0", "user4"]
-    },
-    post4: {
-      id: "post4",
-      handle: "steverog",
-      artwork: require("../assets/d.jpg"),
-      thumbnail: sly,
-      // hits: 12,
-      text: "My jaaaaam!!!!!",
-      comments: [],
-      ago: "5 days ago",
-      hits: ["user1", "user0", "user4"]
-    },
-    post5: {
-      id: "post5",
-      handle: "28thsly",
-      artwork: require("../assets/i.jpg"),
-      thumbnail: sly,
-      // hits: 12,
-      text: "My jaaaaam!!!!!",
-      comments: [],
-      ago: "5 days ago",
-      hits: ["user1", "user3", "user4"]
-    },
-    post6: {
-      id: "post6",
-      handle: "28thsly",
-      artwork: require("../assets/h.jpg"),
-      thumbnail: sly,
-      // hits: 12,
-      text: "My jaaaaam!!!!!",
-      comments: [],
-      ago: "5 days ago",
-      hits: ["user1", "user3", "user4"]
-    }
+    // post1: {
+    //   id: "post1",
+    //   handle: "steverog",
+    //   artwork: require("../assets/a.jpg"),
+    //   thumbnail: sly,
+    //   //hits: 12,
+    //   text: "My jaaaaam!!!!!",
+    //   ago: "5 days ago",
+    //   comments: ["comment1", "comment2"],
+    //   hits: ["user1", "user2", "user3", "user4"]
+    // },
+    // post2: {
+    //   id: "post2",
+    //   handle: "onubrooks",
+    //   artwork: require("../assets/b.jpg"),
+    //   thumbnail: onu,
+    //   //hits: 4,
+    //   text: "love this though!",
+    //   ago: "5 days ago",
+    //   comments: ["comment3"],
+    //   hits: ["user1", "user3", "user4"]
+    // },
+    // post3: {
+    //   id: "post3",
+    //   handle: "madrock60",
+    //   artwork: require("../assets/f.jpg"),
+    //   thumbnail: cardImage,
+    //   //hits: 1,
+    //   text: "jaming!!!!!",
+    //   ago: "5H",
+    //   comments: ["comment4", "comment5"],
+    //   hits: ["user1", "user0", "user4"]
+    // },
+    // post4: {
+    //   id: "post4",
+    //   handle: "steverog",
+    //   artwork: require("../assets/d.jpg"),
+    //   thumbnail: sly,
+    //   // hits: 12,
+    //   text: "My jaaaaam!!!!!",
+    //   comments: [],
+    //   ago: "5 days ago",
+    //   hits: ["user1", "user0", "user4"]
+    // },
+    // post5: {
+    //   id: "post5",
+    //   handle: "28thsly",
+    //   artwork: require("../assets/i.jpg"),
+    //   thumbnail: sly,
+    //   // hits: 12,
+    //   text: "My jaaaaam!!!!!",
+    //   comments: [],
+    //   ago: "5 days ago",
+    //   hits: ["user1", "user3", "user4"]
+    // },
+    // post6: {
+    //   id: "post6",
+    //   handle: "28thsly",
+    //   artwork: require("../assets/h.jpg"),
+    //   thumbnail: sly,
+    //   // hits: 12,
+    //   text: "My jaaaaam!!!!!",
+    //   comments: [],
+    //   ago: "5 days ago",
+    //   hits: ["user1", "user3", "user4"]
+    // }
   },
   allIds: ["post1", "post2", "post3", "post4", "post5"],
   loading: false,
-  updated: true,
-  lastUpdated: 2 // Date.now()
+  updated: false,
+  lastUpdated: 0 // Date.now()
 };
 
 const sampleComments = {

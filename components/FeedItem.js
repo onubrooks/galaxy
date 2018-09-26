@@ -29,8 +29,8 @@ import CommentInput from "./CommentInput";
 import Player from "./OldPlayer";
 import * as Animatable from "react-native-animatable";
 
-const ICON_HIT_BUTTON = new IconAsset(require('../assets/icons/fist-red.png'), 30, 30);
-const ICON_UNHIT_BUTTON = new IconAsset(require('../assets/icons/fist.png'), 30, 30);
+const ICON_HIT_BUTTON = require('../assets/icons/fist-red.png');
+const ICON_UNHIT_BUTTON = require('../assets/icons/fist.png');
 
 export class FeedItem extends Component {
          constructor(props) {
@@ -70,9 +70,9 @@ export class FeedItem extends Component {
            return <Card transparent style={styles.noBorder}>
                <CardItem style={{ height: 50 }}>
                  <Left>
-                   <Thumbnail small source={post.thumbnail} style={{ padding: -20 }} />
+                   <Thumbnail small source={{uri: post.userAvatar}} style={{ padding: -20 }} />
                    <Body>
-                     <Text style={styles.handle}>{post.handle}</Text>
+                     <Text style={styles.handle}>{post.userHandle}</Text>
                    </Body>
                  </Left>
                  <Right>
@@ -83,8 +83,8 @@ export class FeedItem extends Component {
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-                 <ImageBackground style={{ flex: 1 }} source={post.artwork} resizeMode="contain">
-                   <Player post_id={post.id} />
+                 <ImageBackground style={{ flex: 1 }} source={{uri: post.coverPath}} resizeMode="contain">
+                   <Player title={post.songTitle} songPath={post.songPath} />
                  </ImageBackground>
                </CardItem>
 
@@ -92,7 +92,8 @@ export class FeedItem extends Component {
                  <Left>
                    <TouchableOpacity onPress={() => this.props.toggleLike(post.id)}>
                      {/* <Ionicons name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} /> */}
-                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON.module : ICON_UNHIT_BUTTON.module} />
+                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
+                     {/* <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} /> */}
                    </TouchableOpacity>
                    <Text />
                    <TouchableOpacity onPress={() => this.gotoComments(post)}>
@@ -102,19 +103,23 @@ export class FeedItem extends Component {
                  <Body />
                  <Right>
                    <TouchableOpacity onPress={() => this.props.toggleBookmark(post.id)}>
-                     <Ionicons name={bookmarks.some(id => id === post.id) ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
+                   <Ionicons name={post.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
+                     {/* <Ionicons name={bookmarks.some(id => id === post.id) ? "ios-bookmark" : "ios-bookmark-outline"} size={25} /> */}
                    </TouchableOpacity>
                  </Right>
                </CardItem>
                <View style={{ paddingLeft: 10, marginTop: -15, overflow: "hidden", flex: 1 }}>
-                 {post.hits.length ? <Text style={styles.hits}>
+               <Text style={styles.hits}>
+                     {post.noHits} hits
+                   </Text>
+                 {/* {post.hits.length ? <Text style={styles.hits}>
                      {post.hits.length} hits
-                   </Text> : null}
+                   </Text> : null} */}
                  <Text style={styles.comment_handle}>
-                   <Text style={styles.handle}>{post.handle}</Text> {post.text}
+                   <Text style={styles.handle}>{post.userHandle}</Text> {post.songDescription}
                  </Text>
                  <Text style={styles.note} note>
-                   {post.ago}
+                   {post.songDate}
                  </Text>
                  {this.props.navigation.state.routeName == "Feed" ? <CommentInput user={user} post={post} addComment={this.addComment} /> : null}
                </View>

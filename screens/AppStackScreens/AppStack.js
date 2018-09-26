@@ -11,7 +11,7 @@ import DMChatScreen from "./FeedStack/DMChatScreen";
 import { SearchScreen } from "./SearchStack/SearchScreen";
 import ExploreScreen from "./SearchStack/ExploreScreen";
 import Add from "./Add";
-import PlaylistScreen from "./PlaylistScreen2";
+import PlaylistScreen from "./PlaylistScreen";
 import WorkInProgress from "./WorkInProgress";
 
 // Notification Stack

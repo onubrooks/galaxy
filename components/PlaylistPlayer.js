@@ -15,8 +15,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Icon as IconBase, Button } from "native-base";
 import * as Animatable from "react-native-animatable";
 
-import { PlayerSingleton } from "../PlayerSingleton";
-
 class Icon {
   constructor(module, width, height) {
     this.module = module;
@@ -69,16 +67,8 @@ let PLAYLIST = [
   )
 ];
 
-const ICON_LOOP_ALL_BUTTON = new Icon(require('../assets/images/loop_all_button.png'), 77, 35);
-const ICON_LOOP_ONE_BUTTON = new Icon(require('../assets/images/loop_one_button.png'), 77, 35);
-
-const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
-const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
-const ICON_THUMB_2 = new Icon(require('../assets/images/thumb_2.png'), 15, 19);
-
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
-const LOOPING_TYPE_ICONS = { 0: ICON_LOOP_ALL_BUTTON, 1: ICON_LOOP_ONE_BUTTON };
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFF';//'#FFF8ED';
@@ -144,7 +134,6 @@ export default class PlaylistPlayer extends React.Component {
       });
       this.setState({ fontLoaded: true });
     })();
-    console.log('players1 list1', playerService.state.players.length);
   }
 
   componentWillUnmount() {
@@ -480,7 +469,7 @@ export default class PlaylistPlayer extends React.Component {
             <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={require("../assets/default.jpg")} />
           </View>
           <View style={stl.playbackProgress}>
-            <Slider trackImage={ICON_TRACK_1.module} thumbImage={ICON_THUMB_1.module} value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
+            <Slider value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={[
@@ -543,7 +532,7 @@ export default class PlaylistPlayer extends React.Component {
             <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onMutePressed}>
               <IconBase style={stl.button} name="ios-volume-mute" style={{ fontSize: 30 }} />
             </TouchableHighlight>
-            <Slider style={stl.volumeSlider} trackImage={ICON_TRACK_1.module} thumbImage={ICON_THUMB_2.module} value={1} onValueChange={this._onVolumeSliderValueChange} />
+            <Slider style={stl.volumeSlider} value={1} onValueChange={this._onVolumeSliderValueChange} />
             <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onMutePressed}>
               <IconBase style={stl.button} name={this.state.muted ? "ios-volume-off" : "ios-volume-up"} style={{ fontSize: 30 }} />
             </TouchableHighlight>
