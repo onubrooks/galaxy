@@ -51,12 +51,12 @@ export class FeedItemWrapper extends Component {
     this.setState({ isModalVisible: visible });
   }
   addComment(songId, comment) {
-    let user_id = this.props.user.username;
+    let user_id = this.props.user.id;
     this.props.commentASong(songId, comment, user_id);
   }
-  gotoComments(post) {
+  gotoComments(song) {
     this.props.navigation.navigate("AddComment", {
-      post,
+      song,
       users: this.props.users.byId
     });
   }
@@ -84,7 +84,7 @@ export class FeedItemWrapper extends Component {
     }
   }
 
-  _getItemsToDisplay = (postArray, idx, bookmarkedOnly) => {
+  _getItemsToDisplay = (songArray, idx, bookmarkedOnly) => {
     /**
      * this is a helper function that is called in the render method
      * it filters the feed to display based on the current route the app is in
@@ -93,45 +93,45 @@ export class FeedItemWrapper extends Component {
      */
     // from search screen
     if (this.props.navigation.state.routeName == 'Explore') {
-      return postArray.filter((post, index) => index >= idx);
+      return songArray.filter((song, index) => index >= idx);
       // songs you've liked from settings screen
     } else if (this.props.navigation.state.routeName == 'Song') {
-      return postArray
-        .filter((post, index) => {
-          return post.hits.some(id => id == user.id);
+      return songArray
+        .filter((song, index) => {
+          return song.hits.some(id => id == user.id);
         })
-        .filter((post, index) => index == idx);
+        .filter((song, index) => index == idx);
     }
-    // display a single post identified by post id
-    else if (this.props.navigation.state.routeName == "Post") {
-      return postArray.filter((post, index) => {
-        return post.handle == user.username;
-      }).filter((post, index) => index == idx);
-      // saved/bookmarked post from settings screen
+    // display a single song identified by song id
+    else if (this.props.navigation.state.routeName == "song") {
+      return songArray.filter((song, index) => {
+        return song.handle == user.username;
+      }).filter((song, index) => index == idx);
+      // saved/bookmarked song from settings screen
     } else if (this.props.navigation.state.routeName == "SavedList" || bookmarkedOnly) {
-      return postArray
-        .filter((post, index) => {
-          return bookmarks.some(id => id == post.id);
+      return songArray
+        .filter((song, index) => {
+          return bookmarks.some(id => id == song.id);
         })
-        .filter((post, index) => index == idx);
+        .filter((song, index) => index == idx);
     }
-    // profile page, posts by the logged in user
+    // profile page, songs by the logged in user
     else if (this.props.navigation.state.routeName == "Profile") {
-      return postArray.filter((post, index) => {
-        return post.handle == user.username;
+      return songArray.filter((song, index) => {
+        return song.handle == user.username;
       });
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
-      return postArray;
+      return songArray;
     }
   }
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
     const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
-    const postArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
-    let display = this._getItemsToDisplay(postArray, idx, bookmarkedOnly);
+    const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
+    let display = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
     console.log('display is ', display);
 
     return <Container style={styles.container}>
@@ -139,10 +139,10 @@ export class FeedItemWrapper extends Component {
           <Content>
             {feed.loading ? <Spinner color="grey" size={20} /> : null}
             {!feed.loading && !feed.updated ? <CouldntLoad retry={() => this.props.fetchFeed(this.props.user)} /> : null}
-            {display.map((post, idx) => (
+            {display.map((song, idx) => (
               <FeedItem
                 key={idx}
-                post={post}
+                song={song}
                 user={user}
                 bookmarks={bookmarks}
                 toggleLike={this.toggleLike}

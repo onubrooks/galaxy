@@ -1,13 +1,12 @@
 import { Notifications } from 'expo';
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator } from 'react-navigation';
 import AuthStack from "../screens/AuthStackScreens/AuthStack";
 import AppStack from "../screens/AppStackScreens/AppStack";
 
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
-import { Icon } from 'native-base';
 
 const SwitchNavigation = createSwitchNavigator(
   {

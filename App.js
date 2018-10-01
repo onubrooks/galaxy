@@ -34,19 +34,8 @@ const store = createStore(
    )
  );
 let persistor = persistStore(store);
-// const store = createStore(
-//   rootReducer, 
-//   applyMiddleware(
-//     thunkMiddleware, // lets us dispatch() functions
-//     //loggerMiddleware // neat middleware that logs actions
-//   )
-// );
+
 console.reportErrorsAsExceptions = false;
-//  console._errorOriginal = console.error.bind(console);
-//  console.error = (error) => { 
-//    if(error.match('Error measuring text field:')) console.log(error);
-//    else console.warn(error);
-//  };
 
 export default class App extends React.Component {
   state = {
@@ -89,8 +78,7 @@ export default class App extends React.Component {
         Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
         Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
         //"open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
-      }),
-      //this._registerForPushNotificationsAsync()
+      })
     ]);
   };
 
@@ -103,49 +91,6 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
-
-  _registerForPushNotificationsAsync = async () => {
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-
-    // only ask if permissions have not already been determined, because
-    // iOS won't necessarily prompt the user a second time.
-    if (existingStatus !== 'granted') {
-      // Android remote notification permissions are granted during the app
-      // install, so this will only ask on iOS
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    // Stop here if the user did not grant permissions
-    if (finalStatus !== 'granted') {
-      return;
-    }
-
-    // Get the token that uniquely identifies this device
-    let token = await Notifications.getExpoPushTokenAsync();
-
-    // POST the token to your backend server from where you can retrieve it to send push notifications.
-    // return fetch(PUSH_ENDPOINT, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     token: {
-    //       value: token,
-    //     },
-    //     user: {
-    //       username: 'Brent',
-    //     },
-    //   }),
-    // });
-    //await AsyncStorage.setItem("expoPushToken", token);
-    console.log('token saved: ', token);
-  }
 }
 
 const styles = StyleSheet.create({

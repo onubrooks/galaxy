@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import genericActionDispatcher from "./actionHelpers";
 import { Toast } from "native-base";
 /*
  * action types
@@ -18,6 +18,9 @@ export const LIKE_SONG = 'LIKE_SONG'
 export const UNLIKE_SONG = 'UNLIKE_SONG'
 // user comments on a post
 export const COMMENT_SONG = 'COMMENT_SONG'
+export const GET_COMMENTS = "GET_COMMENTS";
+export const GET_COMMENTS_SUCCESS = "GET_COMMENTS_SUCCESS";
+export const GET_COMMENTS_FAIL = "GET_COMMENTS_FAIL";
 // user bookmarks a post
 export const BOOKMARK_SONG = 'BOOKMARK_SONG'
 export const UNBOOKMARK_SONG = 'UNBOOKMARK_SONG'
@@ -72,15 +75,15 @@ export function getUsers() {
 
 export function getFeedSuccess(data) {
   let ids = data.map((item) => item.songId);
-  let byIds = {};
+  let byId = {};
   for(let item of data) {
-    byIds = { [item.songId]: item, ...byIds }
+    byId = { [item.songId]: item, ...byId }
   }
   return {
     type: GET_FEED_SUCCESS,
     payload: {
       ids,
-      byIds
+      byId
     }
   }
 }
@@ -112,13 +115,43 @@ export function unLikeSong(songId) {
    }
 }
 
-export function commentSong(songId, comment, user_id) {
+export function commentSong(data) {
   return { 
     type: COMMENT_SONG, 
     payload: {
-      songId, 
-      comment,
-      user_id
+      songId: data.songId, 
+      comment: data.comment,
+      user_id: data.user_id
+    }
+  }
+}
+export function getComments(songId) {
+  return {
+    type: GET_COMMENTS,
+    payload: {
+      songId
+    }
+  }
+}
+export function getCommentsSuccess(data) {
+  let ids = data.map((item) => item.id);
+  let byId = {};
+  for (let item of data) {
+    byId = { [item.id]: item, ...byId }
+  }
+  return {
+    type: GET_COMMENTS_SUCCESS,
+    payload: {
+      ids,
+      byId
+    }
+  }
+}
+export function getCommentsFail(songId) {
+  return {
+    type: GET_COMMENTS_FAIL,
+    payload: {
+      songId
     }
   }
 }
@@ -205,185 +238,109 @@ export function getProfileFail(id, error) {
   }
 }
 
-// thunk action creator, returns a function that dispatches getFeed and then 
-// getFeedSuccess or getFeedFail depending on the result of the api call
 export function fetchFeed(user) {
-  // Thunk middleware knows how to handle functions.
-  // It passes the dispatch method as an argument to the function,
-  // thus making it able to dispatch actions itself.
-
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-    dispatch(getFeed(user))
-    // The function called by the thunk middleware can return a value,
-    // that is passed on as the return value of the dispatch method.
-
-    // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
-    let userId = AsyncStorage.getItem("userToken");
-    let limit = 10;
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/feeds/${user.id}/${limit}`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-        // We can dispatch many times!
-        // Here, we update the app state with the results of the API call.
-        console.log(data.length, ' items');
-        dispatch(getFeedSuccess(data));
-    }, 
-        // Do not use catch, because that will also catch
-        // any errors in the dispatch and resulting render,
-        // causing a loop of 'Unexpected batch number' errors.
-        // https://github.com/facebook/react/issues/6895
-        error => {
-          console.log('An error occurred.', error);
-          Toast.show({
-            text: 'Unable to update feed',
-            position: 'bottom',
-            type: 'warning',
-            duration: 1600
-          });
-          dispatch(getFeedFail(error))
-        }
-      )
-  }
+  let req = {
+    method: 'GET',
+    url: `feeds/${user.id}/10`,
+    data: null
+  };
+  let cb = {
+    initial: getFeed,
+    success: getFeedSuccess,
+    fail: getFeedFail,
+    successMsg: 'fetch feed successful...',
+    errorMsg: 'Unable to update feed'
+  };
+  genericActionDispatcher(user, req, cb);
 }
 export function hitASong(songId) {
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-
-    dispatch(likeSong(songId));
-
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/like`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-      console.log('successfully hit song')
-    }, error => {
-      console.log(error);
-      Toast.show({
-        text: 'Network error, please try again...',
-        position: 'bottom',
-        duration: 1600
-      });
-      //dispatch(unLikeSong(songId));
-      }
-    )
-  }
+  let req = {
+    method: 'POST',
+    url: `like`,
+    data: { songId }
+  };
+  let cb = {
+    initial: likeSong,
+    success: null,
+    fail: unLikeSong,
+    successMsg: 'hit successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(songId, req, cb);
 }
 export function unHitASong(songId) {
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-
-    dispatch(unLikeSong(songId));
-
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/like`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-      console.log('successfully unhit song')
-    }, error => {
-      console.log(error);
-      Toast.show({
-        text: "Network error, please try again...",
-        position: "bottom",
-        duration: 1600
-      });
-      //dispatch(likeSong(songId));
-    }
-    )
-  }
+  let req = {
+    method: 'POST',
+    url: `like`,
+    data: { songId }
+  };
+  let cb = {
+    initial: unLikeSong,
+    success: null,
+    fail: likeSong,
+    successMsg: 'unhit successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(songId, req, cb);
 }
 export function bookmarkASong(songId) {
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-
-    dispatch(bookmarkSong(songId));
-
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/favorite`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-      console.log('successfully hit song')
-    }, error => {
-      console.log(error);
-      Toast.show({
-        text: 'Network error, please try again...',
-        position: 'top',
-        duration: 1600
-      });
-      //dispatch(unBookmarkSong(songId));
-    }
-    )
-  }
+  let req = {
+    method: 'POST',
+    url: `favorite`,
+    data: { songId }
+  };
+  let cb = {
+    initial: bookmarkSong,
+    success: null,
+    fail: unBookmarkSong,
+    successMsg: 'bookmark successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(songId, req, cb);
 }
 export function unBookmarkASong(songId) {
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-
-    dispatch(unBookmarkSong(songId));
-
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/favorite`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-      console.log('successfully unhit song')
-    }, error => {
-      console.log(error);
-      Toast.show({
-        text: "Network error, please try again...",
-        position: "top",
-        duration: 1600
-      });
-      //dispatch(bookmarkSong(songId));
-    }
-    )
-  }
+  let req = {
+    method: 'POST',
+    url: `favorite`,
+    data: { songId }
+  };
+  let cb = {
+    initial: unBookmarkSong,
+    success: null,
+    fail: bookmarkSong,
+    successMsg: 'unbookmark successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(songId, req, cb);
+}
+export function fetchComments(songId) {
+  let req = {
+    method: 'POST',
+    url: `comments/${songId}`,
+    data: { songId }
+  };
+  let cb = {
+    initial: getComments,
+    success: getCommentsSuccess,
+    fail: getCommentsFail,
+    successMsg: 'get comments successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(songId, req, cb);
 }
 export function commentASong(songId, comment, user_id) {
-  return function (dispatch) {
-    // First dispatch: the app state is updated to inform
-    // that the API call is starting.
-
-    dispatch(commentSong(songId, comment, user_id));
-
-    const PUSH_ENDPOINT = `http://api.leedder.com/api/comment`;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      }
-    }).then((response) => response.json()).then(data => {
-      console.log('successfully commented on a song')
-    }, error => {
-      console.log(error);
-      Toast.show({
-        text: "Network error, please try again...",
-        position: "top",
-        duration: 1600
-      });
-      //dispatch(bookmarkSong(songId));
-    }
-    )
-  }
+  let data ={ songId, comment, user_id };
+  let req = {
+    method: 'POST',
+    url: `comment/${songId}`,
+    data
+  };
+  let cb = {
+    initial: commentSong,
+    success: null,
+    fail: null,
+    successMsg: 'add comment successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  genericActionDispatcher(data, req, cb);
 }

@@ -58,21 +58,21 @@ export class FeedItem extends Component {
          handlePress() {
            this.props.setModalVisible(true);
          }
-         gotoComments(post) {
-           this.props.gotoComments(post);
+         gotoComments(song) {
+           this.props.gotoComments(song);
          }
         addComment(songId, comment) {
           this.props.addComment(songId, comment);
         }
 
          render() {
-           const { post, user, bookmarks } = this.props;
+           const { song, user } = this.props;
            return <Card transparent style={styles.noBorder}>
                <CardItem style={{ height: 50 }}>
                  <Left>
-                   <Thumbnail small source={{uri: post.userAvatar}} style={{ padding: -20 }} />
+                   <Thumbnail small source={{uri: song.userAvatar}} style={{ padding: -20 }} />
                    <Body>
-                     <Text style={styles.handle}>{post.userHandle}</Text>
+                     <Text style={styles.handle}>{song.userHandle}</Text>
                    </Body>
                  </Left>
                  <Right>
@@ -83,41 +83,39 @@ export class FeedItem extends Component {
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-                 <ImageBackground style={{ flex: 1 }} source={{uri: post.coverPath}} resizeMode="contain">
-                   <Player title={post.songTitle} songPath={post.songPath} />
+                 <ImageBackground style={{ flex: 1 }} source={{uri: song.coverPath}} resizeMode="contain">
+                   <Player title={song.songTitle} songPath={song.songPath} />
                  </ImageBackground>
                </CardItem>
 
                <CardItem style={{ paddingVertical: -50 }}>
                  <Left>
-                   <TouchableOpacity onPress={() => this.props.toggleLike(post.songId)}>
-                     {/* <Ionicons name={post.hits.some(id => id === user.id) ? "md-heart" : "md-heart-outline"} size={30} /> */}
-                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
-                     {/* <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={post.hits.some(id => id === user.id) ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} /> */}
+                   <TouchableOpacity onPress={() => this.props.toggleLike(song.songId)}>
+                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={song.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
                    </TouchableOpacity>
                    <Text />
-                   <TouchableOpacity onPress={() => this.gotoComments(post)}>
+                   <TouchableOpacity onPress={() => this.gotoComments(song)}>
                      <Icon name="comment" size={30} />
                    </TouchableOpacity>
                  </Left>
                  <Body />
                  <Right>
-                   <TouchableOpacity onPress={() => this.props.toggleBookmark(post.songId)}>
-                   <Ionicons name={post.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
+                   <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId)}>
+                   <Ionicons name={song.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
                    </TouchableOpacity>
                  </Right>
                </CardItem>
                <View style={{ paddingLeft: 10, marginTop: -15, overflow: "hidden", flex: 1 }}>
                <Text style={styles.hits}>
-                     {post.noHits} hits
+                     {song.noHits} hits
                    </Text>
                  <Text style={styles.comment_handle}>
-                   <Text style={styles.handle}>{post.userHandle}</Text> {post.songDescription}
+                   <Text style={styles.handle}>{song.userHandle}</Text> {song.songDescription}
                  </Text>
                  <Text style={styles.note} note>
-                   {post.songDate}
+                   {song.songDate}
                  </Text>
-                 {this.props.navigation.state.routeName == "Feed" ? <CommentInput user={user} post={post} addComment={this.addComment} /> : null}
+                 {this.props.navigation.state.routeName == "Feed" ? <CommentInput user={user} song={song} addComment={this.addComment} /> : null}
                </View>
              </Card>;
          }

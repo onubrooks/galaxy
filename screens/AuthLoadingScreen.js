@@ -3,13 +3,11 @@ import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
-  StyleSheet,
   View
 } from "react-native";
 import {
   Header,
 } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../components/styles";
 // redux
 import { connect } from "react-redux";

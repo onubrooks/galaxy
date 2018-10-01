@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  StyleSheet,
-  View,
   ScrollView,
   TouchableOpacity
 } from "react-native";
@@ -12,7 +10,8 @@ import {
   Content,
   Body,
   Left,
-  Icon
+  Icon,
+  View
 } from "native-base";
 import styles from "../../../components/styles";
 
@@ -21,7 +20,7 @@ import { Dimensions } from 'react-native';
 import CommentInput from "../../../components/CommentInput";
 
 import { connect } from "react-redux";
-import { commentPost } from "../../../actions/actions";
+import { commentASong, fetchComments } from "../../../actions/actions";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -33,13 +32,17 @@ export class AddCommentScreen extends React.Component {
     this.addComment = this.addComment.bind(this);
   }
 
-  addComment(post_id, comment) {
+  componentWillMount() {
+    let songId = this.props.navigation.state.params.song.songId
+    this.props.fetchComments(songId);
+  }
+  addComment(songId, comment) {
     let user_id = this.props.user.username;
-    this.props.commentPost(post_id, comment, user_id);
+    this.props.commentASong(songId, comment, user_id);
   }
 
   render() {
-    let { post, users } = this.props.navigation.state.params; // passed from the feed page
+    let { song, users } = this.props.navigation.state.params; // passed from the feed page
     let { user, comments } = this.props;
     let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
     return <Container style={[styles.container, {}]}>
@@ -56,10 +59,12 @@ export class AddCommentScreen extends React.Component {
 
         <Content>
           <ScrollView>
-            <Comments user={user} post={post} users={users} comments={comments.byId} />
+            {comments.loading ? <View /> : null}
+            {!comments.loading && comments.updated ? <Comments user={user} song={song} users={users} comments={comments.byId} /> : null}
+            {!comments.loading && !comments.updated ? <View /> : null}
           </ScrollView>
         </Content>
-      <CommentInput user={user} post={post} addComment={this.addComment} editable={true} commentScreen={commentScreen} multiline={false} />
+      <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
       </Container>;
   }
 }
@@ -72,7 +77,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  commentPost
+  commentASong,
+  fetchComments
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCommentScreen);

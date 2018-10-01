@@ -27,7 +27,7 @@ export default class CommentInput extends Component {
     super(props);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
-    this.postComment = this.postComment.bind(this);
+    this.addComment = this.addComment.bind(this);
     this.state = {
       inputFocused: false,
       comment: ''
@@ -47,17 +47,17 @@ export default class CommentInput extends Component {
     this.setState({inputFocused: true});
     console.log('focus');
   }
-  postComment() {
+  addComment() {
     if(this.state.comment.length > 0) {
       Keyboard.dismiss();
-      this.props.addComment(this.props.post.songId, this.state.comment);
+      this.props.addComment(this.props.song.songId, this.state.comment);
       this.setState({ comment: '' });
     } else
     alert('Please type a comment before posting...');
   }
   
   render() { 
-    let { user, post, multiline = false, editable = true, commentScreen = false } = this.props;
+    let { user, multiline = false, editable = true, commentScreen = false } = this.props;
       return <View style={[styles.grid, commentScreen ? styles.commentScreen : {}]}>
         <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
         <Form style={{width:"90%"}}>
@@ -72,12 +72,12 @@ export default class CommentInput extends Component {
               multiline={multiline}
               editable={editable}
               autoFocus={commentScreen} 
-              onSubmitEditing={this.postComment} />
+              onSubmitEditing={this.addComment} />
             {this.state.inputFocused && this.state.comment.length < 1 ?
               <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
             :
           (this.state.comment.length > 0 ?  
-            <Button small transparent style={{ right:0, paddingBottom:-15 }} onPress={ this.postComment }>
+            <Button small transparent style={{ right:0, paddingBottom:-15 }} onPress={ this.addComment }>
               <Text>POST</Text>
             </Button> : null)
           }
