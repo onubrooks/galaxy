@@ -4,9 +4,10 @@
  * the second is config object with info for the fetch API call
  * the third is an object containing the initial, success and fail actions/callbacks and the error msg
  */
+import { Toast } from "native-base";
 const PUSH_ENDPOINT = `http://api.leedder.com/api`;
 // thunk action creator, returns a function that dispatches getFeed and then 
-export default function genericActionDispatcher(data, req, cb) {
+export default function genericAsyncActionDispatcher(data, req, cb) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
@@ -42,8 +43,7 @@ export default function genericActionDispatcher(data, req, cb) {
         Toast.show({
           text: cb.errorMsg,
           position: 'bottom',
-          type: 'warning',
-          duration: 1600
+          duration: 2000
         });
         cb.fail && dispatch(cb.fail(error));
       }

@@ -11,12 +11,13 @@ import {
   UNLIKE_SONG,
   BOOKMARK_SONG,
   UNBOOKMARK_SONG,
+  UPLOAD_SONG,
+  UPLOAD_SONG_SUCCESS,
+  UPLOAD_SONG_FAIL,
   LOGIN,
   LOGOUT,
   // todo
   GET_USERS,
-  ADD_POST,
-  TOGGLE_TAB,
   DELETE_USER,
   GET_PROFILE,
   GET_PROFILE_SUCCESS,
@@ -24,25 +25,6 @@ import {
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 
-// this action adds a post to my(logged in user) posts
-function posts(state = [], action) {
-  switch (action.type) {
-    case ADD_POST:
-      return [
-        ...state, action.post   
-      ]
-    default:
-      return state
-  }
-}
-function users(state = initialState.users, action) {
-  switch(action.type) {
-    case GET_USERS:
-      return {...state}
-    default:
-      return { ...state }
-  }
-}
 function feed(state = initialState.feed, action) {
   switch (action.type) {
     case GET_FEED:
@@ -124,52 +106,75 @@ function comment(state = initialState.comments, action) {
       }
 }
 
-function tab(state = {tab: 1, modal: false}, action) {
-     switch (action.type) {
-      case TOGGLE_TAB:
-            return {
-                  ...state, tab: action.tab, modal: false
-            }
-      default: 
-          return state
-     }
+// this action uploads a song as logged in user
+function upload(state = initialState.uploadingSong, action) {
+  switch (action.type) {
+    case UPLOAD_SONG:
+      return { ...state, song: action.payload.song, loading: true };
+    case UPLOAD_SONG_SUCCESS:
+      return { ...state, loading: false, uploaded: true, song: null };
+    case UPLOAD_SONG_FAIL:
+      return { ...state, loading: false, uploaded: false};
+    default:
+      return state;
+  }
 }
 
 function user(state = initialState.user, action) {
       switch (action.type) {
-            case LOGIN:
-              return {
-                    ...state, id:action.payload.id, loggedIn: true
-                    // ...state, email:action.payload.email,username: action.payload.username, loggedIn: true
-              }
-            case LOGOUT: 
-              return {
-                    ...state,  loggedIn: false 
-              }
-            case DELETE_USER:
-              return {}
+        case LOGIN:
+          return {
+                ...state, id:action.payload.id, loggedIn: true
+                // ...state, email:action.payload.email,username: action.payload.username, loggedIn: true
+          }
+        case LOGOUT: 
+          return {
+                ...state,  loggedIn: false 
+          }
+        case DELETE_USER:
+          return {}
+        case GET_MY_PROFILE:
+          return {
+            ...state,
+            loading: true
+          }
+        case GET_MY_PROFILE_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            updated: true,
+            email: action.payload.data.email,
+            username: action.payload.data.username,
+            thumbnail: action.payload.data.thumbnail,
+            avatar: action.payload.data.avatar
+          }
+        case GET_MY_PROFILE_FAIL:
+          return {
+            ...state, loading: false, updated: false
+          }
             default:
               return state
       }
 }
 
-function getProfile(state = {}, action) {
+function getProfile(state = initialState.profile, action) {
   switch (action.type) {
     case GET_PROFILE:
       return {
             ...state, 
-            id: action.payload.id, 
+            userHandle: action.payload.userHandle,
             loading: true
       }
     case GET_PROFILE_SUCCESS:
       return {
         ...state,  
-        loading: false, 
+        loading: false,
+        updated: true,
         data: action.payload.data
       }
-    case GET_PROFILE_fAIL:
+    case GET_PROFILE_FAIL:
       return {
-            ...state, loading: false, error: 'Error getting user info'
+            ...state, loading: false, updated: false
       }
     default:
       return state
@@ -178,11 +183,9 @@ function getProfile(state = {}, action) {
 
 const rootReducer = combineReducers({
   feed,
-  users,
-  posts: posts,
-  comments: comment,
-  tab: tab,
-  user: user,
-  getProfile: getProfile
+  upload,
+  comment,
+  user,
+  getProfile
 });
 export default rootReducer;

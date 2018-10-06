@@ -129,15 +129,15 @@ const MainStackNavigator = createBottomTabNavigator(
     Feed: {
       screen: FeedStackNavigator
     },
-    Search: {
-      screen: SearchStackNavigator
-    },
+    // Search: {
+    //   screen: SearchStackNavigator
+    // },
     Add: {
       screen: Add
     },
-    Notifications: {
-      screen: NotificationsScreen
-    },
+    // Notifications: {
+    //   screen: NotificationsScreen
+    // },
     Profile: {
       screen: ProfileStackNavigator
     }

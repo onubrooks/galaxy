@@ -25,7 +25,7 @@ export default class Comments extends Component {
   }
   
   render() {
-             let { user, post, comments, users } = this.props;
+             let { user, post = [], comments, users } = this.props;
              // this next line maps through the comments object and converts it into an array using Object.keys()
              //which is easier to process for display. same thing is done for users object down below
              let thisComments = Object.keys(comments)

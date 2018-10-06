@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, RefreshControl } from "react-native";
 import {
   Container,
   Content,
@@ -39,12 +39,28 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false };
+    this.state = { isModalVisible: false, refreshing: props.feed.loading };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
     this.toggleLike = this.toggleLike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
+  }
+
+  componentDidMount() {
+    this._onRefresh();
+  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.feed.loading !== prevState.refreshing) {
+      return { refreshing: nextProps.feed.loading };
+    } else return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.feed.loading !== this.props.feed.loading) {
+      //Perform some operation here
+      this.setState({ refreshing: this.props.feed.loading });
+    }
   }
 
   setModalVisible(visible) {
@@ -75,12 +91,6 @@ export class FeedItemWrapper extends Component {
       this.props.bookmarkASong(songId);
     } else {
       this.props.unBookmarkASong(songId);
-    }
-  }
-
-  componentWillMount() {
-    if (this.props.navigation.state.routeName == "Feed") {
-      this.props.fetchFeed(this.props.user);
     }
   }
 
@@ -126,19 +136,24 @@ export class FeedItemWrapper extends Component {
       return songArray;
     }
   }
+  _onRefresh = () => {
+    if (this.props.navigation.state.routeName == "Feed") {
+      //this.setState({ refreshing: true });
+      this.props.fetchFeed(this.props.user);
+    }
+  }
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
     const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
     const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
-    let display = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-    console.log('display is ', display);
+    let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
+    let display = all.slice(0, 3);
 
     return <Container style={styles.container}>
-        <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always">
+      <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={'grey'} title="refreshing" />}>
           <Content>
-            {feed.loading ? <Spinner color="grey" size={20} /> : null}
-            {!feed.loading && !feed.updated ? <CouldntLoad retry={() => this.props.fetchFeed(this.props.user)} /> : null}
+            {/* {feed.loading ? <Spinner color="grey" size={20} /> : null} */}
             {display.map((song, idx) => (
               <FeedItem
                 key={idx}
@@ -153,7 +168,7 @@ export class FeedItemWrapper extends Component {
                 navigation={this.props.navigation}
               />
             ))}
-           {this.props.navigation.routeName == "Feed" && feed.updated ? <LoadMore load={() => this.props.fetchFeed(this.props.user)} loading={feed.loading} /> : null}
+            {this.props.navigation.state.routeName == "Feed" && feed.updated ? <LoadMore load={() => this.props.fetchFeed(this.props.user)} loading={feed.loading} /> : <Spinner color="grey" size={20} />}
             <View style={{ height: 150 }} />
           </Content>
         </KeyboardAvoidingScrollView>
@@ -190,13 +205,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);
 const CouldntLoad = props => {
   return <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 50, marginVertical: 20 }}>
       <TouchableOpacity onPress={props.retry} style={{flexDirection:'column', alignItems:'center'}} light>
-      <Text>Couldn't refresh your feed, Tap to retry</Text><Icon name="ios-refresh-circle-outline" />
+      <Text>Couldn't refresh your feed, Retry</Text><Icon name="ios-refresh-circle-outline" />
       </TouchableOpacity>
     </View>;
 }
 
 const LoadMore = props => {
   return props.loading ? <Spinner color="grey" size={20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
-      <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-sync-outline" /></Button>
+    <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-refresh-circle-outline" /></Button>
     </View>;
 }

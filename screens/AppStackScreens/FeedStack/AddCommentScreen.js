@@ -32,7 +32,7 @@ export class AddCommentScreen extends React.Component {
     this.addComment = this.addComment.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let songId = this.props.navigation.state.params.song.songId
     this.props.fetchComments(songId);
   }
@@ -59,9 +59,9 @@ export class AddCommentScreen extends React.Component {
 
         <Content>
           <ScrollView>
-            {comments.loading ? <View /> : null}
+            {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>Loading...</Text></View> : null}
             {!comments.loading && comments.updated ? <Comments user={user} song={song} users={users} comments={comments.byId} /> : null}
-            {!comments.loading && !comments.updated ? <View /> : null}
+          {!comments.loading && !comments.updated ? <View style={{ alignItems: 'center', justifyContent: 'center' }}><Text>Failed to load comments...</Text></View> : null}
           </ScrollView>
         </Content>
       <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />

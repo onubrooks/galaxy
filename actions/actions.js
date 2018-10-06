@@ -1,14 +1,13 @@
-import genericActionDispatcher from "./actionHelpers";
-import { Toast } from "native-base";
+import genericAsyncActionDispatcher from "./actionhelpers";
 /*
  * action types
  */
-// logged in user creating a post
-export const ADD_POST = 'ADD_POST';
+// logged in user uploading a song
+export const UPLOAD_SONG = 'UPLOAD_SONG';
+export const UPLOAD_SONG_SUCCESS = 'UPLOAD_SONG_FAIL';
+export const UPLOAD_SONG_FAIL = 'UPLOAD_SONG_FAIL';
 // fetch feed async when feed component mounts
 export const GET_FEED = 'GET_FEED'
-// fetch users
-export const GET_USERS = 'GET_USERS'
 // successful fetch
 export const GET_FEED_SUCCESS = 'GET_FEED_SUCCESS';
 // failed to get feed for some reason
@@ -24,14 +23,18 @@ export const GET_COMMENTS_FAIL = "GET_COMMENTS_FAIL";
 // user bookmarks a post
 export const BOOKMARK_SONG = 'BOOKMARK_SONG'
 export const UNBOOKMARK_SONG = 'UNBOOKMARK_SONG'
-// navigation between tabs triggers this action
-export const TOGGLE_TAB = 'TOGGLE_TAB'
 // user logs in
 export const LOGIN = 'LOGIN'
 // user logs out
 export const LOGOUT = 'LOGOUT'
 // user deletes his account from the app
 export const DELETE_USER = 'DELETE_USER'
+// logged in user profile
+export const GET_MY_PROFILE = 'GET_PROFILE'
+// success action called, sets loading to false and sets data
+export const GET_MY_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
+// error action, sets loading to false and error message
+export const GET_MY_PROFILE_fAIL = 'GET_PROFILE_FAIL'
 // view a user profile {id:{id, loading, data}} sets id and loading to true
 export const GET_PROFILE = 'GET_PROFILE'
 // success action called, sets loading to false and sets data
@@ -44,32 +47,9 @@ export const GET_PROFILE_fAIL = 'GET_PROFILE_FAIL'
  * action creators
  */
 // the following are action creators for the above mentioned actions
-
-export function addPost(post) {
-  return { 
-    type: ADD_POST, 
-    payload: {
-      post
-    }
-  }
-}
 export function getFeed(user) {
-  // return {
-  //   type: GET_FEED,
-  //   payload: {
-  //     request: {
-  //       //url: `/users/${user}/repos`
-  //       url: `/users/onubrooks/repos`
-  //     }
-  //   }
-  // }
   return {
     type: GET_FEED,
-  }
-}
-export function getUsers() {
-  return {
-    type: GET_USERS,
   }
 }
 
@@ -174,12 +154,29 @@ export function unBookmarkSong(songId) {
   }
 }
 
-// navigation
-export function toggleTab(tab) {
-  return { 
-    type: TOOGLE_TAB, 
+export function uploadSong(song) {
+  return {
+    type: UPLOAD_SONG,
     payload: {
-      tab 
+      song
+    }
+  }
+}
+
+export function uploadSongSuccess(song) {
+  return {
+    type: UPLOAD_SONG_SUCCESS,
+    payload: {
+      song
+    }
+  }
+}
+
+export function uploadSongFail(song) {
+  return {
+    type: UPLOAD_SONG_FAIL,
+    payload: {
+      song
     }
   }
 }
@@ -208,32 +205,54 @@ export function deleteUser(email) {
     }
   }
 }
-
-export function getProfile(id) {
-  return { 
-    type: GET_PROFILE, 
+export function getMyProfile(id) {
+  return {
+    type: GET_MY_PROFILE,
     payload: {
       id
     }
   }
 }
 
-export function getProfileSuccess(id, data) {
-  return { 
-    type: GET_PROFILE_SUCCESS, 
+export function getMyProfileSuccess(data) {
+  return {
+    type: GET_MY_PROFILE_SUCCESS,
     payload: {
-      id,
       data
     }
   }
 }
 
-export function getProfileFail(id, error) {
+export function getMyProfileFail() {
+  return {
+    type: GET_MY_PROFILE_fAIL,
+    payload: {
+    }
+  }
+}
+
+export function getProfile(userHandle) {
+  return { 
+    type: GET_PROFILE, 
+    payload: {
+      userHandle
+    }
+  }
+}
+
+export function getProfileSuccess(data) {
+  return { 
+    type: GET_PROFILE_SUCCESS, 
+    payload: {
+      data
+    }
+  }
+}
+
+export function getProfileFail() {
   return { 
     type: GET_PROFILE_fAIL, 
     payload: {
-      id,
-      error
     }
   }
 }
@@ -249,9 +268,9 @@ export function fetchFeed(user) {
     success: getFeedSuccess,
     fail: getFeedFail,
     successMsg: 'fetch feed successful...',
-    errorMsg: 'Unable to update feed'
+    errorMsg: 'Unable to update feed...'
   };
-  genericActionDispatcher(user, req, cb);
+  return genericAsyncActionDispatcher(user, req, cb);
 }
 export function hitASong(songId) {
   let req = {
@@ -266,7 +285,7 @@ export function hitASong(songId) {
     successMsg: 'hit successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(songId, req, cb);
+  return genericAsyncActionDispatcher(songId, req, cb);
 }
 export function unHitASong(songId) {
   let req = {
@@ -281,7 +300,7 @@ export function unHitASong(songId) {
     successMsg: 'unhit successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(songId, req, cb);
+  return genericAsyncActionDispatcher(songId, req, cb);
 }
 export function bookmarkASong(songId) {
   let req = {
@@ -296,7 +315,7 @@ export function bookmarkASong(songId) {
     successMsg: 'bookmark successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(songId, req, cb);
+  return genericAsyncActionDispatcher(songId, req, cb);
 }
 export function unBookmarkASong(songId) {
   let req = {
@@ -311,7 +330,7 @@ export function unBookmarkASong(songId) {
     successMsg: 'unbookmark successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(songId, req, cb);
+  return genericAsyncActionDispatcher(songId, req, cb);
 }
 export function fetchComments(songId) {
   let req = {
@@ -326,7 +345,7 @@ export function fetchComments(songId) {
     successMsg: 'get comments successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(songId, req, cb);
+  return genericAsyncActionDispatcher(songId, req, cb);
 }
 export function commentASong(songId, comment, user_id) {
   let data ={ songId, comment, user_id };
@@ -342,5 +361,63 @@ export function commentASong(songId, comment, user_id) {
     successMsg: 'add comment successful...',
     errorMsg: 'Network error, please try again...'
   };
-  genericActionDispatcher(data, req, cb);
+  return genericAsyncActionDispatcher(data, req, cb);
+}
+export function uploadSongAsync(song, user_id) {
+  let data = {
+    title: song.title,
+    desc: song.desc,
+    audio: song.audio,
+    coverArt: song.coverArt,
+    user: user_id
+  };
+  let req = {
+    method: 'POST',
+    url: `upload`,
+    data
+  };
+  let cb = {
+    initial: uploadSong,
+    success: null,
+    fail: null,
+    successMsg: 'song upload successful...',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(data, req, cb);
+}
+export function fetchMyProfile(user_id) {
+  let data = {
+    user: user_id
+  };
+  let req = {
+    method: 'POST',
+    url: `user`,
+    data
+  };
+  let cb = {
+    initial: getMyProfile,
+    success: getMyProfileSuccess,
+    fail: getMyProfileFail,
+    successMsg: 'unable to fetch my profile',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(user_id, req, cb);
+}
+export function fetchProfile(userHandle) {
+  let data = {
+    userHandle
+  };
+  let req = {
+    method: 'POST',
+    url: `get-profile`,
+    data
+  };
+  let cb = {
+    initial: getProfile,
+    success: getProfileSuccess,
+    fail: getProfileFail,
+    successMsg: 'unable to fetch profile',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(userHandle, req, cb);
 }

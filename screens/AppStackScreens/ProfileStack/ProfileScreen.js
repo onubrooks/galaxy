@@ -21,7 +21,15 @@ import ImageView from "../../../components/ImageView";
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
 import styles from "../../../components/styles";
 
+import { connect } from "react-redux";
+import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
+
 export class ProfileScreen extends Component {
+  componentDidMount() {
+    let user = this.props.user;
+    if (!this.props.otherUser) this.props.fetchMyProfile(user.id)
+    else this.props.fetchProfile(this.props.userHandle)
+  }
          render() {
            return <Container style={{ backgroundColor: "white" }}>
                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
@@ -72,4 +80,13 @@ export class ProfileScreen extends Component {
          }
        }
 
-export default ProfileScreen;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = {
+  fetchProfile
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

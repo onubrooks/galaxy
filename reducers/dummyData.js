@@ -6,7 +6,9 @@ export const loggedInUser = {
       username: null,
       loggedIn: false,
       thumbnail: null,
-      avatar: null
+      avatar: null,
+      loading: false,
+      updated: false
 };
 
 const sampleFeed = {
@@ -52,11 +54,29 @@ const sampleUsers =  {
   allIds: ["madrock60", "28thsly", "steverog", "onubrooks"]
 };
 const sampleBookmarks = [];
+const uploadingSong = {
+  loading: false,
+  uploaded: false,
+  song: {
+    title: '',
+    desc: '',
+    audio: null,
+    coverArt: null
+  }
+};
+const profile = {
+  loading: false,
+  updated: false,
+  userHandle: null,
+  data: null
+};
 
 export const initialState = {
       feed: sampleFeed,
       comments: sampleComments,
       users: sampleUsers,
       user: loggedInUser,
-      bookmarks: sampleBookmarks
+      bookmarks: sampleBookmarks,
+      uploadingSong,
+      profile
 }

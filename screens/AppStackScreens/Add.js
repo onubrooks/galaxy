@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  ScrollView,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  Dimensions,
-  ImageBackground,
-  Keyboard
+  ImageBackground
 } from "react-native";
 import {
   Container,
@@ -25,11 +21,10 @@ import {
   Text,
   Textarea
 } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../components/styles";
-const onu = require("../../assets/onu.jpg");
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
+import { connect } from "react-redux";
+import { uploadSongAsync } from "../../actions/actions";
 
 export class Add extends Component {
   cont;
@@ -37,11 +32,15 @@ export class Add extends Component {
     super(props);
     this.state = {
       audio: null,
-      coverArt: null
+      coverArt: null,
+      title: '',
+      desc: ''
     };
   }
   
   saveAndGoBack = () => {
+    let { user } = this.props;
+    this.props.uploadSongAsync(this.state, user.id)
     // dispatch a redux action
     this.setState({ audio: null, coverArt: null });
     // then go back
@@ -96,7 +95,7 @@ export class Add extends Component {
               <Form style={{ alignSelf: "stretch" }}>
                 <Item floatingLabel>
                   <Label>Title</Label>
-                  <Input />
+                  <Input onChangeText={(title) => this.setState({title})} value={this.state.title}/>
                 </Item>
                 <Item style={{ marginTop: 30 }}>
                   <TouchableOpacity onPress={this.pickAudio}>
@@ -105,7 +104,7 @@ export class Add extends Component {
                 </Item>
                 <Item floatingLabel last>
                   <Label>Description</Label>
-                  <Textarea rowSpan={5} bordered placeholder="About the song" />
+                <Textarea rowSpan={5} bordered placeholder="About the song" onChangeText={(desc) => this.setState({ desc })} value={this.state.title}/>
                 </Item>
               </Form>
             </View>
@@ -115,7 +114,16 @@ export class Add extends Component {
   }
 }
 
-export default Add;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = {
+  uploadSongAsync
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Add);
 
 const primaryColor = "#006E8C";
 const stl = StyleSheet.create({
