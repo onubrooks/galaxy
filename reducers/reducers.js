@@ -21,7 +21,10 @@ import {
   DELETE_USER,
   GET_PROFILE,
   GET_PROFILE_SUCCESS,
-  GET_PROFILE_fAIL
+  GET_PROFILE_FAIL,
+  GET_MY_PROFILE,
+  GET_MY_PROFILE_SUCCESS,
+  GET_MY_PROFILE_FAIL
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet, NetInfo } from 'react-native';
+import { Toast } from "native-base";
 
-import { AppLoading, Asset, Font, Permissions, Notifications } from "expo";
+import { AppLoading, Asset, Font } from "expo";
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
 import { Root } from "native-base";
@@ -89,8 +90,30 @@ export default class App extends React.Component {
   };
 
   _handleFinishLoading = () => {
+    this._registerNetworkNotification();
     this.setState({ isLoadingComplete: true });
   };
+
+  _registerNetworkNotification = () => {
+    NetInfo.getConnectionInfo().then((connectionInfo) => {
+      console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+    });
+
+    NetInfo.addEventListener(
+      'connectionChange',
+      this._handleConnectivityChange
+    );
+  }
+
+  _handleConnectivityChange = (connectionInfo) => {
+    console.log('Network Connectivity Change, Type: ' + connectionInfo.type + ', EffectiveType: ' + connectionInfo.effectiveType);
+    let msg = connectionInfo.type == "none" || connectionInfo.type == "unknown" ? 'You are now online' : 'You are now offline';
+    Toast.show({
+      text: msg,
+      position: "bottom",
+      duration: 2000
+    });
+  }
 }
 
 const styles = StyleSheet.create({
