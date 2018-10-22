@@ -15,6 +15,7 @@ export const GET_FEED_FAIL = 'GET_FEED_FAIL';
 // user likes a post
 export const LIKE_SONG = 'LIKE_SONG'
 export const UNLIKE_SONG = 'UNLIKE_SONG'
+export const REMOVE_SONG = 'REMOVE_SONG'
 // user comments on a post
 export const COMMENT_SONG = 'COMMENT_SONG'
 export const GET_COMMENTS = "GET_COMMENTS";
@@ -93,6 +94,15 @@ export function unLikeSong(songId) {
       songId
     }
    }
+}
+
+export function removeSong(songId) {
+  return {
+    type: REMOVE_SONG,
+    payload: {
+      songId
+    }
+  }
 }
 
 export function commentSong(data) {

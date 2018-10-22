@@ -36,7 +36,7 @@ const store = createStore(
  );
 let persistor = persistStore(store);
 
-console.reportErrorsAsExceptions = false;
+//console.reportErrorsAsExceptions = false;
 
 export default class App extends React.Component {
   state = {

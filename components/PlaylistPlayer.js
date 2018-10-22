@@ -15,57 +15,34 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Icon as IconBase, Button } from "native-base";
 import * as Animatable from "react-native-animatable";
 
-class Icon {
-  constructor(module, width, height) {
-    this.module = module;
-    this.width = width;
-    this.height = height;
-    Asset.fromModule(this.module).downloadAsync();
-  }
-}
-
-class PlaylistItem {
-  constructor(name, uri, isVideo) {
-    this.name = name;
-    this.uri = uri;
-    this.isVideo = isVideo;
-  }
-}
-
-let PLAYLIST = [
-  new PlaylistItem(
-    "Davido - If",
-    //"https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Comfort_Fit_-_03_-_Sorry.mp3",
-    require("../audio/1.mp3"),
-    false
-  ),
-  new PlaylistItem(
-    "Aaron Neville – “Crazy Love”",
-    "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
-    //"https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "Daughtry - “Home (acoustic)”",
-    "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "John Pagano - “Change in my Life”",
-    "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "Kenny Loggins - “House At Pooh Corner”",
-    "https://archive.org/download/Mp3Playlist_555/KennyLoggins-04HouseAtPoohCorner.mp3",
-    false
-  ),
-  new PlaylistItem(
-    "Kris Aquino - “I Will be Here”",
-    "https://archive.org/download/Mp3Playlist_555/KrisAquino-SongsOfLoveAndHealing2007-11-IWillBeHere.mp3",
-    false
-  )
-];
+// let PLAYLIST = [
+//   new PlaylistItem(
+//     "Aaron Neville – “Crazy Love”",
+//     "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
+//     //"https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
+//     false
+//   ),
+//   new PlaylistItem(
+//     "Daughtry - “Home (acoustic)”",
+//     "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
+//     false
+//   ),
+//   new PlaylistItem(
+//     "John Pagano - “Change in my Life”",
+//     "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
+//     false
+//   ),
+//   new PlaylistItem(
+//     "Kenny Loggins - “House At Pooh Corner”",
+//     "https://archive.org/download/Mp3Playlist_555/KennyLoggins-04HouseAtPoohCorner.mp3",
+//     false
+//   ),
+//   new PlaylistItem(
+//     "Kris Aquino - “I Will be Here”",
+//     "https://archive.org/download/Mp3Playlist_555/KrisAquino-SongsOfLoveAndHealing2007-11-IWillBeHere.mp3",
+//     false
+//   )
+// ];
 
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
@@ -95,6 +72,7 @@ export default class PlaylistPlayer extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.playbackInstance = null;
     this.state = {
+      playlist: props.playlist,
       showVideo: false,
       playbackInstanceName: LOADING_STRING,
       loopingType: LOOPING_TYPE_ALL,
@@ -150,7 +128,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance = null;
     }
 
-    const source = typeof PLAYLIST[this.index].uri == "number" ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };//{ uri: PLAYLIST[this.index].uri };
+    const source = { uri: this.state.playlist[this.index].songPath };
     const initialStatus = {
       shouldPlay: playing,
       rate: this.state.rate,
@@ -162,7 +140,7 @@ export default class PlaylistPlayer extends React.Component {
       androidImplementation: 'MediaPlayer',
     };
 
-    if (PLAYLIST[this.index].isVideo) {
+    if (this.state.playlist[this.index].isVideo) {
       this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await this._video.loadAsync(source, initialStatus);
       this.playbackInstance = this._video;
@@ -194,8 +172,8 @@ export default class PlaylistPlayer extends React.Component {
       });
     } else {
       this.setState({
-        playbackInstanceName: PLAYLIST[this.index].name,
-        showVideo: PLAYLIST[this.index].isVideo,
+        playbackInstanceName: this.state.playlist[this.index].songTitle,
+        showVideo: this.state.playlist[this.index].isVideo,
         isLoading: false
       });
     }
@@ -260,7 +238,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _advanceIndex(forward) {
-    this.index = (this.index + (forward ? 1 : PLAYLIST.length - 1)) % PLAYLIST.length;
+    this.index = (this.index + (forward ? 1 : this.state.playlist.length - 1)) % this.state.playlist.length;
   }
 
   _setIndex(index) {
@@ -327,9 +305,9 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onShufflePressed = () => {
-    // todo: shuffle the playlist array
-    //this.setState({playlist: shuffle(PLAYLIST)});
-    PLAYLIST = shuffle(PLAYLIST);
+    // todo: shuffle the this.state.playlist array
+    this.setState({playlist: shuffle(this.state.playlist)});
+    //PLAYLIST = shuffle(PLAYLIST);
     this._setIndex(0);
   };
 
@@ -537,11 +515,11 @@ export default class PlaylistPlayer extends React.Component {
               <IconBase style={stl.button} name={this.state.muted ? "ios-volume-off" : "ios-volume-up"} style={{ fontSize: 30 }} />
             </TouchableHighlight>
           </View>
-          <View style={stl.redIcons}>
+          {/* <View style={stl.redIcons}>
             <IconBase name="ios-cloud-download-outline" style={{ fontSize: 30, color: "red" }} />
             <IconBase name="ios-radio-outline" style={{ fontSize: 30, color: "red" }} />
             <IconBase name="ios-more" style={{ fontSize: 30, color: "red" }} />
-          </View>
+          </View> */}
           <Hr />
           <View style={stl.shuffleRepeatControls}>
           <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._onShufflePressed}>
@@ -567,7 +545,7 @@ export default class PlaylistPlayer extends React.Component {
             >
               Up Next
             </Text>
-          {PLAYLIST.map((item, idx) => (
+          {this.state.playlist.map((item, idx) => (
             <TouchableOpacity key={idx} onPress={() => this._setIndex(idx)}>
               <UpNext idx={idx} item={item} />
             </TouchableOpacity>
@@ -695,7 +673,7 @@ const UpNext = (props) => {
       </View>
       <View style={{ width: "60%", justifyContent: "center" }}>
         <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 17, fontWeight: "400" }}>
-          {props.item.name}
+        {props.item.songTitle}
         </Text>
       <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "100", color: "#BABEC0" }}>
           Artist.

@@ -13,14 +13,15 @@ export class FeedScreenModalContent extends Component {
     super(props);
     this.handlePress = this.handlePress.bind(this);
   }
-  handlePress() {
-    this.props.setModalVisible(false);
+  handlePress(val) {
+    this.props.setModalVisible(false, null, val);
   }
   render() {
       return <View style={{ marginHorizontal: 20, backgroundColor:"white", width:"90%", borderRadius:6 }}>
             <View style={{marginLeft: 20}}>
-                  <Text onPress={ this.handlePress } style={{marginVertical: 13, fontSize: 17}}>Share on Facebook</Text>
-                  <Text onPress={this.handlePress} style={{ marginVertical: 13, fontSize: 17 }}>Share on Twitter</Text>
+                  <Text onPress={ () => this.handlePress('remove') } style={{marginVertical: 13, fontSize: 17}}>Delete</Text>
+                  {/* <Text onPress={ () => this.handlePress('facebook') } style={{marginVertical: 13, fontSize: 17}}>Share on Facebook</Text>
+                  <Text onPress={() => this.handlePress('twitter')} style={{ marginVertical: 13, fontSize: 17 }}>Share on Twitter</Text> */}
             </View>
       </View>
   }

@@ -9,6 +9,7 @@ import {
   COMMENT_SONG,
   LIKE_SONG,
   UNLIKE_SONG,
+  REMOVE_SONG,
   BOOKMARK_SONG,
   UNBOOKMARK_SONG,
   UPLOAD_SONG,
@@ -66,6 +67,14 @@ function feed(state = initialState.feed, action) {
             }
           }
         }
+    case REMOVE_SONG:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: null
+        }
+      }
       case BOOKMARK_SONG:
           return {
             ...state,

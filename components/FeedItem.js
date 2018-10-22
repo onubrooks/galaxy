@@ -55,8 +55,8 @@ export class FeedItem extends Component {
            this.setState({ inputFocused: true });
            console.log("focus");
          }
-         handlePress() {
-           this.props.setModalVisible(true);
+         handlePress(song) {
+           this.props.setModalVisible(true, song);
          }
          gotoComments(song) {
            this.props.gotoComments(song);
@@ -76,7 +76,7 @@ export class FeedItem extends Component {
                    </Body>
                  </Left>
                  <Right>
-                   <TouchableOpacity style={{ width: 25, paddingLeft: 12 }} transparent onPress={this.handlePress}>
+                   <TouchableOpacity style={{ width: 25, paddingLeft: 12 }} transparent onPress={ () => this.handlePress(song)}>
                      <Ionicons name="md-more" size={25} />
                    </TouchableOpacity>
                  </Right>

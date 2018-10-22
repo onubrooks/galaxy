@@ -29,6 +29,7 @@ import {
   fetchFeed,
   hitASong,
   unHitASong,
+  removeSong,
   bookmarkASong,
   unBookmarkASong,
   commentASong
@@ -39,7 +40,7 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, refreshing: props.feed.loading };
+    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -63,8 +64,13 @@ export class FeedItemWrapper extends Component {
     }
   }
 
-  setModalVisible(visible) {
-    this.setState({ isModalVisible: visible });
+  setModalVisible(visible, song, val) {
+    if(val && val == 'remove') {
+      this.props.removeSong(this.state.song.songId);
+      this.setState({ isModalVisible: visible, song:null });
+    } else {
+      this.setState({ isModalVisible: visible, song });
+    }
   }
   addComment(songId, comment) {
     let user_id = this.props.user.id;
@@ -148,13 +154,12 @@ export class FeedItemWrapper extends Component {
     const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
     const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
     let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-    let display = all.slice(0, 3);
+    let display = all.slice(0, 4);
 
     return <Container style={styles.container}>
       <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={'grey'} title="refreshing" />}>
           <Content>
-            {/* {feed.loading ? <Spinner color="grey" size={20} /> : null} */}
-            {display.map((song, idx) => (
+            {display.map((song, idx) => song && (
               <FeedItem
                 key={idx}
                 song={song}
@@ -195,6 +200,7 @@ const mapDispatchToProps = {
   fetchFeed,
   hitASong,
   unHitASong,
+  removeSong,
   bookmarkASong,
   unBookmarkASong,
   commentASong

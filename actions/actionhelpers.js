@@ -28,11 +28,12 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
         Accept: 'application/json',
       },
       data: req.method == 'POST' ? req.data : null
-    }).then((response) => response.json()).then(data => {
+    })/** .then((response) => response.json())**/.then(async (response) => {
       // We can dispatch many times!
       // Here, we update the app state with the results of the API call.
-      console.log(cb.successMsg, data);
-      cb.success && dispatch(cb.success(data));
+      let jsonObj = await response.json();
+      console.log(cb.successMsg, jsonObj);
+      cb.success && dispatch(cb.success(jsonObj));
     },
       // Do not use catch, because that will also catch
       // any errors in the dispatch and resulting render,
@@ -45,8 +46,16 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           position: 'bottom',
           duration: 2000
         });
-        cb.fail && dispatch(cb.fail(error));
+        cb.fail && dispatch(cb.fail(data));
       }
-    )
+    ).catch(error => {
+      console.log('An error occurred.', error);
+      Toast.show({
+        text: cb.errorMsg,
+        position: 'bottom',
+        duration: 2000
+      });
+      cb.fail && dispatch(cb.fail(data));
+    })
   }
 }
