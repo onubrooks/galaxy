@@ -20,22 +20,6 @@ import IconAsset from "./IconAsset";
 
 import { PlayerSingleton } from "../PlayerSingleton";
 
-class PlaylistItem {
-  constructor(name, uri, isVideo) {
-    this.name = name;
-    this.uri = uri;
-    this.isVideo = isVideo;
-  }
-}
-
-const PLAYLIST = [
-  new PlaylistItem(
-    "Track 1",
-    require("../audio/1.mp3"),
-    false
-  )
-];
-
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
 
@@ -124,21 +108,13 @@ export default class Player extends React.Component {
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
       androidImplementation: 'MediaPlayer',
     };
-
-    if (PLAYLIST[this.index].isVideo) {
-      this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
-      await this._video.loadAsync(source, initialStatus);
-      this.playbackInstance = this._video;
-      const status = await this._video.getStatusAsync();
-    } else {
-      const { sound, status } = await Audio.Sound.create(
-        source,
-        initialStatus,
-        this._onPlaybackStatusUpdate
-      );
-      this.playbackInstance = sound;
-      playerService.addPlayer(this.playbackInstance);
-    }
+    const { sound, status } = await Audio.Sound.create(
+      source,
+      initialStatus,
+      this._onPlaybackStatusUpdate
+    );
+    this.playbackInstance = sound;
+    playerService.addPlayer(this.playbackInstance);
 
     this._updateScreenForLoading(false);
   }
