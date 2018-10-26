@@ -138,7 +138,7 @@ export default class Player extends React.Component {
     } else {
       this.setState({
         playbackInstanceName: this.props.title,
-        showVideo: PLAYLIST[this.index].isVideo,
+        showVideo: false,
         isLoading: false,
       });
     }
@@ -203,7 +203,7 @@ export default class Player extends React.Component {
   };
 
   _advanceIndex(forward) {
-    this.index = (this.index + (forward ? 1 : PLAYLIST.length - 1)) % PLAYLIST.length;
+    this.index = (this.index + (forward ? 1 : 1 - 1)) % 1;
   }
 
   async _updatePlaybackInstanceForIndex(playing) {

@@ -90,7 +90,7 @@ export class FeedItem extends Component {
 
                <CardItem style={{ paddingVertical: -50 }}>
                  <Left>
-                   <TouchableOpacity onPress={() => this.props.toggleLike(song.songId)}>
+                   <TouchableOpacity onPress={() => this.props.toggleLike(song.songId, +user.id)}>
                      <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={song.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
                    </TouchableOpacity>
                    <Text />
@@ -100,7 +100,7 @@ export class FeedItem extends Component {
                  </Left>
                  <Body />
                  <Right>
-                   <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId)}>
+                   <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId, +user.id)}>
                    <Ionicons name={song.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
                    </TouchableOpacity>
                  </Right>

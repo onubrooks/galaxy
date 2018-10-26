@@ -3,10 +3,15 @@ const onu = require("../assets/onu.jpg");
 export const loggedInUser = {
       id: null,
       email: null,
-      username: null,
+      userHandle: null,
+      fullname: null,
+      gender: null,
+      status: null,
       loggedIn: false,
-      thumbnail: null,
-      avatar: null,
+      userAvatar: null,
+      noSongs: null,
+      noFollowers: null,
+      noFollowing: null,
       loading: false,
       updated: false
 };
@@ -14,7 +19,7 @@ export const loggedInUser = {
 const sampleFeed = {
   byId: {
   },
-  allIds: [],
+  // allIds: [],
   loading: false,
   updated: false,
   lastUpdated: 0 // Date.now()
@@ -23,7 +28,7 @@ const sampleFeed = {
 const sampleComments = {
   byId: {
   },
-  allIds: [],
+  // allIds: [],
   currentSong: null,
   loading: false,
   updated: true

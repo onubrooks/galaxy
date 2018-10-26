@@ -25,32 +25,25 @@ export default class Comments extends Component {
   }
   
   render() {
-             let { user, post = [], comments, users } = this.props;
+             let { user, song = {}, comments = {} } = this.props;
+             console.log('comments ', comments);
              // this next line maps through the comments object and converts it into an array using Object.keys()
              //which is easier to process for display. same thing is done for users object down below
-             let thisComments = Object.keys(comments)
-               .map((val, idx) => comments[val])
-               .filter(comment => comment.post_id == post.id);
-             thisComments = thisComments.map(comment => {
-               let usersArr = Object.keys(users).map((val, idx) => users[val]);
-               let commenter = usersArr.find(user => user.username == comment.author);
-               return { 
-                 comment, 
-                 commenter 
-                  }; 
-             });
+             let thisComments = Object.keys(comments.byId)
+               .map((key, idx) => comments.byId[key]).filter((item) => item.songId == comments.currentSong);
+               console.log(thisComments);
              return <Container>
                  <Content>
                    <List>
                      <ListItem avatar>
                        <Left>
-                         <Thumbnail small source={post.thumbnail} />
+                         <Thumbnail small source={{uri: song.userAvatar}} />
                        </Left>
                        <Body>
                          <Text>
-                         <Text style={{ fontWeight: '900' }}>{post.handle} </Text>{post.text}
+                         <Text style={{ fontWeight: '900' }}>{song.userHandle} </Text>{song.songTitle}
                          </Text>
-                         <Text note>{post.ago}</Text>
+                         <Text note>{song.songDate}</Text>
                        </Body>
                        <Right />
                      </ListItem>
@@ -59,22 +52,22 @@ export default class Comments extends Component {
                          <Left>
                            <Thumbnail
                              small
-                             source={data.commenter.avatar}
+                             source={{uri: data.userAvatar}}
                            />
                          </Left>
                          <Body>
                            <Text>
-                             <Text style={{fontWeight:'900'}}>{data.commenter.username} </Text>
-                             {data.comment.comment}
+                             <Text style={{fontWeight:'900'}}>{data.userHandle} </Text>
+                             {data.comment}
                            </Text>
-                           <Text note>4m</Text>
+                           <Text note>{ data.commentDate }</Text>
                          </Body>
-                         <Right>
+                         {/* <Right>
                            <Icon
                              size={15}
                              name="md-heart-outline"
                            />
-                         </Right>
+                         </Right> */}
                        </ListItem>
                      ))}
                    </List>

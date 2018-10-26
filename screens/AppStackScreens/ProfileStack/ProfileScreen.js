@@ -27,15 +27,18 @@ import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
 export class ProfileScreen extends Component {
   componentDidMount() {
     let user = this.props.user;
-    if (!this.props.otherUser) this.props.fetchMyProfile(user.id)
-    else this.props.fetchProfile(this.props.userHandle)
+    if (!this.props.otherUser && !user.userHandle)
+      this.props.fetchMyProfile(user.id)
+    else 
+      this.props.fetchProfile(this.props.userHandle)
   }
          render() {
+           let { user } = this.props;
            return <Container style={{ backgroundColor: "white" }}>
                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                  <Left>
                  <Title style={{ color: "#006E8C" }}>
-                     Steverogers
+                     { user.userHandle }
                    </Title>
                  </Left>
 
@@ -46,13 +49,13 @@ export class ProfileScreen extends Component {
                  </Right>
                </Header>
                <ScrollView>
-                 <ProfileSummary navigation={this.props.navigation} />
+                 <ProfileSummary navigation={this.props.navigation} user={user} />
                  <Text
                    style={{ fontWeight: "bold", marginLeft: 15 }}
                  >
-                   Steven Strange{" "}
+                   { user.fullname }
                  </Text>
-                 <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
+                 {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="md-apps" size={30} />
                        </TabHeading>}>
@@ -74,7 +77,7 @@ export class ProfileScreen extends Component {
                        <ImageView navigation={this.props.navigation} bookmarkedOnly={true} />
                      </ScrollView>
                    </Tab>
-                 </Tabs>
+                 </Tabs> */}
                </ScrollView>
              </Container>;
          }
@@ -87,6 +90,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchProfile
+  fetchProfile,
+  fetchMyProfile
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

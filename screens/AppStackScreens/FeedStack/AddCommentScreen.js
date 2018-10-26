@@ -37,13 +37,13 @@ export class AddCommentScreen extends React.Component {
     this.props.fetchComments(songId);
   }
   addComment(songId, comment) {
-    let user_id = this.props.user.username;
-    this.props.commentASong(songId, comment, user_id);
+    let user = this.props.user;
+    this.props.commentASong(songId, comment, user);
   }
 
   render() {
-    let { song, users } = this.props.navigation.state.params; // passed from the feed page
-    let { user, comments } = this.props;
+    let { song } = this.props.navigation.state.params; // passed from the feed page
+    let { user, comments = {} } = this.props;
     let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
     return <Container style={[styles.container, {}]}>
         <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
@@ -60,8 +60,7 @@ export class AddCommentScreen extends React.Component {
         <Content>
           <ScrollView>
             {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>Loading...</Text></View> : null}
-            {!comments.loading && comments.updated ? <Comments user={user} song={song} users={users} comments={comments.byId} /> : null}
-          {!comments.loading && !comments.updated ? <View style={{ alignItems: 'center', justifyContent: 'center' }}><Text>Failed to load comments...</Text></View> : null}
+            <Comments user={user} song={song} comments={comments} />
           </ScrollView>
         </Content>
       <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />

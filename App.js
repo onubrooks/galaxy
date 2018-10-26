@@ -31,12 +31,12 @@ const store = createStore(
   persistedReducer, 
    applyMiddleware(
      thunkMiddleware, // lets us dispatch() functions
-     //loggerMiddleware // neat middleware that logs actions
+     loggerMiddleware // neat middleware that logs actions
    )
  );
 let persistor = persistStore(store);
 
-//console.reportErrorsAsExceptions = false;
+console.reportErrorsAsExceptions = false;
 
 export default class App extends React.Component {
   state = {

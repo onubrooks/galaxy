@@ -27,6 +27,7 @@ import { FeedScreenModalContent } from "./ModalContent";
 import { connect } from "react-redux";
 import {
   fetchFeed,
+  fetchMyProfile,
   hitASong,
   unHitASong,
   removeSong,
@@ -73,30 +74,29 @@ export class FeedItemWrapper extends Component {
     }
   }
   addComment(songId, comment) {
-    let user_id = this.props.user.id;
-    this.props.commentASong(songId, comment, user_id);
+    let user = this.props.user;
+    this.props.commentASong(songId, comment, user);
   }
   gotoComments(song) {
     this.props.navigation.navigate("AddComment", {
-      song,
-      users: this.props.users.byId
+      song
     });
   }
-  toggleLike(songId) {
+  toggleLike(songId, userId) {
     // like/hit action dispatcher
     if (!this.props.feed.byId[songId].iHit) {
-      this.props.hitASong(songId);
+      this.props.hitASong(songId, userId);
     } else {
-      this.props.unHitASong(songId);
+      this.props.unHitASong(songId, userId);
     }
   }
 
-  toggleBookmark(songId) {
+  toggleBookmark(songId, userId) {
     // bookmark action dispatcher
     if (!this.props.feed.byId[songId].iFav) {
-      this.props.bookmarkASong(songId);
+      this.props.bookmarkASong(songId, userId);
     } else {
-      this.props.unBookmarkASong(songId);
+      this.props.unBookmarkASong(songId, userId);
     }
   }
 
@@ -146,6 +146,7 @@ export class FeedItemWrapper extends Component {
     if (this.props.navigation.state.routeName == "Feed") {
       //this.setState({ refreshing: true });
       this.props.fetchFeed(this.props.user);
+      this.props.fetchMyProfile(this.props.user.id);
     }
   }
 
@@ -198,6 +199,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFeed,
+  fetchMyProfile,
   hitASong,
   unHitASong,
   removeSong,

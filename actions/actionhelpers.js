@@ -5,6 +5,7 @@
  * the third is an object containing the initial, success and fail actions/callbacks and the error msg
  */
 import { Toast } from "native-base";
+import Axios from "axios";
 const PUSH_ENDPOINT = `http://api.leedder.com/api`;
 // thunk action creator, returns a function that dispatches getFeed and then 
 export default function genericAsyncActionDispatcher(data, req, cb) {
@@ -22,40 +23,42 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
     const ENDPOINT = `${PUSH_ENDPOINT}/${req.url}`;
-    fetch(ENDPOINT, {
+    // fetch(ENDPOINT, {
+    //   method: req.method,
+    //   data: req.method == 'post' ? req.data : null
+    // })
+    Axios(ENDPOINT, {
       method: req.method,
-      headers: {
-        Accept: 'application/json',
-      },
-      data: req.method == 'POST' ? req.data : null
-    })/** .then((response) => response.json())**/.then(async (response) => {
-      // We can dispatch many times!
-      // Here, we update the app state with the results of the API call.
-      let jsonObj = await response.json();
-      console.log(cb.successMsg, jsonObj);
-      cb.success && dispatch(cb.success(jsonObj));
-    },
-      // Do not use catch, because that will also catch
-      // any errors in the dispatch and resulting render,
-      // causing a loop of 'Unexpected batch number' errors.
-      // https://github.com/facebook/react/issues/6895
-      error => {
-        console.log('An error occurred.', error);
+      data: req.method == 'post' ? req.data : null
+    })
+    .then(response => {
+          // We can dispatch many times!
+          // Here, we update the app state with the results of the API call.
+          // console.log("response is ", response);
+          let data = response.data;
+          console.log(cb.successMsg, data);
+          cb.success && dispatch(cb.success(data));
+        }, // Do not use catch, because that will also catch
+        // any errors in the dispatch and resulting render,
+        // causing a loop of 'Unexpected batch number' errors.
+        // https://github.com/facebook/react/issues/6895
+        error => {
+          console.log("An error occurred.", error);
+          Toast.show({
+            text: cb.errorMsg,
+            position: "bottom",
+            duration: 2000
+          });
+          cb.fail && dispatch(cb.fail(data));
+        })
+      .catch(error => {
+        console.log("Something went wrong.", error);
         Toast.show({
           text: cb.errorMsg,
-          position: 'bottom',
+          position: "bottom",
           duration: 2000
         });
         cb.fail && dispatch(cb.fail(data));
-      }
-    ).catch(error => {
-      console.log('An error occurred.', error);
-      Toast.show({
-        text: cb.errorMsg,
-        position: 'bottom',
-        duration: 2000
       });
-      cb.fail && dispatch(cb.fail(data));
-    })
   }
 }

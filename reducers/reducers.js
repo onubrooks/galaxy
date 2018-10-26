@@ -37,7 +37,7 @@ function feed(state = initialState.feed, action) {
       }
     case GET_FEED_SUCCESS:
       return {
-        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId}, allIds: state.allIds.concat(action.payload.ids)
+        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId}, allIds: null
       }
     case GET_FEED_FAIL:
       return {
@@ -102,15 +102,14 @@ function feed(state = initialState.feed, action) {
     }
 }
 
-function comment(state = initialState.comments, action) {
+function comments(state = initialState.comments, action) {
       switch (action.type) {
         case COMMENT_SONG:
-          return { ...state, byId: { ...state.byId, [action.payload.comment]: { // new comment id is the comment for now
-                id: action.payload.comment, author: action.payload.user_id, comment: action.payload.comment, post_id: action.payload.post_id } }, allIds: [...state.allIds, action.payload.comment] }; // payload consists of post_id, user_id and comment text
+          return { ...state, byId: { ...state.byId, ...action.payload.comment } }; // payload consists of post_id, user_id and comment text
         case GET_COMMENTS:
           return { ...state, currentSong: action.payload.songId, loading: true };
         case GET_COMMENTS_SUCCESS:
-          return { ...state, byId: { ...action.payload.byId, ...state.byId }, allIds: state.allIds.concat(action.payload.ids), loading: false, updated: true };
+          return { ...state, byId: { ...action.payload.byId }, loading: false, updated: true };
         case GET_COMMENTS_FAIL:
           return { ...state, loading: false, updated: false };
         default:
@@ -156,9 +155,14 @@ function user(state = initialState.user, action) {
             loading: false,
             updated: true,
             email: action.payload.data.email,
-            username: action.payload.data.username,
-            thumbnail: action.payload.data.thumbnail,
-            avatar: action.payload.data.avatar
+            userHandle: action.payload.data.userHandle,
+            fullname: action.payload.data.fullname,
+            gender: action.payload.data.gender,
+            status: action.payload.data.status,
+            userAvatar: action.payload.data.userAvatar,
+            noSongs: action.payload.data.noSongs,
+            noFollowers: action.payload.data.noFollowers,
+            noFollowing: action.payload.data.noFollowing
           }
         case GET_MY_PROFILE_FAIL:
           return {
@@ -196,7 +200,7 @@ function getProfile(state = initialState.profile, action) {
 const rootReducer = combineReducers({
   feed,
   upload,
-  comment,
+  comments,
   user,
   getProfile
 });

@@ -1,22 +1,20 @@
 import React, { Component } from "react";
-import { Image, ScrollView, View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, Text, Thumbnail } from "native-base";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import styles from "./styles";
-const sly = require("../assets/sly.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export default class ProfileSummary extends Component {
   render() {
+    let { user } = this.props;
     return <View style={stl.grid}>
   <View style={stl.thumb}>
-    <Thumbnail large source={sly} />
+    <Thumbnail large source={{ uri: user.userAvatar }} />
   </View>
   <View style={stl.sub_grid}>
         <View style={stl.stats}>
       <View>
         <View>
-              <Text style={stl.statNum}>1</Text>
+              <Text style={stl.statNum}>{ user.noSongs }</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>songs</Text>
@@ -24,7 +22,7 @@ export default class ProfileSummary extends Component {
       </View>
       <View>
         <View>
-              <Text style={stl.statNum}>1</Text>
+              <Text style={stl.statNum}>{user.noFollowers}</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>followers</Text>
@@ -32,7 +30,7 @@ export default class ProfileSummary extends Component {
       </View>
       <View>
         <View>
-              <Text style={stl.statNum}>1</Text>
+              <Text style={stl.statNum}>{user.noFollowing}</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>following</Text>

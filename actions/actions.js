@@ -35,13 +35,13 @@ export const GET_MY_PROFILE = 'GET_PROFILE'
 // success action called, sets loading to false and sets data
 export const GET_MY_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
 // error action, sets loading to false and error message
-export const GET_MY_PROFILE_fAIL = 'GET_PROFILE_FAIL'
+export const GET_MY_PROFILE_FAIL = 'GET_PROFILE_FAIL'
 // view a user profile {id:{id, loading, data}} sets id and loading to true
 export const GET_PROFILE = 'GET_PROFILE'
 // success action called, sets loading to false and sets data
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
 // error action, sets loading to false and error message
-export const GET_PROFILE_fAIL = 'GET_PROFILE_FAIL'
+export const GET_PROFILE_FAIL = 'GET_PROFILE_FAIL'
 
 
 /*
@@ -106,12 +106,19 @@ export function removeSong(songId) {
 }
 
 export function commentSong(data) {
+  let comment = {
+    [Date.now()]: {
+      comment: data.comment,
+      commentDate: "Just now",
+      songId: data.songId,
+      userHandle: data.user.userHandle,
+      userAvatar: data.user.userAvatar
+    }
+  };
   return { 
     type: COMMENT_SONG, 
     payload: {
-      songId: data.songId, 
-      comment: data.comment,
-      user_id: data.user_id
+      comment
     }
   }
 }
@@ -124,10 +131,10 @@ export function getComments(songId) {
   }
 }
 export function getCommentsSuccess(data) {
-  let ids = data.map((item) => item.id);
+  let ids = data.map((item) => item.commentId);
   let byId = {};
   for (let item of data) {
-    byId = { [item.id]: item, ...byId }
+    byId = { [item.commentId]: item, ...byId }
   }
   return {
     type: GET_COMMENTS_SUCCESS,
@@ -235,7 +242,7 @@ export function getMyProfileSuccess(data) {
 
 export function getMyProfileFail() {
   return {
-    type: GET_MY_PROFILE_fAIL,
+    type: GET_MY_PROFILE_FAIL,
     payload: {
     }
   }
@@ -261,7 +268,7 @@ export function getProfileSuccess(data) {
 
 export function getProfileFail() {
   return { 
-    type: GET_PROFILE_fAIL, 
+    type: GET_PROFILE_FAIL, 
     payload: {
     }
   }
@@ -282,11 +289,11 @@ export function fetchFeed(user) {
   };
   return genericAsyncActionDispatcher(user, req, cb);
 }
-export function hitASong(songId) {
+export function hitASong(songId, userId) {
   let req = {
-    method: 'POST',
-    url: `like`,
-    data: { songId }
+    method: 'post',
+    url: `hit`,
+    data: { songId, userId }
   };
   let cb = {
     initial: likeSong,
@@ -297,11 +304,11 @@ export function hitASong(songId) {
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
-export function unHitASong(songId) {
+export function unHitASong(songId, userId) {
   let req = {
-    method: 'POST',
-    url: `like`,
-    data: { songId }
+    method: 'post',
+    url: `hit`,
+    data: { songId, userId }
   };
   let cb = {
     initial: unLikeSong,
@@ -312,11 +319,11 @@ export function unHitASong(songId) {
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
-export function bookmarkASong(songId) {
+export function bookmarkASong(songId, userId) {
   let req = {
-    method: 'POST',
+    method: 'post',
     url: `favorite`,
-    data: { songId }
+    data: { songId, userId }
   };
   let cb = {
     initial: bookmarkSong,
@@ -327,11 +334,11 @@ export function bookmarkASong(songId) {
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
-export function unBookmarkASong(songId) {
+export function unBookmarkASong(songId, userId) {
   let req = {
-    method: 'POST',
+    method: 'post',
     url: `favorite`,
-    data: { songId }
+    data: { songId, userId }
   };
   let cb = {
     initial: unBookmarkSong,
@@ -344,9 +351,8 @@ export function unBookmarkASong(songId) {
 }
 export function fetchComments(songId) {
   let req = {
-    method: 'POST',
-    url: `comments/${songId}`,
-    data: { songId }
+    method: 'get',
+    url: `comments/${songId}`
   };
   let cb = {
     initial: getComments,
@@ -357,16 +363,16 @@ export function fetchComments(songId) {
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
-export function commentASong(songId, comment, user_id) {
-  let data ={ songId, comment, user_id };
+export function commentASong(songId, comment, user) {
+  let data = { songId, comment, user, userId: user.id }; // user and userId is not a mistake, userId is for the post request while user is for the callback action
   let req = {
-    method: 'POST',
-    url: `comment/${songId}`,
+    method: 'post',
+    url: `comment`,
     data
   };
   let cb = {
     initial: commentSong,
-    success: null,
+    success: null,//getCommentsSuccess,
     fail: null,
     successMsg: 'add comment successful...',
     errorMsg: 'Network error, please try again...'
@@ -395,14 +401,10 @@ export function uploadSongAsync(song, user_id) {
   };
   return genericAsyncActionDispatcher(data, req, cb);
 }
-export function fetchMyProfile(user_id) {
-  let data = {
-    user: user_id
-  };
+export function fetchMyProfile(userId) {
   let req = {
-    method: 'POST',
-    url: `user`,
-    data
+    method: 'get',
+    url: `user/${userId}`
   };
   let cb = {
     initial: getMyProfile,
@@ -411,7 +413,7 @@ export function fetchMyProfile(user_id) {
     successMsg: 'unable to fetch my profile',
     errorMsg: 'Network error, please try again...'
   };
-  return genericAsyncActionDispatcher(user_id, req, cb);
+  return genericAsyncActionDispatcher(userId, req, cb);
 }
 export function fetchProfile(userHandle) {
   let data = {
