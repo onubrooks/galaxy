@@ -12,6 +12,12 @@ export const GET_FEED = 'GET_FEED'
 export const GET_FEED_SUCCESS = 'GET_FEED_SUCCESS';
 // failed to get feed for some reason
 export const GET_FEED_FAIL = 'GET_FEED_FAIL';
+// fetch playlist async when playlist component mounts
+export const GET_PLAYLIST = 'GET_PLAYLIST'
+// successful fetch
+export const GET_PLAYLIST_SUCCESS = "GET_PLAYLIST_SUCCESS";
+// failed to get feed for some reason
+export const GET_PLAYLIST_FAIL = "GET_PLAYLIST_FAIL";
 // user likes a post
 export const LIKE_SONG = 'LIKE_SONG'
 export const UNLIKE_SONG = 'UNLIKE_SONG'
@@ -72,6 +78,36 @@ export function getFeedSuccess(data) {
 export function getFeedFail(error) {
   return {
     type: GET_FEED_FAIL,
+    payload: {
+      error: error
+    }
+  }
+}
+
+export function getPlaylist(user) {
+  return {
+    type: GET_PLAYLIST,
+  }
+}
+
+export function getPlaylistSuccess(data) {
+  let ids = data.map((item) => item.songId);
+  let byId = {};
+  for (let item of data) {
+    byId = { [item.songId]: item, ...byId }
+  }
+  return {
+    type: GET_PLAYLIST_SUCCESS,
+    payload: {
+      ids,
+      byId
+    }
+  }
+}
+
+export function getPlaylistFail(error) {
+  return {
+    type: GET_PLAYLIST_FAIL,
     payload: {
       error: error
     }
@@ -289,6 +325,23 @@ export function fetchFeed(user) {
   };
   return genericAsyncActionDispatcher(user, req, cb);
 }
+
+export function fetchPlaylist(user) {
+  let req = {
+    method: 'GET',
+    url: `playlist/${user.id}`,
+    data: null
+  };
+  let cb = {
+    initial: getPlaylist,
+    success: getPlaylistSuccess,
+    fail: getPlaylistFail,
+    successMsg: 'fetch playlist successful...',
+    errorMsg: 'Unable to update playlist...'
+  };
+  return genericAsyncActionDispatcher(user, req, cb);
+}
+
 export function hitASong(songId, userId) {
   let req = {
     method: 'post',
@@ -359,7 +412,7 @@ export function fetchComments(songId) {
     success: getCommentsSuccess,
     fail: getCommentsFail,
     successMsg: 'get comments successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Unable to fetch comments, pull to refresh...'
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import {
-  ScrollView,
   TouchableOpacity,
   View,
   StyleSheet,
-  Dimensions,
-  KeyboardAvoidingView
+  Dimensions
 } from "react-native";
 import {
   Container,
@@ -40,21 +38,56 @@ import {
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
 
+const PUSH_ENDPOINT = "http://api.leedder.com/api/edit/profile";
+
+
 export class EditProfileScreen extends Component {
-         static navigationOptions = { tabBarVisible: false };
-         constructor(props) {
-           super(props);
-           this.state = { isModalVisible: false, selected: "key1", removePhoto: false, newPhoto: null };
-         }
-         onValueChange(value) {
-           this.setState({ selected: value });
-         }
-         saveAndGoBack = () => {
-           // dispatch a redux action
-           console.log("profile updated...");
-           // then go back
-           this.props.navigation.goBack();
-         };
+  static navigationOptions = { tabBarVisible: false };
+  constructor(props) {
+    super(props);
+    this.state = { isModalVisible: false, selected: "key1", removePhoto: false, newPhoto: null, fullname: '', email: '', username: '', phone: '', bio: '' };
+  }
+  onValueChange(value) {
+    this.setState({ selected: value });
+  }
+  saveAndGoBack = async () => {
+    if (!this.state.oldPassword) {
+      alert("please enter your old password");
+      return;
+    }
+    if (!this.state.newPassword) {
+      alert("please enter your new password");
+      return;
+    }
+    if (this.state.newPassword != this.state.newPasswordConfirm) {
+      alert("passwords do not match");
+      return;
+    }
+    this.setState({ loading: true });
+    let userId = this.props.user.id;
+    fetch(PUSH_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...this.state, userId }),
+    }).then((response) => response.json()).then(async (data) => {
+      console.log(data);
+      if (data) {
+        this.props.navigation.goBack();
+      } else {
+        alert('Profile edit unsuccessful, please try again...');
+        this.setState({ loading: false });
+      }
+    }).catch((error) => {
+      console.log(error);
+      alert('Something went wrong, please try again...');
+      this.setState({ loading: false });
+    });
+    // then go back
+
+  };
          setModalVisible = (visible, options = null) => {
            this.setState({ isModalVisible: visible });
            if (options && options.newPhoto) {
@@ -82,6 +115,7 @@ export class EditProfileScreen extends Component {
            }
          };
          render() {
+           let { user } = this.props;
            return <Container style={styles.container}>
                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                  <Left style={{ maxWidth: 50 }}>
@@ -108,20 +142,20 @@ export class EditProfileScreen extends Component {
                    </TouchableOpacity>
                    <Form style={{ alignSelf: "stretch" }}>
                      <Item floatingLabel>
-                       <Label>Name</Label>
-                       <Input value="Steve Rogers" />
+                       <Label>Full Name</Label>
+                     <Input onChangeText={(val) => this.setState({ fullname: val })} value={this.state.fullname} />
                      </Item>
                      <Item floatingLabel last>
                        <Label>Username</Label>
-                       <Input />
+                     <Input onChangeText={(val) => this.setState({ username: val })} value={this.state.username}/>
                      </Item>
                      <Item floatingLabel>
                        <Label>Email</Label>
-                       <Input />
+                     <Input onChangeText={(val) => this.setState({ email: val })} value={this.state.email}/>
                      </Item>
                      <Item floatingLabel last>
                        <Label>Phone Number</Label>
-                       <Input keyboardType={"numeric"} />
+                     <Input keyboardType={"numeric"} onChangeText={(val) => this.setState({ phone: val })} value={this.state.phone} />
                      </Item>
                      <Item style={{ justifyContent: "space-between" }}>
                        <Label>Gender</Label>
@@ -132,7 +166,7 @@ export class EditProfileScreen extends Component {
                      </Item>
                      <Item floatingLabel last>
                        <Label>Bio</Label>
-                       <Textarea rowSpan={5} bordered placeholder="Textarea" />
+                     <Textarea rowSpan={5} bordered placeholder="Textarea" onChangeText={(val) => this.setState({ bio: val })} value={this.state.bio}/>
                      </Item>
                    </Form>
                  </View>

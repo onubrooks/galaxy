@@ -1,5 +1,5 @@
 import LoginScreen from "./LoginScreen";
-import { SignUpScreen } from "./SignUpScreen";
+import SignUpScreen from "./SignUpScreen";
 import {LoginAsScreen} from "./LoginAsScreen";
 import {SignUpAsScreen} from "./SignUpAsScreen";
 

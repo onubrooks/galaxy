@@ -52,6 +52,13 @@ export class FeedItemWrapper extends Component {
   componentDidMount() {
     this._onRefresh();
   }
+  _onRefresh = () => {
+    if (this.props.navigation.state.routeName == "Feed") {
+      //this.setState({ refreshing: true });
+      this.props.fetchFeed(this.props.user);
+      this.props.fetchMyProfile(this.props.user.id);
+    }
+  }
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.feed.loading !== prevState.refreshing) {
       return { refreshing: nextProps.feed.loading };
@@ -142,13 +149,6 @@ export class FeedItemWrapper extends Component {
       return songArray;
     }
   }
-  _onRefresh = () => {
-    if (this.props.navigation.state.routeName == "Feed") {
-      //this.setState({ refreshing: true });
-      this.props.fetchFeed(this.props.user);
-      this.props.fetchMyProfile(this.props.user.id);
-    }
-  }
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
@@ -158,22 +158,9 @@ export class FeedItemWrapper extends Component {
     let display = all.slice(0, 4);
 
     return <Container style={styles.container}>
-      <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={'grey'} title="refreshing" />}>
+        <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content>
-            {display.map((song, idx) => song && (
-              <FeedItem
-                key={idx}
-                song={song}
-                user={user}
-                bookmarks={bookmarks}
-                toggleLike={this.toggleLike}
-                toggleBookmark={this.toggleBookmark}
-                setModalVisible={this.setModalVisible}
-                gotoComments={this.gotoComments}
-                addComment={this.addComment}
-                navigation={this.props.navigation}
-              />
-            ))}
+            {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
             {this.props.navigation.state.routeName == "Feed" && feed.updated ? <LoadMore load={() => this.props.fetchFeed(this.props.user)} loading={feed.loading} /> : <Spinner color="grey" size={20} />}
             <View style={{ height: 150 }} />
           </Content>

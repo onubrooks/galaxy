@@ -18,7 +18,9 @@ let styles = StyleSheet.create({
   },
   commentScreen: {
     marginHorizontal: 15,
-    marginBottom: 15
+    position: 'absolute',
+    bottom: 0,
+    left: 0
   }
 });
 
@@ -59,7 +61,7 @@ export default class CommentInput extends Component {
   render() { 
     let { user, multiline = false, editable = true, commentScreen = false } = this.props;
       return <View style={[styles.grid, commentScreen ? styles.commentScreen : {}]}>
-        <Thumbnail small source={user.thumbnail} style={{ padding: -20 }} />
+        <Thumbnail small source={{uri: user.userAvatar}} style={{ padding: -20 }} />
         <Form style={{width:"90%"}}>
           <Item style={styles.noBorder}>
             <Input 

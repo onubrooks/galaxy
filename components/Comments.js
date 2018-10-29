@@ -9,7 +9,6 @@ import {
   Body,
   Left,
   Right,
-  Icon,
   List,
   ListItem,
   Text,
@@ -31,7 +30,6 @@ export default class Comments extends Component {
              //which is easier to process for display. same thing is done for users object down below
              let thisComments = Object.keys(comments.byId)
                .map((key, idx) => comments.byId[key]).filter((item) => item.songId == comments.currentSong);
-               console.log(thisComments);
              return <Container>
                  <Content>
                    <List>

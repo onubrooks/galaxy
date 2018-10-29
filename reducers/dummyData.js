@@ -83,5 +83,6 @@ export const initialState = {
       user: loggedInUser,
       bookmarks: sampleBookmarks,
       uploadingSong,
-      profile
+      profile,
+      playlist: {}
 }

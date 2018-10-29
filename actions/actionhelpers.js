@@ -56,7 +56,7 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
         Toast.show({
           text: cb.errorMsg,
           position: "bottom",
-          duration: 2000
+          duration: 3000
         });
         cb.fail && dispatch(cb.fail(data));
       });

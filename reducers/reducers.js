@@ -3,6 +3,9 @@ import {
   GET_FEED,
   GET_FEED_SUCCESS,
   GET_FEED_FAIL,
+  GET_PLAYLIST,
+  GET_PLAYLIST_SUCCESS,
+  GET_PLAYLIST_FAIL,
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAIL,
@@ -99,6 +102,25 @@ function feed(state = initialState.feed, action) {
           } 
       default:
         return state;
+    }
+}
+
+function playlist(state = initialState.playlist, action) {
+  switch (action.type) {
+    case GET_PLAYLIST:
+      return {
+        ...state, loading: true, updated: false
+      }
+    case GET_PLAYLIST_SUCCESS:
+      return {
+        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId }, allIds: null
+      }
+    case GET_PLAYLIST_FAIL:
+      return {
+        ...state, loading: false, updated: false
+      }
+    default:
+      return state;
     }
 }
 
@@ -199,6 +221,7 @@ function getProfile(state = initialState.profile, action) {
 
 const rootReducer = combineReducers({
   feed,
+  playlist,
   upload,
   comments,
   user,

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  ScrollView,
+  AsyncStorage,
   TouchableOpacity,
   View,
   StyleSheet,
@@ -35,17 +35,51 @@ import {
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
 
+const PUSH_ENDPOINT = "http://api.leedder.com/api/password/reset";
+
 export class PasswordScreen extends Component {
          static navigationOptions = { tabBarVisible: false };
          constructor(props) {
            super(props);
-           this.state = { isModalVisible: false, input1: "", input2: "", input3: "" };
+           this.state = { isModalVisible: false, oldPassword: "", newPassword: "", newPasswordConfirm: "", loading: false };
          }
-         saveAndGoBack = () => {
-           // dispatch a redux action
-           console.log("profile updated...");
+         saveAndGoBack = async () => {
+           if(!this.state.oldPassword) {
+             alert("please enter your old password");
+             return;
+           }
+           if (!this.state.newPassword) {
+             alert("please enter your new password");
+             return;
+           }
+           if (this.state.newPassword != this.state.newPasswordConfirm) {
+             alert("passwords do not match");
+             return;
+           }
+           this.setState({ loading: true });
+           let userId = await AsyncStorage.getItem("userToken");
+           fetch(PUSH_ENDPOINT, {
+             method: 'POST',
+             headers: {
+               Accept: 'application/json',
+               'Content-Type': 'application/json',
+             },
+             body: JSON.stringify({...this.state, userId}),
+           }).then((response) => response.json()).then(async (data) => {
+             console.log(data);
+             if (data) {
+               this.props.navigation.goBack();
+             } else {
+               alert('Password reset unsuccessful, please try again...');
+               this.setState({ loading: false });
+             }
+           }).catch((error) => {
+             console.log(error);
+             alert('Something went wrong, please try again...');
+             this.setState({ loading: false });
+           });
            // then go back
-           this.props.navigation.goBack();
+           
          };
 
          resetPassword = async () => {

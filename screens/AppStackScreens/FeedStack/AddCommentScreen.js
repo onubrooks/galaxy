@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
+import { ScrollView, TouchableOpacity, RefreshControl } from "react-native";
 import {
   Container,
   Header,
@@ -29,12 +26,27 @@ export class AddCommentScreen extends React.Component {
   static navigationOptions = { tabBarVisible: false };
   constructor(props) {
     super(props);
+    this.state = { refreshing: props.comments.loading}
     this.addComment = this.addComment.bind(this);
   }
 
-  componentDidMount() {
+  _onRefresh = () => {
     let songId = this.props.navigation.state.params.song.songId
     this.props.fetchComments(songId);
+  }
+  componentDidMount() {
+    this._onRefresh();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.comments.loading !== this.props.comments.loading) {
+      //Perform some operation here
+      this.setState({ refreshing: this.props.comments.loading });
+    }
+  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.comments.loading !== prevState.refreshing) {
+      return { refreshing: nextProps.comments.loading };
+    } else return null;
   }
   addComment(songId, comment) {
     let user = this.props.user;
@@ -57,12 +69,12 @@ export class AddCommentScreen extends React.Component {
           </Body>
         </Header>
 
+      <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={'#006E8C'} title="refreshing" />}>
         <Content>
-          <ScrollView>
-            {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>Loading...</Text></View> : null}
-            <Comments user={user} song={song} comments={comments} />
+            {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
+            {!comments.loading ? <Comments user={user} song={song} comments={comments} /> : null}
+             </Content>
           </ScrollView>
-        </Content>
       <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
       </Container>;
   }

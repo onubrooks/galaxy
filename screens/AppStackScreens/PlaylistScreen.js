@@ -18,6 +18,7 @@ import {
 
 // redux related imports
 import { connect } from "react-redux";
+import { fetchPlaylist } from "../../../actions/actions";
 
 import styles from "../../components/styles";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
@@ -25,9 +26,13 @@ const onu = require("../../assets/onu.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class PlaylistScreen extends Component {
+  componentWillMount() {
+    this.props.fetchPlaylist()
+  }
   render() {
-    let { feed } = this.props;
-    const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
+    let { feed, playlist } = this.props;
+    let avail = playlist ? playlist : feed;
+    const songArray = Object.keys(avail.byId).map((songId, idx) => feed.byId[songId]);
     let playlist = songArray.slice(0, 4);
     return (
       <Container style={styles.container}>
@@ -58,10 +63,12 @@ const mapStateToProps = (state) => {
   return {
     feed: state.feed,
     user: state.user,
+    playlist: state.playlist
   };
 };
 
 const mapDispatchToProps = {
+  fetchPlaylist
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistScreen);
