@@ -2,6 +2,7 @@ import React from "react";
 import {
   AsyncStorage,
   View,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -10,8 +11,10 @@ import {
   Item,
   Input,
   Text,
-  H1
+  H1,
+  Spinner
 } from "native-base";
+import Axios from "axios";
 var Dimensions = require('Dimensions')
 var { width, height } = Dimensions.get('window');
 import styles from "../../components/styles";
@@ -38,7 +41,7 @@ export class SignUpScreen extends React.Component {
     }
   }
   render() {
-    return <View style={{ flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500, backgroundColor: "#fff" }}>
+    return <ScrollView style={{ flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500, backgroundColor: "#fff" }}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", height: height - 90 }}>
           <View style={{ marginBottom: 20, marginTop: 0 }}>
             <H1>Leedder</H1>
@@ -71,7 +74,7 @@ export class SignUpScreen extends React.Component {
               {this.state.loading ? <Spinner color="grey" size={20} /> : <Text
                   style={styles.primaryText}
                 >
-                  Login
+                  Sign Up
                 </Text>}
             </Button>
           </View>
@@ -84,7 +87,7 @@ export class SignUpScreen extends React.Component {
           </View>
         </View>
         <ShowTosFooter />
-      </View>;
+      </ScrollView>;
   }
 
   _signUpAsync = () => {
@@ -109,16 +112,19 @@ export class SignUpScreen extends React.Component {
       return;
     }
     this.setState({ loading: true });
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state),
-    }).then((response) => response.json()).then(async (data) => {
-      console.log(data);
-      if (data.authId) {
+    Axios(PUSH_ENDPOINT, {
+      method: "post",
+      data: {
+        fullname: this.state.fullname,
+        email: this.state.email,
+        username: this.state.username,
+        phone: this.state.phone,
+        password: this.state.password
+      }
+    })
+    .then(async (res) => {
+      console.log('response ', res.data);
+      if (res.data.authId) {
         await AsyncStorage.setItem("userToken", "" + data.authId);
         this.props.login(data.authId);
         this.props.navigation.navigate("App");
@@ -126,9 +132,13 @@ export class SignUpScreen extends React.Component {
         alert('Login failed, please try again...');
         this.setState({ loading: false });
       }
-    }).catch((error) => {
+      }, (error) => {
+        console.log(error);
+        alert('Signup error, please try again...');
+        this.setState({ loading: false });
+      }).catch((error) => {
       console.log(error);
-      alert('Login error, please try again...');
+      alert('Sign Up error, please try again...');
       this.setState({ loading: false });
     });
 

@@ -31,7 +31,7 @@ const store = createStore(
   persistedReducer, 
    applyMiddleware(
      thunkMiddleware, // lets us dispatch() functions
-     loggerMiddleware // neat middleware that logs actions
+     //loggerMiddleware // neat middleware that logs actions
    )
  );
 let persistor = persistStore(store);
@@ -107,7 +107,7 @@ export default class App extends React.Component {
 
   _handleConnectivityChange = (connectionInfo) => {
     console.log('Network Connectivity Change, Type: ' + connectionInfo.type + ', EffectiveType: ' + connectionInfo.effectiveType);
-    let msg = connectionInfo.type == "none" || connectionInfo.type == "unknown" ? 'You are now online' : 'You are now offline';
+    let msg = connectionInfo.type == "none" || connectionInfo.type == "unknown" ? 'You are now offline' : 'Internet connection restored';
     Toast.show({
       text: msg,
       position: "bottom",

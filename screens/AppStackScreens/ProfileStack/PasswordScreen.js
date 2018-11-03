@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
+import Axios from "axios";
 import { WebBrowser } from "expo";
 import {
   Container,
@@ -58,26 +59,24 @@ export class PasswordScreen extends Component {
            }
            this.setState({ loading: true });
            let userId = await AsyncStorage.getItem("userToken");
-           fetch(PUSH_ENDPOINT, {
-             method: 'POST',
-             headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-             },
-             body: JSON.stringify({...this.state, userId}),
-           }).then((response) => response.json()).then(async (data) => {
-             console.log(data);
-             if (data) {
-               this.props.navigation.goBack();
-             } else {
-               alert('Password reset unsuccessful, please try again...');
+           Axios(PUSH_ENDPOINT, {
+             method: 'post',
+             data: { ...this.state, userId }
+           })
+             .then(res => {
+               console.log("response ", res.data);
+               if (res.data) {
+                 this.props.navigation.goBack();
+               } else {
+                 alert("Password reset unsuccessful, please try again...");
+                 this.setState({ loading: false });
+               }
+             })
+             .catch(error => {
+               console.log(error);
+               alert("Something went wrong, please try again...");
                this.setState({ loading: false });
-             }
-           }).catch((error) => {
-             console.log(error);
-             alert('Something went wrong, please try again...');
-             this.setState({ loading: false });
-           });
+             });
            // then go back
            
          };
@@ -98,7 +97,7 @@ export class PasswordScreen extends Component {
                    <Text style={stl.heading}>Change Password</Text>
                  </Body>
                  <Right>
-                   {this.state.input1 && this.state.input2 && this.state.input3 ? <Button onPress={this.saveAndGoBack} transparent>
+                   {this.state.oldPassword && this.state.newPassword && this.state.newPasswordConfirm ? <Button onPress={this.saveAndGoBack} transparent>
                        <Icon style={{ color: primaryColor }} name="md-checkmark" />
                      </Button> : <Button disabled transparent>
                        <Icon name="md-checkmark" />
@@ -109,18 +108,18 @@ export class PasswordScreen extends Component {
                  <View style={stl.grid}>
                    <Form style={{ alignSelf: "stretch" }}>
                      <Item>
-                       <Input placeholder="Current Password" value={this.state.input1} onChangeText={text => this.setState(
-                             { input1: text }
+                       <Input placeholder="Current Password" value={this.state.oldPassword} onChangeText={text => this.setState(
+                             { oldPassword: text }
                            )} secureTextEntry={true} />
                      </Item>
                      <Item>
-                       <Input placeholder="New Password" value={this.state.input2} onChangeText={text => this.setState(
-                             { input2: text }
+                       <Input placeholder="New Password" value={this.state.newPassword} onChangeText={text => this.setState(
+                             { newPassword: text }
                            )} secureTextEntry={true} />
                      </Item>
                      <Item>
-                       <Input placeholder="New Password, again" value={this.state.input3} onChangeText={text => this.setState(
-                             { input3: text }
+                       <Input placeholder="New Password, again" value={this.state.newPasswordConfirm} onChangeText={text => this.setState(
+                             { newPasswordConfirm: text }
                            )} secureTextEntry={true} />
                      </Item>
                      <Text note style={stl.note}>

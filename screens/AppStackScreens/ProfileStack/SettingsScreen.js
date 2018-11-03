@@ -71,8 +71,8 @@ export class SettingsScreen extends Component {
           <View style={stl.grid}>
             <Text style={stl.group}>Account</Text>
             <Text style={stl.item} onPress={() => this.props.navigation.navigate('Password')}>Password</Text>
-          <Text style={stl.item} onPress={() => this.props.navigation.navigate('SavedGrid')}>Saved</Text>
-          <Text style={stl.item} onPress={() => this.props.navigation.navigate('Likes')}>Songs You've Liked</Text>
+          {/* <Text style={stl.item} onPress={() => this.props.navigation.navigate('SavedGrid')}>Saved</Text>
+          <Text style={stl.item} onPress={() => this.props.navigation.navigate('Likes')}>Songs You've Liked</Text> */}
             <Hr />
             <Text style={stl.group}>About</Text>
             <Text style={stl.item} onPress={this.showTos}>Terms of Service</Text>

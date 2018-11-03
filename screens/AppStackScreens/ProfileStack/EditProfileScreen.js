@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
+import Axios from "axios";
 import {
   Container,
   Header,
@@ -31,9 +32,7 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 // redux related imports
 import { connect } from "react-redux";
-import {
-  fetchFeed
-} from "../../../actions/actions";
+import { fetchMyProfile } from "../../../actions/actions";
 
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
@@ -45,36 +44,25 @@ export class EditProfileScreen extends Component {
   static navigationOptions = { tabBarVisible: false };
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, selected: "key1", removePhoto: false, newPhoto: null, fullname: '', email: '', username: '', phone: '', bio: '' };
+    let { user } = this.props;
+    this.state = { isModalVisible: false, selected: "key1", removePhoto: false, newPhoto: null, fullname: user.fullname, email: user.email, username: user.userHandle, phone: "", bio: user.status, gender: user.gender };
   }
   onValueChange(value) {
     this.setState({ selected: value });
   }
   saveAndGoBack = async () => {
-    if (!this.state.oldPassword) {
-      alert("please enter your old password");
-      return;
-    }
-    if (!this.state.newPassword) {
-      alert("please enter your new password");
-      return;
-    }
-    if (this.state.newPassword != this.state.newPasswordConfirm) {
-      alert("passwords do not match");
-      return;
-    }
+    
     this.setState({ loading: true });
     let userId = this.props.user.id;
-    fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...this.state, userId }),
-    }).then((response) => response.json()).then(async (data) => {
-      console.log(data);
+    Axios(PUSH_ENDPOINT, {
+      method: 'post',
+      data: { ...this.state, userId }
+    })
+    .then((res) => {
+      let data = res.data;
+      console.log('response ', data);
       if (data) {
+        this.props.fetchMyProfile(this.props.user.id);
         this.props.navigation.goBack();
       } else {
         alert('Profile edit unsuccessful, please try again...');
@@ -115,7 +103,7 @@ export class EditProfileScreen extends Component {
            }
          };
          render() {
-           let { user } = this.props;
+           
            return <Container style={styles.container}>
                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                  <Left style={{ maxWidth: 50 }}>
@@ -135,7 +123,7 @@ export class EditProfileScreen extends Component {
                <Content>
                  <View style={stl.grid}>
                    <TouchableOpacity activeOpacity={0.9} style={stl.changePhoto} onPress={() => this.setModalVisible(true)}>
-                     <Thumbnail large style={stl.thumbnail} source={this.state.newPhoto ? { uri: this.state.newPhoto.uri } : this.state.removePhoto ? require("../../../assets/avatar.png") : onu} />
+                   <Thumbnail large style={stl.thumbnail} source={this.state.newPhoto ? { uri: this.state.newPhoto.uri } : this.state.removePhoto ? require("../../../assets/avatar.png") : { uri: this.props.user.userAvatar}} />
                      <Text style={stl.changePhotoText}>
                        Change Photo
                      </Text>
@@ -159,14 +147,14 @@ export class EditProfileScreen extends Component {
                      </Item>
                      <Item style={{ justifyContent: "space-between" }}>
                        <Label>Gender</Label>
-                       <Picker note mode="dropdown" style={{ width: 120 }} selectedValue={this.state.selected} onValueChange={this.onValueChange.bind(this)}>
+                     <Picker note onChangeText={(val) => this.setState({ gender: val })} value={this.state.gender} mode="dropdown" style={{ width: 120 }} selectedValue={this.state.selected} onValueChange={this.onValueChange.bind(this)}>
                          <Picker.Item label="Male" value="male" />
                          <Picker.Item label="Female" value="female" />
                        </Picker>
                      </Item>
                      <Item floatingLabel last>
                        <Label>Bio</Label>
-                     <Textarea rowSpan={5} bordered placeholder="Textarea" onChangeText={(val) => this.setState({ bio: val })} value={this.state.bio}/>
+                     <Textarea rowSpan={4} bordered placeholder="Textarea" onChangeText={(val) => this.setState({ bio: val })} value={this.state.bio} />
                      </Item>
                    </Form>
                  </View>
@@ -187,7 +175,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchFeed
+  fetchMyProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfileScreen);

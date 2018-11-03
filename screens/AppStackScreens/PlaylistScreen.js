@@ -18,22 +18,18 @@ import {
 
 // redux related imports
 import { connect } from "react-redux";
-import { fetchPlaylist } from "../../../actions/actions";
+import { fetchPlaylist } from "../../actions/actions";
 
 import styles from "../../components/styles";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
-const onu = require("../../assets/onu.jpg");
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class PlaylistScreen extends Component {
   componentWillMount() {
-    this.props.fetchPlaylist()
+    this.props.fetchPlaylist(this.props.user);
   }
   render() {
-    let { feed, playlist } = this.props;
-    let avail = playlist ? playlist : feed;
-    const songArray = Object.keys(avail.byId).map((songId, idx) => feed.byId[songId]);
-    let playlist = songArray.slice(0, 4);
+    let { playlist } = this.props;
+    const songArray = Object.keys(playlist.byId).map((songId, idx) => playlist.byId[songId]);
     return (
       <Container style={styles.container}>
         <Header
@@ -52,7 +48,7 @@ export class PlaylistScreen extends Component {
           </Body>
         </Header>
         <Content>
-          <PlaylistPlayer playlist={playlist} />
+          <PlaylistPlayer playlist={songArray} />
         </Content>
       </Container>
     );

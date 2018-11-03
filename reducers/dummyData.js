@@ -75,6 +75,13 @@ const profile = {
   userHandle: null,
   data: null
 };
+const playlist = {
+  byId: {},
+  // allIds: [],
+  loading: false,
+  updated: false,
+  lastUpdated: 0 // Date.now()
+};
 
 export const initialState = {
       feed: sampleFeed,
@@ -84,5 +91,5 @@ export const initialState = {
       bookmarks: sampleBookmarks,
       uploadingSong,
       profile,
-      playlist: {}
+      playlist
 }

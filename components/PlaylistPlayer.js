@@ -127,7 +127,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance.setOnPlaybackStatusUpdate(null);
       this.playbackInstance = null;
     }
-
+    console.log('playlist ', this.state.playlist);
     const source = { uri: this.state.playlist[this.index].songPath };
     const initialStatus = {
       shouldPlay: playing,
@@ -444,7 +444,7 @@ export default class PlaylistPlayer extends React.Component {
     return !this.state.fontLoaded ? <View style={stl.emptyContainer} /> : <View style={stl.container}>
         <View style={stl.grid}>
           <View style={stl.albumCover}>
-            <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={require("../assets/default.jpg")} />
+          <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={(this.state.playlist[this.index].coverPath && { uri: this.state.playlist[this.index].coverPath}) || require("../assets/default.jpg")} />
           </View>
           <View style={stl.playbackProgress}>
             <Slider value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
@@ -522,33 +522,28 @@ export default class PlaylistPlayer extends React.Component {
           </View> */}
           <Hr />
           <View style={stl.shuffleRepeatControls}>
-          <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._onShufflePressed}>
+            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: "flex-start" }} onPress={this._onShufflePressed}>
               <IconBase name="ios-shuffle" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
               <Text style={{ fontSize: 17, color: "red" }}>Shuffle</Text>
             </Button>
-            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: 'flex-start' }} onPress={this._onLoopPressed}>
-            <IconBase name="ios-repeat" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
+            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: "flex-start" }} onPress={this._onLoopPressed}>
+              <IconBase name="ios-repeat" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
               <Text style={{ fontSize: 17, color: "red" }}>
                 {this.state.loopingType == 0 ? "All" : "Current"}
               </Text>
             </Button>
           </View>
           <View style={stl.upNextList}>
-            <Text
-              style={{
-                fontWeight: "900",
-                fontSize: 25,
-                marginVertical: 10,
-                alignSelf: "flex-start",
-                marginLeft: 15
-              }}
-            >
+            <Text style={{ fontWeight: "900", fontSize: 25, marginVertical: 10, alignSelf: "flex-start", marginLeft: 15 }}>
               Up Next
             </Text>
-          {this.state.playlist.map((item, idx) => (
-            <TouchableOpacity key={idx} onPress={() => this._setIndex(idx)}>
-              <UpNext idx={idx} item={item} />
-            </TouchableOpacity>
+            {this.state.playlist.map((item, idx) => (
+              <TouchableOpacity
+                key={idx}
+                onPress={() => this._setIndex(idx)}
+              >
+                <UpNext idx={idx} item={item} />
+              </TouchableOpacity>
             ))}
           </View>
         </View>

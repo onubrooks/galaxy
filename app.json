@@ -5,7 +5,10 @@
     "slug": "Leedder",
     "privacy": "unlisted",
     "sdkVersion": "28.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icons/fist-red.png",
@@ -17,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.artinict.leedder"
@@ -27,7 +32,7 @@
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor":"#006E8C"
+      "backgroundColor": "#006E8C"
     }
   }
 }

@@ -27,6 +27,7 @@ import { FeedScreenModalContent } from "./ModalContent";
 import { connect } from "react-redux";
 import {
   fetchFeed,
+  fetchPlaylist,
   fetchMyProfile,
   hitASong,
   unHitASong,
@@ -41,7 +42,7 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null };
+    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 0, slice: 5 };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -56,6 +57,7 @@ export class FeedItemWrapper extends Component {
     if (this.props.navigation.state.routeName == "Feed") {
       //this.setState({ refreshing: true });
       this.props.fetchFeed(this.props.user);
+      this.props.fetchPlaylist(this.props.user);
       this.props.fetchMyProfile(this.props.user.id);
     }
   }
@@ -146,8 +148,19 @@ export class FeedItemWrapper extends Component {
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
+      this.setState({listLength: songArray.length});
       return songArray;
     }
+  }
+  _loadMore = () => {
+    this.setState({ refreshing: true });
+    let len = this.state.listLength;
+    let slc = this.state.slice;
+    let newSlc = slc + 5;
+    if(newSlc > len){
+      newSlc = len - slc;
+    }
+    this.setState({slice: newSlc, refreshing: false});
   }
 
   render() {
@@ -155,13 +168,13 @@ export class FeedItemWrapper extends Component {
     const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
     const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
     let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-    let display = all.slice(0, 4);
+    let display = all.slice(0, this.state.slice);
 
     return <Container style={styles.container}>
         <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content>
             {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
-            {this.props.navigation.state.routeName == "Feed" && feed.updated ? <LoadMore load={() => this.props.fetchFeed(this.props.user)} loading={feed.loading} /> : <Spinner color="grey" size={20} />}
+            {this.props.navigation.state.routeName == "Feed" && feed.updated && this.state.slice < this.state.listLength ? <LoadMore load={this._loadMore} loading={feed.loading} /> : <Spinner color="grey" size={20} />}
             <View style={{ height: 150 }} />
           </Content>
         </KeyboardAvoidingScrollView>
@@ -186,6 +199,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFeed,
+  fetchPlaylist,
   fetchMyProfile,
   hitASong,
   unHitASong,

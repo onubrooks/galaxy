@@ -27,10 +27,7 @@ import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
 export class ProfileScreen extends Component {
   componentDidMount() {
     let user = this.props.user;
-    if (!this.props.otherUser && !user.userHandle)
-      this.props.fetchMyProfile(user.id)
-    else 
-      this.props.fetchProfile(this.props.userHandle)
+    this.props.fetchMyProfile(user.id);
   }
          render() {
            let { user } = this.props;
@@ -55,6 +52,11 @@ export class ProfileScreen extends Component {
                  >
                    { user.fullname }
                  </Text>
+               <Text
+                 style={{ marginLeft: 15 }}
+               >
+                 {user.status}
+               </Text>
                  {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="md-apps" size={30} />

@@ -43,7 +43,7 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
         // causing a loop of 'Unexpected batch number' errors.
         // https://github.com/facebook/react/issues/6895
         error => {
-          console.log("An error occurred.", error);
+          console.log(`An error occurred on route ${ENDPOINT}`, error);
           Toast.show({
             text: cb.errorMsg,
             position: "bottom",
@@ -52,7 +52,7 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           cb.fail && dispatch(cb.fail(data));
         })
       .catch(error => {
-        console.log("Something went wrong.", error);
+        console.log(`Something went wrong route ${ENDPOINT}`, error);
         Toast.show({
           text: cb.errorMsg,
           position: "bottom",
