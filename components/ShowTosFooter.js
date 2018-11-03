@@ -29,13 +29,13 @@ export class ShowTosFooter extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
-    height: 90,
+    marginBottom: 0,
     width: width,
-    borderTopWidth: 0.4,
-    marginBottom: -40
+    borderTopWidth: 0.4
   },
   touchable: {
     flexDirection: "column",

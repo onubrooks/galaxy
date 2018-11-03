@@ -48,7 +48,7 @@ export class LoginScreen extends React.Component {
   render() {
     return <ScrollView keyboardShouldPersistTaps="always" style={{ flex:1,flexDirection:"column", height:500, backgroundColor: '#fff'}}>
       
-        <View style={{flex:1, justifyContent: "center", alignItems:"center", height:height - 90}}>
+        <View style={{flex:1, justifyContent: "center", alignItems:"center", height:height}}>
           <View style={{marginBottom:30, marginTop:0}}>
             <H1>Leedder</H1>
           </View>

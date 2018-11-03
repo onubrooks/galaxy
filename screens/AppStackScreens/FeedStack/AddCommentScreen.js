@@ -61,21 +61,23 @@ export class AddCommentScreen extends React.Component {
         <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name="md-arrow-back" style={{ color: "#006E8C" }}/>
+              <Icon name="md-arrow-back" style={{ color: "#006E8C" }} />
             </TouchableOpacity>
           </Left>
           <Body>
-          <Text style={{ fontWeight: '900', color:"#006E8C"}}>Comments</Text>
+            <Text style={{ fontWeight: "900", color: "#006E8C" }}>
+              Comments
+            </Text>
           </Body>
         </Header>
 
-      <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={'#006E8C'} title="refreshing" />}>
-        <Content>
+        <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
+          <Content style={{ height: height }}>
             {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
             {!comments.loading ? <Comments user={user} song={song} comments={comments} /> : null}
-             </Content>
-          </ScrollView>
-      <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
+          </Content>
+        </ScrollView>
+        <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
       </Container>;
   }
 }
