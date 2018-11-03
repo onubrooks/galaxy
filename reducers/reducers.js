@@ -40,7 +40,7 @@ function feed(state = initialState.feed, action) {
       }
     case GET_FEED_SUCCESS:
       return {
-        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId}, allIds: null
+        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId}, allIds: Array.from(new Set(state.allIds.concat(action.payload.ids)))
       }
     case GET_FEED_FAIL:
       return {

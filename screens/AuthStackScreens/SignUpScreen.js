@@ -41,7 +41,7 @@ export class SignUpScreen extends React.Component {
     }
   }
   render() {
-    return <ScrollView style={{ flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500, backgroundColor: "#fff" }}>
+    return <ScrollView keyboardShouldPersistTaps="always" style={{ flex: 1, flexDirection: "column", height: 900, backgroundColor: "#fff" }}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", height: height - 90 }}>
           <View style={{ marginBottom: 20, marginTop: 0 }}>
             <H1>Leedder</H1>

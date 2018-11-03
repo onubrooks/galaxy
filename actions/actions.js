@@ -310,10 +310,11 @@ export function getProfileFail() {
   }
 }
 
-export function fetchFeed(user) {
+export function fetchFeed(user, ofs) {
+  let offset = ofs || 0;
   let req = {
     method: 'GET',
-    url: `feeds/${user.id}/10`,
+    url: `feeds/${user.id}/${offset}`,
     data: null
   };
   let cb = {

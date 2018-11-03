@@ -42,7 +42,7 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 0, slice: 5 };
+    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 10, slice: 5, offset: 0 };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -56,7 +56,7 @@ export class FeedItemWrapper extends Component {
   _onRefresh = () => {
     if (this.props.navigation.state.routeName == "Feed") {
       //this.setState({ refreshing: true });
-      this.props.fetchFeed(this.props.user);
+      this.props.fetchFeed(this.props.user, this.state.offset);
       this.props.fetchPlaylist(this.props.user);
       this.props.fetchMyProfile(this.props.user.id);
     }
@@ -70,7 +70,9 @@ export class FeedItemWrapper extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.feed.loading !== this.props.feed.loading) {
       //Perform some operation here
-      this.setState({ refreshing: this.props.feed.loading });
+      this.setState({
+        refreshing: this.props.feed.loading,
+      });
     }
   }
 
@@ -148,33 +150,43 @@ export class FeedItemWrapper extends Component {
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
-      this.setState({listLength: songArray.length});
       return songArray;
     }
   }
+
   _loadMore = () => {
+    let len = Object.keys(this.props.feed.byId).length;
+    let offset = this.state.offset;
+    if(len >= 30 && offset >= 20) return;
     this.setState({ refreshing: true });
-    let len = this.state.listLength;
     let slc = this.state.slice;
     let newSlc = slc + 5;
-    if(newSlc > len){
-      newSlc = len - slc;
+    if (newSlc > len) {
+      let newOffset = offset + 10;
+      this.props.fetchFeed(this.props.user, newOffset);
+      this.setState({offset: newOffset});
+    } else {
+      this.setState({ slice: newSlc, refreshing: false });
     }
-    this.setState({slice: newSlc, refreshing: false});
+    
   }
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
     const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
     const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
+    let slc = this.state.slice;
+    let offset = this.state.offset;
     let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-    let display = all.slice(0, this.state.slice);
-
+    let listLength = all.length;
+    let display = all.slice(0, slc);
+    console.log('length ', listLength);
+    console.log("offset ", offset);
     return <Container style={styles.container}>
         <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content>
             {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
-            {this.props.navigation.state.routeName == "Feed" && feed.updated && this.state.slice < this.state.listLength ? <LoadMore load={this._loadMore} loading={feed.loading} /> : <Spinner color="grey" size={20} />}
+          {this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? <LoadMore load={this._loadMore} loading={feed.loading} /> : null}
             <View style={{ height: 150 }} />
           </Content>
         </KeyboardAvoidingScrollView>

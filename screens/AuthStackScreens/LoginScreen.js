@@ -3,7 +3,7 @@ import {
   AsyncStorage,
   StyleSheet,
   View,
-  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import {
   Button,
@@ -46,7 +46,7 @@ export class LoginScreen extends React.Component {
   };
   
   render() {
-    return <View style={{ flex:1,flexDirection:"column", justifyContent: "space-between", alignItems:"center", height:500, backgroundColor: '#fff'}}>
+    return <ScrollView keyboardShouldPersistTaps="always" style={{ flex:1,flexDirection:"column", height:500, backgroundColor: '#fff'}}>
       
         <View style={{flex:1, justifyContent: "center", alignItems:"center", height:height - 90}}>
           <View style={{marginBottom:30, marginTop:0}}>
@@ -83,7 +83,7 @@ export class LoginScreen extends React.Component {
         
         </View>
         <ShowTosFooter />
-      </View>
+      </ScrollView>
   }
 
   _signInAsync = () => {

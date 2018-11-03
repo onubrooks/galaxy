@@ -19,7 +19,7 @@ export const loggedInUser = {
 const sampleFeed = {
   byId: {
   },
-  // allIds: [],
+  allIds: [],
   loading: false,
   updated: false,
   lastUpdated: 0 // Date.now()
