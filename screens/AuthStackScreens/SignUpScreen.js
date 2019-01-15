@@ -125,7 +125,7 @@ export class SignUpScreen extends React.Component {
     .then(async (res) => {
       console.log('response ', res.data);
       if (res.data.authId) {
-        await AsyncStorage.setItem("userToken", "" + data.authId);
+        await AsyncStorage.setItem("userToken", "" + res.data.authId);
         this.props.login(data.authId);
         this.props.navigation.navigate("App");
       } else {

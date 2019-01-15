@@ -11,11 +11,11 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/fist-red.png",
+    "icon": "./assets/icons/icon.png",
     "splash": {
-      "image": "./assets/icons/fist-red.png",
+      "image": "./assets/icons/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#006E8C"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

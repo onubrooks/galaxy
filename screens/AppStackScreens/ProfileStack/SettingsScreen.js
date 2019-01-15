@@ -20,7 +20,6 @@ import {
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";
-const onu = require("../../../assets/onu.jpg");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 // redux related imports

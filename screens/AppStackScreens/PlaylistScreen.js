@@ -2,16 +2,13 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import {
   Container,
   Header,
   Content,
-  Button,
   Body,
   Left,
-  Right,
   Icon,
   Text
 } from "native-base";

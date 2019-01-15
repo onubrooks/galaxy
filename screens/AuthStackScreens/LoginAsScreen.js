@@ -15,7 +15,7 @@ import {
 var Dimensions = require('Dimensions')
 var {width, height} = Dimensions.get('window')
 import styles from "../../components/styles";
-const onu = require("../../assets/onu.jpg");
+const avatar = require("../../assets/avatar.png");
 
 export class LoginAsScreen extends React.Component {
 
@@ -26,7 +26,7 @@ export class LoginAsScreen extends React.Component {
           <Text style={{ fontSize: 50 }}>Leedder</Text>
         </View>
         <View>
-          <Image style={{ height: 100, width: 100, borderWidth: 1, borderRadius: 75 }} source={onu} resizeMode="cover" />
+          <Image style={{ height: 100, width: 100, borderWidth: 1, borderRadius: 75 }} source={avatar} resizeMode="cover" />
         </View>
         <View>
           <Text>slysteve</Text>

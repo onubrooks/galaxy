@@ -24,7 +24,7 @@ import { commentPost } from "../../../actions/actions";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
 import styles from "../../../components/styles";
-const sly = require("../../../assets/sly.jpg");
+const sly = require("../../../assets/avatar.png");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class DMChatScreen extends React.Component {

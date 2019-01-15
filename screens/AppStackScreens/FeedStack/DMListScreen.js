@@ -25,7 +25,7 @@ import styles from "../../../components/styles";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
-const sly = require("../../../assets/sly.jpg");
+const sly = require("../../../assets/avatar.png");
 export class DMListScreen extends React.Component {
   //static navigationOptions = { tabBarVisible: false };
   go = () => {

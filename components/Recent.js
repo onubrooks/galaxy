@@ -8,7 +8,7 @@ import {
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
-const sly = require("../assets/sly.jpg");
+const sly = require("../assets/avatar.png");
 
 export class Recent extends Component {
   constructor(props) {

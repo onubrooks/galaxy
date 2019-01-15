@@ -15,34 +15,28 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Icon as IconBase, Button } from "native-base";
 import * as Animatable from "react-native-animatable";
 
-// let PLAYLIST = [
-//   new PlaylistItem(
-//     "Aaron Neville – “Crazy Love”",
-//     "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
-//     //"https://ia800304.us.archive.org/34/items/PaulWhitemanwithMildredBailey/PaulWhitemanwithMildredBailey-AllofMe.mp3",
-//     false
-//   ),
-//   new PlaylistItem(
-//     "Daughtry - “Home (acoustic)”",
-//     "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
-//     false
-//   ),
-//   new PlaylistItem(
-//     "John Pagano - “Change in my Life”",
-//     "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
-//     false
-//   ),
-//   new PlaylistItem(
-//     "Kenny Loggins - “House At Pooh Corner”",
-//     "https://archive.org/download/Mp3Playlist_555/KennyLoggins-04HouseAtPoohCorner.mp3",
-//     false
-//   ),
-//   new PlaylistItem(
-//     "Kris Aquino - “I Will be Here”",
-//     "https://archive.org/download/Mp3Playlist_555/KrisAquino-SongsOfLoveAndHealing2007-11-IWillBeHere.mp3",
-//     false
-//   )
-// ];
+let defaultPlaylist = [
+  {
+    songPath:
+      "https://freemusicdownloads.world/wp-content/uploads/2017/05/A-Boogie-Wit-Da-Hoodie-Drowning-WATER-ft-Kodak-Black-Official-Audio.mp3",
+    songTitle: "Drowning"
+  },
+  {
+    songPath:
+      "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
+    songTitle: "Aaron Neville – “Crazy Love”"
+  },
+  {
+    songPath:
+      "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
+    songTitle: "Daughtry - “Home ”"
+  },
+  {
+    songPath:
+      "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
+    songTitle: "Change In My Life"
+  }
+];
 
 const LOOPING_TYPE_ALL = 0;
 const LOOPING_TYPE_ONE = 1;
@@ -72,7 +66,7 @@ export default class PlaylistPlayer extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.playbackInstance = null;
     this.state = {
-      playlist: props.playlist,
+      playlist: (props.playlist.length && props.playlist) || defaultPlaylist,
       showVideo: false,
       playbackInstanceName: LOADING_STRING,
       loopingType: LOOPING_TYPE_ALL,
@@ -128,7 +122,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance = null;
     }
     console.log('playlist ', this.state.playlist);
-    const source = { uri: this.state.playlist[this.index].songPath };
+    const source = { uri: (this.state.playlist.length && this.state.playlist[this.index].songPath) };
     const initialStatus = {
       shouldPlay: playing,
       rate: this.state.rate,
@@ -140,7 +134,7 @@ export default class PlaylistPlayer extends React.Component {
       androidImplementation: 'MediaPlayer',
     };
 
-    if (this.state.playlist[this.index].isVideo) {
+    if (this.state.playlist.length && this.state.playlist[this.index].isVideo) {
       this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await this._video.loadAsync(source, initialStatus);
       this.playbackInstance = this._video;
@@ -173,7 +167,7 @@ export default class PlaylistPlayer extends React.Component {
     } else {
       this.setState({
         playbackInstanceName: this.state.playlist[this.index].songTitle,
-        showVideo: this.state.playlist[this.index].isVideo,
+        showVideo: this.state.playlist.length && this.state.playlist[this.index].isVideo,
         isLoading: false
       });
     }
@@ -444,7 +438,7 @@ export default class PlaylistPlayer extends React.Component {
     return !this.state.fontLoaded ? <View style={stl.emptyContainer} /> : <View style={stl.container}>
         <View style={stl.grid}>
           <View style={stl.albumCover}>
-          <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={(this.state.playlist[this.index].coverPath && { uri: this.state.playlist[this.index].coverPath}) || require("../assets/default.jpg")} />
+            <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={(this.state.playlist.length && this.state.playlist[this.index].coverPath && { uri: this.state.playlist[this.index].coverPath }) || require("../assets/default.jpg")} />
           </View>
           <View style={stl.playbackProgress}>
             <Slider value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
@@ -534,7 +528,15 @@ export default class PlaylistPlayer extends React.Component {
             </Button>
           </View>
           <View style={stl.upNextList}>
-            <Text style={{ fontWeight: "900", fontSize: 25, marginVertical: 10, alignSelf: "flex-start", marginLeft: 15 }}>
+            <Text
+              style={{
+                fontWeight: "900",
+                fontSize: 25,
+                marginVertical: 10,
+                alignSelf: "flex-start",
+                marginLeft: 15
+              }}
+            >
               Up Next
             </Text>
             {this.state.playlist.map((item, idx) => (

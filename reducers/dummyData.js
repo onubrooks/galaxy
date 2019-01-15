@@ -1,5 +1,4 @@
-const sly = require("../assets/sly.jpg");
-const onu = require("../assets/onu.jpg");
+
 export const loggedInUser = {
       id: null,
       email: null,
@@ -35,28 +34,9 @@ const sampleComments = {
 };
 const sampleUsers =  {
         byId : {
-              "onubrooks": {
-                    username: "onubrooks",
-                    name: "onubrooks",
-                    avatar: onu
-              },
-            "madrock60" : {
-                username : "madrock60",
-                name : "User 1",
-                avatar: sly
-            },
-            "28thsly" : {
-                username : "28thsly",
-                name : "User 2",
-                avatar: sly
-            },
-            "steverog" : {
-                username : "steverog",
-                name : "User 3",
-                avatar: onu
-            }
+              
         },
-  allIds: ["madrock60", "28thsly", "steverog", "onubrooks"]
+  allIds: []
 };
 const sampleBookmarks = [];
 const uploadingSong = {
