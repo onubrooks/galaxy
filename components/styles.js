@@ -105,5 +105,9 @@ export default {
   },
   photo: {
     //flex: 1
+  },
+  loadingIndicator: {
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 };

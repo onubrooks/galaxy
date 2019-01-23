@@ -53,21 +53,22 @@ const FeedStackNavigator = createStackNavigator(
   {
     headerMode: "none",
     initialRouteName: "Feed",
-    mode: "modal"
+    mode: "modal",
+    // make tab bar hide on the add comment screen
+    navigationOptions: ({ navigation }) => {
+      let tabBarVisible = true;
+      if (navigation.state.index > 0) {
+        tabBarVisible = false;
+      }
+
+      return { tabBarVisible };
+      // alternative implementation
+      // let { routeName } = navigation.state.routes[navigation.state.index];
+      // return { tabBarVisible: routeName == "AddComment" ? false : true };
+    }
   }
 );
-// make tab bar hide on the add comment screen
-FeedStackNavigator.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
 
-  return { tabBarVisible };
-  // alternative implementation
-  // let { routeName } = navigation.state.routes[navigation.state.index];
-  // return { tabBarVisible: routeName == "AddComment" ? false : true };
-};
 const SearchStackNavigator = createStackNavigator(
   {
     Search: {
@@ -117,13 +118,14 @@ const ProfileStackNavigator = createStackNavigator(
   {
     headerMode: "none",
     initialRouteName: "Profile",
-    mode: "modal"
+    mode: "modal",
+    navigationOptions: ({ navigation }) => {
+      let { routeName } = navigation.state.routes[navigation.state.index];
+      return { tabBarVisible: routeName == "EditProfile" || routeName =="Password" ? false : true };
+    }
   }
 );
-ProfileStackNavigator.navigationOptions = ({ navigation }) => {
-  let { routeName } = navigation.state.routes[navigation.state.index];
-  return { tabBarVisible: routeName == "EditProfile" || routeName =="Password" ? false : true };
-};
+
 const MainStackNavigator = createBottomTabNavigator(
   {
     Feed: {
@@ -145,7 +147,7 @@ const MainStackNavigator = createBottomTabNavigator(
   {
     headerMode: "none",
     initialRouteName: "Feed",
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;

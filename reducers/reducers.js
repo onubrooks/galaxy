@@ -113,7 +113,7 @@ function playlist(state = initialState.playlist, action) {
       }
     case GET_PLAYLIST_SUCCESS:
       return {
-        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...state.byId, ...action.payload.byId }, allIds: null
+        ...state, lastUpdated: Date.now(), loading: false, updated: true, byId: { ...action.payload.byId }, allIds: null
       }
     case GET_PLAYLIST_FAIL:
       return {

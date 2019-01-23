@@ -5,10 +5,7 @@ import {
   Header,
   Body,
   Left,
-  Right,
-  Icon,
-  Text,
-  Spinner
+  Text
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";

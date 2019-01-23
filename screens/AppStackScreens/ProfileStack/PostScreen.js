@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import {
   Container,
   Header,
   Body,
   Left,
-  Right,
-  Icon,
-  Text,
-  Spinner
+  Text
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";

@@ -232,7 +232,7 @@ const CouldntLoad = props => {
 }
 
 const LoadMore = props => {
-  return props.loading ? <Spinner color="grey" size={20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
+  return props.loading ? <Spinner color="grey" size={Platform.OS === 'ios' ? 1 : 20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
     <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-refresh-circle-outline" /></Button>
     </View>;
 }

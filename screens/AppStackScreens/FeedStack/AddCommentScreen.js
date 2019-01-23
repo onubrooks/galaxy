@@ -7,8 +7,7 @@ import {
   Content,
   Body,
   Left,
-  Icon,
-  View
+  Icon
 } from "native-base";
 import styles from "../../../components/styles";
 

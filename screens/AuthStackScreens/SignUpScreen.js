@@ -3,6 +3,7 @@ import {
   AsyncStorage,
   View,
   ScrollView,
+  Platform,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -71,7 +72,7 @@ export class SignUpScreen extends React.Component {
 
           <View style={{ width: 300 }}>
             <Button block bordered onPress={this._signUpAsync} style={styles.buttonBordered} disabled={this.state.loading}>
-              {this.state.loading ? <Spinner color="grey" size={20} /> : <Text
+            {this.state.loading ? <Spinner color="grey" size={Platform.OS === 'ios' ? 1 : 20} /> : <Text
                   style={styles.primaryText}
                 >
                   Sign Up

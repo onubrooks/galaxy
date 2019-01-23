@@ -12,29 +12,33 @@ import {
 } from 'react-native';
 import { Asset, Audio, Font, Video } from 'expo';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Icon as IconBase, Button } from "native-base";
+import { Icon as IconBase, Button, Toast } from "native-base";
 import * as Animatable from "react-native-animatable";
 
 let defaultPlaylist = [
   {
     songPath:
       "https://freemusicdownloads.world/wp-content/uploads/2017/05/A-Boogie-Wit-Da-Hoodie-Drowning-WATER-ft-Kodak-Black-Official-Audio.mp3",
-    songTitle: "Drowning"
+    songTitle: "Drowning",
+    songId: "default1"
   },
   {
     songPath:
       "https://archive.org/download/Mp3Playlist_555/AaronNeville-CrazyLove.mp3",
-    songTitle: "Aaron Neville – “Crazy Love”"
+    songTitle: "Aaron Neville – “Crazy Love”",
+    songId: "default2"
   },
   {
     songPath:
       "https://archive.org/download/Mp3Playlist_555/Daughtry-Homeacoustic.mp3",
-    songTitle: "Daughtry - “Home ”"
+    songTitle: "Daughtry - “Home ”",
+    songId: "default3"
   },
   {
     songPath:
       "https://archive.org/download/Mp3Playlist_555/JohnPagano-changeInMyLife.mp3",
-    songTitle: "Change In My Life"
+    songTitle: "Change In My Life",
+    songId: "default4"
   }
 ];
 
@@ -66,6 +70,7 @@ export default class PlaylistPlayer extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.playbackInstance = null;
     this.state = {
+      defaultPlaylist: (props.playlist.length && props.playlist) ? false : true,
       playlist: (props.playlist.length && props.playlist) || defaultPlaylist,
       showVideo: false,
       playbackInstanceName: LOADING_STRING,
@@ -112,6 +117,22 @@ export default class PlaylistPlayer extends React.Component {
     this.unmounted = true;
     if (this.playbackInstance != null) {
       this.playbackInstance.unloadAsync();
+    }
+  }
+
+  removeFromPlaylist = (songId, idx) => {
+    this.setState({playlist: this.state.playlist.filter((item, index) => index !== idx)});
+    if(!this.state.defaultPlaylist) {
+      this.props.unBookmarkASong(songId, this.props.userId);
+    }
+    console.log("length", this.state.playlist.length)
+    if(this.state.playlist.length - 1 === 0) {
+      Toast.show({
+        text: "Your playlist is empty, default playlist loaded...",
+        position: "bottom",
+        duration: 5000
+      });
+      this.setState({ playlist: defaultPlaylist })
     }
   }
 
@@ -544,7 +565,7 @@ export default class PlaylistPlayer extends React.Component {
                 key={idx}
                 onPress={() => this._setIndex(idx)}
               >
-                <UpNext idx={idx} item={item} />
+                <this.UpNext idx={idx} item={item} />
               </TouchableOpacity>
             ))}
           </View>
@@ -555,6 +576,26 @@ export default class PlaylistPlayer extends React.Component {
         </View>
       </View>;
   }
+  UpNext = (props) => {
+    return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%", borderTopWidth: 1, borderTopColor: "#BABEC0", borderTopStartRadius: props.idx == 0 ? 0 : 90 }}>
+      <View style={{ width: "20%", marginTop: 4 }}>
+        <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
+      </View>
+      <View style={{ width: "60%", justifyContent: "center" }}>
+        <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 17, fontWeight: "400" }}>
+          {props.item.songTitle}
+        </Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "100", color: "#BABEC0" }}>
+          Artist.
+        </Text>
+      </View>
+      <View style={{ width: "20%", marginLeft: "auto", justifyContent: "center" }}>
+        <Button transparent onPress={() => this.removeFromPlaylist(props.item.songId, props.idx)}>
+          <IconBase name="md-trash" style={{ fontSize: 26, color: "#7A7E80" }} />
+        </Button>
+      </View>
+    </View>;
+  };
 }
 
 const stl = StyleSheet.create({
@@ -663,26 +704,6 @@ const Hr = () => {
     <Text></Text>
   </View>
 }
-const UpNext = (props) => {
-  return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%", borderTopWidth: 1, borderTopColor: "#BABEC0", borderTopStartRadius: props.idx == 0 ? 0 : 90 }}>
-      <View style={{ width: "20%", marginTop: 4 }}>
-        <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
-      </View>
-      <View style={{ width: "60%", justifyContent: "center" }}>
-        <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 17, fontWeight: "400" }}>
-        {props.item.songTitle}
-        </Text>
-      <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "100", color: "#BABEC0" }}>
-          Artist.
-        </Text>
-      </View>
-      <View style={{ width: "20%", marginLeft: "auto", justifyContent: "center" }}>
-        <Button transparent>
-          <IconBase name="ios-reorder" style={{ fontSize: 26, color: "#7A7E80" }} />
-        </Button>
-      </View>
-    </View>;
-};
 
 function shuffle(o) {
   for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);

@@ -2,9 +2,11 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, NetInfo } from 'react-native';
 import { Toast } from "native-base";
 
-import { AppLoading, Asset, Font } from "expo";
+import { AppLoading, Asset } from "expo";
+import * as Font from "expo-font";
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+
 import { Root } from "native-base";
 
 import { createStore, applyMiddleware } from "redux";
@@ -17,6 +19,7 @@ import rootReducer from "./reducers/reducers";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
+
 const persistConfig = {
   key: "root",
   storage,

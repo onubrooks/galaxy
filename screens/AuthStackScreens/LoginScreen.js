@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Platform
 } from "react-native";
 import {
   Button,
@@ -26,6 +27,8 @@ var {width, height} = Dimensions.get('window');
 import { WebBrowser } from "expo";
 import styles from "../../components/styles";
 import { ShowTosFooter } from "../../components/ShowTosFooter";
+import Modal from "react-native-modal";
+import { EulaModalContent } from "../../components/ModalContent";
 
 const PUSH_ENDPOINT = "http://api.leedder.com/api/login";
 
@@ -35,9 +38,24 @@ export class LoginScreen extends React.Component {
     this.state = {
       username: '',
       password: '',
-      loading: false
+      loading: false,
+      showEula: false,
+      eulaAgreed: false
     }
   }
+
+  async componentDidMount() {
+    let eulaAgreed = await AsyncStorage.getItem("eulaAgreed");
+    console.log("eula is ", eulaAgreed);
+    // if eulaAgreed is true, dont showEula
+    showEula = eulaAgreed ? false : true;
+    this.setState({ showEula, eulaAgreed})
+  }
+
+  setModalVisible = (visible) => {
+    this.setState({ showEula: visible });
+  }
+
   resetPassword = async () => {
     // for handling auth session, use:
     // WebBrowser.openAuthSessionAsync()
@@ -64,7 +82,7 @@ export class LoginScreen extends React.Component {
           </View>
           
           <View style={{width: 300}}>
-          <Button block bordered onPress={this._signInAsync} style={styles.buttonBordered} disabled={this.state.loading}>{this.state.loading ? <Spinner color="grey" size={20} /> : <Text style={styles.primaryText}>Login</Text>}</Button>
+          <Button block bordered onPress={this._signInAsync} style={styles.buttonBordered} disabled={this.state.loading}>{this.state.loading ? <Spinner color="grey" size={Platform.OS === 'ios' ? 1 : 20} /> : <Text style={styles.primaryText}>Login</Text>}</Button>
           </View>
           <View style={{width:250, marginVertical:6}}>  
             <Text style={{ fontSize: 15, textAlign: "center" }} note>Forgot your login details? <Text style={{ fontWeight: "bold", fontSize: 15 }} onPress={this.resetPassword}>Get help signing in.</Text></Text>
@@ -75,18 +93,33 @@ export class LoginScreen extends React.Component {
             <Hr />
           </View>
           <View style={{width: 300}}>
-          <Button iconLeft block onPress={() => this.props.navigation.navigate("SignUp")} style={styles.buttonBlock}>
+          <Button iconLeft block onPress={this._goToSignUp} style={styles.buttonBlock}>
               <Icon name="home" />
               <Text>Join Leedder Today</Text>
             </Button>
           </View>
-        
+        <Modal isVisible={this.state.showEula} onBackdropPress={() => this.setState(
+          { showEula: false }
+        )}>
+          <EulaModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
         </View>
         <ShowTosFooter />
       </ScrollView>
   }
 
+  _goToSignUp = () => {
+    if (!this.state.eulaAgreed) {
+      this.setState({ showEula: true });
+      return;
+    }
+    this.props.navigation.navigate("SignUp");
+  }
   _signInAsync = () => {
+    if(!this.state.eulaAgreed) {
+      this.setState({showEula: true});
+      return;
+    }
     if(!this.state.username) {
       alert("please enter your username...");
       return;

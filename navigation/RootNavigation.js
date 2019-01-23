@@ -1,6 +1,7 @@
 import { Notifications } from 'expo';
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer } from "react-navigation";
+
 import AuthStack from "../screens/AuthStackScreens/AuthStack";
 import AppStack from "../screens/AppStackScreens/AppStack";
 
@@ -19,6 +20,8 @@ const SwitchNavigation = createSwitchNavigator(
   }
 );
 
+const AppNavigator = createAppContainer(SwitchNavigation);
+
 export default class RootNavigator extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
@@ -29,7 +32,7 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    return <SwitchNavigation />;
+    return <AppNavigator />;
   }
 
   _registerForPushNotifications() {

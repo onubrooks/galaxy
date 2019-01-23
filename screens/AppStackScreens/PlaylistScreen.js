@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
+  View
 } from "react-native";
 import {
   Container,
@@ -10,12 +11,13 @@ import {
   Body,
   Left,
   Icon,
-  Text
+  Text,
+  Spinner
 } from "native-base";
 
 // redux related imports
 import { connect } from "react-redux";
-import { fetchPlaylist } from "../../actions/actions";
+import { fetchPlaylist, unBookmarkASong } from "../../actions/actions";
 
 import styles from "../../components/styles";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
@@ -24,19 +26,14 @@ export class PlaylistScreen extends Component {
   componentWillMount() {
     this.props.fetchPlaylist(this.props.user);
   }
+
   render() {
     let { playlist } = this.props;
     const songArray = Object.keys(playlist.byId).map((songId, idx) => playlist.byId[songId]);
-    return (
-      <Container style={styles.container}>
-        <Header
-          style={[styles.header, { backgroundColor: "white" }]}
-          androidStatusBarColor="#006E8C"
-        >
+    return <Container style={styles.container}>
+        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
           <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Feed")}
-            >
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("Feed")}>
               <Icon name="md-close" style={{ color: primaryColor }} />
             </TouchableOpacity>
           </Left>
@@ -45,10 +42,11 @@ export class PlaylistScreen extends Component {
           </Body>
         </Header>
         <Content>
-          <PlaylistPlayer playlist={songArray} />
+          {playlist.loading ? <View style={styles.loadingIndicator}>
+          <Spinner color={"#006E8C"} size={Platform.OS === 'ios' ? 1 : 20}/>
+            </View> : <PlaylistPlayer playlist={songArray} unBookmarkASong={this.props.unBookmarkASong} userId={this.props.user.id} />}
         </Content>
-      </Container>
-    );
+      </Container>;
   }
 }
 
@@ -61,7 +59,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchPlaylist
+  fetchPlaylist,
+  unBookmarkASong
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistScreen);
