@@ -21,7 +21,7 @@ import {
 import FeedItem from "./FeedItem";
 import KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView";
 import Modal from "react-native-modal";
-import { FeedScreenModalContent } from "./ModalContent";
+import { FeedScreenModalContent, ReportAbuseModalContent } from "./ModalContent";
 
 // redux related imports
 import { connect } from "react-redux";
@@ -34,7 +34,10 @@ import {
   removeSong,
   bookmarkASong,
   unBookmarkASong,
-  commentASong
+  commentASong,
+  blockUser,
+  unFollowUser,
+  reportAbuse
 } from "../actions/actions";
 
 import styles from "./styles";
@@ -42,7 +45,7 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 10, slice: 5, offset: 0 };
+    this.state = { isModalVisible: false, isReportModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 10, slice: 5, offset: 0 };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -80,7 +83,24 @@ export class FeedItemWrapper extends Component {
     if(val && val == 'remove') {
       this.props.removeSong(this.state.song.songId);
       this.setState({ isModalVisible: visible, song:null });
-    } else {
+    } 
+    else if (val && val == 'report') {
+      this.setState({ isModalVisible: visible });
+      this.setState({ isReportModalVisible: true });
+    } 
+    else if (val && val == 'block') {
+      this.props.blockUser(this.state.song, this.props.user);
+      this.setState({ isModalVisible: visible, song: null });
+    } 
+    else if (val && val == 'unfollow') {
+      this.props.unFollowUser(this.state.song, this.props.user);
+      this.setState({ isModalVisible: visible, song: null });
+    } 
+    else if (val && (val == "inappropriate" || val == "spam")) {
+      this.props.reportAbuse(this.state.song, this.props.user, val);
+      this.setState({ isModalVisible: visible, song: null });
+    } 
+    else {
       this.setState({ isModalVisible: visible, song });
     }
   }
@@ -186,7 +206,7 @@ export class FeedItemWrapper extends Component {
         <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content>
             {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
-          {this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? <LoadMore load={this._loadMore} loading={feed.loading} /> : null}
+            {this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? <LoadMore load={this._loadMore} loading={feed.loading} /> : null}
             <View style={{ height: 150 }} />
           </Content>
         </KeyboardAvoidingScrollView>
@@ -194,6 +214,11 @@ export class FeedItemWrapper extends Component {
               { isModalVisible: false }
             )}>
           <FeedScreenModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
+        <Modal isVisible={this.state.isReportModalVisible} onBackdropPress={() => this.setState(
+              { isReportModalVisible: false }
+            )}>
+          <ReportAbuseModalContent setModalVisible={this.setModalVisible} />
         </Modal>
       </Container>;
   }
@@ -218,7 +243,10 @@ const mapDispatchToProps = {
   removeSong,
   bookmarkASong,
   unBookmarkASong,
-  commentASong
+  commentASong,
+  blockUser,
+  unFollowUser,
+  reportAbuse
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);

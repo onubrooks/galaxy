@@ -52,8 +52,9 @@ export class LoginScreen extends React.Component {
     this.setState({ showEula, eulaAgreed})
   }
 
-  setModalVisible = (visible) => {
-    this.setState({ showEula: visible });
+  setModalVisible = async (visible) => {
+    let eulaAgreed = await AsyncStorage.setItem("eulaAgreed", "true");
+    this.setState({ showEula: visible, eulaAgreed: true });
   }
 
   resetPassword = async () => {

@@ -464,7 +464,7 @@ export function fetchMyProfile(userId) {
     initial: getMyProfile,
     success: getMyProfileSuccess,
     fail: getMyProfileFail,
-    successMsg: 'unable to fetch my profile',
+    successMsg: null,
     errorMsg: 'Network error, please try again...'
   };
   return genericAsyncActionDispatcher(userId, req, cb);
@@ -483,6 +483,67 @@ export function fetchProfile(userHandle) {
     success: getProfileSuccess,
     fail: getProfileFail,
     successMsg: 'unable to fetch profile',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(userHandle, req, cb);
+}
+
+export function blockUser(song, user) {
+  let data = {
+    partyA: user.userId,
+    partyB: song.userId
+  };
+  let req = {
+    method: 'POST',
+    url: `block`,
+    data
+  };
+  let cb = {
+    initial: block,
+    success: null,
+    fail: null,
+    successMsg: 'block successful',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(userHandle, req, cb);
+}
+
+export function unFollowUser(song, user) {
+  let data = {
+    partyA: user.userId,
+    partyB: song.userId
+  };
+  let req = {
+    method: 'POST',
+    url: `follow`,
+    data
+  };
+  let cb = {
+    initial: unFollow,
+    success: null,
+    fail: null,
+    successMsg: 'unfollow successful',
+    errorMsg: 'Network error, please try again...'
+  };
+  return genericAsyncActionDispatcher(userHandle, req, cb);
+}
+
+export function reportAbuse(song, user, reason) {
+  let data = {
+    songId: song.songId,
+    userId: user.userId,
+    comment: reason
+  };
+  let req = {
+    method: 'POST',
+    url: `report`,
+    data
+  };
+  let cb = {
+    initial: report,
+    success: null,
+    fail: null,
+    successMsg: 'report successful',
     errorMsg: 'Network error, please try again...'
   };
   return genericAsyncActionDispatcher(userHandle, req, cb);
