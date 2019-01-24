@@ -48,6 +48,8 @@ export const GET_PROFILE = 'GET_PROFILE'
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
 // error action, sets loading to false and error message
 export const GET_PROFILE_FAIL = 'GET_PROFILE_FAIL'
+// unfollow a user
+export const UNFOLLOW = 'UNFOLLOW'
 
 
 /*
@@ -310,6 +312,15 @@ export function getProfileFail() {
   }
 }
 
+export function unFollow(song) {
+  return {
+    type: UNFOLLOW,
+    payload: {
+      song
+    }
+  }
+}
+
 export function fetchFeed(user, ofs) {
   let offset = ofs || 0;
   let req = {
@@ -499,13 +510,13 @@ export function blockUser(song, user) {
     data
   };
   let cb = {
-    initial: block,
+    initial: null,
     success: null,
     fail: null,
-    successMsg: 'block successful',
+    successMsg: 'you have blocked ' + song.userHandle,
     errorMsg: 'Network error, please try again...'
   };
-  return genericAsyncActionDispatcher(userHandle, req, cb);
+  return genericAsyncActionDispatcher(null, req, cb);
 }
 
 export function unFollowUser(song, user) {
@@ -522,7 +533,7 @@ export function unFollowUser(song, user) {
     initial: unFollow,
     success: null,
     fail: null,
-    successMsg: 'unfollow successful',
+    successMsg: 'unfollowed ' + song.userHandle,
     errorMsg: 'Network error, please try again...'
   };
   return genericAsyncActionDispatcher(userHandle, req, cb);
@@ -540,11 +551,11 @@ export function reportAbuse(song, user, reason) {
     data
   };
   let cb = {
-    initial: report,
+    initial: null,
     success: null,
     fail: null,
-    successMsg: 'report successful',
+    successMsg: 'Thanks for the feedback, your complaint has been submitted.',
     errorMsg: 'Network error, please try again...'
   };
-  return genericAsyncActionDispatcher(userHandle, req, cb);
+  return genericAsyncActionDispatcher(null, req, cb);
 }

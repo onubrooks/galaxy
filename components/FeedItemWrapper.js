@@ -98,7 +98,7 @@ export class FeedItemWrapper extends Component {
     } 
     else if (val && (val == "inappropriate" || val == "spam")) {
       this.props.reportAbuse(this.state.song, this.props.user, val);
-      this.setState({ isModalVisible: visible, song: null });
+      this.setState({ isReportModalVisible: visible, song: null });
     } 
     else {
       this.setState({ isModalVisible: visible, song });

@@ -28,7 +28,8 @@ import {
   GET_PROFILE_FAIL,
   GET_MY_PROFILE,
   GET_MY_PROFILE_SUCCESS,
-  GET_MY_PROFILE_FAIL
+  GET_MY_PROFILE_FAIL,
+  UNFOLLOW
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 
@@ -76,6 +77,15 @@ function feed(state = initialState.feed, action) {
         byId: {
           ...state.byId, // all other ids stay the same
           [action.payload.songId]: null
+        }
+      }
+    case UNFOLLOW:
+      // the following line filters the object and excludes the first key
+      const { [action.payload.song.songId]: _, ...newById } = state.byId;
+      return {
+        ...state,
+        byId: {
+          ...newById
         }
       }
       case BOOKMARK_SONG:
