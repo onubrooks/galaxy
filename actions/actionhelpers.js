@@ -6,7 +6,7 @@
  */
 import { Toast } from "native-base";
 import Axios from "axios";
-const PUSH_ENDPOINT = `http://api.leedder.com/api`;
+const PUSH_ENDPOINT = `http://10.0.2.2:54722/api`;//`http://api.leedder.com/api`;
 // thunk action creator, returns a function that dispatches getFeed and then 
 export default function genericAsyncActionDispatcher(data, req, cb) {
   // Thunk middleware knows how to handle functions.
@@ -37,6 +37,13 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           // console.log("response is ", response);
           let data = response.data;
           console.log(cb.successMsg, data);
+          if(cb.displaySuccessToast) {
+            Toast.show({
+              text: cb.successMsg,
+              position: "bottom",
+              duration: 2000
+            });
+          }
           cb.success && dispatch(cb.success(data));
         }, // Do not use catch, because that will also catch
         // any errors in the dispatch and resulting render,

@@ -42,7 +42,7 @@ export class ReportAbuseModalContent extends Component {
   render() {
     return <View style={{ marginHorizontal: 20, backgroundColor: "white", width: "90%", borderRadius: 6 }}>
       <View style={{ marginLeft: 20 }}>
-      <Text style={{fontSize: 10, fontWeight:'normal'}}>Choose a reason for reporting this post</Text>
+      <Text style={{fontSize: 14, fontWeight:'normal', marginVertical:6}}>Choose a reason for reporting this post</Text>
       <Hr />
         <Text onPress={() => this.handlePress('spam')} style={{ marginVertical: 13, fontSize: 17 }}>It's spam</Text>
         <Text onPress={() => this.handlePress('inappropriate')} style={{ marginVertical: 13, fontSize: 17 }}>It's inappropriate</Text>
@@ -125,9 +125,9 @@ export class EulaModalContent extends Component {
             used to identify you. 
             Link to privacy policy of third party
             service providers used by the app 
-              {Platform.ANDROID ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.google.com/policies/privacy/')} style={{ fontWeight: 'bold' }}>
+              {Platform.OS == 'android' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.google.com/policies/privacy/')} style={{ fontWeight: 'bold' }}>
               • Google Play Services</Text> : null}
-            {Platform.IOS ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.apple.com/legal/privacy/en-ww/')} style={{ fontWeight: 'bold' }}>
+            {Platform.OS == 'ios' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.apple.com/legal/privacy/en-ww/')} style={{ fontWeight: 'bold' }}>
               • Apple Privacy Policy</Text> : null}
                </Text>
                

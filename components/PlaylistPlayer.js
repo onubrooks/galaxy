@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Asset, Audio, Font, Video } from 'expo';
+import { Asset, Audio, Video } from 'expo';
+import * as Font from "expo-font";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Icon as IconBase, Button, Toast } from "native-base";
 import * as Animatable from "react-native-animatable";
@@ -102,7 +103,7 @@ export default class PlaylistPlayer extends React.Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: false,
+      playThroughEarpieceAndroid: true,
     });
     (async () => {
       await Font.loadAsync({
@@ -161,7 +162,7 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance = this._video;
       const status = await this._video.getStatusAsync();
     } else {
-      const { sound, status } = await Audio.Sound.create(source, initialStatus, this._onPlaybackStatusUpdate);
+      const { sound, status } = await Audio.Sound.createAsync(source, initialStatus, this._onPlaybackStatusUpdate);
       this.playbackInstance = sound;
       playerService.addPlayer(this.playbackInstance);
     }
@@ -527,7 +528,7 @@ export default class PlaylistPlayer extends React.Component {
             </TouchableHighlight>
             <Slider style={stl.volumeSlider} value={1} onValueChange={this._onVolumeSliderValueChange} />
             <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onMutePressed}>
-              <IconBase style={stl.button} name={this.state.muted ? "ios-volume-off" : "ios-volume-up"} style={{ fontSize: 30 }} />
+              <IconBase style={stl.button} name={this.state.muted ? "ios-volume-off" : "ios-volume-high"} style={{ fontSize: 30 }} />
             </TouchableHighlight>
           </View>
           {/* <View style={stl.redIcons}>

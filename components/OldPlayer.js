@@ -12,7 +12,8 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import { Audio, Font, Video } from 'expo';
+import { Audio, Video } from 'expo';
+import * as Font from "expo-font";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "native-base";
 
@@ -73,6 +74,7 @@ export default class Player extends React.Component {
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      playThroughEarpieceAndroid: true
     });
     (async () => {
       await Font.loadAsync({
@@ -108,7 +110,7 @@ export default class Player extends React.Component {
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
       androidImplementation: 'MediaPlayer',
     };
-    const { sound, status } = await Audio.Sound.create(
+    const { sound, status } = await Audio.Sound.createAsync(
       source,
       initialStatus,
       this._onPlaybackStatusUpdate
@@ -332,7 +334,7 @@ export default class Player extends React.Component {
         </View>
         {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.7 }]}>
             <Button transparent style={styles.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
-              {this.state.isPlaying ? <Ionicons name="ios-pause-outline" size={30} /> : <Ionicons name="ios-play-outline" size={30} />}
+              {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} />}
             </Button>
 
             <Text
@@ -357,7 +359,7 @@ export default class Player extends React.Component {
             <Slider style={styles.playbackSlider} value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
             <View style={styles.volumeContainer}>
               <Button transparent style={styles.wrapper} onPress={this._onMutePressed}>
-                {this.state.muted ? <Ionicons name="ios-volume-off-outline" size={30} /> : <Ionicons name="ios-volume-up-outline" size={30} />}
+                {this.state.muted ? <Ionicons name="ios-volume-off" size={30} /> : <Ionicons name="ios-volume-high" size={30} />}
               </Button>
             </View>
           </View> : null}

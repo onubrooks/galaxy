@@ -20,10 +20,11 @@ import {
   Card,
   CardItem,
   Text,
-  Thumbnail} from "native-base";
+  Thumbnail
+} from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Feather from "react-native-vector-icons/Feather";
 import Icon from "react-native-vector-icons/EvilIcons";
-import IconAsset from "./IconAsset";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
 import Player from "./OldPlayer";
@@ -101,7 +102,8 @@ export class FeedItem extends Component {
                  <Body />
                  <Right>
                    <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId, +user.id)}>
-                   <Ionicons name={song.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} />
+                   {song.iFav ? <Ionicons name="md-bookmark" size={25} /> : <Feather style={{marginLeft: 30}} name="bookmark" size={24} />}
+                   {/* <Ionicons name={song.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} /> */}
                    </TouchableOpacity>
                  </Right>
                </CardItem>

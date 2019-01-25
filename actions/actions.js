@@ -493,7 +493,7 @@ export function fetchProfile(userHandle) {
     initial: getProfile,
     success: getProfileSuccess,
     fail: getProfileFail,
-    successMsg: 'unable to fetch profile',
+    successMsg: 'Fetch profile successful',
     errorMsg: 'Network error, please try again...'
   };
   return genericAsyncActionDispatcher(userHandle, req, cb);
@@ -514,7 +514,8 @@ export function blockUser(song, user) {
     success: null,
     fail: null,
     successMsg: 'you have blocked ' + song.userHandle,
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please try again...',
+    displaySuccessToast: true
   };
   return genericAsyncActionDispatcher(null, req, cb);
 }
@@ -534,9 +535,10 @@ export function unFollowUser(song, user) {
     success: null,
     fail: null,
     successMsg: 'unfollowed ' + song.userHandle,
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please try again...',
+    displaySuccessToast: true
   };
-  return genericAsyncActionDispatcher(userHandle, req, cb);
+  return genericAsyncActionDispatcher(song, req, cb);
 }
 
 export function reportAbuse(song, user, reason) {
@@ -555,7 +557,8 @@ export function reportAbuse(song, user, reason) {
     success: null,
     fail: null,
     successMsg: 'Thanks for the feedback, your complaint has been submitted.',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please try again...',
+    displaySuccessToast: true
   };
   return genericAsyncActionDispatcher(null, req, cb);
 }

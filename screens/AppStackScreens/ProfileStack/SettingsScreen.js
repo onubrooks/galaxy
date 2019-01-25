@@ -46,8 +46,7 @@ export class SettingsScreen extends Component {
     this.setState({ isModalVisible: visible });
   }
   _signOutAsync = async () => {
-    // await AsyncStorage.removeItem("userToken");
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('userToken');
     this.props.navigation.navigate('Auth');
   }
   showTos = async () => {

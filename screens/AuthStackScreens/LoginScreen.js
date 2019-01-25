@@ -53,7 +53,7 @@ export class LoginScreen extends React.Component {
   }
 
   setModalVisible = async (visible) => {
-    let eulaAgreed = await AsyncStorage.setItem("eulaAgreed", "true");
+    await AsyncStorage.setItem("eulaAgreed", "true");
     this.setState({ showEula: visible, eulaAgreed: true });
   }
 
@@ -141,7 +141,6 @@ export class LoginScreen extends React.Component {
         password: this.state.password
       }),
     }).then((response) => response.json()).then( async (data) => { 
-      console.log(data);
       if (data.authId) {
         await AsyncStorage.setItem("userToken", "" + data.authId);
         this.props.login(data.authId);

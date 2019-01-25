@@ -81,11 +81,16 @@ function feed(state = initialState.feed, action) {
       }
     case UNFOLLOW:
       // the following line filters the object and excludes the first key
-      const { [action.payload.song.songId]: _, ...newById } = state.byId;
+      const filtered = Object.keys(state.byId)
+        .filter(key => state.byId[key].userId !== action.payload.song.userId)
+        .reduce((obj, key) => {
+          obj[key] = state.byId[key];
+          return obj;
+        }, {});
       return {
         ...state,
         byId: {
-          ...newById
+          ...filtered
         }
       }
       case BOOKMARK_SONG:
