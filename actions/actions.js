@@ -286,11 +286,12 @@ export function getMyProfileFail() {
   }
 }
 
-export function getProfile(userHandle) {
+export function getProfile(data) {
   return { 
     type: GET_PROFILE, 
     payload: {
-      userHandle
+      userHandle: data.userHandle,
+      userId: data.userId
     }
   }
 }
@@ -365,7 +366,7 @@ export function hitASong(songId, userId) {
     success: null,
     fail: unLikeSong,
     successMsg: 'hit successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
@@ -380,7 +381,7 @@ export function unHitASong(songId, userId) {
     success: null,
     fail: likeSong,
     successMsg: 'unhit successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
@@ -395,7 +396,7 @@ export function bookmarkASong(songId, userId) {
     success: null,
     fail: unBookmarkSong,
     successMsg: 'bookmark successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
@@ -410,7 +411,7 @@ export function unBookmarkASong(songId, userId) {
     success: null,
     fail: bookmarkSong,
     successMsg: 'unbookmark successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(songId, req, cb);
 }
@@ -440,7 +441,7 @@ export function commentASong(songId, comment, user) {
     success: null,//getCommentsSuccess,
     fail: null,
     successMsg: 'add comment successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(data, req, cb);
 }
@@ -462,7 +463,7 @@ export function uploadSongAsync(song, user_id) {
     success: null,
     fail: null,
     successMsg: 'song upload successful...',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(data, req, cb);
 }
@@ -476,27 +477,23 @@ export function fetchMyProfile(userId) {
     success: getMyProfileSuccess,
     fail: getMyProfileFail,
     successMsg: null,
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(userId, req, cb);
 }
-export function fetchProfile(userHandle) {
-  let data = {
-    userHandle
-  };
+export function fetchProfile(userHandle, userId) {
   let req = {
-    method: 'POST',
-    url: `get-profile`,
-    data
+    method: 'get',
+    url: `user/${userId}`
   };
   let cb = {
     initial: getProfile,
     success: getProfileSuccess,
     fail: getProfileFail,
     successMsg: 'Fetch profile successful',
-    errorMsg: 'Network error, please try again...'
+    errorMsg: 'Network error, please check your connection...'
   };
-  return genericAsyncActionDispatcher(userHandle, req, cb);
+  return genericAsyncActionDispatcher({userHandle, userId}, req, cb);
 }
 
 export function blockUser(song, user) {
@@ -514,7 +511,7 @@ export function blockUser(song, user) {
     success: null,
     fail: null,
     successMsg: 'you have blocked ' + song.userHandle,
-    errorMsg: 'Network error, please try again...',
+    errorMsg: 'Network error, please check your connection...',
     displaySuccessToast: true
   };
   return genericAsyncActionDispatcher(null, req, cb);
@@ -535,7 +532,7 @@ export function unFollowUser(song, user) {
     success: null,
     fail: null,
     successMsg: 'unfollowed ' + song.userHandle,
-    errorMsg: 'Network error, please try again...',
+    errorMsg: 'Network error, please check your connection...',
     displaySuccessToast: true
   };
   return genericAsyncActionDispatcher(song, req, cb);
@@ -557,7 +554,7 @@ export function reportAbuse(song, user, reason) {
     success: null,
     fail: null,
     successMsg: 'Thanks for the feedback, your complaint has been submitted.',
-    errorMsg: 'Network error, please try again...',
+    errorMsg: 'Network error, please check your connection...',
     displaySuccessToast: true
   };
   return genericAsyncActionDispatcher(null, req, cb);

@@ -35,7 +35,8 @@ export class AuthLoadingScreen extends React.Component {
   render() {
     return <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="#006E8C" />
+      <Header style={styles.header} iosBarStyle="dark-content" />
+        {/* <Header style={styles.header} iosBarStyle="dark-content" androidStatusBarColor="#006E8C" /> */}
         <ActivityIndicator style={{ marginTop: 20 }} />
       </View>;
   }

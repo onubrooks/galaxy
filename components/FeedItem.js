@@ -22,12 +22,14 @@ import {
   Text,
   Thumbnail
 } from "native-base";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import Icon from "react-native-vector-icons/EvilIcons";
 import styles from "./styles";
 import CommentInput from "./CommentInput";
 import Player from "./OldPlayer";
+import UserHandle from "./UserHandle";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = require('../assets/icons/fist-red.png');
@@ -73,7 +75,8 @@ export class FeedItem extends Component {
                  <Left>
                    <Thumbnail small source={{uri: song.userAvatar}} style={{ padding: -20 }} />
                    <Body>
-                     <Text style={styles.handle}>{song.userHandle}</Text>
+                   <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} />
+                     {/* <Text style={styles.handle}>{song.userHandle}</Text> */}
                    </Body>
                  </Left>
                  <Right>
@@ -103,7 +106,7 @@ export class FeedItem extends Component {
                  <Right>
                    <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId, +user.id)}>
                    {song.iFav ? <Ionicons name="md-bookmark" size={25} /> : <Feather style={{marginLeft: 30}} name="bookmark" size={24} />}
-                   {/* <Ionicons name={song.iFav ? "ios-bookmark" : "ios-bookmark-outline"} size={25} /> */}
+                   {/* <MaterialCommunityIcons name={song.iFav ? "bookmark-music" : "bookmark-minus-outline"} size={25} /> */}
                    </TouchableOpacity>
                  </Right>
                </CardItem>

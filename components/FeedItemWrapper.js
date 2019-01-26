@@ -60,8 +60,8 @@ export class FeedItemWrapper extends Component {
     if (this.props.navigation.state.routeName == "Feed") {
       //this.setState({ refreshing: true });
       this.props.fetchFeed(this.props.user, this.state.offset);
-      this.props.fetchPlaylist(this.props.user);
-      this.props.fetchMyProfile(this.props.user.id);
+      //this.props.fetchPlaylist(this.props.user);
+      //this.props.fetchMyProfile(this.props.user.id);
     }
   }
   static getDerivedStateFromProps(nextProps, prevState) {

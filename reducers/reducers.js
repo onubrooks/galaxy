@@ -216,6 +216,7 @@ function getProfile(state = initialState.profile, action) {
       return {
             ...state, 
             userHandle: action.payload.userHandle,
+            userId: action.payload.userId,
             loading: true
       }
     case GET_PROFILE_SUCCESS:
