@@ -53,6 +53,7 @@ const profile = {
   loading: false,
   updated: false,
   userHandle: null,
+  userId: null,
   data: null
 };
 const playlist = {

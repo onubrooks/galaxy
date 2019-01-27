@@ -105,8 +105,8 @@ export class FeedItem extends Component {
                  <Body />
                  <Right>
                    <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId, +user.id)}>
-                   {song.iFav ? <Ionicons name="md-bookmark" size={25} /> : <Feather style={{marginLeft: 30}} name="bookmark" size={24} />}
-                   {/* <MaterialCommunityIcons name={song.iFav ? "bookmark-music" : "bookmark-minus-outline"} size={25} /> */}
+                   {/* {song.iFav ? <Ionicons name="md-bookmark" size={25} /> : <Feather style={{marginLeft: 30}} name="bookmark" size={24} />} */}
+                   <MaterialCommunityIcons name={song.iFav ? "bookmark-music" : "bookmark-plus-outline"} size={25} />
                    </TouchableOpacity>
                  </Right>
                </CardItem>

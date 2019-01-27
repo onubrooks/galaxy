@@ -21,7 +21,7 @@ export class UserHandle extends Component {
 
     handlePress() {
         let { userId, userHandle } = this.props;
-        this.props.navigation.navigate('ViewProfile', { userId, userHandle });
+        this.props.navigation.navigate('ViewProfile', { userId, userHandle, other: true });
     }
 
     render() {
