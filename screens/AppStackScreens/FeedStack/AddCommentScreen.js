@@ -70,13 +70,13 @@ export class AddCommentScreen extends React.Component {
           </Body>
         </Header>
 
-        <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
+      <ScrollView keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content style={{ height: height }}>
             {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
-            {!comments.loading ? <Comments user={user} song={song} comments={comments} /> : null}
+          {!comments.loading ? <Comments user={user} song={song} comments={comments} navigation={this.props.navigation} /> : null}
           </Content>
         </ScrollView>
-        <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
+      <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
       </Container>;
   }
 }

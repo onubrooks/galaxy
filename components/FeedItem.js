@@ -115,7 +115,7 @@ export class FeedItem extends Component {
                      {song.noHits} hits
                    </Text>
                  <Text style={styles.comment_handle}>
-                   <Text style={styles.handle}>{song.userHandle}</Text> {song.songDescription}
+                 <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} /> {song.songDescription}
                  </Text>
                  <Text style={styles.note} note>
                    {song.songDate}

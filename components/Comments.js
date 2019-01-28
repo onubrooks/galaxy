@@ -14,7 +14,7 @@ import {
   Text,
   Thumbnail
 } from "native-base";
-
+import UserHandle from "./UserHandle";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -35,11 +35,12 @@ export default class Comments extends Component {
                    <List>
                      <ListItem avatar>
                        <Left>
-                         <Thumbnail small source={{uri: song.userAvatar}} />
+                         <Thumbnail small source={{ uri: song.userAvatar }} />
                        </Left>
                        <Body>
                          <Text>
-                         <Text style={{ fontWeight: '900' }}>{song.userHandle} </Text>{song.songTitle}
+                           <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} />
+                           {" "}{song.songTitle}
                          </Text>
                          <Text note>{song.songDate}</Text>
                        </Body>
@@ -50,15 +51,17 @@ export default class Comments extends Component {
                          <Left>
                            <Thumbnail
                              small
-                             source={{uri: data.userAvatar}}
+                             source={{ uri: data.userAvatar }}
                            />
                          </Left>
                          <Body>
                            <Text>
-                             <Text style={{fontWeight:'900'}}>{data.userHandle} </Text>
+                             <Text style={{ fontWeight: "900" }}>
+                               {data.userHandle}{" "}
+                             </Text>
                              {data.comment}
                            </Text>
-                           <Text note>{ data.commentDate }</Text>
+                           <Text note>{data.commentDate}</Text>
                          </Body>
                          {/* <Right>
                            <Icon
