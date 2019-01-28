@@ -20,8 +20,6 @@ import {
   UPLOAD_SONG_FAIL,
   LOGIN,
   LOGOUT,
-  // todo
-  GET_USERS,
   DELETE_USER,
   GET_PROFILE,
   GET_PROFILE_SUCCESS,
@@ -29,7 +27,13 @@ import {
   GET_MY_PROFILE,
   GET_MY_PROFILE_SUCCESS,
   GET_MY_PROFILE_FAIL,
-  UNFOLLOW
+  UNFOLLOW,
+  GET_FOLLOWERS,
+  GET_FOLLOWERS_SUCCESS,
+  GET_FOLLOWERS_FAIL,
+  GET_FOLLOWING,
+  GET_FOLLOWING_SUCCESS,
+  GET_FOLLOWING_FAIL
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 
@@ -173,11 +177,23 @@ function user(state = initialState.user, action) {
         case LOGIN:
           return {
                 ...state, id:action.payload.id, loggedIn: true
-                // ...state, email:action.payload.email,username: action.payload.username, loggedIn: true
           }
         case LOGOUT: 
           return {
-                ...state,  loggedIn: false 
+                ...state,
+                loggedIn: false,
+                id: null,
+                email: null,
+                userHandle: null,
+                fullname: null,
+                gender: null,
+                status: null,
+                userAvatar: null,
+                noSongs: null,
+                noFollowers: null,
+                noFollowing: null,
+                loading: false,
+                updated: false
           }
         case DELETE_USER:
           return {}
@@ -210,12 +226,13 @@ function user(state = initialState.user, action) {
       }
 }
 
-function getProfile(state = initialState.profile, action) {
+function profile(state = initialState.profile, action) {
   switch (action.type) {
     case GET_PROFILE:
       return {
             ...state, 
             userHandle: action.payload.userHandle,
+            prevUserId: state.userId,
             userId: action.payload.userId,
             loading: true
       }
@@ -224,11 +241,90 @@ function getProfile(state = initialState.profile, action) {
         ...state,  
         loading: false,
         updated: true,
-        data: action.payload.data
+        email: action.payload.data.email,
+        fullname: action.payload.data.fullname,
+        gender: action.payload.data.gender,
+        status: action.payload.data.status,
+        userAvatar: action.payload.data.userAvatar,
+        noSongs: action.payload.data.noSongs,
+        noFollowers: action.payload.data.noFollowers,
+        noFollowing: action.payload.data.noFollowing
       }
     case GET_PROFILE_FAIL:
+    let reset = {
+      loading: false,
+      updated: false
+    };
+    if(state.userId !== state.prevUserId){
+      reset = {
+        ...reset,
+        email: null,
+        userHandle: null,
+        fullname: null,
+        gender: null,
+        status: null,
+        userAvatar: null,
+        noSongs: null,
+        noFollowers: null,
+        noFollowing: null
+      }
+    }
       return {
-            ...state, loading: false, updated: false
+            ...state, ...reset
+      }
+      case GET_FOLLOWING:
+      return {
+        ...state, 
+        following: {
+          ...state.following,
+          loading: true
+        }
+      }
+      case GET_FOLLOWING_SUCCESS:
+      return {
+        ...state,
+        following: {
+          ...state.following,
+          loading: false,
+          updated: true,
+          data: action.payload
+        }
+      }
+      case GET_FOLLOWING_FAIL:
+      return {
+        ...state,
+        following: {
+          ...state.following,
+          loading: false,
+          updated: false
+        }
+      }
+      case GET_FOLLOWERS:
+      return {
+        ...state,
+        followers: {
+          ...state.followers,
+          loading: true
+        }
+      }
+      case GET_FOLLOWERS_SUCCESS:
+      return {
+        ...state,
+        followers: {
+          ...state.followers,
+          loading: false,
+          updated: true,
+          data: action.payload
+        }
+      }
+      case GET_FOLLOWERS_FAIL:
+      return {
+        ...state,
+        followers: {
+          ...state.followers,
+          loading: false,
+          updated: false
+        }
       }
     default:
       return state
@@ -241,6 +337,6 @@ const rootReducer = combineReducers({
   upload,
   comments,
   user,
-  getProfile
+  profile
 });
 export default rootReducer;

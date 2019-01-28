@@ -6,8 +6,8 @@
  */
 import { Toast } from "native-base";
 import Axios from "axios";
-// const PUSH_ENDPOINT = `http://10.0.2.2:54722/api`;
-const PUSH_ENDPOINT = `http://api.leedder.com/api`;
+const PUSH_ENDPOINT = `http://10.0.2.2:54722/api`;
+// const PUSH_ENDPOINT = `http://api.leedder.com/api`;
 // thunk action creator, returns a function that dispatches getFeed and then 
 export default function genericAsyncActionDispatcher(data, req, cb) {
   // Thunk middleware knows how to handle functions.

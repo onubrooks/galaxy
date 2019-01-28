@@ -50,6 +50,13 @@ export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
 export const GET_PROFILE_FAIL = 'GET_PROFILE_FAIL'
 // unfollow a user
 export const UNFOLLOW = 'UNFOLLOW'
+// followers and following
+export const GET_FOLLOWERS = 'GET_FOLLOWERS'
+export const GET_FOLLOWERS_SUCCESS = 'GET_FOLLOWERS_SUCCESS'
+export const GET_FOLLOWERS_FAIL = 'GET_FOLLOWERS_FAIL'
+export const GET_FOLLOWING = 'GET_FOLLOWING'
+export const GET_FOLLOWING_SUCCESS = 'GET_FOLLOWING_SUCCESS'
+export const GET_FOLLOWING_FAIL = "GET_FOLLOWING_FAIL";
 
 
 /*
@@ -322,6 +329,48 @@ export function unFollow(song) {
   }
 }
 
+export function getFollowers() {
+  return {
+    type: GET_FOLLOWERS
+  }
+}
+
+export function getFollowersSuccess(data) {
+  return {
+    type: GET_FOLLOWERS_SUCCESS,
+    payload: {
+      data
+    }
+  }
+}
+
+export function getFollowersFail() {
+  return {
+    type: GET_FOLLOWERS_FAIL
+  }
+}
+
+export function getFollowing() {
+  return {
+    type: GET_FOLLOWING
+  }
+}
+
+export function getFollowingSuccess(data) {
+  return {
+    type: GET_FOLLOWING_SUCCESS,
+    payload: {
+      data
+    }
+  }
+}
+
+export function getFollowingFail() {
+  return {
+    type: GET_FOLLOWING_FAIL
+  }
+}
+
 export function fetchFeed(user, ofs) {
   let offset = ofs || 0;
   let req = {
@@ -556,6 +605,36 @@ export function reportAbuse(song, user, reason) {
     successMsg: 'Thanks for the feedback, your complaint has been submitted.',
     errorMsg: 'Network error, please check your connection...',
     displaySuccessToast: true
+  };
+  return genericAsyncActionDispatcher(null, req, cb);
+}
+
+export function fetchFollowing(userId) {
+  let req = {
+    method: 'GET',
+    url: `following/${userId}`
+  };
+  let cb = {
+    initial: getFollowing,
+    success: getFollowingSuccess,
+    fail: getFollowingFail,
+    successMsg: '',
+    errorMsg: 'Network error, please check your connection...'
+  };
+  return genericAsyncActionDispatcher(null, req, cb);
+}
+
+export function fetchFollowers(userId) {
+  let req = {
+    method: 'GET',
+    url: `followers/${userId}`
+  };
+  let cb = {
+    initial: getFollowers,
+    success: getFollowersSuccess,
+    fail: getFollowersFail,
+    successMsg: '',
+    errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(null, req, cb);
 }

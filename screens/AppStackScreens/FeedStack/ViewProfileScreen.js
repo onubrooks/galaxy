@@ -70,15 +70,15 @@ export class ViewProfileScreen extends Component {
         return <Container style={{ backgroundColor: "white" }}>
             <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
                 <Left>
-                    <Title style={{ color: "#006E8C" }}>
+                    <Title style={{ color: "#006E8C", marginRight:-70 }}>
                         {user.userHandle}
                     </Title>
                 </Left>
 
                 <Right>
-                    <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
+                    {/* <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
                         <Ionicons name="md-more" size={33} color="#006E8C" />
-                    </Button>
+                    </Button> */}
                 </Right>
             </Header>
             <ScrollView>
