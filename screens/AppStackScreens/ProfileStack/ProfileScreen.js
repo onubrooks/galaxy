@@ -82,7 +82,7 @@ export class ProfileScreen extends Component {
         </Right>
       </Header>
       <ScrollView>
-        <ProfileSummary navigation={this.props.navigation} user={user} />
+        <ProfileSummary navigation={this.props.navigation} user={user} self={true} />
         <Text
           style={{ fontWeight: "bold", marginLeft: 15 }}
         >

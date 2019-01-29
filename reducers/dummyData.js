@@ -12,7 +12,17 @@ export const loggedInUser = {
       noFollowers: null,
       noFollowing: null,
       loading: false,
-      updated: false
+      updated: false,
+      followers: {
+        data: null,
+        loading: false,
+        updated: false
+      },
+      following: {
+        data: null,
+        loading: false,
+        updated: false
+      }
 };
 
 const sampleFeed = {

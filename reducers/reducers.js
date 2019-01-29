@@ -33,7 +33,13 @@ import {
   GET_FOLLOWERS_FAIL,
   GET_FOLLOWING,
   GET_FOLLOWING_SUCCESS,
-  GET_FOLLOWING_FAIL
+  GET_FOLLOWING_FAIL,
+  GET_MY_FOLLOWERS,
+  GET_MY_FOLLOWERS_SUCCESS,
+  GET_MY_FOLLOWERS_FAIL,
+  GET_MY_FOLLOWING,
+  GET_MY_FOLLOWING_SUCCESS,
+  GET_MY_FOLLOWING_FAIL
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 
@@ -221,6 +227,60 @@ function user(state = initialState.user, action) {
           return {
             ...state, loading: false, updated: false
           }
+        case GET_MY_FOLLOWING:
+          return {
+            ...state,
+            following: {
+              ...state.following,
+              loading: true
+            }
+          }
+        case GET_MY_FOLLOWING_SUCCESS:
+          return {
+            ...state,
+            following: {
+              ...state.following,
+              loading: false,
+              updated: true,
+              data: action.payload.data
+            }
+          }
+        case GET_MY_FOLLOWING_FAIL:
+          return {
+            ...state,
+            following: {
+              ...state.following,
+              loading: false,
+              updated: false
+            }
+          }
+        case GET_MY_FOLLOWERS:
+          return {
+            ...state,
+            followers: {
+              ...state.followers,
+              loading: true
+            }
+          }
+        case GET_MY_FOLLOWERS_SUCCESS:
+          return {
+            ...state,
+            followers: {
+              ...state.followers,
+              loading: false,
+              updated: true,
+              data: action.payload.data
+            }
+          }
+        case GET_MY_FOLLOWERS_FAIL:
+          return {
+            ...state,
+            followers: {
+              ...state.followers,
+              loading: false,
+              updated: false
+            }
+          }
             default:
               return state
       }
@@ -287,7 +347,7 @@ function profile(state = initialState.profile, action) {
           ...state.following,
           loading: false,
           updated: true,
-          data: action.payload
+          data: action.payload.data
         }
       }
       case GET_FOLLOWING_FAIL:
@@ -314,7 +374,7 @@ function profile(state = initialState.profile, action) {
           ...state.followers,
           loading: false,
           updated: true,
-          data: action.payload
+          data: action.payload.data
         }
       }
       case GET_FOLLOWERS_FAIL:

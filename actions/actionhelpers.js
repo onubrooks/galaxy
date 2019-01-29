@@ -37,7 +37,7 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           // Here, we update the app state with the results of the API call.
           // console.log("response is ", response);
           let data = response.data;
-          console.log(cb.successMsg, data);
+          //console.log(cb.successMsg, data);
           if(cb.displaySuccessToast) {
             Toast.show({
               text: cb.successMsg,

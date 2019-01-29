@@ -25,7 +25,15 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 import styles from "../../../components/styles";
 
 import { connect } from "react-redux";
-import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
+import {
+  fetchProfile,
+  fetchMyProfile,
+  fetchFollowers,
+  fetchFollowing,
+  fetchMyFollowers,
+  fetchMyFollowing,
+  unFollowUser
+} from "../../../actions/actions";
 
 const primaryColor = "#006E8C";
 export class ViewProfileScreen extends Component {
@@ -39,6 +47,10 @@ export class ViewProfileScreen extends Component {
             userId = this.props.navigation.getParam("userId", null);
             userHandle = this.props.navigation.getParam("userHandle", null);
             this.props.fetchProfile(userHandle, userId);
+            this.props.fetchFollowers(userId);
+            this.props.fetchFollowing(userId);
+            this.props.fetchMyFollowers(this.props.user.id);
+            this.props.fetchMyFollowing(this.props.user.id);
         } else {
             userId = this.props.user.id;
             this.props.fetchMyProfile(userId);
@@ -69,31 +81,25 @@ export class ViewProfileScreen extends Component {
         }
         return <Container style={{ backgroundColor: "white" }}>
             <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
-                <Left>
-                    <Title style={{ color: "#006E8C", marginRight:-70 }}>
-                        {user.userHandle}
-                    </Title>
-                </Left>
+              <Left>
+                <Title style={{ color: "#006E8C", marginRight: -70 }}>
+                  {user.userHandle}
+                </Title>
+              </Left>
 
-                <Right>
-                    {/* <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
+              <Right>
+                {/* <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
                         <Ionicons name="md-more" size={33} color="#006E8C" />
                     </Button> */}
-                </Right>
+              </Right>
             </Header>
             <ScrollView>
-                <ProfileSummary navigation={this.props.navigation} user={user} />
-                <Text
-                    style={{ fontWeight: "bold", marginLeft: 15 }}
-                >
-                    {user.fullname}
-                </Text>
-                <Text
-                    style={{ marginLeft: 15 }}
-                >
-                    {user.status}
-                </Text>
-                {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
+                <ProfileSummary navigation={this.props.navigation} user={user} self={false} myId={this.props.user.id} unFollowUser={this.props.unFollowUser}/>
+              <Text style={{ fontWeight: "bold", marginLeft: 15 }}>
+                {user.fullname}
+              </Text>
+              <Text style={{ marginLeft: 15 }}>{user.status}</Text>
+              {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="md-apps" size={30} />
                        </TabHeading>}>
@@ -117,7 +123,7 @@ export class ViewProfileScreen extends Component {
                    </Tab>
                  </Tabs> */}
             </ScrollView>
-        </Container>;
+          </Container>;
     }
 }
 
@@ -129,7 +135,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    fetchProfile,
-    fetchMyProfile
+  fetchProfile,
+  fetchMyProfile,
+  fetchFollowers,
+  fetchFollowing,
+  fetchMyFollowers,
+  fetchMyFollowing,
+  unFollowUser
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ViewProfileScreen);

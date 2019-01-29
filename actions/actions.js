@@ -58,6 +58,13 @@ export const GET_FOLLOWING = 'GET_FOLLOWING'
 export const GET_FOLLOWING_SUCCESS = 'GET_FOLLOWING_SUCCESS'
 export const GET_FOLLOWING_FAIL = "GET_FOLLOWING_FAIL";
 
+export const GET_MY_FOLLOWERS = "GET_MY_FOLLOWERS";
+export const GET_MY_FOLLOWERS_SUCCESS = 'GET_MY_FOLLOWERS_SUCCESS'
+export const GET_MY_FOLLOWERS_FAIL = 'GET_MY_FOLLOWERS_FAIL'
+export const GET_MY_FOLLOWING = 'GET_MY_FOLLOWING'
+export const GET_MY_FOLLOWING_SUCCESS = 'GET_MY_FOLLOWING_SUCCESS'
+export const GET_MY_FOLLOWING_FAIL = "GET_MY_FOLLOWING_FAIL";
+
 
 /*
  * action creators
@@ -371,6 +378,49 @@ export function getFollowingFail() {
   }
 }
 
+export function getMyFollowers() {
+  return {
+    type: GET_MY_FOLLOWERS
+  }
+}
+
+export function getMyFollowersSuccess(data) {
+  return {
+    type: GET_MY_FOLLOWERS_SUCCESS,
+    payload: {
+      data
+    }
+  }
+}
+
+export function getMyFollowersFail() {
+  return {
+    type: GET_MY_FOLLOWERS_FAIL
+  }
+}
+
+export function getMyFollowing() {
+  return {
+    type: GET_MY_FOLLOWING
+  }
+}
+
+export function getMyFollowingSuccess(data) {
+  return {
+    type: GET_MY_FOLLOWING_SUCCESS,
+    payload: {
+      data
+    }
+  }
+}
+
+export function getMyFollowingFail() {
+  return {
+    type: GET_MY_FOLLOWING_FAIL
+  }
+}
+
+
 export function fetchFeed(user, ofs) {
   let offset = ofs || 0;
   let req = {
@@ -566,7 +616,8 @@ export function blockUser(song, user) {
   return genericAsyncActionDispatcher(null, req, cb);
 }
 
-export function unFollowUser(song, user) {
+export function unFollowUser(song, user, status) {
+  if(!status) status = 'unfollowed'
   let data = {
     partyA: user.userId,
     partyB: song.userId
@@ -580,7 +631,7 @@ export function unFollowUser(song, user) {
     initial: unFollow,
     success: null,
     fail: null,
-    successMsg: 'unfollowed ' + song.userHandle,
+    successMsg: status + ' ' + song.userHandle,
     errorMsg: 'Network error, please check your connection...',
     displaySuccessToast: true
   };
@@ -618,7 +669,7 @@ export function fetchFollowing(userId) {
     initial: getFollowing,
     success: getFollowingSuccess,
     fail: getFollowingFail,
-    successMsg: '',
+    successMsg: 'fetch following success',
     errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(null, req, cb);
@@ -633,7 +684,37 @@ export function fetchFollowers(userId) {
     initial: getFollowers,
     success: getFollowersSuccess,
     fail: getFollowersFail,
-    successMsg: '',
+    successMsg: 'fetch followers success',
+    errorMsg: 'Network error, please check your connection...'
+  };
+  return genericAsyncActionDispatcher(null, req, cb);
+}
+
+export function fetchMyFollowing(userId) {
+  let req = {
+    method: 'GET',
+    url: `following/${userId}`
+  };
+  let cb = {
+    initial: getMyFollowing,
+    success: getMyFollowingSuccess,
+    fail: getMyFollowingFail,
+    successMsg: 'fetch following success',
+    errorMsg: 'Network error, please check your connection...'
+  };
+  return genericAsyncActionDispatcher(null, req, cb);
+}
+
+export function fetchMyFollowers(userId) {
+  let req = {
+    method: 'GET',
+    url: `followers/${userId}`
+  };
+  let cb = {
+    initial: getMyFollowers,
+    success: getMyFollowersSuccess,
+    fail: getMyFollowersFail,
+    successMsg: 'fetch followers success',
     errorMsg: 'Network error, please check your connection...'
   };
   return genericAsyncActionDispatcher(null, req, cb);

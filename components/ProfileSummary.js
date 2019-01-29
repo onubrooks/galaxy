@@ -1,11 +1,22 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Button, Text, Thumbnail } from "native-base";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export default class ProfileSummary extends Component {
+  constructor(props) {
+    super(props);
+    let iFollow = props.user.followers.data ? props.user.followers.data.some(item => item.userId == props.myId) : false;
+    this.state = {iFollow}
+  }
+  toggleFollow = () => {
+    let {user} = this.props;
+    let status = this.state.iFollow ? 'unfollowed' : 'followed';
+    this.props.unFollowUser({ userId: user.userId, userHandle: user.userHandle }, {userId: this.props.myId}, status);
+    this.setState({iFollow: !this.state.iFollow});
+  }
   render() {
-    let { user } = this.props;
+    let { user, self } = this.props;
     return <View style={stl.grid}>
   <View style={stl.thumb}>
     <Thumbnail large source={{ uri: user.userAvatar }} />
@@ -13,34 +24,45 @@ export default class ProfileSummary extends Component {
   <View style={stl.sub_grid}>
         <View style={stl.stats}>
       <View>
+        <TouchableOpacity>
         <View>
               <Text style={stl.statNum}>{ user.noSongs }</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>songs</Text>
         </View>
+        </TouchableOpacity>
       </View>
       <View>
+            <TouchableOpacity onPress={() => !self ? this.props.navigation.navigate('ViewFollows', { self: false, initialPage: 1 }) : null}>
         <View>
               <Text style={stl.statNum}>{user.noFollowers}</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>followers</Text>
         </View>
+        </TouchableOpacity>
       </View>
       <View>
+            <TouchableOpacity onPress={() => !self ? this.props.navigation.navigate('ViewFollows', { self: false, initialPage: 0 }) : null}>
         <View>
               <Text style={stl.statNum}>{user.noFollowing}</Text>
         </View>
         <View>
               <Text style={stl.statTxt}>following</Text>
         </View>
+        </TouchableOpacity>
       </View>
     </View>
         <View style={stl.button}>
+          {self ? 
           <Button style={stl.btn} light small onPress={() => this.props.navigation.navigate('EditProfile')}>
             <Text style={stl.btnTxt}>Edit profile</Text>
       </Button>
+      :
+            <Button style={stl.btn} light small onPress={this.toggleFollow}>
+              <Text style={stl.btnTxt}>{this.state.iFollow ? 'Unfollow' : 'Follow'}</Text>
+            </Button>}
     </View>
         
   </View>
@@ -74,7 +96,7 @@ const stl = StyleSheet.create({
   },
   btn: {
     backgroundColor: "#fff",
-    width: DEVICE_WIDTH / 2 + 10,
+    width: DEVICE_WIDTH / 2 + 5,
     marginTop: 9
   },
   btnTxt: {

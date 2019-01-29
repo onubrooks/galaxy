@@ -7,6 +7,7 @@ import AddCommentScreen from "./FeedStack/AddCommentScreen";
 import DMListScreen from "./FeedStack/DMListScreen";
 import DMChatScreen from "./FeedStack/DMChatScreen";
 import ViewProfileScreen from "./FeedStack/ViewProfileScreen";
+import ViewFollowsScreen from "./FeedStack/ViewFollowsScreen";
 
 // Search Stack
 import { SearchScreen } from "./SearchStack/SearchScreen";
@@ -52,6 +53,9 @@ const FeedStackNavigator = createStackNavigator(
     },
     ViewProfile: {
       screen: ViewProfileScreen
+    },
+    ViewFollows: {
+      screen: ViewFollowsScreen
     }
   },
   {
