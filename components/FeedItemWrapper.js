@@ -7,14 +7,8 @@
  * and passes the filtered data to the FeedItem component for display
  */
 
-import React, {
-  Component
-} from "react";
-import {
-  TouchableOpacity,
-  View,
-  RefreshControl
-} from "react-native";
+import React, { Component } from "react";
+import { TouchableOpacity, View, RefreshControl } from "react-native";
 import {
   Container,
   Content,
@@ -27,15 +21,10 @@ import {
 import FeedItem from "./FeedItem";
 import KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView";
 import Modal from "react-native-modal";
-import {
-  FeedScreenModalContent,
-  ReportAbuseModalContent
-} from "./ModalContent";
+import { FeedScreenModalContent, ReportAbuseModalContent } from "./ModalContent";
 
 // redux related imports
-import {
-  connect
-} from "react-redux";
+import { connect } from "react-redux";
 import {
   fetchFeed,
   fetchPlaylist,
@@ -56,15 +45,7 @@ import styles from "./styles";
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isModalVisible: false,
-      isReportModalVisible: false,
-      refreshing: props.feed.loading,
-      song: null,
-      listLength: 10,
-      slice: 5,
-      offset: 0
-    };
+    this.state = { isModalVisible: false, isReportModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 10, slice: 5, offset: 0 };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -85,9 +66,7 @@ export class FeedItemWrapper extends Component {
   }
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.feed.loading !== prevState.refreshing) {
-      return {
-        refreshing: nextProps.feed.loading
-      };
+      return { refreshing: nextProps.feed.loading };
     } else return null;
   }
 
@@ -101,44 +80,30 @@ export class FeedItemWrapper extends Component {
   }
 
   setModalVisible(visible, song, val) {
-    if (val && val == 'remove') {
+    if(val && val == 'remove') {
       this.props.removeSong(this.state.song.songId);
-      this.setState({
-        isModalVisible: visible,
-        song: null
-      });
-    } else if (val && val == 'report') {
-      this.setState({
-        isModalVisible: visible
-      });
-      this.setState({
-        isReportModalVisible: true
-      });
-    } else if (val && val == 'block') {
+      this.setState({ isModalVisible: visible, song:null });
+    } 
+    else if (val && val == 'report') {
+      this.setState({ isModalVisible: visible });
+      this.setState({ isReportModalVisible: true });
+    } 
+    else if (val && val == 'block') {
       this.props.blockUser(this.state.song, this.props.user);
       this.props.removeSong(this.state.song.songId);
-      this.setState({
-        isModalVisible: visible,
-        song: null
-      });
-    } else if (val && val == 'unfollow') {
+      this.setState({ isModalVisible: visible, song: null });
+    } 
+    else if (val && val == 'unfollow') {
       this.props.unFollowUser(this.state.song, this.props.user);
-      this.setState({
-        isModalVisible: visible,
-        song: null
-      });
-    } else if (val && (val == "inappropriate" || val == "spam")) {
+      this.setState({ isModalVisible: visible, song: null });
+    } 
+    else if (val && (val == "inappropriate" || val == "spam")) {
       this.props.reportAbuse(this.state.song, this.props.user, val);
       this.props.removeSong(this.state.song.songId);
-      this.setState({
-        isReportModalVisible: visible,
-        song: null
-      });
-    } else {
-      this.setState({
-        isModalVisible: visible,
-        song
-      });
+      this.setState({ isReportModalVisible: visible, song: null });
+    } 
+    else {
+      this.setState({ isModalVisible: visible, song });
     }
   }
   addComment(songId, comment) {
@@ -214,197 +179,90 @@ export class FeedItemWrapper extends Component {
   _loadMore = () => {
     let len = Object.keys(this.props.feed.byId).length;
     let offset = this.state.offset;
-    if (len >= 30 && offset >= 20) return;
-    this.setState({
-      refreshing: true
-    });
+    if(len >= 30 && offset >= 20) return;
+    this.setState({ refreshing: true });
     let slc = this.state.slice;
     let newSlc = slc + 5;
     if (newSlc > len) {
       let newOffset = offset + 10;
       this.props.fetchFeed(this.props.user, newOffset);
-      this.setState({
-        offset: newOffset
-      });
+      this.setState({offset: newOffset});
     } else {
-      this.setState({
-        slice: newSlc,
-        refreshing: false
-      });
+      this.setState({ slice: newSlc, refreshing: false });
     }
-
+    
   }
 
   render() {
-      const idx = this.props.navigation.getParam("idx", 0);
-      const {
-        feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false
-      } = this.props;
-      const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
-      let slc = this.state.slice;
-      let offset = this.state.offset;
-      let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-      let listLength = all.length;
-      let display = all.slice(0, slc);
-      console.log('length ', listLength);
-      console.log("offset ", offset);
-      return <Container style = {
-          styles.container
-        } >
-        <
-        KeyboardAvoidingScrollView keyboardShouldPersistTaps = "always"
-      refreshControl = { < RefreshControl refreshing = {
-            this.state.refreshing
-          }
-          onRefresh = {
-            this._onRefresh
-          }
-          tintColor = {
-            "#006E8C"
-          }
-          title = "refreshing" / >
-        } >
-        <
-        Content > {
-          display.map((song, idx) => song && < FeedItem key = {
-              idx
-            }
-            song = {
-              song
-            }
-            user = {
-              user
-            }
-            bookmarks = {
-              bookmarks
-            }
-            toggleLike = {
-              this.toggleLike
-            }
-            toggleBookmark = {
-              this.toggleBookmark
-            }
-            setModalVisible = {
-              this.setModalVisible
-            }
-            gotoComments = {
-              this.gotoComments
-            }
-            addComment = {
-              this.addComment
-            }
-            navigation = {
-              this.props.navigation
-            }
-            />)} {
-            this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? < LoadMore load = {
-              this._loadMore
-            }
-            loading = {
-              feed.loading
-            }
-            /> : null} <
-            View style = {
-              {
-                height: 150
-              }
-            }
-            /> < /
-            Content > <
-            /KeyboardAvoidingScrollView> <
-            Modal isVisible = {
-              this.state.isModalVisible
-            }
-            onBackdropPress = {
-              () => this.setState({
-                isModalVisible: false
-              })
-            } >
-            <
-            FeedScreenModalContent setModalVisible = {
-              this.setModalVisible
-            }
-            /> < /
-            Modal > <
-            Modal isVisible = {
-              this.state.isReportModalVisible
-            }
-            onBackdropPress = {
-              () => this.setState({
-                isReportModalVisible: false
-              })
-            } >
-            <
-            ReportAbuseModalContent setModalVisible = {
-              this.setModalVisible
-            }
-            /> < /
-            Modal > <
-            /Container>;
-          }
-        }
+    const idx = this.props.navigation.getParam("idx", 0);
+    const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
+    const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
+    let slc = this.state.slice;
+    let offset = this.state.offset;
+    let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
+    let listLength = all.length;
+    let display = all.slice(0, slc);
+    console.log('length ', listLength);
+    console.log("offset ", offset);
+    return <Container style={styles.container}>
+        <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
+          <Content>
+            {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
+            {this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? <LoadMore load={this._loadMore} loading={feed.loading} /> : null}
+            <View style={{ height: 150 }} />
+          </Content>
+        </KeyboardAvoidingScrollView>
+        <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
+              { isModalVisible: false }
+            )}>
+          <FeedScreenModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
+        <Modal isVisible={this.state.isReportModalVisible} onBackdropPress={() => this.setState(
+              { isReportModalVisible: false }
+            )}>
+          <ReportAbuseModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
+      </Container>;
+  }
+}
 
-      const mapStateToProps = (state) => {
-        return {
-          feed: state.feed,
-          user: state.user,
-          users: state.users,
-          comments: state.comments,
-          bookmarks: state.bookmarks
-        };
-      };
+const mapStateToProps = (state) => {
+  return {
+    feed: state.feed,
+    user: state.user,
+    users: state.users,
+    comments: state.comments,
+    bookmarks: state.bookmarks
+  };
+};
 
-      const mapDispatchToProps = {
-        fetchFeed,
-        fetchPlaylist,
-        fetchMyProfile,
-        hitASong,
-        unHitASong,
-        removeSong,
-        bookmarkASong,
-        unBookmarkASong,
-        commentASong,
-        blockUser,
-        unFollowUser,
-        reportAbuse
-      };
+const mapDispatchToProps = {
+  fetchFeed,
+  fetchPlaylist,
+  fetchMyProfile,
+  hitASong,
+  unHitASong,
+  removeSong,
+  bookmarkASong,
+  unBookmarkASong,
+  commentASong,
+  blockUser,
+  unFollowUser,
+  reportAbuse
+};
 
-      export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedItemWrapper);
 
-      const CouldntLoad = props => {
-        return <View style = {
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              marginHorizontal: 50,
-              marginVertical: 20
-            }
-          } >
-          <
-          TouchableOpacity onPress = {
-            props.retry
-          }
-        style = {
-          {
-            flexDirection: 'column',
-            alignItems: 'center'
-          }
-        }
-        light >
-          <
-          Text > Couldn 't refresh your feed, Retry</Text><Icon name="ios-refresh-circle" /> < /
-          TouchableOpacity > <
-          /View>;
-      }
+const CouldntLoad = props => {
+  return <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 50, marginVertical: 20 }}>
+      <TouchableOpacity onPress={props.retry} style={{flexDirection:'column', alignItems:'center'}} light>
+      <Text>Couldn't refresh your feed, Retry</Text><Icon name="ios-refresh-circle" />
+      </TouchableOpacity>
+    </View>;
+}
 
-      const LoadMore = props => {
-        return props.loading ? < Spinner color = "grey"
-        size = {
-          Platform.OS === 'ios' ? 1 : 20
-        }
-        /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}> <
-        Button light onPress = {
-            props.load
-          } > < Text > Load More < /Text><Icon name="ios-refresh-circle" / > < /Button> < /
-          View > ;
-      }
+const LoadMore = props => {
+  return props.loading ? <Spinner color="grey" size={Platform.OS === 'ios' ? 1 : 20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
+    <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-refresh-circle" /></Button>
+    </View>;
+}
