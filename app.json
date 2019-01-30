@@ -14,7 +14,7 @@
     "icon": "./assets/icons/icon.png",
     "splash": {
       "image": "./assets/icons/logo.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#FFFFFF"
     },
     "updates": {
