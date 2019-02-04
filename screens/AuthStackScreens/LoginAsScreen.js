@@ -21,7 +21,7 @@ export class LoginAsScreen extends React.Component {
 
   render() {
     const status = "Not Implemented Yet!";
-    return <View style={{ flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500 }} iosBarStyle="dark-content" androidStatusBarColor="#006E8C">
+    return <View style={{ flexDirection: "column", justifyContent: "space-between", alignItems: "center", height: 500 }} iosBarStyle="dark-content" androidStatusBarColor={styles.primaryColor}>
         <View style={{ marginVertical: 50 }}>
           <Text style={{ fontSize: 50 }}>Leedder</Text>
         </View>

@@ -57,20 +57,20 @@ export class AddCommentScreen extends React.Component {
     let { user, comments = {} } = this.props;
     let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
     return <Container style={[styles.container, {}]}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" style={{ color: "#006E8C" }} />
+              <Icon name="md-arrow-back" style={{ color: styles.primaryColor }} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: "#006E8C" }}>
+            <Text style={{ fontWeight: "900", color: styles.primaryColor }}>
               Comments
             </Text>
           </Body>
         </Header>
 
-      <ScrollView keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
+      <ScrollView keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={styles.primaryColor} title="refreshing" />}>
           <Content style={{ height: height }}>
             {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
           {!comments.loading ? <Comments user={user} song={song} comments={comments} navigation={this.props.navigation} /> : null}

@@ -104,10 +104,10 @@ export class EditProfileScreen extends Component {
          render() {
            
            return <Container style={styles.container}>
-               <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+               <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                     <Ionicons name="md-close" size={33} color="#006E8C" />
+                     <Ionicons name="md-close" size={33} color={styles.primaryColor} />
                    </TouchableOpacity>
                  </Left>
                  <Body>
@@ -115,7 +115,7 @@ export class EditProfileScreen extends Component {
                  </Body>
                  <Right>
                    <Button onPress={this.saveAndGoBack} transparent>
-                     <Icon name="md-checkmark" style={{ color: primaryColor }} />
+                     <Icon name="md-checkmark" style={{ color: styles.primaryColor }} />
                    </Button>
                  </Right>
                </Header>
@@ -179,7 +179,6 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfileScreen);
 
-const primaryColor = "#006E8C";
 const stl = StyleSheet.create({
   grid: {
     backgroundColor: '#fff',
@@ -191,7 +190,7 @@ const stl = StyleSheet.create({
   },
   heading: {
     fontWeight: '900',
-    color: "#006E8C"
+    color: styles.primaryColor
   },
   changePhoto: { 
     alignItems: 'center', 
@@ -200,7 +199,7 @@ const stl = StyleSheet.create({
     width: DEVICE_WIDTH / 3
   },
   changePhotoText: {
-    color: primaryColor,
+    color: styles.primaryColor,
     fontSize: 18,
     fontWeight: '600'
   }

@@ -15,14 +15,14 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 export class SavedListScreen extends Component {
   render() {
     return <Container>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#764BA2">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
+            <Ionicons name="md-arrow-back" size={33} color="#764BA2" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color:"#006E8C" }}>Saved</Text>
+            <Text style={{ fontWeight: "900", color:"#764BA2" }}>Saved</Text>
           </Body>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} bookmarkedOnly={true} />

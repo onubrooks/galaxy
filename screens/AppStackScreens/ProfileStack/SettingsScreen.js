@@ -55,14 +55,14 @@ export class SettingsScreen extends Component {
   };
   render() {
     return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
         <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
+            <Ionicons name="md-arrow-back" size={33} color={styles.primaryColor} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{fontWeight: '500', color:"#006E8C"}}>Settings</Text>
+            <Text style={{fontWeight: '500', color:styles.primaryColor}}>Settings</Text>
           </Body>
         </Header>
         <Content>
@@ -100,7 +100,6 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
 
-const primaryColor = "#006E8C";
 const stl = StyleSheet.create({
   grid: {
     backgroundColor: "#fff",
@@ -124,7 +123,7 @@ const stl = StyleSheet.create({
     fontSize: 17
   },
   itemLast: {
-    color: primaryColor,
+    color: styles.primaryColor,
   }
 });
 

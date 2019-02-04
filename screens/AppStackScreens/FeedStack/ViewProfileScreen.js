@@ -34,8 +34,6 @@ import {
   fetchMyFollowing,
   unFollowUser
 } from "../../../actions/actions";
-
-const primaryColor = "#006E8C";
 export class ViewProfileScreen extends Component {
     constructor(props) {
         super(props);
@@ -60,36 +58,36 @@ export class ViewProfileScreen extends Component {
         let user = this.state.other ? this.props.profile : this.props.user;
         if (user.loading) {
             return <Container>
-                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+                <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
                   <Left style={{ maxWidth: 50 }}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("Feed")}>
-                      <Icon name="md-close" style={{ color: primaryColor }} />
+                      <Icon name="md-close" style={{ color: styles.primaryColor }} />
                     </TouchableOpacity>
                   </Left>
                   <Body>
-                    <Text style={{ color: primaryColor, marginLeft: 5 }}>
+                    <Text style={{ color: styles.primaryColor, marginLeft: 5 }}>
                       Please wait...
                     </Text>
                   </Body>
                 </Header>
                 <Content>
                   <View style={styles.loadingIndicator}>
-                    <Spinner color={"#006E8C"} size={Platform.OS === "ios" ? 1 : 20} />
+                    <Spinner color={styles.primaryColor} size={Platform.OS === "ios" ? 1 : 20} />
                   </View>
                 </Content>
               </Container>;
         }
         return <Container style={{ backgroundColor: "white" }}>
-            <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+            <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
               <Left>
-                <Title style={{ color: "#006E8C", marginRight: -70 }}>
+                <Title style={{ color: styles.primaryColor, marginRight: -70 }}>
                   {user.userHandle}
                 </Title>
               </Left>
 
               <Right>
                 {/* <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
-                        <Ionicons name="md-more" size={33} color="#006E8C" />
+                        <Ionicons name="md-more" size={33} color={styles.primaryColor} />
                     </Button> */}
               </Right>
             </Header>

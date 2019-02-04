@@ -5,10 +5,9 @@ import {
   Text,
   Thumbnail
 } from "native-base";
+import stl from "./styles";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
-
-const sly = require("../assets/avatar.png");
 
 export class Follows extends Component {
    constructor(props) {
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   followingBtn: { borderColor: "grey" },
-  followBtn: { backgroundColor: "#006E8C" },
+  followBtn: { backgroundColor: stl.primaryColor },
   followingBtnTxt: { fontSize: 10, color: "grey", left: 0 },
   followBtnTxt: { fontSize: 10, color: "#fff", left: 0 }
 });

@@ -183,7 +183,7 @@ const MainStackNavigator = createBottomTabNavigator(
       //inactiveBackgroundColor: "",
       showLabel: false,
       style: {
-        backgroundColor: "#006E8C"
+        backgroundColor: "#764BA2"
       }
     },
     tabBarComponent: props => <TabBarComponent {...props} />,

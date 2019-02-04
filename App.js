@@ -58,8 +58,8 @@ export default class App extends React.Component {
     } else {
       return <Provider store={store}>
           <Root style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" />}
-            {Platform.OS === "android" && <StatusBar barStyle="light-content" backgroundColor="#006E8C" translucent={true} />}
+          {Platform.OS === "ios" && <StatusBar barStyle="light-content" backgroundColor="#764BA2" />}
+            {Platform.OS === "android" && <StatusBar barStyle="light-content" backgroundColor="#764BA2" translucent={true} />}
               <RootNavigation />
           </Root>
         </Provider>;

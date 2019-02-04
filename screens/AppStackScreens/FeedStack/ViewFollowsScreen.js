@@ -26,21 +26,21 @@ export class ViewFollowsScreen extends Component {
         return (
             <Container style={styles.container}>
                 <Tabs
-                    tabBarUnderlineStyle={{ backgroundColor: "#006E8C" }}
+                    tabBarUnderlineStyle={{ backgroundColor: styles.primaryColor }}
                     style={[{ marginTop: 24 }]}
                     initialPage={initialPage}
                 >
                     <Tab
                         heading={
                             <TabHeading style={{ backgroundColor: "white" }}>
-                                <Text style={{ color: "#006E8C" }}>Following</Text>
+                                <Text style={{ color: styles.primaryColor }}>Following</Text>
                             </TabHeading>
                         }
                     >
                     <ScrollView>
                         {user.following.loading ?
                             <View style={styles.loadingIndicator}>
-                                <Spinner color={"#006E8C"} size={Platform.OS === "ios" ? 1 : 20} />
+                                <Spinner color={styles.primaryColor} size={Platform.OS === "ios" ? 1 : 20} />
                             </View>
                             : user.following.data.map((item) => <Follows
                                 personData={item}
@@ -54,14 +54,14 @@ export class ViewFollowsScreen extends Component {
                     <Tab
                         heading={
                             <TabHeading style={{ backgroundColor: "white" }}>
-                                <Text style={{ color: "#006E8C" }}>Followers</Text>
+                                <Text style={{ color: styles.primaryColor }}>Followers</Text>
                             </TabHeading>
                         }
                     >
                     <ScrollView>
                         {user.followers.loading ?
                             <View style={styles.loadingIndicator}>
-                                <Spinner color={"#006E8C"} size={Platform.OS === "ios" ? 1 : 20} />
+                                <Spinner color={styles.primaryColor} size={Platform.OS === "ios" ? 1 : 20} />
                             </View>
                             : user.followers.data.map((item) => <Follows
                                 personData={item}

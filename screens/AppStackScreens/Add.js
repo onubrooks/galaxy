@@ -39,6 +39,15 @@ export class Add extends Component {
   }
   
   saveAndGoBack = () => {
+    if(this.state.title === '') {
+      alert('please set a title for the song...')
+      return
+    }
+    if(this.state.audio === null) {
+      alert('please choose a song...')
+      return
+    }
+    
     let { user } = this.props;
     this.props.uploadSongAsync(this.state, user.id)
     // dispatch a redux action
@@ -68,10 +77,10 @@ export class Add extends Component {
     let audioLabel = this.state.audio ? this.state.audio.name : "Choose Song(.mp3, .wav)";
     let coverArtUri = this.state.coverArt ? this.state.coverArt.uri : null;
     return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name="md-close" style={{ color: primaryColor }} />
+            <Icon name="md-close" style={{ color: styles.primaryColor }} />
             </TouchableOpacity>
           </Left>
           <Body>
@@ -79,13 +88,13 @@ export class Add extends Component {
           </Body>
           <Right>
             <Button onPress={this.saveAndGoBack} transparent>
-              <Icon name="md-checkmark" style={{ color: primaryColor }} />
+              <Icon name="md-checkmark" style={{ color: styles.primaryColor }} />
             </Button>
           </Right>
         </Header>
         <Content>
         <View style={stl.grid}>
-            <View style={stl.col1}>
+            <View onPress={this.pickCoverArt} style={stl.col1}>
             <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
               <TouchableOpacity onPress={this.pickCoverArt}>
                 <Text>Cover Art (Optional)</Text>  
@@ -125,7 +134,6 @@ const mapDispatchToProps = {
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Add);
 
-const primaryColor = "#006E8C";
 const stl = StyleSheet.create({
   grid: {
     backgroundColor: '#fff',
@@ -137,7 +145,7 @@ const stl = StyleSheet.create({
   },
   heading: {
     fontWeight: '900',
-    color: primaryColor
+    color: styles.primaryColor
   },
   col1: {
     width: 150,
