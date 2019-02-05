@@ -7,7 +7,7 @@ import {
   Dimensions,
   Platform
 } from "react-native";
-import { Button, H1, H3 } from "native-base";
+import { Button, H2, H3 } from "native-base";
 import { WebBrowser } from "expo";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
@@ -92,9 +92,10 @@ export class EulaModalContent extends Component {
   render() {
     return <View style={{ backgroundColor: "white", width: "100%", height: "100%", borderRadius: 6 }}>
         <View style={{ marginLeft: 20 }}>
-          <H1 style={{ alignSelf: "center", marginTop: 10 }}>
-            Privacy Policy
-          </H1>
+          <H3 style={{ alignSelf: "center", marginTop: 10 }}>
+          Leedder End User Licence </H3>
+          <H3 style={{ alignSelf: "center" }}>Agreement (EULA)
+          </H3>
         <Button light bordered block onPress={() => this.handlePress()}>
           <Text>I Agree</Text>
         </Button>
@@ -114,6 +115,20 @@ export class EulaModalContent extends Component {
               meanings as in our Terms and Conditions, which is accessible
               at Leedder unless otherwise defined in this Privacy Policy.{" "}
             </Text>
+            <H3 style={{ marginVertical: 10 }}>Objectionable Content</H3>
+            <Text>
+              {`Users should not include content that is offensive, insensitive, upsetting, intended to disgust, or in exceptionally poor taste. Examples of such content include:
+
+1. Defamatory, discriminatory, or mean-spirited content, including references or commentary about religion, race, sexual orientation, gender, national/ethnic origin, or other targeted groups, particularly if the app is likely to humiliate, intimidate, or place a targeted individual or group in harm’s way. Professional political satirists and humorists are generally exempt from this requirement.
+2. Realistic portrayals of people or animals being killed, maimed, tortured, or abused, or content that encourages violence. “Enemies” within the context of a game cannot solely target a specific race, culture, real government, corporation, or any other real entity.
+3. Depictions that encourage illegal or reckless use of weapons and dangerous objects, or facilitate the purchase of firearms.
+4. Overtly sexual or pornographic material, defined by Webster’s Dictionary as "explicit descriptions or displays of sexual organs or activities intended to stimulate erotic rather than aesthetic or emotional feelings."
+5. Inflammatory religious commentary or inaccurate or misleading quotations of religious texts.
+6. False information and features, including inaccurate device data or trick/joke functionality, such as fake location trackers. Stating that the app is “for entertainment purposes” won’t overcome this guideline. Apps that enable anonymous or prank phone calls or SMS/MMS messaging will be rejected.
+7. App Store Reviews: App Store customer reviews can be an integral part of the app experience, so you should treat customers with respect when responding to their comments. Keep your responses targeted to the user’s comments and do not include personal information, spam, or marketing in your response.
+Use the provided API to prompt users to review your app; this functionality allows customers to provide an App Store rating and review without the inconvenience of leaving your app, and we will disallow custom review prompts. 
+              `}
+            </Text>
             <H3 style={{ marginVertical: 10 }}>Information Collection and Use</H3>
             <Text>
               For a better experience, while using our Service, we may
@@ -124,9 +139,10 @@ export class EulaModalContent extends Component {
             does use third party services that may collect information
             used to identify you. 
             Link to privacy policy of third party
-            service providers used by the app 
+            service providers used by the app: 
+            
               {Platform.OS == 'android' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.google.com/policies/privacy/')} style={{ fontWeight: 'bold' }}>
-              • Google Play Services</Text> : null}
+              {`\n• Google Play Services`}</Text> : null}
             {Platform.OS == 'ios' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.apple.com/legal/privacy/en-ww/')} style={{ fontWeight: 'bold' }}>
               • Apple Privacy Policy</Text> : null}
                </Text>
@@ -211,14 +227,11 @@ export class EulaModalContent extends Component {
               <H3 style={{ marginVertical: 10 }}>Contact Us</H3> 
               <Text> 
               If you have any
-      questions or suggestions about our Privacy Policy, do not
-      hesitate to contact us. 
-      This privacy policy page was created
-          at <Text onPress={() => WebBrowser.openBrowserAsync('https://privacypolicytemplate.net/')} style={{ fontWeight: 'bold' }}>App
-              privacypolicytemplate.net</Text> and modified/generated by <Text onPress={() => WebBrowser.openBrowserAsync('https://app-privacy-policy-generator.firebaseapp.com/')} style={{fontWeight: 'bold'}}>App
-              Privacy Policy Generator</Text>
+              questions or suggestions about our EULA, do not
+              hesitate to contact us. 
             </Text>
-          <View style={{ height: 100, marginBottom: 50 }}></View>
+            <Text>Email: <Text style={{ fontWeight: 'bold' }}>leedder@gmail.com</Text></Text>
+          <View style={{ height: 100, marginBottom: 60 }}></View>
           </ScrollView>
           
         </View>

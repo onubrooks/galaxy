@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  ScrollView,
   TouchableOpacity,
   View,
   StyleSheet,
@@ -14,8 +13,6 @@ import {
   Content,
   Body,
   Left,
-  Right,
-  Icon,
   Text
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";

@@ -3,10 +3,12 @@ import { Dimensions } from "react-native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-const primaryColor = '#764BA2' // "#006E8C"
+const primaryColor = '#764BA2' 
+const secondaryColor = '#006E8C' 
 
 export default {
   primaryColor,
+  secondaryColor,
   container: {
     backgroundColor: "#FFFFFF"
   },
