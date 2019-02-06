@@ -31,7 +31,7 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 // redux related imports
 import { connect } from "react-redux";
-import { fetchMyProfile } from "../../../actions/actions";
+import { fetchMyProfile, removeMyPhoto, updateMyPhoto } from "../../../actions/actions";
 
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
@@ -50,7 +50,6 @@ export class EditProfileScreen extends Component {
     this.setState({ selected: value });
   }
   saveAndGoBack = async () => {
-    
     this.setState({ loading: true });
     let userId = this.props.user.id;
     Axios(PUSH_ENDPOINT, {
@@ -89,6 +88,7 @@ export class EditProfileScreen extends Component {
              removePhoto: !this.state.removePhoto,
              newPhoto: null
            });
+           this.props.removeMyPhoto();
          };
          pickNewPhoto = async () => {
            const result = await Expo.ImagePicker.launchImageLibraryAsync(
@@ -97,8 +97,34 @@ export class EditProfileScreen extends Component {
                base64: true
              }
            );
-           if (!result.cancelled) {
-             this.setState({ newPhoto: result });
+          if (!result.cancelled) {
+            console.log('result ', result);
+            this.setState({ newPhoto: result });
+            this.setState({ loading: true });
+          //    // post the new photo to endpoint
+          //    let data = new FormData();
+          //    data.append('userId', this.props.user.userId);
+          //    data.append('avatar', {
+          //      uri:result.uri,
+          //      name:'userAvatar',
+          //      type:`image/${result.uri.slice(-3)}`
+          //     });
+          //    Axios(PUSH_ENDPOINT, {
+          //     method: 'post',
+          //     data,
+          //    headers: {
+          //         'Content-Type': 'multipart/form-data',
+          //       }
+          //   })
+          //   .then((res) => {
+          //     this.setState({ loading: false });
+          //     let data = res.data;
+          //     console.log('response ', data);
+          //     this.props.updateMyPhoto(data);
+          //   }).catch((error) => {
+          //     console.log(error);
+          //     this.setState({ loading: false });
+          //   });
            }
          };
          render() {
@@ -122,7 +148,7 @@ export class EditProfileScreen extends Component {
                <Content>
                  <View style={stl.grid}>
                    <TouchableOpacity activeOpacity={0.9} style={stl.changePhoto} onPress={() => this.setModalVisible(true)}>
-                   <Thumbnail large style={stl.thumbnail} source={this.state.newPhoto ? { uri: this.state.newPhoto.uri } : this.state.removePhoto ? require("../../../assets/avatar.png") : { uri: this.props.user.userAvatar}} />
+                   <Thumbnail large style={stl.thumbnail} source={this.state.newPhoto ? { uri: this.state.newPhoto.uri } : this.state.removePhoto || !this.props.user.userAvatar ? require("../../../assets/avatar.png") : { uri: this.props.user.userAvatar}} />
                      <Text style={stl.changePhotoText}>
                        Change Photo
                      </Text>
@@ -174,7 +200,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchMyProfile
+  fetchMyProfile,
+  removeMyPhoto,
+  updateMyPhoto
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfileScreen);

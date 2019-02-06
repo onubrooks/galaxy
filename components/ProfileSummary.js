@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Button, Text, Thumbnail } from "native-base";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
+const defaultAvatar = require('../assets/avatar.png');
 
 export default class ProfileSummary extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class ProfileSummary extends Component {
     let { user, self } = this.props;
     return <View style={stl.grid}>
   <View style={stl.thumb}>
-    <Thumbnail large source={{ uri: user.userAvatar }} />
+    <Thumbnail large source={user.userAvatar ? { uri: user.userAvatar } : defaultAvatar } />
   </View>
   <View style={stl.sub_grid}>
         <View style={stl.stats}>

@@ -30,7 +30,8 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
     // })
     Axios(ENDPOINT, {
       method: req.method,
-      data: req.method == 'post' ? req.data : null
+      data: req.method == 'post' ? req.data : null,
+      headers: req.headers ? req.headers : {}
     })
     .then(response => {
           // We can dispatch many times!

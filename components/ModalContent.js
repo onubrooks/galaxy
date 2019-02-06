@@ -117,7 +117,7 @@ export class EulaModalContent extends Component {
             </Text>
             <H3 style={{ marginVertical: 10 }}>Objectionable Content</H3>
             <Text>
-              {`Users should not include content that is offensive, insensitive, upsetting, intended to disgust, or in exceptionally poor taste. Examples of such content include:
+              {`Users should not include content that is offensive, insensitive, abusive, upsetting, intended to disgust, or in exceptionally poor taste. Examples of such content include:
 
 1. Defamatory, discriminatory, or mean-spirited content, including references or commentary about religion, race, sexual orientation, gender, national/ethnic origin, or other targeted groups, particularly if the app is likely to humiliate, intimidate, or place a targeted individual or group in harm’s way. Professional political satirists and humorists are generally exempt from this requirement.
 2. Realistic portrayals of people or animals being killed, maimed, tortured, or abused, or content that encourages violence. “Enemies” within the context of a game cannot solely target a specific race, culture, real government, corporation, or any other real entity.
@@ -144,7 +144,7 @@ Use the provided API to prompt users to review your app; this functionality allo
               {Platform.OS == 'android' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.google.com/policies/privacy/')} style={{ fontWeight: 'bold' }}>
               {`\n• Google Play Services`}</Text> : null}
             {Platform.OS == 'ios' ? <Text onPress={() => WebBrowser.openBrowserAsync('https://www.apple.com/legal/privacy/en-ww/')} style={{ fontWeight: 'bold' }}>
-              • Apple Privacy Policy</Text> : null}
+            {`\n• Apple Privacy Policy`}</Text> : null}
                </Text>
                
               <H3 style={{ marginVertical: 10 }}>Log Data</H3> 

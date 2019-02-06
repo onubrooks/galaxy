@@ -39,7 +39,9 @@ import {
   GET_MY_FOLLOWERS_FAIL,
   GET_MY_FOLLOWING,
   GET_MY_FOLLOWING_SUCCESS,
-  GET_MY_FOLLOWING_FAIL
+  GET_MY_FOLLOWING_FAIL,
+  REMOVE_MY_PHOTO,
+  UPDATE_MY_PHOTO
 } from "../actions/actions";
 import { initialState } from "./dummyData";
 
@@ -280,6 +282,16 @@ function user(state = initialState.user, action) {
               loading: false,
               updated: false
             }
+          }
+        case REMOVE_MY_PHOTO:
+          return {
+            ...state,
+            userAvatar: null
+          }
+        case UPDATE_MY_PHOTO:
+          return {
+            ...state,
+            userAvatar: action.payload.data
           }
             default:
               return state

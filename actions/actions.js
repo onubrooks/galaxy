@@ -64,6 +64,9 @@ export const GET_MY_FOLLOWERS_FAIL = 'GET_MY_FOLLOWERS_FAIL'
 export const GET_MY_FOLLOWING = 'GET_MY_FOLLOWING'
 export const GET_MY_FOLLOWING_SUCCESS = 'GET_MY_FOLLOWING_SUCCESS'
 export const GET_MY_FOLLOWING_FAIL = 'GET_MY_FOLLOWING_FAIL'
+// profile photo related
+export const REMOVE_MY_PHOTO = 'REMOVE_MY_PHOTO'
+export const UPDATE_MY_PHOTO = 'UPDATE_MY_PHOTO'
 
 /*
  * action creators
@@ -419,6 +422,20 @@ export function getMyFollowingFail () {
   }
 }
 
+export function removeMyPhoto() {
+  return {
+    type: REMOVE_MY_PHOTO
+  }
+}
+export function updateMyPhoto(data) {
+  return {
+    type: UPDATE_MY_PHOTO,
+    payload: {
+      data
+    }
+  }
+}
+
 export function fetchFeed (user, ofs) {
   let offset = ofs || 0
   let req = {
@@ -543,17 +560,28 @@ export function commentASong (songId, comment, user) {
   return genericAsyncActionDispatcher(data, req, cb)
 }
 export function uploadSongAsync (song, userId) {
-  let data = {
-    title: song.title,
-    desc: song.desc,
-    audio: song.audio,
-    coverArt: song.coverArt,
-    user: userId
-  }
+  let data = new FormData();
+  data.append('title', song.title);
+  data.append('desc', song.desc);
+  data.append('user', userId);
+  data.append('audio', {
+    type: `audio/${song.audio.uri.slice(-3)}`,
+    uri:song.audio.uri,
+    name:'newSong',
+  });
+  data.append('coverArt', {
+    type: `image/${song.audio.uri.slice(-3)}`,
+    uri:song.coverArt.uri,
+    name:'coverArt',
+  });
+  
   let req = {
     method: 'POST',
     url: `upload`,
-    data
+    data,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
   }
   let cb = {
     initial: uploadSong,
