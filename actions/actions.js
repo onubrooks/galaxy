@@ -1,4 +1,5 @@
 import genericAsyncActionDispatcher from './actionhelpers'
+import { Toast } from "native-base";
 /*
  * action types
  */
@@ -563,34 +564,43 @@ export function uploadSongAsync (song, userId) {
   let data = new FormData();
   data.append('title', song.title);
   data.append('desc', song.desc);
-  data.append('user', userId);
-  data.append('audio', {
-    type: `audio/${song.audio.uri.slice(-3)}`,
+  data.append('userId', userId);
+  data.append('song', {
+    type: `audio/mpeg`,
     uri:song.audio.uri,
-    name:'newSong',
+    name:'song',
   });
-  data.append('coverArt', {
-    type: `image/${song.audio.uri.slice(-3)}`,
+  data.append('coverart', {
+    type: `image/${song.coverArt.uri.slice(-3)}`,
     uri:song.coverArt.uri,
     name:'coverArt',
   });
-  
-  let req = {
-    method: 'POST',
-    url: `upload`,
-    data,
-    headers: {
-      'Content-Type': 'multipart/form-data',
+  // axios isnt working so I use xhr for this one
+  return function (dispatch) {
+    dispatch(uploadSong(data));
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://api.leedder.com/api/song/upload');
+    xhr.setRequestHeader('content-type', 'multipart/form-data');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        Toast.show({
+          text: 'song upload successful...',
+          position: "bottom",
+          duration: 3000
+        });
+        let res = JSON.parse(this.responseText);
+        dispatch(uploadSongSuccess(res));
+      } else {
+        Toast.show({
+          text: 'Network error, please check your connection...',
+          position: "bottom", 
+          duration: 3000
+        });
+        dispatch(uploadSongFail(data));
+      }
     }
   }
-  let cb = {
-    initial: uploadSong,
-    success: null,
-    fail: null,
-    successMsg: 'song upload successful...',
-    errorMsg: 'Network error, please check your connection...'
-  }
-  return genericAsyncActionDispatcher(data, req, cb)
 }
 export function fetchMyProfile (userId) {
   let req = {
@@ -628,7 +638,7 @@ export function blockUser (song, user) {
   }
   let req = {
     method: 'POST',
-    url: `block`,
+    url: `block?partyA=${user.userId}&partyB=${song.userId}`,
     data
   }
   let cb = {
@@ -672,7 +682,7 @@ export function reportAbuse (song, user, reason) {
   }
   let req = {
     method: 'POST',
-    url: `report`,
+    url: `report?comment=${reason}&songId=${song.songId}&userId=${user.userId}`,
     data
   }
   let cb = {

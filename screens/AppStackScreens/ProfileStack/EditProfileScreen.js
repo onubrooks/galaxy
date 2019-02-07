@@ -37,6 +37,7 @@ import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
 
 const PUSH_ENDPOINT = "http://api.leedder.com/api/edit/profile";
+const PUSH_ENDPOINT2 = "http://api.leedder.com/api/avatar/upload";
 
 
 export class EditProfileScreen extends Component {
@@ -52,26 +53,58 @@ export class EditProfileScreen extends Component {
   saveAndGoBack = async () => {
     this.setState({ loading: true });
     let userId = this.props.user.id;
-    Axios(PUSH_ENDPOINT, {
-      method: 'post',
-      data: { ...this.state, userId }
-    })
-    .then((res) => {
-      let data = res.data;
-      console.log('response ', data);
-      if (data) {
-        this.props.fetchMyProfile(this.props.user.id);
-        this.props.navigation.goBack();
+    let data = new FormData();
+    data.append('fullname', this.state.fullname);
+    data.append('email', this.state.email);
+    data.append('username', this.state.username);
+    data.append('phone', this.state.phone);
+    data.append('bio', this.state.bio);
+    data.append('userId', userId);
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', PUSH_ENDPOINT);
+    xhr.setRequestHeader('content-type', 'multipart/form-data');
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let res = JSON.parse(this.responseText);
+        console.log('response ', res);
+        if (res) {
+          this.props.fetchMyProfile(this.props.user.id);
+          alert('Profile edit successful...');
+          this.props.navigation.goBack();
+        } else {
+          alert('Profile edit unsuccessful, please try again...');
+          this.setState({ loading: false });
+        }
       } else {
-        alert('Profile edit unsuccessful, please try again...');
+        console.log(this.responseText);
+        alert('Something went wrong, please try again...');
         this.setState({ loading: false });
       }
-    }).catch((error) => {
-      console.log(error);
-      alert('Something went wrong, please try again...');
-      this.setState({ loading: false });
-    });
-    // then go back
+    }
+    // Axios(PUSH_ENDPOINT, {
+    //   method: 'post',
+    //   data,
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //   }
+    // })
+    // .then((res) => {
+    //   let data = res.data;
+    //   console.log('response ', data);
+    //   if (data) {
+    //     this.props.fetchMyProfile(this.props.user.id);
+    //     this.props.navigation.goBack();
+    //   } else {
+    //     alert('Profile edit unsuccessful, please try again...');
+    //     this.setState({ loading: false });
+    //   }
+    // }).catch((error) => {
+    //   console.log(error);
+    //   alert('Something went wrong, please try again...');
+    //   this.setState({ loading: false });
+    // });
+    // // then go back
 
   };
          setModalVisible = (visible, options = null) => {
@@ -93,38 +126,37 @@ export class EditProfileScreen extends Component {
          pickNewPhoto = async () => {
            const result = await Expo.ImagePicker.launchImageLibraryAsync(
              {
-               allowsEditing: false,
+               allowsEditing: true,
                base64: true
              }
            );
           if (!result.cancelled) {
-            console.log('result ', result);
             this.setState({ newPhoto: result });
             this.setState({ loading: true });
-          //    // post the new photo to endpoint
-          //    let data = new FormData();
-          //    data.append('userId', this.props.user.userId);
-          //    data.append('avatar', {
-          //      uri:result.uri,
-          //      name:'userAvatar',
-          //      type:`image/${result.uri.slice(-3)}`
-          //     });
-          //    Axios(PUSH_ENDPOINT, {
-          //     method: 'post',
-          //     data,
-          //    headers: {
-          //         'Content-Type': 'multipart/form-data',
-          //       }
-          //   })
-          //   .then((res) => {
-          //     this.setState({ loading: false });
-          //     let data = res.data;
-          //     console.log('response ', data);
-          //     this.props.updateMyPhoto(data);
-          //   }).catch((error) => {
-          //     console.log(error);
-          //     this.setState({ loading: false });
-          //   });
+             // post the new photo to endpoint
+             let data = new FormData();
+             data.append('userId', this.props.user.userId);
+             data.append('avatar', {
+               uri:result.uri,
+               name:'userAvatar',
+               type:`image/${result.uri.slice(-3)}`
+              });
+             Axios(PUSH_ENDPOINT2, {
+              method: 'post',
+              data,
+             headers: {
+                  'Content-Type': 'multipart/form-data',
+                }
+            })
+            .then((res) => {
+              this.setState({ loading: false });
+              let data = res.data;
+              console.log('response ', data);
+              this.props.updateMyPhoto(data.avatarUrl);
+            }).catch((error) => {
+              console.log(error);
+              this.setState({ loading: false });
+            });
            }
          };
          render() {

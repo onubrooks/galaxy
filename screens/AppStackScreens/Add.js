@@ -19,7 +19,9 @@ import {
   Input,
   Label,
   Text,
-  Textarea
+  Textarea,
+  Toast,
+  Thumbnail
 } from "native-base";
 import styles from "../../components/styles";
 
@@ -50,8 +52,13 @@ export class Add extends Component {
     
     let { user } = this.props;
     this.props.uploadSongAsync(this.state, user.id)
+    Toast.show({
+      text: 'posting song...',
+      position: "bottom",
+      duration: 2000
+    });
     // dispatch a redux action
-    this.setState({ audio: null, coverArt: null });
+    this.setState({ audio: null, coverArt: null, title: '', desc: ''});
     // then go back
     this.props.navigation.goBack();
   };
@@ -95,8 +102,10 @@ export class Add extends Component {
         <Content>
         <View style={stl.grid}>
             <View onPress={this.pickCoverArt} style={stl.col1}>
-            <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
+            {/* <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} /> */}
               <TouchableOpacity onPress={this.pickCoverArt}>
+              <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
+                <Thumbnail square large source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")}/>
                 <Text>Cover Art (Optional)</Text>  
               </TouchableOpacity>
             </View>

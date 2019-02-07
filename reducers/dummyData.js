@@ -25,13 +25,25 @@ export const loggedInUser = {
       }
 };
 
+const uploadingSong = {
+  loading: false,
+  uploaded: false,
+  song: {
+    title: '',
+    desc: '',
+    audio: null,
+    coverArt: null
+  }
+};
+
 const sampleFeed = {
   byId: {
   },
   allIds: [],
   loading: false,
   updated: false,
-  lastUpdated: 0 // Date.now()
+  lastUpdated: 0, // Date.now(),
+  uploadingSong
 };
 
 const sampleComments = {
@@ -49,16 +61,6 @@ const sampleUsers =  {
   allIds: []
 };
 const sampleBookmarks = [];
-const uploadingSong = {
-  loading: false,
-  uploaded: false,
-  song: {
-    title: '',
-    desc: '',
-    audio: null,
-    coverArt: null
-  }
-};
 const profile = {
   userId: null,
   prevUserId: null,
@@ -98,7 +100,6 @@ export const initialState = {
       users: sampleUsers,
       user: loggedInUser,
       bookmarks: sampleBookmarks,
-      uploadingSong,
       profile,
       playlist
 }

@@ -127,6 +127,38 @@ function feed(state = initialState.feed, action) {
               }
             }
           } 
+          case UPLOAD_SONG:
+            return { 
+              ...state, 
+              uploadingSong: {
+                ...state.uploadingSong,
+                song: action.payload.song,
+                loading: true
+              }
+            };
+          case UPLOAD_SONG_SUCCESS:
+            return { 
+              ...state, 
+              byId: {
+                ...state.byId,
+                [action.payload.song.title]: action.payload.song
+              },
+              uploadingSong: {
+                ...state.uploadingSong,
+                song:null,
+                uploaded: true,
+                loading: false
+              } 
+            };
+          case UPLOAD_SONG_FAIL:
+            return { 
+              ...state, 
+              uploadingSong: {
+                ...uploadingSong,
+                uploaded: false,
+                loading: false
+              }
+            };
       default:
         return state;
     }
@@ -164,20 +196,6 @@ function comments(state = initialState.comments, action) {
         default:
           return state;
       }
-}
-
-// this action uploads a song as logged in user
-function upload(state = initialState.uploadingSong, action) {
-  switch (action.type) {
-    case UPLOAD_SONG:
-      return { ...state, song: action.payload.song, loading: true };
-    case UPLOAD_SONG_SUCCESS:
-      return { ...state, loading: false, uploaded: true, song: null };
-    case UPLOAD_SONG_FAIL:
-      return { ...state, loading: false, uploaded: false};
-    default:
-      return state;
-  }
 }
 
 function user(state = initialState.user, action) {
@@ -406,7 +424,6 @@ function profile(state = initialState.profile, action) {
 const rootReducer = combineReducers({
   feed,
   playlist,
-  upload,
   comments,
   user,
   profile

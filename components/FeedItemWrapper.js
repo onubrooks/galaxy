@@ -202,8 +202,6 @@ export class FeedItemWrapper extends Component {
     let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
     let listLength = all.length;
     let display = all.slice(0, slc);
-    console.log('length ', listLength);
-    console.log("offset ", offset);
     return <Container style={styles.container}>
         <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
           <Content>
