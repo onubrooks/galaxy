@@ -60,51 +60,32 @@ export class EditProfileScreen extends Component {
     data.append('phone', this.state.phone);
     data.append('bio', this.state.bio);
     data.append('userId', userId);
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', PUSH_ENDPOINT);
-    xhr.setRequestHeader('content-type', 'multipart/form-data');
-    xhr.send(data);
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let res = JSON.parse(this.responseText);
-        console.log('response ', res);
-        if (res) {
-          this.props.fetchMyProfile(this.props.user.id);
-          alert('Profile edit successful...');
-          this.props.navigation.goBack();
-        } else {
-          alert('Profile edit unsuccessful, please try again...');
-          this.setState({ loading: false });
-        }
-      } else {
-        console.log(this.responseText);
-        alert('Something went wrong, please try again...');
-        this.setState({ loading: false });
+    let endpoint = `${PUSH_ENDPOINT}`;// ?fullname=${this.state.fullname}&email=${this.state.email}&username=${this.state.username}&phone=${this.state.phone}&bio=${this.state.bio}&userId=${userId}`;
+    
+    Axios(endpoint, {
+      method: 'post',
+      data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
       }
-    }
-    // Axios(PUSH_ENDPOINT, {
-    //   method: 'post',
-    //   data,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   }
-    // })
-    // .then((res) => {
-    //   let data = res.data;
-    //   console.log('response ', data);
-    //   if (data) {
-    //     this.props.fetchMyProfile(this.props.user.id);
-    //     this.props.navigation.goBack();
-    //   } else {
-    //     alert('Profile edit unsuccessful, please try again...');
-    //     this.setState({ loading: false });
-    //   }
-    // }).catch((error) => {
-    //   console.log(error);
-    //   alert('Something went wrong, please try again...');
-    //   this.setState({ loading: false });
-    // });
-    // // then go back
+    })
+    .then((res) => {
+      let data = res.data;
+      console.log('response ', data);
+      if (data) {
+        this.props.fetchMyProfile(this.props.user.id);
+        this.props.navigation.goBack();
+      } else {
+        // alert('Profile edit unsuccessful, please try again...');
+        // this.setState({ loading: false });
+        this.props.navigation.goBack();
+      }
+    }).catch((error) => {
+      console.log(error);
+      alert('Something went wrong, please try again...');
+      this.setState({ loading: false });
+    });
+    // then go back
 
   };
          setModalVisible = (visible, options = null) => {
