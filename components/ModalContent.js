@@ -8,7 +8,7 @@ import {
   Platform
 } from "react-native";
 import { Button, H2, H3 } from "native-base";
-import { WebBrowser } from "expo";
+import * as WebBrowser from 'expo-web-browser';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class FeedScreenModalContent extends Component {

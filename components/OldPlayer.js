@@ -12,7 +12,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import { Audio, Video } from 'expo';
+import { Audio, Video } from 'expo-av';
 import * as Font from "expo-font";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "native-base";

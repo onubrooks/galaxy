@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import { Text } from "native-base";
 
-import { WebBrowser } from "expo";
+import * as WebBrowser from 'expo-web-browser';
 
 var Dimensions = require("Dimensions");
 var { width, height } = Dimensions.get("window");

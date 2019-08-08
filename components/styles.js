@@ -3,7 +3,7 @@ import { Dimensions } from "react-native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-const primaryColor = '#764BA2' 
+const primaryColor = "#764BA2";// 'linear-gradient(178.78deg, #764BA2 0.59%, #6879E3 82.8%)' 
 const secondaryColor = '#006E8C' 
 
 export default {
@@ -109,7 +109,58 @@ export default {
     //flex: 1
   },
   loadingIndicator: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  // login screen styles
+  pageContainer: {
+    flex: 1,
+    marginTop: 120,
+    alignItems: "center",
+    height: height
+  },
+  pageContainerSignup: {
+    flex: 1,
+    marginTop: 50,
+    alignItems: "center",
+    height: height
+  },
+  leedder: {
+    fontFamily: "segoeprb",
+    fontSize: 30,
+    lineHeight: 60,
+    color: "#FAFAFA"
+  },
+  segoeprint: {
+    fontFamily: "segoeprb"
+  },
+  item: {
+    backgroundColor: "#B1BAF8",
+    color: "white",
+    borderRadius: 4,
+    height: 40,
+    width: 300,
+    marginVertical: 6,
+    marginLeft: 5
+  },
+  input: {
+    color: "white"
+  },
+  submit: {
+    backgroundColor: "#1CD9AD",
+    borderRadius: 20,
+    width: "50%",
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  forgot: {
+    fontSize: 12,
+    textAlign: "center",
+    color: "white"
+  },
+  forgotLink: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "white"
   }
 };

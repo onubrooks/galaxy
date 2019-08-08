@@ -1,4 +1,4 @@
-import { Asset } from "expo";
+import { Asset } from 'expo-asset';
 export default class IconAsset {
   constructor(module, width, height) {
     this.module = module;

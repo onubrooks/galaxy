@@ -7,7 +7,7 @@ import {
   Dimensions
 } from "react-native";
 import Axios from "axios";
-import { WebBrowser } from "expo";
+import * as WebBrowser from 'expo-web-browser';
 import {
   Container,
   Header,

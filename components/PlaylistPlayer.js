@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Asset, Audio, Video } from 'expo';
+import { Audio, Video } from 'expo-av';
+import { Asset } from 'expo-asset';
 import * as Font from "expo-font";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Icon as IconBase, Button, Toast } from "native-base";

@@ -4,18 +4,18 @@
     "description": "A song sharing social app.",
     "slug": "Leedder",
     "privacy": "unlisted",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/icon.png",
+    "icon": "./assets/icons/rect.png",
     "splash": {
-      "image": "./assets/icons/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FFFFFF"
+      "image": "./assets/icons/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#6879E3"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

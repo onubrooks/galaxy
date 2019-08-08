@@ -2,7 +2,8 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, NetInfo } from 'react-native';
 import { Toast } from "native-base";
 
-import { AppLoading, Asset } from "expo";
+import { AppLoading } from "expo";
+import { Asset } from 'expo-asset';
 import * as Font from "expo-font";
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
@@ -23,7 +24,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["feed"]
+  whitelist: ["feed", "user"]
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -56,13 +57,26 @@ export default class App extends React.Component {
           />
       );
     } else {
-      return <Provider store={store}>
+      return (
+        <Provider store={store}>
           <Root style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="light-content" backgroundColor="#764BA2" />}
-            {Platform.OS === "android" && <StatusBar barStyle="light-content" backgroundColor="#764BA2" translucent={true} />}
-              <RootNavigation />
+            {Platform.OS === "ios" && (
+              <StatusBar
+                barStyle="light-content"
+                backgroundColor="#764BA2"
+              />
+            )}
+            {Platform.OS === "android" && (
+              <StatusBar
+                barStyle="light-content"
+                backgroundColor="#764BA2"
+                translucent={true}
+              />
+            )}
+            <RootNavigation />
           </Root>
-        </Provider>;
+        </Provider>
+      );
     }
   }
 
@@ -78,9 +92,11 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+        "Segoe Print": require("./assets/fonts/Segoe-Print.ttf"),
+        segoeprb: require("./assets/fonts/segoeprb.ttf"),
         Roboto: require("native-base/Fonts/Roboto.ttf"),
         Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-        Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+        // Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
         //"open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
       })
     ]);
@@ -122,6 +138,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#764BA2"
+  }
 });
