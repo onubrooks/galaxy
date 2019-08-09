@@ -225,10 +225,11 @@ export class SignUpScreen extends React.Component {
       }
     })
     .then(async (res) => {
-      console.log('response ', res.data);
-      if (res.data.token) {
-        await AsyncStorage.setItem("userToken", "" + res.data.token);
-        this.props.login(res.data.data.id);
+      let data = res.data;
+      if (data.token) {
+        await AsyncStorage.setItem("userToken", data.token);
+        await AsyncStorage.setItem("user_id", "" + data.data.id);
+        this.props.login(data.data.id);
         this.props.navigation.navigate("App");
       } else {
         alert('Login failed, please try again...');

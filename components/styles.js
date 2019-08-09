@@ -14,13 +14,14 @@ export default {
   },
   header: {
     marginTop: 24,
-    backgroundColor: primaryColor
+    backgroundColor: "#FFFFFF",
+    borderBottomWidth: 1,
+    borderBottomColor: "grey"
   },
   title: {
-    color: "white",
-    fontWeight: "bold",
-    fontStyle: "italic",
-    fontFamily: "space-mono"
+    color: "#555555",
+    fontFamily: "segoeprb",
+    fontSize: 25
   },
   text: {
     alignSelf: "center",

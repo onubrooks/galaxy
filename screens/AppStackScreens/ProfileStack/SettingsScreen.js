@@ -47,7 +47,7 @@ export class SettingsScreen extends Component {
     this.props.navigation.navigate('Auth');
   }
   showTos = async () => {
-    let result = await WebBrowser.openBrowserAsync('http://leedder.com/leedder/tos');
+    let result = await WebBrowser.openBrowserAsync('https://leedder.com/tos');
     //this.setState({ result });
   };
   render() {

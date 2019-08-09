@@ -6,7 +6,8 @@ import {
   Title,
   Body,
   Left,
-  Right
+  Right,
+  Text
 } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FeedItemWrapper from "../../../components/FeedItemWrapper";
@@ -16,14 +17,14 @@ import styles from "../../../components/styles";
 export class FeedScreen extends Component {
   render() {
     return <Container style={styles.container}>
-      <Header style={styles.header} androidStatusBarColor={styles.primaryColor}>
-          <Left>
+      <Header style={styles.header} androidStatusBarColor="white">
+          {/* <Left>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Playlist')}>
-              <Ionicons style={styles.title} name="ios-musical-notes" size={30} />
+              <Ionicons name="ios-musical-notes" size={30} />
             </TouchableOpacity>
-          </Left>
-          <Body style={{ marginHorizontal: 85 }}>
-            <Title style={styles.title}>Leedder</Title>
+          </Left> */}
+          <Body style={{ marginHorizontal: 110 }}>
+            <Text style={styles.title}>leedder</Text>
           </Body>
           {/* <Right>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('DMList')}>

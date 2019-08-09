@@ -33,7 +33,7 @@ import UserHandle from "./UserHandle";
 import * as Animatable from "react-native-animatable";
 
 const ICON_HIT_BUTTON = require('../assets/icons/fist-red.png');
-const ICON_UNHIT_BUTTON = require('../assets/icons/fist.png');
+const ICON_UNHIT_BUTTON = require('../assets/icons/fist-white-edit.png');
 
 export class FeedItem extends Component {
          constructor(props) {
@@ -80,8 +80,8 @@ export class FeedItem extends Component {
                    </Body>
                  </Left>
                  <Right>
-                   <TouchableOpacity style={{ width: 25, paddingLeft: 12 }} transparent onPress={ () => this.handlePress(song)}>
-                     <Ionicons name="md-more" size={25} />
+                   <TouchableOpacity style={{ width: 30, paddingRight: 10 }} transparent onPress={ () => this.handlePress(song)}>
+                     <Ionicons name="ios-more" size={25} />
                    </TouchableOpacity>
                  </Right>
                </CardItem>

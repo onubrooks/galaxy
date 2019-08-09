@@ -37,8 +37,7 @@ const PUSH_ENDPOINT = "https://api.leedder.com/api/v1.0/auth/login";
 export class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
-    console.log('height', height)
-    console.log('width', width)
+    // alert(`width${width}${height}`)
     this.state = {
       secure: true,
       username: '',
@@ -76,7 +75,7 @@ export class LoginScreen extends React.Component {
         style={{
           flex: 1,
           flexDirection: "column",
-          height: 500
+          height: 400
         }}
       >
         <ImageBackground
@@ -230,9 +229,9 @@ export class LoginScreen extends React.Component {
         password: this.state.password
       }),
     }).then((response) => response.json()).then( async (data) => { 
-      console.log('data', data)
       if (data.token) {
-        await AsyncStorage.setItem("userToken", "" + data.token);
+        await AsyncStorage.setItem("userToken", data.token);
+        await AsyncStorage.setItem("user_id", "" + data.data.id);
         this.props.login(data.data.id);
         this.props.navigation.navigate("App");
       } else {

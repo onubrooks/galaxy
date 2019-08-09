@@ -29,7 +29,7 @@ const BACKGROUND_COLOR = '#FFF8ED';
 const DISABLED_OPACITY = 0.5;
 const FONT_SIZE = 14;
 const LOADING_STRING = '... loading ...';
-const BUFFERING_STRING = '...buffering...';
+const BUFFERING_STRING = 'buffering... ';
 const RATE_SCALE = 3.0;
 const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 6.0 - FONT_SIZE * 2;
 
@@ -63,7 +63,8 @@ export default class Player extends React.Component {
       poster: false,
       useNativeControls: true,
       fullscreen: false,
-      show: true
+      show: true,
+      throughEarpiece: false
     };
   }
 
@@ -73,6 +74,7 @@ export default class Player extends React.Component {
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
+      staysActiveInBackground: false,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true
     });
@@ -98,7 +100,6 @@ export default class Player extends React.Component {
       this.playbackInstance = null;
     }
 
-    // const source = this.index == 0 ? PLAYLIST[this.index].uri : { uri: PLAYLIST[this.index].uri };
     const source = { uri: this.props.songPath };
     const initialStatus = {
       shouldPlay: playing,

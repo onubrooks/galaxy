@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { TouchableOpacity, View, RefreshControl } from "react-native";
+import { TouchableOpacity, View, RefreshControl, AsyncStorage } from "react-native";
 import {
   Container,
   Content,
@@ -41,11 +41,27 @@ import {
 } from "../actions/actions";
 
 import styles from "./styles";
+import sampleFeed from "./feedSample";
 
 export class FeedItemWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { isModalVisible: false, isReportModalVisible: false, refreshing: props.feed.loading, song: null, listLength: 10, slice: 5, offset: 0 };
+    super(props);
+    let feedItems = shuffle(sampleFeed);
+    let offset = 0;
+    let listLength = 10;
+    let displayItems = feedItems.slice(offset, listLength);
+    this.state = {
+      refreshing: props.feed.loading,
+      song: null,
+      listLength,
+      offset,
+      feedItems,
+      displayItems,
+      isModalVisible: false,
+      isReportModalVisible: false,
+      slice: 5,
+    };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
     this.addComment = this.addComment.bind(this);
@@ -56,12 +72,19 @@ export class FeedItemWrapper extends Component {
   componentDidMount() {
     this._onRefresh();
   }
-  _onRefresh = () => {
-    if (this.props.navigation.state.routeName == "Feed") {
-      //this.setState({ refreshing: true });
-      this.props.fetchFeed(this.props.user, this.state.offset);
-      //this.props.fetchPlaylist(this.props.user);
-      //this.props.fetchMyProfile(this.props.user.id);
+  _onRefresh = async () => {
+    if (!this.props.user.email) {
+      let user_id = await AsyncStorage.getItem("user_id");
+      this.props.fetchMyProfile(user_id);
+      this.props.fetchFeed(
+        {id: user_id},
+        this.state.offset,
+      );
+    } else {
+      this.props.fetchFeed(
+        this.props.user,
+        this.state.offset
+      );
     }
   }
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -195,32 +218,64 @@ export class FeedItemWrapper extends Component {
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
-    const { feed = {}, user = {}, bookmarks = [], bookmarkedOnly = false } = this.props;
-    const songArray = Object.keys(feed.byId).map((songId, idx) => feed.byId[songId]);
-    let slc = this.state.slice;
-    let offset = this.state.offset;
-    let all = this._getItemsToDisplay(songArray, idx, bookmarkedOnly);
-    let listLength = all.length;
-    let display = all.slice(0, slc);
-    return <Container style={styles.container}>
-        <KeyboardAvoidingScrollView keyboardShouldPersistTaps="always" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={"#006E8C"} title="refreshing" />}>
+    let { feed, user } = this.props;
+    let display = Object.keys(feed.byId).map(key => feed.byId[key]);
+    let displayItems = display.length ? display : this.state.displayItems;
+
+    return (
+      <Container style={styles.container}>
+        <KeyboardAvoidingScrollView
+          keyboardShouldPersistTaps="always"
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+              tintColor={"#006E8C"}
+              title="refreshing"
+            />
+          }
+        >
           <Content>
-            {display.map((song, idx) => song && <FeedItem key={idx} song={song} user={user} bookmarks={bookmarks} toggleLike={this.toggleLike} toggleBookmark={this.toggleBookmark} setModalVisible={this.setModalVisible} gotoComments={this.gotoComments} addComment={this.addComment} navigation={this.props.navigation} />)}
-            {this.props.navigation.state.routeName == "Feed" && feed.updated && (listLength < 30 || offset < 20) ? <LoadMore load={this._loadMore} loading={feed.loading} /> : null}
+            {displayItems.map(
+              (song, idx) =>
+                song && (
+                  <FeedItem
+                    key={idx}
+                    song={song}
+                    user={user}
+                    toggleLike={this.toggleLike}
+                    toggleBookmark={this.toggleBookmark}
+                    setModalVisible={this.setModalVisible}
+                    gotoComments={this.gotoComments}
+                    addComment={this.addComment}
+                    navigation={this.props.navigation}
+                  />
+                )
+            )}
+            {this.props.navigation.state.routeName == "Feed" &&
+            feed.updated &&
+            (this.state.listLength < 30 || offset < 20) ? (
+              <LoadMore load={this._loadMore} loading={feed.loading} />
+            ) : null}
             <View style={{ height: 150 }} />
           </Content>
         </KeyboardAvoidingScrollView>
-        <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
-              { isModalVisible: false }
-            )}>
+        <Modal
+          isVisible={this.state.isModalVisible}
+          onBackdropPress={() => this.setState({ isModalVisible: false })}
+        >
           <FeedScreenModalContent setModalVisible={this.setModalVisible} />
         </Modal>
-        <Modal isVisible={this.state.isReportModalVisible} onBackdropPress={() => this.setState(
-              { isReportModalVisible: false }
-            )}>
+        <Modal
+          isVisible={this.state.isReportModalVisible}
+          onBackdropPress={() =>
+            this.setState({ isReportModalVisible: false })
+          }
+        >
           <ReportAbuseModalContent setModalVisible={this.setModalVisible} />
         </Modal>
-      </Container>;
+      </Container>
+    );
   }
 }
 
@@ -263,4 +318,16 @@ const LoadMore = props => {
   return props.loading ? <Spinner color="grey" size={Platform.OS === 'ios' ? 1 : 20}  /> : <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 80}}>
     <Button light onPress={props.load}><Text>Load More</Text><Icon name="ios-refresh-circle" /></Button>
     </View>;
+}
+
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
 }

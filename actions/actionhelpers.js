@@ -4,15 +4,20 @@
  * the second is config object with info for the fetch API call
  * the third is an object containing the initial, success and fail actions/callbacks and the error msg
  */
+import { AsyncStorage } from "react-native"
 import { Toast } from "native-base";
 import Axios from "axios";
-// const PUSH_ENDPOINT = `http://10.0.2.2:54722/api`;
-const PUSH_ENDPOINT = `http://api.leedder.com/api`;
+
+
+Axios.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem("userToken");
+  config.headers.Authorization = `Bearer ${token}`;
+
+  return config;
+});
+const PUSH_ENDPOINT = `https://api.leedder.com/api/v1.0`;
 // thunk action creator, returns a function that dispatches getFeed and then 
 export default function genericAsyncActionDispatcher(data, req, cb) {
-  // Thunk middleware knows how to handle functions.
-  // It passes the dispatch method as an argument to the function,
-  // thus making it able to dispatch actions itself.
 
   return function (dispatch) {
     // First dispatch: the app state is updated to inform
@@ -38,7 +43,11 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           // Here, we update the app state with the results of the API call.
           // console.log("response is ", response);
           let data = response.data;
-          //console.log(cb.successMsg, data);
+          if (data.error && data.error === "Unauthenticated.") {
+            // authHelper.signout(cb.history);
+          } else {
+            cb.success && dispatch(cb.success(data));
+          }
           if(cb.displaySuccessToast) {
             Toast.show({
               text: cb.successMsg,
