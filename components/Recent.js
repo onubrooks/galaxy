@@ -10,7 +10,7 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 const sly = require("../assets/avatar.png");
 
-export class Recent extends Component {
+export default class Recent extends Component {
   constructor(props) {
         super(props);
   }
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     alignSelf: "stretch",
     height: 10,
-    flexShrink: 0
+    flexShrink: 0,
+    marginTop: 10
   },
   thumbnail: {
     width: DEVICE_WIDTH / 7,

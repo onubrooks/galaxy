@@ -15,6 +15,7 @@ import {
 } from "native-base";
 
 import ImageView from "../../../components/ImageView";
+import Recent from "../../../components/Recent";
 import styles from "../../../components/styles";
 import Axios from "axios";
 
@@ -154,6 +155,8 @@ export class SearchScreen extends Component {
               navigation={this.props.navigation}
               NoResults={NoResults}
             />) : null }
+
+            {this.state.u ? (<Recent person="onubrooks" activity="started following you" time="11:45pm" following={false} />) : null}
           </ScrollView>
         </Content>
       </Container>
