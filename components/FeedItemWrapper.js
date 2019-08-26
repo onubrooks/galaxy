@@ -21,7 +21,7 @@ import {
 import FeedItem from "./FeedItem";
 import KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView";
 import Modal from "react-native-modal";
-import { FeedScreenModalContent, ReportAbuseModalContent } from "./ModalContent";
+import { FeedScreenModalContent, ReportAbuseModalContent, CommentsModalContent } from "./ModalContent";
 
 // redux related imports
 import { connect } from "react-redux";
@@ -60,6 +60,7 @@ export class FeedItemWrapper extends Component {
       displayItems,
       isModalVisible: false,
       isReportModalVisible: false,
+      isCommentsModalVisible: false,
       slice: 5,
     };
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -124,7 +125,9 @@ export class FeedItemWrapper extends Component {
       this.props.reportAbuse(this.state.song, this.props.user, val);
       this.props.removeSong(this.state.song.songId);
       this.setState({ isReportModalVisible: visible, song: null });
-    } 
+    } else if(val && val == 'comments'){
+      this.setState({ isCommentsModalVisible: visible });
+    }
     else {
       this.setState({ isModalVisible: visible, song });
     }
@@ -134,9 +137,10 @@ export class FeedItemWrapper extends Component {
     this.props.commentASong(songId, comment, user);
   }
   gotoComments(song) {
-    this.props.navigation.navigate("AddComment", {
-      song
-    });
+    this.setState({ isCommentsModalVisible: true, song });
+    // this.props.navigation.navigate("AddComment", {
+    //   song
+    // });
   }
   toggleLike(songId, userId) {
     // like/hit action dispatcher
@@ -219,7 +223,7 @@ export class FeedItemWrapper extends Component {
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
     let { feed, user } = this.props;
-    let display = Object.keys(feed.byId).map(key => feed.byId[key]);
+    let display = Object.keys(feed.byId).length ? Object.keys(feed.byId).map(key => feed.byId[key]) : [];
     let displayItems = display.length ? display : this.state.displayItems;
 
     return (
@@ -273,6 +277,20 @@ export class FeedItemWrapper extends Component {
           }
         >
           <ReportAbuseModalContent setModalVisible={this.setModalVisible} />
+        </Modal>
+        <Modal
+          isVisible={this.state.isCommentsModalVisible}
+          onBackdropPress={() =>
+            this.setState({ isCommentsModalVisible: false })
+          }
+          onBackButtonPress={() =>
+            this.setState({ isCommentsModalVisible: false })
+          }
+        >
+          <CommentsModalContent
+            setModalVisible={this.setModalVisible}
+            song={this.state.song}
+          />
         </Modal>
       </Container>
     );

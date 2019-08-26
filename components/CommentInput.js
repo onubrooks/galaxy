@@ -60,31 +60,62 @@ export default class CommentInput extends Component {
   
   render() { 
     let { user, multiline = false, editable = true, commentScreen = false } = this.props;
-      return <View style={[styles.grid, commentScreen ? styles.commentScreen : {}]}>
-        <Thumbnail small source={{uri: user.userAvatar}} style={{ padding: -20 }} />
-        <Form style={{width:"90%"}}>
-          <Item style={styles.noBorder}>
-            <Input 
-              style={{fontSize: 14}}
-              placeholder='Add a comment...' 
-              onFocus={(event) => this.onInputFocus(event)} 
-              onBlur={(event) => this.onInputBlur(event)} 
-              value={this.state.comment} 
-              onChangeText={(text)=>this.setState({comment:text})} 
-              multiline={multiline}
-              editable={editable}
-              autoFocus={commentScreen} 
-              onSubmitEditing={this.addComment} />
-            {this.state.inputFocused && this.state.comment.length < 1 ?
-              <Button small disabled transparent style={{ right:0, paddingBottom:-15 }}><Text>POST</Text></Button>
-            :
-          (this.state.comment.length > 0 ?  
-            <Button small transparent style={{ right:0, paddingBottom:-15 }} onPress={ this.addComment }>
-              <Text>POST</Text>
-            </Button> : null)
-          }
-          </Item>
-        </Form>     
-      </View>
+      return (
+        <View
+          style={[styles.grid, commentScreen ? styles.commentScreen : {}]}
+        >
+          <Thumbnail
+            small
+            source={{ uri: user.userAvatar }}
+            style={{ padding: -20 }}
+          />
+          <Form style={{ width: "90%" }}>
+            <Item
+              style={[
+                styles.noBorder,
+                { backgroundColor: commentScreen ? "#888888" : "" }
+              ]}
+            >
+              <Input
+                style={{ fontSize: 14, color: commentScreen ? 'white' : 'black' }}
+                placeholder="Add a comment..."
+                placeholderTextColor={commentScreen ? "white" : "grey"}
+                onFocus={event => this.onInputFocus(event)}
+                onBlur={event => this.onInputBlur(event)}
+                value={this.state.comment}
+                onChangeText={text => this.setState({ comment: text })}
+                multiline={multiline}
+                editable={editable}
+                autoFocus={commentScreen}
+                onSubmitEditing={this.addComment}
+              />
+              {this.state.inputFocused &&
+              this.state.comment.length < 1 ? (
+                <Button
+                  small
+                  disabled
+                  transparent
+                  style={{ right: 0, paddingBottom: -10, marginTop: 7 }}
+                >
+                  <Text>POST</Text>
+                </Button>
+              ) : this.state.comment.length > 0 ? (
+                <Button
+                  small
+                  transparent
+                  style={{ right: 0, paddingBottom: -10, marginTop: 7 }}
+                  onPress={this.addComment}
+                >
+                  <Text
+                    style={{ color: commentScreen ? "white" : "purple" }}
+                  >
+                    POST
+                  </Text>
+                </Button>
+              ) : null}
+            </Item>
+          </Form>
+        </View>
+      );
   }
 }

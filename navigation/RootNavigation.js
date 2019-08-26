@@ -1,7 +1,7 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
-
+import NavigationService from "../actions/NavigationService";
 import AuthStack from "../screens/AuthStackScreens/AuthStack";
 import AppStack from "../screens/AppStackScreens/AppStack";
 
@@ -32,7 +32,13 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    return <AppNavigator />;
+    return (
+      <AppNavigator
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    );
   }
 
   _registerForPushNotifications() {

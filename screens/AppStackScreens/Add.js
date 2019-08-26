@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ImageBackground
+  Image
 } from "react-native";
 import {
   Container,
@@ -81,10 +81,11 @@ export class Add extends Component {
   };
 
   render() {
-    let audioLabel = this.state.audio ? this.state.audio.name : "Choose Song(.mp3, .wav)";
+    let audioLabel = this.state.audio ? this.state.audio.name : "Choose File";
     let coverArtUri = this.state.coverArt ? this.state.coverArt.uri : null;
-    return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
+    return (
+      <Container style={styles.container}>
+        {/* <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Icon name="md-close" style={{ color: styles.primaryColor }} />
@@ -98,37 +99,63 @@ export class Add extends Component {
               <Icon name="md-checkmark" style={{ color: styles.primaryColor }} />
             </Button>
           </Right>
-        </Header>
+        </Header> */}
         <Content>
-        <View style={stl.grid}>
+          <View style={stl.grid}>
             <View onPress={this.pickCoverArt} style={stl.col1}>
-            {/* <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} /> */}
-              <TouchableOpacity onPress={this.pickCoverArt}>
-              <ImageBackground style={{ flex: 1 }} resizeMode="contain" source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")} />
-                <Thumbnail square large source={coverArtUri ? { uri: coverArtUri } : require("../../assets/default.jpg")}/>
-                <Text>Cover Art (Optional)</Text>  
-              </TouchableOpacity>
+              <View style={stl.col1inner}>
+                <TouchableOpacity onPress={this.pickCoverArt}>
+                  <Image
+                    source={
+                      coverArtUri
+                        ? { uri: coverArtUri }
+                        : require("../../assets/icons/default.png")
+                    }
+                  />
+                  <Text>Cover Art (Optional)</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={stl.col2}>
-              <Form style={{ alignSelf: "stretch" }}>
-                <Item floatingLabel>
-                  <Label>Title</Label>
-                  <Input onChangeText={(title) => this.setState({title})} value={this.state.title}/>
+              <Form>
+                <Item style={stl.item} last>
+                  <Input
+                    placeholder="Song Title"
+                    placeholderTextColor="#888888"
+                    onChangeText={title => this.setState({ title })}
+                    value={this.state.title}
+                  />
                 </Item>
-                <Item style={{ marginTop: 30 }}>
-                  <TouchableOpacity onPress={this.pickAudio}>
-                    <Label>{audioLabel}</Label>
-                  </TouchableOpacity>
+                <Item style={stl.item} last>
+                  <Input
+                    placeholder="Song Description"
+                    placeholderTextColor="#888888"
+                    onChangeText={desc => this.setState({ desc })}
+                    value={this.state.title}
+                  />
                 </Item>
-                <Item floatingLabel last>
-                  <Label>Description</Label>
-                <Textarea rowSpan={5} bordered placeholder="About the song" onChangeText={(desc) => this.setState({ desc })} value={this.state.title}/>
+                <Item style={[stl.item, { height: 48 }]} last>
+                  <Input
+                    placeholder={audioLabel}
+                    placeholderTextColor="#888888"
+                    disabled
+                  />
+                  <Button onPress={this.pickAudio} transparent>
+                    <Text>Browse</Text>
+                  </Button>
                 </Item>
+                <Button
+                  style={{ marginLeft: "auto", marginRight: "auto", marginTop: 10, borderRadius: 6 }}
+                  onPress={this.saveAndGoBack}
+                >
+                  <Text>Upload Song</Text>
+                </Button>
               </Form>
             </View>
           </View>
         </Content>
-      </Container>;
+      </Container>
+    );
   }
 }
 
@@ -145,26 +172,43 @@ export default connect(mapStateToProps, mapDispatchToProps)(Add);
 
 const stl = StyleSheet.create({
   grid: {
-    backgroundColor: '#fff',
-    //flexDirection: 'row',
-    //justifyContent: 'space-between',
-    // alignItems: 'center',
-    marginVertical: 30,
+    backgroundColor: "#fff",
+    marginVertical: 30
     // height: DEVICE_HEIGHT
   },
   heading: {
-    fontWeight: '900',
+    fontWeight: "900",
     color: styles.primaryColor
   },
   col1: {
-    width: 150,
-    height: 150,
-    //backgroundColor: 'yellow',
-    marginLeft: 20
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 260,
+    marginTop: 0,
+    backgroundColor: "#EFEFEF"
+    //marginLeft: 20
+  },
+  col1inner: {
+    backgroundColor: "white",
+    width: "65%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 20
   },
   col2: {
     //width: 500,
-    //alignItems: 'stretch', 
+    //alignItems: 'stretch',
+  },
+  item: {
+    backgroundColor: "#EFEFEF",
+    width: "79%",
+    marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    marginLeft: 40,
+    borderRadius: 7,
   }
 });
 

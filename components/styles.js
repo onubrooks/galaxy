@@ -12,11 +12,17 @@ export default {
   container: {
     backgroundColor: "#FFFFFF"
   },
+  whiteColor: {
+    color: "#FFFFFF"
+  },
   header: {
-    marginTop: 24,
+    marginTop: 20,
     backgroundColor: "#FFFFFF",
     borderBottomWidth: 1,
     borderBottomColor: "grey"
+  },
+  header2: {
+    marginTop: 30
   },
   title: {
     color: "#555555",
@@ -163,5 +169,20 @@ export default {
     fontWeight: "bold",
     fontSize: 15,
     color: "white"
+  },
+  // search screen styles
+  segmentView: {
+    marginTop: 10,
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  segmentButton: {
+    borderColor: "#555555",
+    borderRadius: 5
+  },
+  segmentButtonText: {
+    color: "#555555",
+    fontFamily: "Segoe UI Bold Italic"
   }
 };

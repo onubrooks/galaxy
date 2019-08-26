@@ -19,13 +19,19 @@ export default class Gallery extends Component {
     return (
       <View
         style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          backgroundColor: '#FFFFFF'
+          flexDirection: "row",
+          flexWrap: "wrap",
+          backgroundColor: "#FFFFFF"
         }}
       >
-        {display.map((image, idx) => <GalleryImage idx={idx} key={idx} navigation={this.props.navigation} uri={image.artwork} /> )}
-        
+        {display.map((image, idx) => (
+          <GalleryImage
+            idx={idx}
+            key={idx}
+            navigation={this.props.navigation}
+            uri={{ uri: image.userAvatar }}
+          />
+        ))}
       </View>
     );
   }

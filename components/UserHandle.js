@@ -25,9 +25,14 @@ export class UserHandle extends Component {
     }
 
     render() {
-        return <Text onPress={this.handlePress} style={styles.handle}>
-            { this.props.userHandle }
-        </Text>;
+        return (
+          <Text
+            onPress={this.handlePress}
+            style={[styles.handle, { color: "#764BA2" }]}
+          >
+            {this.props.userHandle}
+          </Text>
+        );
     }
 }
 export default UserHandle;

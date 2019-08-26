@@ -5,6 +5,7 @@
  * the third is an object containing the initial, success and fail actions/callbacks and the error msg
  */
 import { AsyncStorage } from "react-native"
+import NavigationService from "./NavigationService";
 import { Toast } from "native-base";
 import Axios from "axios";
 
@@ -44,18 +45,19 @@ export default function genericAsyncActionDispatcher(data, req, cb) {
           // console.log("response is ", response);
           let data = response.data;
           if (data.error && data.error === "Unauthenticated.") {
-            // authHelper.signout(cb.history);
+            AsyncStorage.removeItem('userToken');
+            NavigationService.navigate("Auth", {});
           } else {
+            if (cb.displaySuccessToast) {
+              Toast.show({
+                text: cb.successMsg,
+                position: "bottom",
+                duration: 2000
+              });
+            }
             cb.success && dispatch(cb.success(data));
           }
-          if(cb.displaySuccessToast) {
-            Toast.show({
-              text: cb.successMsg,
-              position: "bottom",
-              duration: 2000
-            });
-          }
-          cb.success && dispatch(cb.success(data));
+          
         }, // Do not use catch, because that will also catch
         // any errors in the dispatch and resulting render,
         // causing a loop of 'Unexpected batch number' errors.

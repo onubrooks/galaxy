@@ -6,32 +6,19 @@
  * the class does all the necessary filtering based on the route name and passes the filtered data to the Gallery component for display
 */
 import React, { Component } from "react";
-
 import { connect } from "react-redux";
+import { Container, Text } from "native-base"
 
 import Gallery from "./Gallery";
 
 export class ImageView extends Component {
   render() {
-    let display;
-    const { user, bookmarks, bookmarkedOnly = false } = this.props;
-    const postArray = Object.keys(this.props.feed.byId).map((post_id, idx) => this.props.feed.byId[post_id]);
-    if (this.props.navigation.state.routeName == "Search") {
-      display = postArray;
-    } else if (this.props.navigation.state.routeName == "Profile") {
-      display = postArray.filter((post, index) => {
-        return post.handle == user.username;
-      });
-    } else if (this.props.navigation.state.routeName == "Likes") {
-      display = postArray.filter((post, index) => {
-        return post.hits.some(id => id == user.id);
-      });
-    }  else if (bookmarkedOnly || this.props.navigation.state.routeName == "SavedGrid") {
-      display = postArray.filter((post, index) => {
-        return bookmarks.some(id => id == post.id);
-      });
-    }
-    return <Gallery display={display} navigation={this.props.navigation} user={user} bookmarks={bookmarks} />;   
+    const { user, display, NoResults} = this.props;
+
+    if(!display.length) 
+        return <NoResults />
+  
+    return <Gallery display={display} navigation={this.props.navigation} user={user} />;   
   }
          
 }
@@ -39,8 +26,7 @@ export class ImageView extends Component {
 const mapStateToProps = (state) => {
   return {
     feed: state.feed,
-    user: state.user,
-    bookmarks: state.bookmarks
+    user: state.user
   };
 };
 

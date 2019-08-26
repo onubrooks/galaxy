@@ -15,6 +15,7 @@ import {
   Thumbnail
 } from "native-base";
 import UserHandle from "./UserHandle";
+import styles from "./styles";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -30,17 +31,25 @@ export default class Comments extends Component {
              //which is easier to process for display. same thing is done for users object down below
              let thisComments = Object.keys(comments.byId)
                .map((key, idx) => comments.byId[key]).filter((item) => item.songId == comments.currentSong);
-             return <Container>
+             return (
+               <Container style={{ backgroundColor: "" }}>
                  <Content>
                    <List>
                      <ListItem avatar>
                        <Left>
-                         <Thumbnail small source={{ uri: song.userAvatar }} />
+                         <Thumbnail
+                           small
+                           source={{ uri: song.userAvatar }}
+                         />
                        </Left>
                        <Body>
-                         <Text>
-                           <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} />
-                           {" "}{song.songTitle}
+                         <Text style={styles.whiteColor}>
+                           <UserHandle
+                             userId={song.userId}
+                             userHandle={song.userHandle}
+                             navigation={this.props.navigation}
+                           />{" "}
+                           {song.songTitle}
                          </Text>
                          <Text note>{song.songDate}</Text>
                        </Body>
@@ -55,7 +64,7 @@ export default class Comments extends Component {
                            />
                          </Left>
                          <Body>
-                           <Text>
+                           <Text style={styles.whiteColor}>
                              <Text style={{ fontWeight: "900" }}>
                                {data.userHandle}{" "}
                              </Text>
@@ -73,6 +82,7 @@ export default class Comments extends Component {
                      ))}
                    </List>
                  </Content>
-               </Container>;
+               </Container>
+             );
            }
 }

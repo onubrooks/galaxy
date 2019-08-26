@@ -139,9 +139,9 @@ const MainStackNavigator = createBottomTabNavigator(
     Feed: {
       screen: FeedStackNavigator
     },
-    // Search: {
-    //   screen: SearchStackNavigator
-    // },
+    Search: {
+      screen: SearchStackNavigator
+    },
     Add: {
       screen: Add
     },
@@ -154,7 +154,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed",
+    initialRouteName: "Search",
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

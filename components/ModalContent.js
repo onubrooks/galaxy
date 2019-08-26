@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Button, H2, H3 } from "native-base";
 import * as WebBrowser from 'expo-web-browser';
+import AddCommentScreen from "./../screens/AppStackScreens/FeedStack/AddCommentScreen";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class FeedScreenModalContent extends Component {
@@ -48,6 +49,34 @@ export class ReportAbuseModalContent extends Component {
         <Text onPress={() => this.handlePress('inappropriate')} style={{ marginVertical: 13, fontSize: 17 }}>It's inappropriate</Text>
       </View>
     </View>
+  }
+}
+
+export class CommentsModalContent extends Component {
+  constructor(props) {
+    super(props);
+    this.handlePress = this.handlePress.bind(this);
+  }
+  handlePress(val) {
+    this.props.setModalVisible(false, null, val);
+  }
+  render() {
+    return (
+      <View
+        style={{
+          backgroundColor: "",
+          // width: DEVICE_WIDTH,
+          height: "110%",
+          marginHorizontal: -18,
+          borderRadius: 10
+        }}
+      >
+        <AddCommentScreen
+          handlePress={this.handlePress}
+          song={this.props.song}
+        />
+      </View>
+    );
   }
 }
 

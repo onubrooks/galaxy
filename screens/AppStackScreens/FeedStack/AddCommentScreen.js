@@ -30,8 +30,8 @@ export class AddCommentScreen extends React.Component {
   }
 
   _onRefresh = () => {
-    let songId = this.props.navigation.state.params.song.songId
-    this.props.fetchComments(songId);
+    //let songId = this.props.navigation.state.params.song.songId
+    this.props.fetchComments(this.props.song.songId);
   }
   componentDidMount() {
     this._onRefresh();
@@ -53,30 +53,30 @@ export class AddCommentScreen extends React.Component {
   }
 
   render() {
-    let { song } = this.props.navigation.state.params; // passed from the feed page
-    let { user, comments = {} } = this.props;
-    let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
-    return <Container style={[styles.container, {}]}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
+    // let { song } = this.props.navigation.state.params; // passed from the feed page
+    let { song, user, comments = {} } = this.props;
+    //let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
+    return <Container style={[{opacity: 0.8, backgroundColor: 'black', marginLeft: 0}]}>
+        <Header style={[styles.header, { backgroundColor: "" }]} androidStatusBarColor="white">
           <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="md-arrow-back" style={{ color: styles.primaryColor }} />
+            <TouchableOpacity onPress={() => this.props.handlePress('comments')}>
+              <Icon name="md-arrow-back" style={styles.whiteColor} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: styles.primaryColor }}>
+            <Text style={{ fontWeight: "900", color: 'white', marginLeft: 60, }}>
               Comments
             </Text>
           </Body>
         </Header>
 
       <ScrollView keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={styles.primaryColor} title="refreshing" />}>
-          <Content style={{ height: height }}>
+          <Content style={{ height: height, backgroundColor: '' }}>
             {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
           {!comments.loading ? <Comments user={user} song={song} comments={comments} navigation={this.props.navigation} /> : null}
           </Content>
         </ScrollView>
-      <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={commentScreen} multiline={false} />
+      <CommentInput user={user} song={song} addComment={this.addComment} commentScreen={true} multiline={false} />
       </Container>;
   }
 }

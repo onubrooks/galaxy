@@ -37,7 +37,7 @@ const store = createStore(
  );
 let persistor = persistStore(store);
 
-// console.reportErrorsAsExceptions = false;
+console.reportErrorsAsExceptions = false;
 
 export default class App extends React.Component {
   state = {
@@ -59,14 +59,14 @@ export default class App extends React.Component {
           <Root style={styles.container}>
             {Platform.OS === "ios" && (
               <StatusBar
-                barStyle="light-content"
-                backgroundColor="#764BA2"
+                barStyle="dark-content"
+                backgroundColor="#FFF"
               />
             )}
             {Platform.OS === "android" && (
               <StatusBar
-                barStyle="light-content"
-                backgroundColor="#764BA2"
+                barStyle="dark-content"
+                backgroundColor="#FFFFFF"
                 translucent={true}
               />
             )}
@@ -90,9 +90,13 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
         "Segoe Print": require("./assets/fonts/Segoe-Print.ttf"),
+        "Segoe UI": require("./assets/fonts/Segoe-UI.ttf"),
+        "Segoe UI Italic": require("./assets/fonts/Segoe-UI-Italic.ttf"),
+        "Segoe UI Bold": require("./assets/fonts/Segoe-UI-Bold.ttf"),
+        "Segoe UI Bold Italic": require("./assets/fonts/Segoe-UI-Bold-Italic.ttf"),
         segoeprb: require("./assets/fonts/segoeprb.ttf"),
         Roboto: require("native-base/Fonts/Roboto.ttf"),
-        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
         // Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
         //"open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
       })
