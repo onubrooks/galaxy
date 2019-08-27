@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ScrollView, View, TouchableOpacity, Platform } from "react-native";
+import { ImageBackground, ScrollView, View, TouchableOpacity, Platform } from "react-native";
 import {
   Container,
   Header,
@@ -26,6 +26,7 @@ import styles from "../../../components/styles";
 
 import { connect } from "react-redux";
 import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
+const defaultAvatar = require("../../../assets/avatar.png");
 export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -45,53 +46,188 @@ export class ProfileScreen extends Component {
   render() {
     let user = this.state.other ? this.props.profile : this.props.user;
     if (user.loading) {
-      return <Container>
-          <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
+      return (
+        <Container>
+          <Header
+            style={[
+              styles.header,
+              { backgroundColor: "white", height: 40 }
+            ]}
+            androidStatusBarColor="transparent"
+          >
             <Left style={{ maxWidth: 50 }}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("Feed")}>
-                <Icon name="md-close" style={{ color: styles.primaryColor }} />
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Feed")}
+              >
+                <Icon
+                  name="md-close"
+                  style={{
+                    color: "#666666",
+                    fontFamily: "Segoe UI Bold",
+                    fontSize: 20
+                  }}
+                />
               </TouchableOpacity>
             </Left>
-          <Body style={{ marginLeft: 20}}>
-              <Text style={{ color: styles.primaryColor }}>
-                please wait...
-              </Text>
+            <Body>
+              <Title
+                style={{
+                  color: "#666666",
+                  fontFamily: "Segoe UI Bold",
+                  fontSize: 15
+                }}
+              >
+                Please wait...
+              </Title>
             </Body>
           </Header>
           <Content>
             <View style={styles.loadingIndicator}>
-              <Spinner color={styles.primaryColor} size={Platform.OS === "ios" ? 1 : 20} />
+              <Spinner
+                color={'#666666'}
+                size={Platform.OS === "ios" ? 1 : 20}
+              />
             </View>
           </Content>
-        </Container>;
+        </Container>
+      );
     }
-    return <Container style={{ backgroundColor: "white" }}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
-        <Left>
-          <Title style={{ color: styles.primaryColor }}>
-            {user.userHandle}
-          </Title>
-        </Left>
+    return (
+      <Container style={{ backgroundColor: "white" }}>
+        <Header
+          style={[styles.header, { backgroundColor: "white", height: 40 }]}
+          androidStatusBarColor="transparent"
+        >
+          <Left style={{ maxWidth: 50 }}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Feed")}
+            >
+              <Icon
+                name="md-arrow-back"
+                style={{
+                  color: "#666666",
+                  fontFamily: "Segoe UI Bold",
+                  fontSize: 20
+                }}
+              />
+            </TouchableOpacity>
+          </Left>
+          <Body>
+            <Title
+              style={{
+                color: "#666666",
+                fontFamily: "Segoe UI Bold",
+                fontSize: 15,
+                marginLeft: -30
+              }}
+            >
+              {`@${user.userHandle} (${user.noSongs} Songs)`}
+            </Title>
+          </Body>
 
-        <Right>
-          <Button transparent onPress={() => this.props.navigation.navigate("Settings")}>
-            <Ionicons name="md-more" size={33} color={styles.primaryColor} />
-          </Button>
-        </Right>
-      </Header>
-      <ScrollView>
-        <ProfileSummary navigation={this.props.navigation} user={user} self={true} />
-        <Text
-          style={{ fontWeight: "bold", marginLeft: 15 }}
+          <Right>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("Settings")}
+            >
+              <Ionicons name="ios-more" size={33} color={"#666666"} />
+            </Button>
+          </Right>
+        </Header>
+        <ImageBackground
+          source={
+            user.userAvatar ? { uri: user.userAvatar } : defaultAvatar
+          }
+          style={{
+            width: "100%",
+            height: "70%",
+            justifyContent: "flex-start",
+            alignItems: "center"
+          }}
         >
-          {user.fullname}
-        </Text>
-        <Text
-          style={{ marginLeft: 15 }}
-        >
-          {user.status}
-        </Text>
-        {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
+          <View
+            style={{
+              width: "67%",
+              height: "33%",
+              marginTop: 40,
+              backgroundColor: "black",
+              opacity: 0.7,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Segoe UI",
+                color: "white",
+                fontSize: 20,
+                fontWeight: "500"
+              }}
+            >
+              {user.fullname}
+            </Text>
+            <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
+              <Text
+                style={{ fontWeight: "800", color: "white", fontSize: 15 }}
+              >
+                {user.noFollowing}
+              </Text>{" "}
+              Following |{" "}
+              <Text style={{ fontWeight: "800", color: "white" }}>
+                {user.noFollowers}
+              </Text>{" "}
+              Followers
+            </Text>
+            <View
+              style={{
+                borderTopWidth: 0.5,
+                width: "50%",
+                marginTop: 15,
+                marginBottom: 0,
+                marginHorizontal: 15,
+                borderTopColor: "white"
+              }}
+            >
+              <Text />
+            </View>
+            <Text
+              style={{
+                fontFamily: "Segoe UI Italic",
+                color: "white",
+                marginTop: -10,
+                marginHorizontal: 15,
+                textAlign: 'justify'
+              }}
+            >
+              {user.status}
+            </Text>
+          </View>
+          <View style={{ marginTop: 20, flexDirection: "row" }}>
+            <Button rounded small style={{ marginRight: 5 }}>
+              <Ionicons
+                name="ios-heart"
+                size={20}
+                color={"red"}
+                style={{ marginLeft: 11 }}
+              />
+              <Text style={{ marginLeft: -10 }}>Playlist</Text>
+            </Button>
+            <Button rounded bordered small style={{ marginLeft: 5 }}>
+              <Text style={{ color: "white" }}>Edit Profile</Text>
+            </Button>
+          </View>
+        </ImageBackground>
+        <ScrollView>
+          <ProfileSummary
+            navigation={this.props.navigation}
+            user={user}
+            self={true}
+          />
+          <Text style={{ fontWeight: "bold", marginLeft: 15 }}>
+            {user.fullname}
+          </Text>
+          <Text style={{ marginLeft: 15 }}>{user.status}</Text>
+          {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
                    <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
                          <Ionicons name="md-apps" size={30} />
                        </TabHeading>}>
@@ -114,8 +250,9 @@ export class ProfileScreen extends Component {
                      </ScrollView>
                    </Tab>
                  </Tabs> */}
-      </ScrollView>
-    </Container>;
+        </ScrollView>
+      </Container>
+    );
   }
 }
 
