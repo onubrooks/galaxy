@@ -45,6 +45,7 @@ export class ProfileScreen extends Component {
   }
   render() {
     let user = this.state.other ? this.props.profile : this.props.user;
+    let self=true
     if (user.loading) {
       return (
         <Container>
@@ -134,122 +135,157 @@ export class ProfileScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <ImageBackground
-          source={
-            user.userAvatar ? { uri: user.userAvatar } : defaultAvatar
-          }
-          style={{
-            width: "100%",
-            height: "70%",
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }}
-        >
-          <View
+        <ScrollView>
+          <ImageBackground
+            source={
+              user.userAvatar ? { uri: user.userAvatar } : defaultAvatar
+            }
             style={{
-              width: "67%",
-              height: "33%",
-              marginTop: 40,
-              backgroundColor: "black",
-              opacity: 0.7,
-              justifyContent: "center",
+              width: "100%",
+              height: 260,
+              justifyContent: "flex-start",
               alignItems: "center"
             }}
           >
-            <Text
-              style={{
-                fontFamily: "Segoe UI",
-                color: "white",
-                fontSize: 20,
-                fontWeight: "500"
-              }}
-            >
-              {user.fullname}
-            </Text>
-            <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
-              <Text
-                style={{ fontWeight: "800", color: "white", fontSize: 15 }}
-              >
-                {user.noFollowing}
-              </Text>{" "}
-              Following |{" "}
-              <Text style={{ fontWeight: "800", color: "white" }}>
-                {user.noFollowers}
-              </Text>{" "}
-              Followers
-            </Text>
             <View
               style={{
-                borderTopWidth: 0.5,
-                width: "50%",
-                marginTop: 15,
-                marginBottom: 0,
-                marginHorizontal: 15,
-                borderTopColor: "white"
+                width: "67%",
+                height: "55%",
+                marginTop: 40,
+                backgroundColor: "black",
+                opacity: 0.7,
+                justifyContent: "center",
+                alignItems: "center"
               }}
             >
-              <Text />
+              <Text
+                style={{
+                  fontFamily: "Segoe UI",
+                  color: "white",
+                  fontSize: 20,
+                  fontWeight: "500"
+                }}
+              >
+                {user.fullname}
+              </Text>
+              <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
+                <Text
+                  onPress={() =>
+                    !self
+                      ? this.props.navigation.navigate("ViewFollows", {
+                          self: false,
+                          initialPage: 0
+                        })
+                      : null
+                  }
+                  style={{
+                    fontWeight: "800",
+                    color: "white",
+                    fontSize: 15
+                  }}
+                >
+                  {user.noFollowing}
+                </Text>{" "}
+                Following |{" "}
+                <Text
+                  style={{ fontWeight: "800", color: "white" }}
+                  onPress={() =>
+                    !self
+                      ? this.props.navigation.navigate("ViewFollows", {
+                          self: false,
+                          initialPage: 1
+                        })
+                      : null
+                  }
+                >
+                  {user.noFollowers}
+                </Text>{" "}
+                Followers
+              </Text>
+              <View
+                style={{
+                  borderTopWidth: 0.5,
+                  width: "50%",
+                  marginTop: 15,
+                  marginBottom: 0,
+                  marginHorizontal: 15,
+                  borderTopColor: "white"
+                }}
+              >
+                <Text />
+              </View>
+              <Text
+                style={{
+                  fontFamily: "Segoe UI Italic",
+                  color: "white",
+                  marginTop: -10,
+                  marginHorizontal: 15,
+                  textAlign: "justify"
+                }}
+              >
+                {user.status}
+              </Text>
             </View>
-            <Text
-              style={{
-                fontFamily: "Segoe UI Italic",
-                color: "white",
-                marginTop: -10,
-                marginHorizontal: 15,
-                textAlign: 'justify'
-              }}
+            <View style={{ marginTop: 20, flexDirection: "row" }}>
+              <Button
+                rounded
+                small
+                style={{ marginRight: 5 }}
+                onPress={() => this.props.navigation.navigate("Playlist")}
+              >
+                <Ionicons
+                  name="ios-heart"
+                  size={20}
+                  color={"red"}
+                  style={{ marginLeft: 11 }}
+                />
+                <Text style={{ marginLeft: -10 }}>Playlist</Text>
+              </Button>
+              <Button
+                rounded
+                bordered
+                small
+                style={{ marginLeft: 5 }}
+                onPress={() =>
+                  this.props.navigation.navigate("EditProfile")
+                }
+              >
+                <Text style={{ color: "white" }}>Edit Profile</Text>
+              </Button>
+            </View>
+          </ImageBackground>
+
+          <Tabs
+            transparent
+            // renderTabBar={() => <ScrollableTab />}
+          >
+            <Tab
+              heading={
+                <TabHeading
+                  style={{ backgroundColor: "white" }}
+                >
+                  <Ionicons name="md-apps" size={26} color="#666666" />
+                </TabHeading>
+              }
             >
-              {user.status}
-            </Text>
-          </View>
-          <View style={{ marginTop: 20, flexDirection: "row" }}>
-            <Button rounded small style={{ marginRight: 5 }}>
-              <Ionicons
-                name="ios-heart"
-                size={20}
-                color={"red"}
-                style={{ marginLeft: 11 }}
-              />
-              <Text style={{ marginLeft: -10 }}>Playlist</Text>
-            </Button>
-            <Button rounded bordered small style={{ marginLeft: 5 }}>
-              <Text style={{ color: "white" }}>Edit Profile</Text>
-            </Button>
-          </View>
-        </ImageBackground>
-        <ScrollView>
-          <ProfileSummary
-            navigation={this.props.navigation}
-            user={user}
-            self={true}
-          />
-          <Text style={{ fontWeight: "bold", marginLeft: 15 }}>
-            {user.fullname}
-          </Text>
-          <Text style={{ marginLeft: 15 }}>{user.status}</Text>
-          {/* <Tabs style={{ marginTop: 24, backgroundColor: "white" }} transparent renderTabBar={() => <ScrollableTab />}>
-                   <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
-                         <Ionicons name="md-apps" size={30} />
-                       </TabHeading>}>
-                     <ScrollView>
-                       <ImageView navigation={this.props.navigation} />
-                     </ScrollView>
-                   </Tab>
-                   <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
-                         <Ionicons name="ios-list-outline" size={30} />
-                       </TabHeading>}>
-                     <ScrollView>
-                       <FeedItemWrapper navigation={this.props.navigation} />
-                     </ScrollView>
-                   </Tab>
-                   <Tab heading={<TabHeading style={{ backgroundColor: "white" }}>
-                         <Ionicons name="ios-bookmark-outline" size={30} />
-                       </TabHeading>}>
-                     <ScrollView>
-                       <ImageView navigation={this.props.navigation} bookmarkedOnly={true} />
-                     </ScrollView>
-                   </Tab>
-                 </Tabs> */}
+              <ScrollView>
+                {/* <ImageView navigation={this.props.navigation} /> */}
+                <Text>content 1</Text>
+              </ScrollView>
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "white" }}>
+                  <Ionicons name="ios-menu" size={26} color="#666666" />
+                </TabHeading>
+              }
+            >
+              <ScrollView>
+                {/* <FeedItemWrapper navigation={this.props.navigation} /> */}
+                <Text>content 2</Text>
+              </ScrollView>
+            </Tab>
+          </Tabs>
         </ScrollView>
       </Container>
     );

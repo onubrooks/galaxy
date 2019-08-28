@@ -466,7 +466,7 @@ export function fetchFeed(user, ofs) {
 export function fetchPlaylist(user) {
   let req = {
     method: "GET",
-    url: `playlist/${user.id}`,
+    url: `music/playlist/${user.id}`,
     data: null
   };
   let cb = {

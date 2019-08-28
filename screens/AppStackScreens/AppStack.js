@@ -60,7 +60,7 @@ const FeedStackNavigator = createStackNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed",
+    initialRouteName: "Playlist",
     mode: "modal",
     // make tab bar hide on the add comment screen
     navigationOptions: ({ navigation }) => {
@@ -154,7 +154,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Profile",
+    initialRouteName: "Feed",
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

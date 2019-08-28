@@ -72,8 +72,10 @@ export default class PlaylistPlayer extends React.Component {
     this.shouldPlayAtEndOfSeek = false;
     this.playbackInstance = null;
     this.state = {
-      defaultPlaylist: (props.playlist.length && props.playlist) ? false : true,
-      playlist: (props.playlist.length && props.playlist) || defaultPlaylist,
+      defaultPlaylist:
+        props.playlist.length && props.playlist ? false : true,
+      playlist:
+        (props.playlist.length && props.playlist) || defaultPlaylist,
       showVideo: false,
       playbackInstanceName: LOADING_STRING,
       loopingType: LOOPING_TYPE_ALL,
@@ -91,9 +93,10 @@ export default class PlaylistPlayer extends React.Component {
       videoWidth: DEVICE_WIDTH,
       videoHeight: VIDEO_CONTAINER_HEIGHT,
       poster: false,
-      useNativeControls: false,
+      useNativeControls: true,
       fullscreen: false,
-      throughEarpiece: false, 
+      show: true,
+      throughEarpiece: false
     };
   }
 
@@ -103,12 +106,12 @@ export default class PlaylistPlayer extends React.Component {
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
+      staysActiveInBackground: false,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: true
     });
     (async () => {
       await Font.loadAsync({
-        ...MaterialIcons.font,
         'cutive-mono-regular': require('../assets/fonts/CutiveMono-Regular.ttf'),
       });
       this.setState({ fontLoaded: true });
@@ -154,19 +157,12 @@ export default class PlaylistPlayer extends React.Component {
       isMuted: this.state.muted,
       isLooping: this.state.loopingType === LOOPING_TYPE_ONE,
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
-      androidImplementation: 'MediaPlayer',
+      // androidImplementation: 'MediaPlayer',
     };
 
-    if (this.state.playlist.length && this.state.playlist[this.index].isVideo) {
-      this._video.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
-      await this._video.loadAsync(source, initialStatus);
-      this.playbackInstance = this._video;
-      const status = await this._video.getStatusAsync();
-    } else {
-      const { sound, status } = await Audio.Sound.createAsync(source, initialStatus, this._onPlaybackStatusUpdate);
-      this.playbackInstance = sound;
-      playerService.addPlayer(this.playbackInstance);
-    }
+    const { sound, status } = await Audio.Sound.createAsync(source, initialStatus, this._onPlaybackStatusUpdate);
+    this.playbackInstance = sound;
+    playerService.addPlayer(this.playbackInstance);
 
     this._updateScreenForLoading(false);
   }

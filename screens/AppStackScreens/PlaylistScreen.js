@@ -32,16 +32,6 @@ export class PlaylistScreen extends Component {
     let { playlist } = this.props;
     const songArray = Object.keys(playlist.byId).map((songId, idx) => playlist.byId[songId]);
     return <Container style={styles.container}>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
-          <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Feed")}>
-              <Icon name="md-close" style={{ color: styles.primaryColor }} />
-            </TouchableOpacity>
-          </Left>
-          <Body>
-            <Text style={stl.heading}>My Playlist</Text>
-          </Body>
-        </Header>
         <Content>
           {playlist.loading ? <View style={styles.loadingIndicator}>
           <Spinner color={styles.primaryColor} size={Platform.OS === 'ios' ? 1 : 20}/>
