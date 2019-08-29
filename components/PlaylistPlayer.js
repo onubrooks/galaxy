@@ -142,6 +142,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   async _loadNewPlaybackInstance(playing) {
+    if (this.unmounted) return;
     if (this.playbackInstance != null) {
       await this.playbackInstance.unloadAsync();
       this.playbackInstance.setOnPlaybackStatusUpdate(null);
@@ -456,8 +457,9 @@ export default class PlaylistPlayer extends React.Component {
   render() {
     return !this.state.fontLoaded ? <View style={stl.emptyContainer} /> : <View style={stl.container}>
         <View style={stl.grid}>
+          <Text style={{color: '#555555', fontFamily: 'Segoe UI Bold', marginVertical: 20}}>Now Playing</Text>
           <View style={stl.albumCover}>
-            <ImageBackground style={{ width: 200, height: 200 }} resizeMode="contain" source={(this.state.playlist.length && this.state.playlist[this.index].coverPath && { uri: this.state.playlist[this.index].coverPath }) || require("../assets/default.jpg")} />
+            <ImageBackground style={{ width: 220, height: 220 }} resizeMode="contain" source={(this.state.playlist.length && this.state.playlist[this.index].coverPath && { uri: this.state.playlist[this.index].coverPath }) || require("../assets/default.jpg")} />
           </View>
           <View style={stl.playbackProgress}>
             <Slider value={this._getSeekSliderPosition()} onValueChange={this._onSeekSliderValueChange} onSlidingComplete={this._onSeekSliderSlidingComplete} disabled={this.state.isLoading} />
@@ -492,72 +494,35 @@ export default class PlaylistPlayer extends React.Component {
               </Text>
             </View>
           </View>
+          <View style={[stl.buttonsContainerBase, stl.buttonsContainerTopRow, { opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0 }]}>
+            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={[{backgroundColor: this.state.loopingType == 0 ? "#efefef" : "#fff"}, stl.wrapper]} onPress={this._onLoopPressed} disabled={this.state.isLoading}>
+              <IconBase name="ios-refresh" style={stl.playbackIcons} />
+            </TouchableHighlight>
+            <View style={{flexDirection: 'row', justifyContent: "space-between", alignItems: "space-between", width: '30%'}}>
+                <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onBackPressed} disabled={this.state.isLoading}>
+                <IconBase name="ios-skip-backward" style={stl.playbackIcons} />
+              </TouchableHighlight>
+              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
+                <IconBase name={this.state.isPlaying ? "ios-pause" : "ios-play"} style={stl.playbackIcons} />
+              </TouchableHighlight>
+              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onForwardPressed} disabled={this.state.isLoading}>
+                <IconBase name="ios-skip-forward" style={stl.playbackIcons} />
+              </TouchableHighlight>
+            </View>
+            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onShufflePressed} disabled={this.state.isLoading}>
+              <IconBase name="ios-shuffle" style={stl.playbackIcons} />
+            </TouchableHighlight>
+          </View>
+          {/* <Text style={{ fontSize: 10, color: "red", alignSelf: 'flex-start', marginTop: -30, marginLeft: 20 }}>
+                {this.state.loopingType == 0 ? "" : "1"}
+              </Text> */}
           <View style={stl.songTitle}>
-            <Text style={[stl.text, { fontWeight: "700", fontSize: 20 }]}>
+            <Text style={[stl.text, { fontWeight: "700", fontSize: 20, color: '#555555' }]}>
               {this.state.playbackInstanceName}
             </Text>
-            <View style={{ flexDirection: "row", width: "100%", height: 20, flexWrap: "nowrap" }}>
-              <Animatable.Text animation="bounceOutRight" duration={9000} easing="ease-out" iterationCount="infinite" style={[stl.text, { fontWeight: "300", fontSize: 15, color: "red", width: "70%" }]}>
-                {this.state.playbackInstanceName + " - Single "}
-              </Animatable.Text>
-              <Animatable.Text animation="bounceInLeft" duration={9000} easing="ease-in" iterationCount="infinite" style={[stl.text, { fontWeight: "300", fontSize: 15, color: "red", width: "70%" }]}>
-                {this.state.playbackInstanceName + " - Single "}
-              </Animatable.Text>
-            </View>
           </View>
-          <View style={[stl.buttonsContainerBase, stl.buttonsContainerTopRow, { opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0 }]}>
-            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onBackPressed} disabled={this.state.isLoading}>
-              <IconBase style={stl.button} name="md-rewind" style={{ fontSize: 50 }} />
-            </TouchableHighlight>
-            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
-              <IconBase style={stl.button} name={this.state.isPlaying ? "md-pause" : "md-play"} style={{ fontSize: 40 }} />
-            </TouchableHighlight>
-            {/* <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onStopPressed} disabled={this.state.isLoading}>
-            <IconBase style={stl.button} name="ios-square" style={{ fontSize: 30 }} />
-            </TouchableHighlight> */}
-            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onForwardPressed} disabled={this.state.isLoading}>
-              <IconBase style={stl.button} name="md-fastforward" style={{ fontSize: 50 }} />
-            </TouchableHighlight>
-          </View>
-          <View style={stl.volumeContainer}>
-            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onMutePressed}>
-              <IconBase style={stl.button} name="ios-volume-mute" style={{ fontSize: 30 }} />
-            </TouchableHighlight>
-            <Slider style={stl.volumeSlider} value={1} onValueChange={this._onVolumeSliderValueChange} />
-            <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={stl.wrapper} onPress={this._onMutePressed}>
-              <IconBase style={stl.button} name={this.state.muted ? "ios-volume-off" : "ios-volume-high"} style={{ fontSize: 30 }} />
-            </TouchableHighlight>
-          </View>
-          {/* <View style={stl.redIcons}>
-            <IconBase name="ios-cloud-download-outline" style={{ fontSize: 30, color: "red" }} />
-            <IconBase name="ios-radio-outline" style={{ fontSize: 30, color: "red" }} />
-            <IconBase name="ios-more" style={{ fontSize: 30, color: "red" }} />
-          </View> */}
-          <Hr />
-          <View style={stl.shuffleRepeatControls}>
-            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: "flex-start" }} onPress={this._onShufflePressed}>
-              <IconBase name="ios-shuffle" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
-              <Text style={{ fontSize: 17, color: "red" }}>Shuffle</Text>
-            </Button>
-            <Button iconLeft light style={{ width: 110, backgroundColor: "#F1F5F8", justifyContent: "flex-start" }} onPress={this._onLoopPressed}>
-              <IconBase name="ios-repeat" style={{ fontSize: 26, color: "red", paddingRight: 10 }} />
-              <Text style={{ fontSize: 17, color: "red" }}>
-                {this.state.loopingType == 0 ? "All" : "Current"}
-              </Text>
-            </Button>
-          </View>
+          
           <View style={stl.upNextList}>
-            <Text
-              style={{
-                fontWeight: "900",
-                fontSize: 25,
-                marginVertical: 10,
-                alignSelf: "flex-start",
-                marginLeft: 15
-              }}
-            >
-              Up Next
-            </Text>
             {this.state.playlist.map((item, idx) => (
               <TouchableOpacity
                 key={idx}
@@ -575,7 +540,7 @@ export default class PlaylistPlayer extends React.Component {
       </View>;
   }
   UpNext = (props) => {
-    return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%", borderTopWidth: 1, borderTopColor: "#BABEC0", borderTopStartRadius: props.idx == 0 ? 0 : 90 }}>
+    return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%" }}>
       <View style={{ width: "20%", marginTop: 4 }}>
         <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
       </View>
@@ -610,20 +575,26 @@ const stl = StyleSheet.create({
     backgroundColor: BACKGROUND_COLOR
   },
   grid: {
-    backgroundColor: "#fff",
+    backgroundColor: "#efefef",
     justifyContent: "space-around",
     alignItems: "center",
     marginVertical: 30,
     width: DEVICE_WIDTH - 10
   },
   albumCover: {
-    marginBottom: 50
+    marginBottom: 10,
+    backgroundColor: 'white'
   },
   playbackProgress: {
-    width: "90%",
+    width: "80%",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     justifyContent: "flex-start"
+  },
+  playbackIcons: {
+    fontSize: 25,
+    color: '#555555',
+    fontWeight: 'bold'
   },
   songTitle: {
     maxWidth: "90%",
@@ -651,7 +622,8 @@ const stl = StyleSheet.create({
   buttonsContainerTopRow: {
     maxHeight: 80,
     minWidth: DEVICE_WIDTH / 2.0,
-    maxWidth: DEVICE_WIDTH / 2.0
+    // maxWidth: DEVICE_WIDTH / 2.0,
+    width: '90%'
   },
   volumeContainer: {
     flexDirection: "row",
@@ -677,9 +649,7 @@ const stl = StyleSheet.create({
     // alignItems: 'center',
   },
   upNextList: {
-    borderTopWidth: 1,
-    borderTopColor: "#BABEC0",
-    backgroundColor: "#F1F5F8",
+    backgroundColor: "#fff",
     marginTop: 50,
     marginBottom: 15,
     width: "100%",
@@ -693,8 +663,9 @@ const stl = StyleSheet.create({
   video: {
     maxWidth: DEVICE_WIDTH
   },
-  button: {},
-  wrapper: {}
+  wrapper: {
+    padding: 10
+  }
 });
 
 const Hr = () => {
