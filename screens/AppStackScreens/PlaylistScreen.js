@@ -31,9 +31,9 @@ export class PlaylistScreen extends Component {
   render() {
     let { playlist } = this.props;
     const songArray = Object.keys(playlist.byId).map((songId, idx) => playlist.byId[songId]);
-    return <Container style={styles.container}>
+    return <Container style={[styles.container]}>
         <Content>
-          {playlist.loading ? <View style={styles.loadingIndicator}>
+          {playlist.loading ? <View style={[styles.loadingIndicator, {marginTop: 60,}]}>
           <Spinner color={styles.primaryColor} size={Platform.OS === 'ios' ? 1 : 20}/>
             </View> : <PlaylistPlayer playlist={songArray} unBookmarkASong={this.props.unBookmarkASong} userId={this.props.user.id} />}
         </Content>

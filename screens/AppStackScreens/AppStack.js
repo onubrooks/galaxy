@@ -1,4 +1,5 @@
 import React from "react";
+import { ImageBackground, Image, View } from "react-native"
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
 import { TabBarComponent } from "./TabBarComponent";
 // Feed Stack
@@ -183,10 +184,31 @@ const MainStackNavigator = createBottomTabNavigator(
       //inactiveBackgroundColor: "",
       showLabel: false,
       style: {
-        backgroundColor: "#764BA2"
+        backgroundColor: "transparent"
       }
     },
-    tabBarComponent: props => <TabBarComponent {...props} />,
+    tabBarComponent: props => (
+      <View
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0
+        }}
+      >
+        <Image
+          source={require("../../assets/icons/bottombar.png")}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 49
+          }}
+        />
+        <TabBarComponent {...props} />
+      </View>
+    ),
     tabBarPosition: "bottom"
   }
 );

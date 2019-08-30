@@ -522,7 +522,9 @@ export default class PlaylistPlayer extends React.Component {
             </Text>
           </View>
           
-          <View style={stl.upNextList}>
+          
+        </View>
+        <View style={stl.upNextList}>
             {this.state.playlist.map((item, idx) => (
               <TouchableOpacity
                 key={idx}
@@ -532,24 +534,23 @@ export default class PlaylistPlayer extends React.Component {
               </TouchableOpacity>
             ))}
           </View>
-        </View>
 
-        <View style={stl.videoContainer}>
+        {/* <View style={stl.videoContainer}>
           <Video ref={this._mountVideo} style={[stl.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
-        </View>
+        </View> */}
       </View>;
   }
   UpNext = (props) => {
-    return <View style={{ flexDirection: "row", marginVertical: 1, marginLeft: 30, justifyContent: "space-between", width: "100%" }}>
+    return <View style={{ flexDirection: "row", marginVertical: 2, marginLeft: 30, justifyContent: "space-between", width: "100%", backgroundColor: '#efefef' }}>
       <View style={{ width: "20%", marginTop: 4 }}>
         <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
       </View>
       <View style={{ width: "60%", justifyContent: "center" }}>
-        <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 17, fontWeight: "400" }}>
+        <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "900", fontFamily:'Segoe UI' }}>
           {props.item.songTitle}
         </Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "100", color: "#BABEC0" }}>
-          Artist.
+        <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "300", fontFamily:'Segoe UI', color: "#BABEC0" }}>
+          {props.item.songDescription ? props.item.songDescription : 'Artist'}
         </Text>
       </View>
       <View style={{ width: "20%", marginLeft: "auto", justifyContent: "center" }}>
@@ -564,7 +565,8 @@ export default class PlaylistPlayer extends React.Component {
 const stl = StyleSheet.create({
   emptyContainer: {
     alignSelf: "stretch",
-    backgroundColor: BACKGROUND_COLOR
+    backgroundColor: BACKGROUND_COLOR,
+    marginTop: 30
   },
   container: {
     flex: 1,
@@ -578,7 +580,7 @@ const stl = StyleSheet.create({
     backgroundColor: "#efefef",
     justifyContent: "space-around",
     alignItems: "center",
-    marginVertical: 30,
+    marginTop: 30,
     width: DEVICE_WIDTH - 10
   },
   albumCover: {
@@ -599,7 +601,7 @@ const stl = StyleSheet.create({
   songTitle: {
     maxWidth: "90%",
     alignItems: "center",
-    //marginBottom: 10
+    marginBottom: 20
   },
   text: {
     fontSize: FONT_SIZE,
@@ -633,25 +635,10 @@ const stl = StyleSheet.create({
     marginBottom: 30,
     width: "90%"
   },
-  volumeSlider: {
-    width: "90%"
-  },
-  redIcons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "90%"
-  },
-  shuffleRepeatControls: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "90%",
-    height: 10,
-    // alignItems: 'center',
-  },
   upNextList: {
     backgroundColor: "#fff",
-    marginTop: 50,
-    marginBottom: 15,
+    marginTop: 2,
+    marginBottom: 50,
     width: "100%",
     minWidth: DEVICE_WIDTH,
     alignItems: "center",

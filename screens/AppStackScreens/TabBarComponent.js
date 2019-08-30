@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, Keyboard } from 'react-native';
+import { Platform, Keyboard, View } from 'react-native';
 import { BottomTabBar } from 'react-navigation-tabs'; // need version 2.0 react-navigation of course... it comes preinstalled as a dependency of react-navigation.
 
 export class TabBarComponent extends React.Component {

@@ -84,7 +84,7 @@ const profile = {
 const playlist = {
   byId: {},
   // allIds: [],
-  loading: false,
+  loading: true,
   updated: false,
   lastUpdated: 0 // Date.now()
 };
