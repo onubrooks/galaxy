@@ -16,7 +16,7 @@ export default {
     color: "#FFFFFF"
   },
   header: {
-    marginTop: 20,
+    // marginTop: 20,
     backgroundColor: "#FFFFFF",
     borderBottomWidth: 1,
     borderBottomColor: "grey"

@@ -32,7 +32,8 @@ export class SearchScreen extends Component {
       // segment display variables
       s: true,
       u: false,
-      h: false
+      h: false,
+      fetching: false
     };
   }
 
@@ -40,24 +41,28 @@ export class SearchScreen extends Component {
     let text = event.nativeEvent.text;
     if (text.charAt(0) === "#") {
       this.setState({ s: false, u: false, h: true });
+      text = text.slice(1);
     } else if(text.charAt(0) === "@"){
       this.setState({ s: false, u: true, h: false}) 
+      text = text.slice(1);
     } else {
       this.setState({ s: true, u: false, h: false})
     }
     let endpoint = `${this.state.endpoint}${text}`
+    this.setState({fetching:true})
     Axios.get(endpoint)
-      .then((res) => {
-        let data = res.data
-        if (data.error && data.error === "Unauthenticated."){
+      .then(res => {
+        let data = res.data;
+        if (data.error && data.error === "Unauthenticated.") {
           AsyncStorage.removeItem("userToken");
           this.props.navigation.navigate("Auth", {});
         }
-          this.setState({
-            userResults: data.users || [],
-            songResults: data.songs || []
-          });
+        this.setState({
+          userResults: data.users || [],
+          songResults: data.songs || []
+        });
       })
+      .finally(() => this.setState({ fetching: false }));
   }
 
   render() {
@@ -65,23 +70,6 @@ export class SearchScreen extends Component {
     let hashtagResults = [...songResults, ...userResults]
     return (
       <Container style={styles.container}>
-        {/* <Header
-          style={[styles.header2, { backgroundColor: "#EFEFEF" }]}
-          searchBar
-          rounded
-        >
-          <Body>
-            <Item style={{ marginLeft: 20 }}>
-              <Icon name="ios-search" />
-              <Input
-                placeholder="Search for anything..."
-                onChangeText={text => this.setState({ text })}
-                value={this.state.text}
-                onSubmitEditing={this.search}
-              />
-            </Item>
-          </Body>
-        </Header> */}
         <Header
           hasTabs
           searchBar
@@ -103,9 +91,7 @@ export class SearchScreen extends Component {
           </Button>
         </Header>
         <Content>
-          <View
-            style={styles.segmentView}
-          >
+          <View style={styles.segmentView}>
             <Button
               transparent
               bordered={this.state.s}
@@ -150,13 +136,35 @@ export class SearchScreen extends Component {
             </Button>
           </View>
           <ScrollView>
-            {this.state.s ? (<ImageView
-              display={songResults}
-              navigation={this.props.navigation}
-              NoResults={NoResults}
-            />) : null }
+            {this.state.s ? (
+              <ImageView
+                display={songResults}
+                navigation={this.props.navigation}
+                NoResults={NoResults}
+                fetching={this.state.fetching}
+                isProfile={false}
+              />
+            ) : null}
 
-            {this.state.u ? (<Recent person="onubrooks" activity="started following you" time="11:45pm" following={false} />) : null}
+            {this.state.u ? (
+              <ImageView
+                display={userResults}
+                navigation={this.props.navigation}
+                NoResults={NoResults}
+                fetching={this.state.fetching}
+                isProfile={true}
+              />
+            ) : null}
+
+            {this.state.h ? (
+              <ImageView
+                display={hashtagResults}
+                navigation={this.props.navigation}
+                NoResults={NoResults}
+                fetching={this.state.fetching}
+                isProfile={true}
+              />
+            ) : null}
           </ScrollView>
         </Content>
       </Container>

@@ -42,6 +42,7 @@ import {
 
 import styles from "./styles";
 import sampleFeed from "./feedSample";
+import WorkInProgress from "../screens/AppStackScreens/WorkInProgress";
 
 export class FeedItemWrapper extends Component {
   constructor(props) {
@@ -160,7 +161,7 @@ export class FeedItemWrapper extends Component {
     }
   }
 
-  _getItemsToDisplay = (songArray, idx, bookmarkedOnly) => {
+  _getItemsToDisplay = () => {
     /**
      * this is a helper function that is called in the render method
      * it filters the feed to display based on the current route the app is in
@@ -169,7 +170,8 @@ export class FeedItemWrapper extends Component {
      */
     // from search screen
     if (this.props.navigation.state.routeName == 'Explore') {
-      return songArray.filter((song, index) => index >= idx);
+      let item = this.props.navigation.getParam("item", {});
+      return [item];
       // songs you've liked from settings screen
     } else if (this.props.navigation.state.routeName == 'Song') {
       return songArray
@@ -184,7 +186,7 @@ export class FeedItemWrapper extends Component {
         return song.handle == user.username;
       }).filter((song, index) => index == idx);
       // saved/bookmarked song from settings screen
-    } else if (this.props.navigation.state.routeName == "SavedList" || bookmarkedOnly) {
+    } else if (this.props.navigation.state.routeName == "SavedList") {
       return songArray
         .filter((song, index) => {
           return bookmarks.some(id => id == song.id);
@@ -199,7 +201,11 @@ export class FeedItemWrapper extends Component {
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
-      return songArray;
+      let { feed } = this.props;
+      let display = Object.keys(feed.byId).length
+        ? Object.keys(feed.byId).map(key => feed.byId[key])
+        : [];
+      return display;
     }
   }
 
@@ -222,9 +228,9 @@ export class FeedItemWrapper extends Component {
 
   render() {
     const idx = this.props.navigation.getParam("idx", 0);
-    let { feed, user } = this.props;
-    let display = Object.keys(feed.byId).length ? Object.keys(feed.byId).map(key => feed.byId[key]) : [];
-    let displayItems = display.length ? display : this.state.displayItems;
+    let { user } = this.props;
+    let displayItems = this._getItemsToDisplay();
+    
 
     return (
       <Container style={styles.container}>
@@ -239,30 +245,65 @@ export class FeedItemWrapper extends Component {
             />
           }
         >
-          <Content>
-            {displayItems.map(
-              (song, idx) =>
-                song && (
-                  <FeedItem
-                    key={idx}
-                    song={song}
-                    user={user}
-                    toggleLike={this.toggleLike}
-                    toggleBookmark={this.toggleBookmark}
-                    setModalVisible={this.setModalVisible}
-                    gotoComments={this.gotoComments}
-                    addComment={this.addComment}
-                    navigation={this.props.navigation}
-                  />
-                )
-            )}
-            {this.props.navigation.state.routeName == "Feed" &&
-            feed.updated &&
-            (this.state.listLength < 30 || offset < 20) ? (
-              <LoadMore load={this._loadMore} loading={feed.loading} />
-            ) : null}
-            <View style={{ height: 150 }} />
-          </Content>
+          {displayItems.length ? (
+            <Content>
+              {displayItems.map(
+                (song, idx) =>
+                  song && (
+                    <FeedItem
+                      key={idx}
+                      song={song}
+                      user={user}
+                      toggleLike={this.toggleLike}
+                      toggleBookmark={this.toggleBookmark}
+                      setModalVisible={this.setModalVisible}
+                      gotoComments={this.gotoComments}
+                      addComment={this.addComment}
+                      navigation={this.props.navigation}
+                    />
+                  )
+              )}
+              {this.props.navigation.state.routeName == "Feed" &&
+              feed.updated &&
+              (this.state.listLength < 30 || offset < 20) ? (
+                <LoadMore load={this._loadMore} loading={feed.loading} />
+              ) : null}
+              <View style={{ height: 150 }} />
+            </Content>
+          ) : (
+            <Container
+              style={{
+                flex: 1,
+                justifyContent: "flex-start",
+                alignItems: "center"
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Search")}
+                style={{ marginVertical: 60, fontFamily: "Segoe UI" }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Segoe UI Bold Italic",
+                    color: "grey",
+                    fontSize: 20
+                  }}
+                >
+                  Follow users to view their songs{" "}
+                </Text>
+              </TouchableOpacity>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("Search")}
+              >
+                <Icon
+                  name="search"
+                  style={{ fontSize: 50 }}
+                  active={true}
+                />
+              </Button>
+            </Container>
+          )}
         </KeyboardAvoidingScrollView>
         <Modal
           isVisible={this.state.isModalVisible}

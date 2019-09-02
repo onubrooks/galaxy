@@ -24,12 +24,12 @@ export default class Gallery extends Component {
           backgroundColor: "#FFFFFF"
         }}
       >
-        {display.map((image, idx) => (
+        {display.map((item, idx) => (
           <GalleryImage
             idx={idx}
             key={idx}
             navigation={this.props.navigation}
-            uri={{ uri: image.userAvatar }}
+            item={item}
           />
         ))}
       </View>

@@ -16,7 +16,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 export class ExploreScreen extends Component {
   render() {
     return <Container>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+        <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Icon name="md-arrow-back" style={{ color: "#006E8C" }} />

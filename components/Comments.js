@@ -26,7 +26,6 @@ export default class Comments extends Component {
   
   render() {
              let { user, song = {}, comments = {} } = this.props;
-             console.log('comments ', comments);
              // this next line maps through the comments object and converts it into an array using Object.keys()
              //which is easier to process for display. same thing is done for users object down below
              let thisComments = Object.keys(comments.byId)
@@ -45,6 +44,7 @@ export default class Comments extends Component {
                        <Body>
                          <Text style={styles.whiteColor}>
                            <UserHandle
+                             isComments={true}
                              userId={song.userId}
                              userHandle={song.userHandle}
                              navigation={this.props.navigation}
@@ -65,7 +65,7 @@ export default class Comments extends Component {
                          </Left>
                          <Body>
                            <Text style={styles.whiteColor}>
-                             <Text style={{ fontWeight: "900" }}>
+                             <Text style={{ fontWeight: "900", color: 'white' }}>
                                {data.userHandle}{" "}
                              </Text>
                              {data.comment}

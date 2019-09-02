@@ -14,8 +14,7 @@
     "icon": "./assets/icons/icon-edit.png",
     "splash": {
       "image": "./assets/icons/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#6879E3"
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

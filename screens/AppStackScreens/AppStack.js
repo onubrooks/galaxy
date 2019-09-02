@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageBackground, Image, View } from "react-native"
+import { AsyncStorage } from "react-native"
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
 import { TabBarComponent } from "./TabBarComponent";
 // Feed Stack
@@ -15,7 +15,6 @@ import { SearchScreen } from "./SearchStack/SearchScreen";
 import ExploreScreen from "./SearchStack/ExploreScreen";
 import Add from "./Add";
 import PlaylistScreen from "./PlaylistScreen";
-import WorkInProgress from "./WorkInProgress";
 
 // Notification Stack
 import { NotificationsScreen } from "./NotificationsStack/NotificationsScreen";
@@ -33,7 +32,8 @@ import PostScreen from "./ProfileStack/PostScreen";
 
 import {ModalScreen} from "./Modals/ModalScreen";
 
-import { Icon } from "native-base";
+import { Icon, Thumbnail } from "native-base";
+const avatar = require("../../assets/avatar.png");
 
 const FeedStackNavigator = createStackNavigator(
   {
@@ -61,7 +61,7 @@ const FeedStackNavigator = createStackNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Playlist",
+    initialRouteName: "Feed",
     mode: "modal",
     // make tab bar hide on the add comment screen
     navigationOptions: ({ navigation }) => {
@@ -146,6 +146,9 @@ const MainStackNavigator = createBottomTabNavigator(
     Add: {
       screen: Add
     },
+    Playlist: {
+      screen: PlaylistScreen
+    },
     // Notifications: {
     //   screen: NotificationsScreen
     // },
@@ -159,22 +162,74 @@ const MainStackNavigator = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
-        let iconName;
+        let iconName, icon;
         if (routeName === "Feed") {
-          iconName = "home";
+          iconName = "ios-home";
+          icon = (
+            <Icon
+              type="Ionicons"
+              name={iconName}
+              style={{ color: tintColor, fontSize: 20 }}
+            />
+          );
         } else if (routeName === "Search") {
           iconName = "search";
+          icon = (
+            <Icon
+              name={iconName}
+              style={{ color: tintColor, fontSize: 20 }}
+            />
+          );
         } else if (routeName === "Add") {
-          iconName = "add";
+          iconName = "disc";
+          icon = (
+            <Icon
+              name={iconName}
+              style={{ color: tintColor, fontSize: 20 }}
+            />
+          );
+        } else if (routeName === "Playlist") {
+          iconName = "musical-notes";
+          icon = (
+            <Icon
+              name={iconName}
+              style={{ color: tintColor, fontSize: 20 }}
+            />
+          );
         } else if (routeName === "Profile") {
           iconName = "contact";
+          let user = null,
+            source;
+          AsyncStorage.getItem("my_profile").then(profile => {
+            user = JSON.parse(profile);
+          });
+          if (user !== null && user.userAvatar) {
+            source = { uri: user.userAvatar };
+          } else {
+            source = avatar;
+          }
+          // console.log(user);
+          icon = (
+            <Thumbnail
+              small
+              source={source}
+              style={{ width: 32, height: 32 }}
+            />
+          );
         } else if (routeName === "Notifications") {
           iconName = "heart";
+          icon = (
+            <Icon
+              name={iconName}
+              size={15}
+              style={{ color: tintColor, fontSize: 20 }}
+            />
+          );
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Icon name={iconName} size={15} style={{ color: tintColor }} />;
+        return icon;
       }
     }),
     tabBarOptions: {
@@ -188,26 +243,7 @@ const MainStackNavigator = createBottomTabNavigator(
       }
     },
     tabBarComponent: props => (
-      <View
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0
-        }}
-      >
-        <Image
-          source={require("../../assets/icons/bottombar.png")}
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            height: 49
-          }}
-        />
-        <TabBarComponent {...props} />
-      </View>
+      <TabBarComponent {...props} />
     ),
     tabBarPosition: "bottom"
   }

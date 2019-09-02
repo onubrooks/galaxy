@@ -71,6 +71,8 @@ export const GET_MY_FOLLOWING_FAIL = "GET_MY_FOLLOWING_FAIL";
 export const REMOVE_MY_PHOTO = "REMOVE_MY_PHOTO";
 export const UPDATE_MY_PHOTO = "UPDATE_MY_PHOTO";
 
+import { AsyncStorage } from "react-native";
+
 /*
  * action creators
  */
@@ -298,6 +300,7 @@ export function getMyProfile(id) {
 }
 
 export function getMyProfileSuccess(data) {
+  AsyncStorage.setItem("my_profile", JSON.stringify(data))
   return {
     type: GET_MY_PROFILE_SUCCESS,
     payload: {

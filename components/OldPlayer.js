@@ -109,7 +109,7 @@ export default class Player extends React.Component {
       isMuted: this.state.muted,
       isLooping: this.state.loopingType === LOOPING_TYPE_ONE,
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
-      androidImplementation: 'MediaPlayer',
+      // androidImplementation: 'MediaPlayer',
     };
     const { sound, status } = await Audio.Sound.createAsync(
       source,

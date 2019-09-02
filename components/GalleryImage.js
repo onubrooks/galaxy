@@ -6,24 +6,34 @@ import { Button } from "native-base";
 import { Image } from "react-native-animatable";
 const WIDTH = Dimensions.get("window").width;
 export default class GalleryImage extends Component {
-  goto = (idx) => {
+  goto = (idx, item) => {
     if(this.props.navigation.state.routeName == 'Search') {
-      this.props.navigation.navigate("Explore", { idx });
+      let route, params;
+      if(item.coverPath){
+        route = "Explore";
+        params = { idx, item };
+      } else {
+        route = "ViewProfile";
+        params = { userId: item.userId, userHandle: item.userHandle, other: true };
+      }
+      
+      this.props.navigation.navigate(route, params);
     } else if (this.props.navigation.state.routeName == 'Likes') {
-      this.props.navigation.navigate("Song", { idx });
+      this.props.navigation.navigate("Song", { idx, item });
     } else if (this.props.navigation.state.routeName == 'SavedGrid') {
-      this.props.navigation.navigate("SavedList", { idx });
+      this.props.navigation.navigate("SavedList", { idx, item });
     } else {
       // if profile page
-      this.props.navigation.navigate("Post", { idx });
+      this.props.navigation.navigate("Post", { idx, item });
     }
       
   };
   render() {
-    const { uri, idx } = this.props;
+    const { idx, item } = this.props;
+    let uri = {uri: item.coverPath ? item.coverPath : item.userAvatar}
     return (
       <Button
-        onPress={() => this.goto(idx)}
+        onPress={() => this.goto(idx, item)}
         style={{
           backgroundColor: "transparent",
           borderRadius: 0,

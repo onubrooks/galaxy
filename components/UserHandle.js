@@ -25,10 +25,14 @@ export class UserHandle extends Component {
     }
 
     render() {
+      let { isComments = false } = this.props;
         return (
           <Text
             onPress={this.handlePress}
-            style={[styles.handle, { color: "#764BA2" }]}
+            style={[
+              styles.handle,
+              { color: isComments ? "white" : "#764BA2" }
+            ]}
           >
             {this.props.userHandle}
           </Text>

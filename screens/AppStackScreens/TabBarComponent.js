@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, Keyboard, View } from 'react-native';
+import { Platform, Keyboard, View, Image } from 'react-native';
 import { BottomTabBar } from 'react-navigation-tabs'; // need version 2.0 react-navigation of course... it comes preinstalled as a dependency of react-navigation.
 
 export class TabBarComponent extends React.Component {
@@ -27,7 +27,26 @@ export class TabBarComponent extends React.Component {
       return null;
     } else {
       return (
-        <BottomTabBar {...this.props} />
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
+        >
+          <Image
+            source={require("../../assets/icons/bottombar.png")}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 49
+            }}
+          />
+          <BottomTabBar {...this.props} />
+        </View>
       );
     }
   }
