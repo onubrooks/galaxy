@@ -26,7 +26,7 @@ import styles from "../../../components/styles";
 
 import { connect } from "react-redux";
 import { fetchProfile, fetchMyProfile, fetchMusic } from "../../../actions/actions";
-const defaultAvatar = require("../../../assets/avatar.png");
+import ProfileSummaryNew from "../../../components/ProfileSummaryNew";
 export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -107,7 +107,7 @@ export class ProfileScreen extends Component {
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Feed")}
+              onPress={() => this.props.navigation.goBack()}
             >
               <Icon
                 name="md-arrow-back"
@@ -142,125 +142,7 @@ export class ProfileScreen extends Component {
           </Right>
         </Header>
         <ScrollView>
-          <ImageBackground
-            source={
-              user.userAvatar ? { uri: user.userAvatar } : defaultAvatar
-            }
-            style={{
-              width: "100%",
-              height: 260,
-              justifyContent: "flex-start",
-              alignItems: "center"
-            }}
-          >
-            <View
-              style={{
-                width: "67%",
-                height: "55%",
-                marginTop: 40,
-                backgroundColor: "black",
-                opacity: 0.7,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "Segoe UI",
-                  color: "white",
-                  fontSize: 20,
-                  fontWeight: "500"
-                }}
-              >
-                {user.fullname}
-              </Text>
-              <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
-                <Text
-                  onPress={() =>
-                    !self
-                      ? this.props.navigation.navigate("ViewFollows", {
-                          self: false,
-                          initialPage: 0
-                        })
-                      : null
-                  }
-                  style={{
-                    fontWeight: "800",
-                    color: "white",
-                    fontSize: 15
-                  }}
-                >
-                  {user.noFollowing}
-                </Text>{" "}
-                Following |{" "}
-                <Text
-                  style={{ fontWeight: "800", color: "white" }}
-                  onPress={() =>
-                    !self
-                      ? this.props.navigation.navigate("ViewFollows", {
-                          self: false,
-                          initialPage: 1
-                        })
-                      : null
-                  }
-                >
-                  {user.noFollowers}
-                </Text>{" "}
-                Followers
-              </Text>
-              <View
-                style={{
-                  borderTopWidth: 0.5,
-                  width: "50%",
-                  marginTop: 15,
-                  marginBottom: 0,
-                  marginHorizontal: 15,
-                  borderTopColor: "white"
-                }}
-              >
-                <Text />
-              </View>
-              <Text
-                style={{
-                  fontFamily: "Segoe UI Italic",
-                  color: "white",
-                  marginTop: -10,
-                  marginHorizontal: 15,
-                  textAlign: "justify"
-                }}
-              >
-                {user.status}
-              </Text>
-            </View>
-            <View style={{ marginTop: 20, flexDirection: "row" }}>
-              <Button
-                rounded
-                small
-                style={{ marginRight: 5 }}
-                onPress={() => this.props.navigation.navigate("Playlist")}
-              >
-                <Ionicons
-                  name="ios-heart"
-                  size={20}
-                  color={"red"}
-                  style={{ marginLeft: 11 }}
-                />
-                <Text style={{ marginLeft: -10 }}>Playlist</Text>
-              </Button>
-              <Button
-                rounded
-                bordered
-                small
-                style={{ marginLeft: 5 }}
-                onPress={() =>
-                  this.props.navigation.navigate("EditProfile")
-                }
-              >
-                <Text style={{ color: "white" }}>Edit Profile</Text>
-              </Button>
-            </View>
-          </ImageBackground>
-
+          <ProfileSummaryNew user={user}  self={self} navigation={this.props.navigation} />
           <Tabs
             transparent
             // renderTabBar={() => <ScrollableTab />}
