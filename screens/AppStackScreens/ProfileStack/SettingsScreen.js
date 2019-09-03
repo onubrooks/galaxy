@@ -52,7 +52,7 @@ export class SettingsScreen extends Component {
   };
   render() {
     return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
+      <Header style={[styles.header, { backgroundColor: "white" }]} >
         <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Ionicons name="md-arrow-back" size={33} color={styles.primaryColor} />
@@ -110,17 +110,19 @@ const stl = StyleSheet.create({
     fontWeight: "900"
   },
   group: {
-    fontWeight: '800',
+    fontWeight: "800",
     marginVertical: 15,
     fontSize: 19,
+    fontFamily: "Segoe UI"
   },
   item: {
-    fontWeight: '400',
+    fontWeight: "400",
     marginVertical: 15,
-    fontSize: 17
+    fontSize: 17,
+    fontFamily: "Segoe UI"
   },
   itemLast: {
-    color: styles.primaryColor,
+    color: styles.primaryColor
   }
 });
 

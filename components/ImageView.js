@@ -7,13 +7,14 @@
 */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Container, Text, Spinner } from "native-base"
+import { Spinner } from "native-base"
+import NoResults from "./NoResults"
 
 import Gallery from "./Gallery";
 
 export class ImageView extends Component {
   render() {
-    const { user, display, NoResults, fetching = false} = this.props;
+    const { user, display, fetching = false} = this.props;
 
     if (!display.length && !fetching) return <NoResults />;
     if (!display.length && fetching) return <Spinner />;

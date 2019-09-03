@@ -36,8 +36,8 @@ import { fetchMyProfile, removeMyPhoto, updateMyPhoto } from "../../../actions/a
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
 
-const PUSH_ENDPOINT = "http://api.leedder.com/api/edit/profile";
-const PUSH_ENDPOINT2 = "http://api.leedder.com/api/avatar/upload";
+const PUSH_ENDPOINT = "https://api.leedder.com/api/v1.0/users/profile/edit";
+const PUSH_ENDPOINT2 = "https://api.leedder.com/api/v1.0/files/avatar/upload";
 
 
 export class EditProfileScreen extends Component {

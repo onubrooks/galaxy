@@ -2,17 +2,16 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
+  ScrollView,
   TouchableOpacity,
-  Image
+  Image,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
   Header,
   Content,
   Button,
-  Body,
-  Left,
-  Right,
   Icon,
   Form,
   Item,
@@ -21,9 +20,11 @@ import {
   Text,
   Textarea,
   Toast,
-  Thumbnail
+  Spinner
 } from "native-base";
 import styles from "../../components/styles";
+import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 
 import { connect } from "react-redux";
 import { uploadSongAsync } from "../../actions/actions";
@@ -36,10 +37,87 @@ export class Add extends Component {
       audio: null,
       coverArt: null,
       title: '',
-      desc: ''
+      desc: '',
+      uploading: false
     };
   }
   
+  uploadSongAsync = async () => {
+    if (this.state.title === "") {
+      alert("please set a title for the song...");
+      return;
+    }
+    if (this.state.audio === null) {
+      alert("please choose a song...");
+      return;
+    }
+    if (this.state.coverArt === null) {
+      alert("please choose a cover art...");
+      return;
+    }
+    let { user } = this.props;
+    let song = this.state;
+    let data = new FormData();
+    data.append("title", song.title);
+    data.append("desc", song.desc);
+    data.append("userId", user.id);
+    data.append("song", {
+      type: `audio/mpeg`,
+      uri: song.audio.uri,
+      name: "song"
+    });
+    data.append("coverart", {
+      type: `image/${song.coverArt.uri.slice(-3)}`,
+      uri: song.coverArt.uri,
+      name: "coverArt"
+    });
+  // axios isnt working so I use xhr for this one
+  this.setState({uploading: true})
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.leedder.com/api/v1.0/files/song/upload");
+    xhr.setRequestHeader("content-type", "multipart/form-data");
+    xhr.setRequestHeader("Accept", "application/json");
+    const token = await AsyncStorage.getItem("userToken");
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    xhr.send(data);
+    let that = this;
+    xhr.onreadystatechange = function() {
+      try{
+        let res = JSON.parse(this.responseText);
+        console.log('result', res);
+      } catch(e) {
+        console.log(e)
+      }
+      if (this.readyState === 4 && this.status === 200) {
+        if(!res.error){
+          Toast.show({
+            text: "song upload successful...",
+            position: "bottom",
+            duration: 3000
+          });
+          that.setState({
+            audio: null,
+            coverArt: null,
+            title: "",
+            desc: ""
+          });
+        } else {
+          Toast.show({
+            text: "Opertion failed, please try again...",
+            position: "bottom",
+            duration: 3000
+          });
+        }
+      } else {
+        Toast.show({
+          text: 'Network error, please check your connection...',
+          position: "bottom",
+          duration: 3000
+        });
+      }
+      that.setState({ uploading: false });
+    };
+}
   saveAndGoBack = () => {
     if(this.state.title === '') {
       alert('please set a title for the song...')
@@ -63,7 +141,7 @@ export class Add extends Component {
     this.props.navigation.goBack();
   };
   pickAudio = async () => {
-    const result = await Expo.DocumentPicker.getDocumentAsync({
+    const result = await DocumentPicker.getDocumentAsync({
       type: 'audio/*' // audio/mpeg, audio/mp4, audio/vnd.wav
     });
     if (result.type == 'success') {
@@ -71,9 +149,9 @@ export class Add extends Component {
     }
   }
   pickCoverArt = async () => {
-    const result = await Expo.ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      base64: true
+      // base64: true
     });
     if (!result.cancelled) {
       this.setState({ coverArt: result });
@@ -85,23 +163,11 @@ export class Add extends Component {
     let coverArtUri = this.state.coverArt ? this.state.coverArt.uri : null;
     return (
       <Container style={styles.container}>
-        {/* <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
-          <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name="md-close" style={{ color: styles.primaryColor }} />
-            </TouchableOpacity>
-          </Left>
-          <Body>
-            <Text style={stl.heading}>Upload a Song</Text>
-          </Body>
-          <Right>
-            <Button onPress={this.saveAndGoBack} transparent>
-              <Icon name="md-checkmark" style={{ color: styles.primaryColor }} />
-            </Button>
-          </Right>
-        </Header> */}
         <Content>
-          <View style={stl.grid}>
+          <ScrollView style={stl.grid}>
+            {this.state.uploading ? (
+              <Spinner style={{ marginTop: 5 }} />
+            ) : null}
             <View onPress={this.pickCoverArt} style={stl.col1}>
               <View style={stl.col1inner}>
                 <TouchableOpacity onPress={this.pickCoverArt}>
@@ -111,6 +177,7 @@ export class Add extends Component {
                         ? { uri: coverArtUri }
                         : require("../../assets/icons/default.png")
                     }
+                    style={{width: 140, height: 140}}
                   />
                   <Text>Cover Art (Optional)</Text>
                 </TouchableOpacity>
@@ -131,7 +198,7 @@ export class Add extends Component {
                     placeholder="Song Description"
                     placeholderTextColor="#888888"
                     onChangeText={desc => this.setState({ desc })}
-                    value={this.state.title}
+                    value={this.state.desc}
                   />
                 </Item>
                 <Item style={[stl.item, { height: 48 }]} last>
@@ -145,14 +212,20 @@ export class Add extends Component {
                   </Button>
                 </Item>
                 <Button
-                  style={{ marginLeft: "auto", marginRight: "auto", marginTop: 10, borderRadius: 6 }}
-                  onPress={this.saveAndGoBack}
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: 10,
+                    borderRadius: 6
+                  }}
+                  onPress={this.uploadSongAsync}
+                  disabled={this.state.uploading}
                 >
                   <Text>Upload Song</Text>
                 </Button>
               </Form>
             </View>
-          </View>
+          </ScrollView>
         </Content>
       </Container>
     );
@@ -173,7 +246,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Add);
 const stl = StyleSheet.create({
   grid: {
     backgroundColor: "#fff",
-    marginVertical: 30
+    // marginTop: 15
     // height: DEVICE_HEIGHT
   },
   heading: {
@@ -203,7 +276,7 @@ const stl = StyleSheet.create({
   item: {
     backgroundColor: "#EFEFEF",
     width: "79%",
-    marginVertical: 10,
+    marginVertical: 12,
     justifyContent: "center",
     alignItems: "center",
     height: 40,

@@ -22,7 +22,7 @@ export default {
     borderBottomColor: "grey"
   },
   header2: {
-    marginTop: 30
+    // marginTop: 30
   },
   title: {
     color: "#555555",

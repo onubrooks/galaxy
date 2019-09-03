@@ -160,7 +160,6 @@ export class SearchScreen extends Component {
               <ImageView
                 display={hashtagResults}
                 navigation={this.props.navigation}
-                NoResults={NoResults}
                 fetching={this.state.fetching}
                 isProfile={true}
               />
@@ -173,20 +172,3 @@ export class SearchScreen extends Component {
 }
 
 export default SearchScreen;
-
-NoResults = () => {
-  return (
-    <Container
-      style={{
-        marginTop: 50,
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center"
-      }}
-    >
-      <Text style={{ fontFamily: "Segoe UI Bold" }}>
-        No Search Results{" "}
-      </Text>
-    </Container>
-  );
-}

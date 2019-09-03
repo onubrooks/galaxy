@@ -24,7 +24,7 @@ export default class GalleryImage extends Component {
       this.props.navigation.navigate("SavedList", { idx, item });
     } else {
       // if profile page
-      this.props.navigation.navigate("Post", { idx, item });
+      this.props.navigation.navigate("Song", { idx, item });
     }
       
   };

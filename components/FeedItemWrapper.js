@@ -29,6 +29,7 @@ import {
   fetchFeed,
   fetchPlaylist,
   fetchMyProfile,
+  fetchMusic,
   hitASong,
   unHitASong,
   removeSong,
@@ -168,36 +169,25 @@ export class FeedItemWrapper extends Component {
      * this is necessary because the component is used by several routes in the app
      * therefore it has to filter what to display based on what page the app is currently in.
      */
-    // from search screen
-    if (this.props.navigation.state.routeName == 'Explore') {
+    let route = this.props.navigation.state.routeName;
+    // from search screen or profile screen
+    if (route == 'Explore' || route == 'Song') {
       let item = this.props.navigation.getParam("item", {});
       return [item];
-      // songs you've liked from settings screen
-    } else if (this.props.navigation.state.routeName == 'Song') {
-      return songArray
-        .filter((song, index) => {
-          return song.hits.some(id => id == user.id);
-        })
-        .filter((song, index) => index == idx);
-    }
-    // display a single song identified by song id
-    else if (this.props.navigation.state.routeName == "song") {
-      return songArray.filter((song, index) => {
-        return song.handle == user.username;
-      }).filter((song, index) => index == idx);
-      // saved/bookmarked song from settings screen
-    } else if (this.props.navigation.state.routeName == "SavedList") {
-      return songArray
-        .filter((song, index) => {
-          return bookmarks.some(id => id == song.id);
-        })
-        .filter((song, index) => index == idx);
     }
     // profile page, songs by the logged in user
     else if (this.props.navigation.state.routeName == "Profile") {
-      return songArray.filter((song, index) => {
-        return song.handle == user.username;
-      });
+      let { music } = this.props;
+      let display = Object.keys(music.byId).length
+        ? Object.keys(music.byId).map(key => music.byId[key])
+        : [];
+      return display;
+    }else if (this.props.navigation.state.routeName == "ViewProfile") {
+      let { music } = this.props;
+      let display = Object.keys(music.byId).length
+        ? Object.keys(music.byId).map(key => music.byId[key])
+        : [];
+      return display;
     }
     // if none of the above hold, then we are probably in the feed screen
     else {
@@ -280,7 +270,7 @@ export class FeedItemWrapper extends Component {
             >
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("Search")}
-                style={{ marginVertical: 60, fontFamily: "Segoe UI" }}
+                style={{ marginVertical: 90, fontFamily: "Segoe UI" }}
               >
                 <Text
                   style={{
@@ -344,7 +334,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     users: state.users,
     comments: state.comments,
-    bookmarks: state.bookmarks
+    bookmarks: state.bookmarks,
+    music: state.music
   };
 };
 
@@ -352,6 +343,7 @@ const mapDispatchToProps = {
   fetchFeed,
   fetchPlaylist,
   fetchMyProfile,
+  fetchMusic,
   hitASong,
   unHitASong,
   removeSong,

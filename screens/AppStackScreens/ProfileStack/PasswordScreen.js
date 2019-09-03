@@ -36,7 +36,7 @@ import {
 import Modal from "react-native-modal";
 import { ProfileScreenModalContent } from "../../../components/ModalContent";
 
-const PUSH_ENDPOINT = "http://api.leedder.com/api/password/reset";
+const PUSH_ENDPOINT = "https://api.leedder.com/api/v1.0/auth/reset/password";
 
 export class PasswordScreen extends Component {
          static navigationOptions = { tabBarVisible: false };
@@ -61,7 +61,8 @@ export class PasswordScreen extends Component {
            let userId = await AsyncStorage.getItem("userToken");
            Axios(PUSH_ENDPOINT, {
              method: 'post',
-             data: { ...this.state, userId }
+             data: {email: this.props.user.email, password: this.state.newPassword }
+             // data: { ...this.state, userId }
            })
              .then(res => {
                console.log("response ", res.data);
@@ -82,7 +83,7 @@ export class PasswordScreen extends Component {
          };
 
          resetPassword = async () => {
-           let result = await WebBrowser.openBrowserAsync("http://leedder.com/web/login/");
+           let result = await WebBrowser.openBrowserAsync("https://leedder.com/");
            //this.setState({ result });
          };
          render() {

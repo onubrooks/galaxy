@@ -7,6 +7,9 @@ import {
   GET_PLAYLIST,
   GET_PLAYLIST_SUCCESS,
   GET_PLAYLIST_FAIL,
+  GET_MUSIC,
+  GET_MUSIC_SUCCESS,
+  GET_MUSIC_FAIL,
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAIL,
@@ -217,6 +220,33 @@ function playlist(state = initialState.playlist, action) {
   }
 }
 
+function music(state = initialState.music, action) {
+  switch (action.type) {
+    case GET_MUSIC:
+      return {
+        ...state,
+        loading: true,
+        updated: false
+      };
+    case GET_MUSIC_SUCCESS:
+      return {
+        ...state,
+        lastUpdated: Date.now(),
+        loading: false,
+        updated: true,
+        byId: { ...action.payload.byId },
+        allIds: null
+      };
+    case GET_MUSIC_FAIL:
+      return {
+        ...state,
+        loading: false,
+        updated: false
+      };
+    default:
+      return state;
+  }
+}
 function comments(state = initialState.comments, action) {
   switch (action.type) {
     case COMMENT_SONG:
@@ -477,6 +507,7 @@ function profile(state = initialState.profile, action) {
 const rootReducer = combineReducers({
   feed,
   playlist,
+  music,
   comments,
   user,
   profile

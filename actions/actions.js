@@ -21,6 +21,12 @@ export const GET_PLAYLIST = "GET_PLAYLIST";
 export const GET_PLAYLIST_SUCCESS = "GET_PLAYLIST_SUCCESS";
 // failed to get feed for some reason
 export const GET_PLAYLIST_FAIL = "GET_PLAYLIST_FAIL";
+// fetch MUSIC async when MUSIC component mounts
+export const GET_MUSIC = "GET_MUSIC";
+// successful fetch
+export const GET_MUSIC_SUCCESS = "GET_MUSIC_SUCCESS";
+// failed to get MUSIC for some reason
+export const GET_MUSIC_FAIL = "GET_MUSIC_FAIL";
 // user likes a post
 export const LIKE_SONG = "LIKE_SONG";
 export const UNLIKE_SONG = "UNLIKE_SONG";
@@ -131,6 +137,36 @@ export function getPlaylistSuccess(data) {
 export function getPlaylistFail(error) {
   return {
     type: GET_PLAYLIST_FAIL,
+    payload: {
+      error: error
+    }
+  };
+}
+
+export function getMusic(user) {
+  return {
+    type: GET_MUSIC
+  };
+}
+
+export function getMusicSuccess(data) {
+  let ids = data.map(item => item.songId);
+  let byId = {};
+  for (let item of data) {
+    byId = { [item.songId]: item, ...byId };
+  }
+  return {
+    type: GET_MUSIC_SUCCESS,
+    payload: {
+      ids,
+      byId
+    }
+  };
+}
+
+export function getMusicFail(error) {
+  return {
+    type: GET_MUSIC_FAIL,
     payload: {
       error: error
     }
@@ -480,6 +516,22 @@ export function fetchPlaylist(user) {
     errorMsg: "Unable to update playlist..."
   };
   return genericAsyncActionDispatcher(user, req, cb);
+}
+
+export function fetchMusic(user_id) {
+  let req = {
+    method: "GET",
+    url: `music/user/${user_id}`,
+    data: null
+  };
+  let cb = {
+    initial: getMusic,
+    success: getMusicSuccess,
+    fail: getMusicFail,
+    successMsg: "fetch songs successful...",
+    errorMsg: "Unable to update songs..."
+  };
+  return genericAsyncActionDispatcher(user_id, req, cb);
 }
 
 export function hitASong(songId, userId) {

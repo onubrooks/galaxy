@@ -88,6 +88,13 @@ const playlist = {
   updated: false,
   lastUpdated: 0 // Date.now()
 };
+const music = {
+  byId: {},
+  // allIds: [],
+  loading: true,
+  updated: false,
+  lastUpdated: 0 // Date.now()
+};
 
 export const initialState = {
   feed: sampleFeed,
@@ -96,5 +103,6 @@ export const initialState = {
   user,
   bookmarks: sampleBookmarks,
   profile,
-  playlist
+  playlist,
+  music
 };

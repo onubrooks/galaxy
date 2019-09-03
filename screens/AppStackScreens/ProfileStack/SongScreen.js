@@ -16,7 +16,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 export class SongScreen extends Component {
   render() {
     return <Container>
-      <Header style={[styles.header, {backgroundColor: 'white'}]} androidStatusBarColor={styles.primaryColor}>
+      <Header style={[styles.header, {backgroundColor: 'white'}]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Ionicons name="md-arrow-back" size={33} color={styles.primaryColor} />

@@ -101,12 +101,13 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   componentDidMount() {
+    if (this.unmounted) return;
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
-      staysActiveInBackground: false,
+      staysActiveInBackground: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true
     });
@@ -169,6 +170,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _mountVideo = component => {
+    if (this.unmounted) return;
     this._video = component;
     this._loadNewPlaybackInstance(false);
   };
@@ -220,14 +222,17 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onLoadStart = () => {
+    if (this.unmounted) return;
     console.log(`ON LOAD START`);
   };
 
   _onLoad = status => {
+    if (this.unmounted) return;
     console.log(`ON LOAD : ${JSON.stringify(status)}`);
   };
 
   _onError = error => {
+    if (this.unmounted) return;
     console.log(`ON ERROR : ${error}`);
   };
 
@@ -252,10 +257,12 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _advanceIndex(forward) {
+    if (this.unmounted) return;
     this.index = (this.index + (forward ? 1 : this.state.playlist.length - 1)) % this.state.playlist.length;
   }
 
   _setIndex(index) {
+    if (this.unmounted) return;
     // set index to the index passed to the function and then play
     // this function should be called when a particular track in the 
     // upNext list is pressed
@@ -332,6 +339,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _trySetRate = async (rate, shouldCorrectPitch) => {
+    if (this.unmounted) return;
     if (this.playbackInstance != null) {
       try {
         await this.playbackInstance.setRateAsync(rate, shouldCorrectPitch);
@@ -342,6 +350,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onRateSliderSlidingComplete = async value => {
+    if (this.unmounted) return;
     this._trySetRate(value * RATE_SCALE, this.state.shouldCorrectPitch);
   };
 
@@ -350,6 +359,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onSeekSliderValueChange = value => {
+    if (this.unmounted) return;
     if (this.playbackInstance != null && !this.isSeeking) {
       this.isSeeking = true;
       this.shouldPlayAtEndOfSeek = this.state.shouldPlay;
@@ -358,6 +368,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onSeekSliderSlidingComplete = async value => {
+    if (this.unmounted) return;
     if (this.playbackInstance != null) {
       this.isSeeking = false;
       const seekPosition = value * this.state.playbackInstanceDuration;
@@ -370,6 +381,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _getSeekSliderPosition() {
+    if (this.unmounted) return;
     if (
       this.playbackInstance != null &&
       this.state.playbackInstancePosition != null &&
@@ -381,6 +393,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _getMMSSFromMillis(millis) {
+    if (this.unmounted) return;
     const totalSeconds = millis / 1000;
     const seconds = Math.floor(totalSeconds % 60);
     const minutes = Math.floor(totalSeconds / 60);
@@ -396,6 +409,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _getTimestamp() {
+    if (this.unmounted) return;
     if (
       this.playbackInstance != null &&
       this.state.playbackInstancePosition != null &&
@@ -409,6 +423,7 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _getTimestampDiff() {
+    if (this.unmounted) return;
     if (
       this.playbackInstance != null &&
       this.state.playbackInstancePosition != null &&
@@ -430,6 +445,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onFullscreenPressed = () => {
+    if (this.unmounted) return;
     try {
       this._video.presentFullscreenPlayer();
     } catch (error) {
@@ -438,6 +454,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onSpeakerPressed = () => {
+    if (this.unmounted) return;
     this.setState(
       state => {
         return { throughEarpiece: !state.throughEarpiece };
@@ -580,7 +597,7 @@ const stl = StyleSheet.create({
     backgroundColor: "#efefef",
     justifyContent: "space-around",
     alignItems: "center",
-    marginTop: 30,
+    // marginTop: 30,
     width: DEVICE_WIDTH - 10
   },
   albumCover: {

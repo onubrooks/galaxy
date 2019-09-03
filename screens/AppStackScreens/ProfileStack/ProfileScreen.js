@@ -25,7 +25,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 import styles from "../../../components/styles";
 
 import { connect } from "react-redux";
-import { fetchProfile, fetchMyProfile } from "../../../actions/actions";
+import { fetchProfile, fetchMyProfile, fetchMusic } from "../../../actions/actions";
 const defaultAvatar = require("../../../assets/avatar.png");
 export class ProfileScreen extends Component {
   constructor(props) {
@@ -38,14 +38,20 @@ export class ProfileScreen extends Component {
       userId = this.props.navigation.getParam("userId", null);
       userHandle = this.props.navigation.getParam("userHandle", null);
       this.props.fetchProfile(userHandle, userId);
+      this.props.fetchMusic(userId);
     } else {
       userId = this.props.user.id;
       this.props.fetchMyProfile(userId);
+      this.props.fetchMusic(userId);
     }
   }
   render() {
+    let { music } = this.props;
+    let display = Object.keys(music.byId).length
+      ? Object.keys(music.byId).map(key => music.byId[key])
+      : [];
     let user = this.state.other ? this.props.profile : this.props.user;
-    let self=true
+    let self = !this.state.other
     if (user.loading) {
       return (
         <Container>
@@ -261,16 +267,17 @@ export class ProfileScreen extends Component {
           >
             <Tab
               heading={
-                <TabHeading
-                  style={{ backgroundColor: "white" }}
-                >
+                <TabHeading style={{ backgroundColor: "white" }}>
                   <Ionicons name="md-apps" size={26} color="#666666" />
                 </TabHeading>
               }
             >
               <ScrollView>
-                {/* <ImageView navigation={this.props.navigation} /> */}
-                <Text>content 1</Text>
+                <ImageView
+                  display={display}
+                  navigation={this.props.navigation}
+                  fetching={music.loading}
+                />
               </ScrollView>
             </Tab>
             <Tab
@@ -281,8 +288,7 @@ export class ProfileScreen extends Component {
               }
             >
               <ScrollView>
-                {/* <FeedItemWrapper navigation={this.props.navigation} /> */}
-                <Text>content 2</Text>
+                <FeedItemWrapper navigation={this.props.navigation} />
               </ScrollView>
             </Tab>
           </Tabs>
@@ -295,12 +301,14 @@ export class ProfileScreen extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    profile: state.profile
+    profile: state.profile,
+    music: state.music
   };
 };
 
 const mapDispatchToProps = {
   fetchProfile,
-  fetchMyProfile
+  fetchMyProfile,
+  fetchMusic
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
