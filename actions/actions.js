@@ -31,6 +31,10 @@ export const GET_MUSIC_FAIL = "GET_MUSIC_FAIL";
 export const LIKE_SONG = "LIKE_SONG";
 export const UNLIKE_SONG = "UNLIKE_SONG";
 export const REMOVE_SONG = "REMOVE_SONG";
+// user likes a music
+export const LIKE_MUSIC = "LIKE_MUSIC";
+export const UNLIKE_MUSIC = "UNLIKE_MUSIC";
+export const REMOVE_MUSIC = "REMOVE_MUSIC";
 // user comments on a post
 export const COMMENT_SONG = "COMMENT_SONG";
 export const GET_COMMENTS = "GET_COMMENTS";
@@ -39,6 +43,9 @@ export const GET_COMMENTS_FAIL = "GET_COMMENTS_FAIL";
 // user bookmarks a post
 export const BOOKMARK_SONG = "BOOKMARK_SONG";
 export const UNBOOKMARK_SONG = "UNBOOKMARK_SONG";
+// user bookmarks a music
+export const BOOKMARK_MUSIC = "BOOKMARK_MUSIC";
+export const UNBOOKMARK_MUSIC = "UNBOOKMARK_MUSIC";
 // user logs in
 export const LOGIN = "LOGIN";
 // user logs out
@@ -200,6 +207,33 @@ export function removeSong(songId) {
   };
 }
 
+export function likeMusic(songId) {
+  return {
+    type: LIKE_MUSIC,
+    payload: {
+      songId
+    }
+  };
+}
+
+export function unLikeMusic(songId) {
+  return {
+    type: UNLIKE_MUSIC,
+    payload: {
+      songId
+    }
+  };
+}
+
+export function removeMusic(songId) {
+  return {
+    type: REMOVE_MUSIC,
+    payload: {
+      songId
+    }
+  };
+}
+
 export function commentSong(data) {
   let comment = {
     [Date.now()]: {
@@ -269,6 +303,24 @@ export function bookmarkSong(songId) {
 export function unBookmarkSong(songId) {
   return {
     type: UNBOOKMARK_SONG,
+    payload: {
+      songId
+    }
+  };
+}
+
+export function bookmarkMusic(songId) {
+  return {
+    type: BOOKMARK_MUSIC,
+    payload: {
+      songId
+    }
+  };
+}
+
+export function unBookmarkMusic(songId) {
+  return {
+    type: UNBOOKMARK_MUSIC,
     payload: {
       songId
     }
@@ -534,6 +586,66 @@ export function fetchMusic(user_id) {
   return genericAsyncActionDispatcher(user_id, req, cb);
 }
 
+export function hitASong(songId, userId) {
+  let req = {
+    method: "post",
+    url: `music/hit`,
+    data: { songId, userId }
+  };
+  let cb = {
+    initial: likeSong,
+    success: null,
+    fail: unLikeSong,
+    successMsg: "hit successful...",
+    errorMsg: "Network error, please check your connection..."
+  };
+  return genericAsyncActionDispatcher(songId, req, cb);
+}
+export function unHitASong(songId, userId) {
+  let req = {
+    method: "post",
+    url: `music/hit`,
+    data: { songId, userId }
+  };
+  let cb = {
+    initial: unLikeSong,
+    success: null,
+    fail: likeSong,
+    successMsg: "unhit successful...",
+    errorMsg: "Network error, please check your connection..."
+  };
+  return genericAsyncActionDispatcher(songId, req, cb);
+}
+export function bookmarkMusic(songId, userId) {
+  let req = {
+    method: "post",
+    url: `music/favourite`,
+    data: { songId, userId }
+  };
+  let cb = {
+    initial: bookmarkMusic,
+    success: null,
+    fail: unBookmarkMusic,
+    successMsg: "bookmark successful...",
+    errorMsg: "Network error, please check your connection..."
+  };
+  return genericAsyncActionDispatcher(songId, req, cb);
+}
+export function unBookmarkMusic(songId, userId) {
+  let req = {
+    method: "post",
+    url: `music/favourite`,
+    data: { songId, userId }
+  };
+  let cb = {
+    initial: unBookmarkMusic,
+    success: null,
+    fail: bookmarkMusic,
+    successMsg: "unbookmark successful...",
+    errorMsg: "Network error, please check your connection..."
+  };
+  return genericAsyncActionDispatcher(songId, req, cb);
+}
 export function hitASong(songId, userId) {
   let req = {
     method: "post",

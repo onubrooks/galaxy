@@ -145,20 +145,38 @@ export class FeedItemWrapper extends Component {
     // });
   }
   toggleLike(songId, userId) {
-    // like/hit action dispatcher
-    if (!this.props.feed.byId[songId].iHit) {
-      this.props.hitASong(songId, userId);
+    if (this.props.navigation.state.routeName == "Feed"){
+      if (!this.props.feed.byId[songId].iHit) {
+        // like/hit action dispatcher
+        this.props.hitASong(songId, userId);
+      } else {
+        this.props.unHitASong(songId, userId);
+      }
     } else {
-      this.props.unHitASong(songId, userId);
+      if (!this.props.music.byId[songId].iHit) {
+        // like/hit action dispatcher
+        this.props.hitMusic(songId, userId);
+      } else {
+        this.props.unHitMusic(songId, userId);
+      }
     }
+      
   }
 
   toggleBookmark(songId, userId) {
     // bookmark action dispatcher
-    if (!this.props.feed.byId[songId].iFav) {
-      this.props.bookmarkASong(songId, userId);
+    if (this.props.navigation.state.routeName == "Feed"){
+      if (!this.props.feed.byId[songId].iFav) {
+        this.props.bookmarkASong(songId, userId);
+      } else {
+        this.props.unBookmarkASong(songId, userId);
+      }
     } else {
-      this.props.unBookmarkASong(songId, userId);
+      if (!this.props.music.byId[songId].iFav) {
+        this.props.bookmarkMusic(songId, userId);
+      } else {
+        this.props.unBookmarkMusic(songId, userId);
+      }
     }
   }
 

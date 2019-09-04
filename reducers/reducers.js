@@ -19,6 +19,11 @@ import {
   REMOVE_SONG,
   BOOKMARK_SONG,
   UNBOOKMARK_SONG,
+  LIKE_MUSIC,
+  UNLIKE_MUSIC,
+  REMOVE_MUSIC,
+  BOOKMARK_MUSIC,
+  UNBOOKMARK_MUSIC,
   UPLOAD_SONG,
   UPLOAD_SONG_SUCCESS,
   UPLOAD_SONG_FAIL,
@@ -242,6 +247,64 @@ function music(state = initialState.music, action) {
         ...state,
         loading: false,
         updated: false
+      };
+    case LIKE_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: {
+            // edit the song which is being liked
+            ...state.byId[action.payload.songId],
+            iHit: true,
+            noHits: state.byId[action.payload.songId].noHits + 1
+          }
+        }
+      };
+    case UNLIKE_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: {
+            // edit the post which is being unliked
+            ...state.byId[action.payload.songId],
+            iHit: false,
+            noHits: state.byId[action.payload.songId].noHits - 1
+          }
+        }
+      };
+    case REMOVE_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: null
+        }
+      };
+    case BOOKMARK_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: {
+            // edit the song which is being liked
+            ...state.byId[action.payload.songId],
+            iFav: true
+          }
+        }
+      };
+    case UNBOOKMARK_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId, // all other ids stay the same
+          [action.payload.songId]: {
+            // edit the post which is being unliked
+            ...state.byId[action.payload.songId],
+            iFav: false
+          }
+        }
       };
     default:
       return state;
