@@ -37,8 +37,8 @@ const SetTransform = createTransform(
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["feed", "user", "playlist"],
   transforms: [SetTransform]
+  //whitelist: ["feed", "user", "playlist"],
 };
 
 export default persistConfig;

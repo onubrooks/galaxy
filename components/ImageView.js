@@ -15,8 +15,9 @@ import Gallery from "./Gallery";
 export class ImageView extends Component {
   render() {
     const { user, display, fetching = false} = this.props;
+    let route = this.props.navigation.state.routeName;
 
-    if (!display.length && !fetching) return <NoResults />;
+    if (!display.length && !fetching) return <NoResults route={route} />;
     if (!display.length && fetching) return <Spinner />;
   
     return <Gallery display={display} navigation={this.props.navigation} user={user} />;   

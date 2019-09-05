@@ -35,7 +35,14 @@ import {
   removeSong,
   bookmarkASong,
   unBookmarkASong,
+  hitMusic,
+  unHitMusic,
+  removeMusic,
+  bookmarkMusic,
+  unBookmarkMusic,
+  getMusicSuccess,
   commentASong,
+  commentMusicAsync,
   blockUser,
   unFollowUser,
   reportAbuse
@@ -43,7 +50,6 @@ import {
 
 import styles from "./styles";
 import sampleFeed from "./feedSample";
-import WorkInProgress from "../screens/AppStackScreens/WorkInProgress";
 
 export class FeedItemWrapper extends Component {
   constructor(props) {
@@ -54,7 +60,7 @@ export class FeedItemWrapper extends Component {
     let listLength = 10;
     let displayItems = feedItems.slice(offset, listLength);
     this.state = {
-      refreshing: props.feed.loading,
+      refreshing: props.navigation.state.routeName == "Feed" ? props.feed.loading : false,
       song: null,
       listLength,
       offset,
@@ -63,7 +69,7 @@ export class FeedItemWrapper extends Component {
       isModalVisible: false,
       isReportModalVisible: false,
       isCommentsModalVisible: false,
-      slice: 5,
+      slice: 5
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.gotoComments = this.gotoComments.bind(this);
@@ -73,7 +79,12 @@ export class FeedItemWrapper extends Component {
   }
 
   componentDidMount() {
-    this._onRefresh();
+    let route = this.props.navigation.state.routeName;
+    if (route == "Explore" || route == "Song") {
+      let item = this.props.navigation.getParam("item", {});
+      this.props.getMusicSuccess([item]);
+    }
+    if(this.props.navigation.state.routeName == "Feed") this._onRefresh();
   }
   _onRefresh = async () => {
     if (!this.props.user.email) {
@@ -136,7 +147,11 @@ export class FeedItemWrapper extends Component {
   }
   addComment(songId, comment) {
     let user = this.props.user;
-    this.props.commentASong(songId, comment, user);
+    if (this.props.navigation.state.routeName == "Feed"){
+      this.props.commentASong(songId, comment, user);
+    } else {
+      this.props.commentMusicAsync(songId, comment, user);
+    }
   }
   gotoComments(song) {
     this.setState({ isCommentsModalVisible: true, song });
@@ -191,7 +206,9 @@ export class FeedItemWrapper extends Component {
     // from search screen or profile screen
     if (route == 'Explore' || route == 'Song') {
       let item = this.props.navigation.getParam("item", {});
-      return [item];
+      let display = [item];
+      // this.props.getMusicSuccess([display]);
+      return display;
     }
     // profile page, songs by the logged in user
     else if (this.props.navigation.state.routeName == "Profile") {
@@ -235,11 +252,27 @@ export class FeedItemWrapper extends Component {
   }
 
   render() {
+    let route = this.props.navigation.state.routeName;
     const idx = this.props.navigation.getParam("idx", 0);
-    let { user } = this.props;
-    let displayItems = this._getItemsToDisplay();
+    let { user, display = null } = this.props;
+    let displayItems = display || this._getItemsToDisplay();
+    if(!displayItems.length && route !== "Feed") 
+    return (
+      <Text
+        style={{
+          fontFamily:
+            "Segoe UI Bold Italic",
+          color: "grey",
+          fontSize: 20,
+          marginVertical: 80,
+          marginHorizontal: 80
+        }}
+      >
+        No items to
+        display
+      </Text>
+    );
     
-
     return (
       <Container style={styles.container}>
         <KeyboardAvoidingScrollView
@@ -272,14 +305,14 @@ export class FeedItemWrapper extends Component {
                   )
               )}
               {this.props.navigation.state.routeName == "Feed" &&
-              feed.updated &&
+              this.props.feed.updated &&
               (this.state.listLength < 30 || offset < 20) ? (
-                <LoadMore load={this._loadMore} loading={feed.loading} />
+                <LoadMore load={this._loadMore} loading={this.props.feed.loading} />
               ) : null}
               <View style={{ height: 150 }} />
             </Content>
           ) : (
-            <Container
+            <View
               style={{
                 flex: 1,
                 justifyContent: "flex-start",
@@ -288,7 +321,7 @@ export class FeedItemWrapper extends Component {
             >
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("Search")}
-                style={{ marginVertical: 90, fontFamily: "Segoe UI" }}
+                style={{ marginVertical: 90 }}
               >
                 <Text
                   style={{
@@ -297,7 +330,7 @@ export class FeedItemWrapper extends Component {
                     fontSize: 20
                   }}
                 >
-                  Follow users to view their songs{" "}
+                  Follow users to view their songs
                 </Text>
               </TouchableOpacity>
               <Button
@@ -310,7 +343,7 @@ export class FeedItemWrapper extends Component {
                   active={true}
                 />
               </Button>
-            </Container>
+            </View>
           )}
         </KeyboardAvoidingScrollView>
         <Modal
@@ -367,7 +400,14 @@ const mapDispatchToProps = {
   removeSong,
   bookmarkASong,
   unBookmarkASong,
+  hitMusic,
+  unHitMusic,
+  removeMusic,
+  bookmarkMusic,
+  unBookmarkMusic,
+  getMusicSuccess,
   commentASong,
+  commentMusicAsync,
   blockUser,
   unFollowUser,
   reportAbuse

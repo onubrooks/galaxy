@@ -1,116 +1,170 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import { Button, Text, Thumbnail } from "native-base";
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
-const defaultAvatar = require('../assets/avatar.png');
+import { View, ImageBackground } from "react-native";
+import { Button, Text } from "native-base";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+const defaultAvatar = require("../assets/avatar.png");
 
 export default class ProfileSummary extends Component {
   constructor(props) {
     super(props);
-    let iFollow = props.user.followers.data ? props.user.followers.data.some(item => item.userId == props.myId) : false;
-    this.state = {iFollow}
+    let iFollow = props.user.followers.data
+      ? props.user.followers.data.some(item => item.userId == props.myId)
+      : false;
+    this.state = { iFollow };
   }
   toggleFollow = () => {
-    let {user} = this.props;
-    let status = this.state.iFollow ? 'unfollowed' : 'followed';
-    this.props.unFollowUser({ userId: user.userId, userHandle: user.userHandle }, {userId: this.props.myId}, status);
-    this.setState({iFollow: !this.state.iFollow});
-  }
+    let { user } = this.props;
+    let status = this.state.iFollow ? "unfollowed" : "followed";
+    this.props.unFollowUser(
+      { userId: user.userId, userHandle: user.userHandle },
+      { userId: this.props.myId },
+      status
+    );
+    this.setState({ iFollow: !this.state.iFollow });
+  };
   render() {
     let { user, self } = this.props;
-    return <View style={stl.grid}>
-  <View style={stl.thumb}>
-    <Thumbnail large source={user.userAvatar ? { uri: user.userAvatar } : defaultAvatar } />
-  </View>
-  <View style={stl.sub_grid}>
-        <View style={stl.stats}>
-      <View>
-        <TouchableOpacity>
-        <View>
-              <Text style={stl.statNum}>{ user.noSongs }</Text>
+    return (
+      <ImageBackground
+        source={user.userAvatar ? { uri: user.userAvatar } : defaultAvatar}
+        style={{
+          width: "100%",
+          height: 260,
+          justifyContent: "flex-start",
+          alignItems: "center"
+        }}
+      >
+        <View
+          style={{
+            width: "67%",
+            height: "55%",
+            marginTop: 40,
+            backgroundColor: "black",
+            opacity: 0.7,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Segoe UI",
+              color: "white",
+              fontSize: 20,
+              fontWeight: "500"
+            }}
+          >
+            {user.fullname}
+          </Text>
+          <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
+            <Text
+              onPress={() =>
+                !self
+                  ? this.props.navigation.navigate("ViewFollows", {
+                      self: false,
+                      initialPage: 0
+                    })
+                  : null
+              }
+              style={{
+                fontWeight: "800",
+                color: "white",
+                fontSize: 15
+              }}
+            >
+              {user.noFollowing}
+            </Text>{" "}
+            Following |{" "}
+            <Text
+              style={{ fontWeight: "800", color: "white" }}
+              onPress={() =>
+                !self
+                  ? this.props.navigation.navigate("ViewFollows", {
+                      self: false,
+                      initialPage: 1
+                    })
+                  : null
+              }
+            >
+              {user.noFollowers}
+            </Text>{" "}
+            Followers
+          </Text>
+          {self ? (
+            <View
+              style={{
+                borderTopWidth: 0.5,
+                width: "50%",
+                marginTop: 15,
+                marginBottom: 0,
+                marginHorizontal: 15,
+                borderTopColor: "white"
+              }}
+            >
+              <Text />
+            </View>
+          ) : null}
+          {self ? (
+            <Text
+              style={{
+                fontFamily: "Segoe UI Italic",
+                color: "white",
+                marginTop: -10,
+                marginHorizontal: 15,
+                textAlign: "justify"
+              }}
+            >
+              {user.status}
+            </Text>
+          ) : null}
         </View>
-        <View>
-              <Text style={stl.statTxt}>songs</Text>
+        <View style={{ marginTop: 20, flexDirection: "row" }}>
+          {self ? (
+            <Button
+              rounded
+              small
+              style={{ marginRight: 5 }}
+              onPress={() => this.props.navigation.navigate("Playlist")}
+            >
+              <Ionicons
+                name="ios-heart"
+                size={20}
+                color={"red"}
+                style={{ marginLeft: 11 }}
+              />
+              <Text style={{ marginLeft: -10 }}>Playlist</Text>
+            </Button>
+          ) : (
+            <Button
+              rounded
+              small
+              style={{ marginRight: 5 }}
+              onPress={this.toggleFollow}
+            >
+              <Ionicons
+                name="ios-heart"
+                size={20}
+                color={"red"}
+                style={{ marginLeft: 11 }}
+              />
+              <Text style={{ marginLeft: -10 }}>
+                {this.state.iFollow ? "Unfollow" : "Follow"}
+              </Text>
+            </Button>
+          )}
+          {self ? (
+            <Button
+              rounded
+              bordered
+              small
+              style={{ marginLeft: 5 }}
+              onPress={() => this.props.navigation.navigate("EditProfile")}
+            >
+              <Text style={{ color: "white" }}>Edit Profile</Text>
+            </Button>
+          ) : null}
         </View>
-        </TouchableOpacity>
-      </View>
-      <View>
-            <TouchableOpacity onPress={() => !self ? this.props.navigation.navigate('ViewFollows', { self: false, initialPage: 1 }) : null}>
-        <View>
-              <Text style={stl.statNum}>{user.noFollowers}</Text>
-        </View>
-        <View>
-              <Text style={stl.statTxt}>followers</Text>
-        </View>
-        </TouchableOpacity>
-      </View>
-      <View>
-            <TouchableOpacity onPress={() => !self ? this.props.navigation.navigate('ViewFollows', { self: false, initialPage: 0 }) : null}>
-        <View>
-              <Text style={stl.statNum}>{user.noFollowing}</Text>
-        </View>
-        <View>
-              <Text style={stl.statTxt}>following</Text>
-        </View>
-        </TouchableOpacity>
-      </View>
-    </View>
-        <View style={stl.button}>
-          {self ? 
-          <Button style={stl.btn} light small onPress={() => this.props.navigation.navigate('EditProfile')}>
-            <Text style={stl.btnTxt}>Edit profile</Text>
-      </Button>
-      :
-            <Button style={stl.btn} light small onPress={this.toggleFollow}>
-              <Text style={stl.btnTxt}>{this.state.iFollow ? 'Unfollow' : 'Follow'}</Text>
-            </Button>}
-    </View>
-        
-  </View>
-</View>;
+      </ImageBackground>
+    );
   }
 }
-
-const stl = StyleSheet.create({
-  grid: {
-    flexDirection: "row",
-    marginVertical: 20,
-    justifyContent: "space-around",
-    alignItems: "flex-start"
-  },
-  thumb: {
-    //flex: 1
-    marginLeft: 15
-  },
-  sub_grid: {
-    flexDirection: "column",
-    flex: 1
-  },
-  stats: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginHorizontal: 20
-  },
-  button: {
-    height: 15,
-    paddingLeft: 25
-  },
-  btn: {
-    backgroundColor: "#fff",
-    width: DEVICE_WIDTH / 2 + 5,
-    marginTop: 9
-  },
-  btnTxt: {
-    paddingLeft: 44
-  },
-  statNum: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20
-  },
-  statTxt: {
-    // fontWeight: "100"
-    fontSize: 15,
-    color: 'grey'
-  }
-});

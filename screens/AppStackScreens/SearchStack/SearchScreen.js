@@ -30,15 +30,15 @@ export class SearchScreen extends Component {
       userEndpoint: "https://api.leedder.com/api/v1.0/search/users/",
       musicEndpoint: "https://api.leedder.com/api/v1.0/search/music/",
       // segment display variables
-      s: true,
+      s: false,
       u: false,
-      h: false,
+      h: true,
       fetching: false
     };
   }
 
   search = (event) => {
-    let text = event.nativeEvent.text;
+    let text = this.state.text; //event.nativeEvent.text;
     if (text.charAt(0) === "#") {
       this.setState({ s: false, u: false, h: true });
       text = text.slice(1);
@@ -49,7 +49,7 @@ export class SearchScreen extends Component {
       this.setState({ s: true, u: false, h: false})
     }
     let endpoint = `${this.state.endpoint}${text}`
-    this.setState({fetching:true})
+    this.setState({fetching:true, userResults: [], songResults: []})
     Axios.get(endpoint)
       .then(res => {
         let data = res.data;
@@ -94,6 +94,20 @@ export class SearchScreen extends Component {
           <View style={styles.segmentView}>
             <Button
               transparent
+              bordered={this.state.h}
+              onPress={() => {
+                this.setState({
+                  s: false,
+                  u: false,
+                  h: true
+                });
+              }}
+              style={styles.segmentButton}
+            >
+              <Text style={styles.segmentButtonText}>Hashtags</Text>
+            </Button>
+            <Button
+              transparent
               bordered={this.state.s}
               onPress={() => {
                 this.setState({
@@ -120,22 +134,17 @@ export class SearchScreen extends Component {
             >
               <Text style={styles.segmentButtonText}>Users</Text>
             </Button>
-            <Button
-              transparent
-              bordered={this.state.h}
-              onPress={() => {
-                this.setState({
-                  s: false,
-                  u: false,
-                  h: true
-                });
-              }}
-              style={styles.segmentButton}
-            >
-              <Text style={styles.segmentButtonText}>Hashtags</Text>
-            </Button>
           </View>
           <ScrollView>
+            {this.state.h ? (
+              <ImageView
+                display={hashtagResults}
+                navigation={this.props.navigation}
+                fetching={this.state.fetching}
+                isProfile={true}
+              />
+            ) : null}
+
             {this.state.s ? (
               <ImageView
                 display={songResults}
@@ -151,15 +160,6 @@ export class SearchScreen extends Component {
                 display={userResults}
                 navigation={this.props.navigation}
                 NoResults={NoResults}
-                fetching={this.state.fetching}
-                isProfile={true}
-              />
-            ) : null}
-
-            {this.state.h ? (
-              <ImageView
-                display={hashtagResults}
-                navigation={this.props.navigation}
                 fetching={this.state.fetching}
                 isProfile={true}
               />

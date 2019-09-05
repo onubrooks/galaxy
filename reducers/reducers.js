@@ -4,6 +4,7 @@ import {
   GET_FEED_SUCCESS,
   GET_FEED_FAIL,
   ADD_COMMENT,
+  ADD_COMMENT_MUSIC,
   GET_PLAYLIST,
   GET_PLAYLIST_SUCCESS,
   GET_PLAYLIST_FAIL,
@@ -231,7 +232,8 @@ function music(state = initialState.music, action) {
       return {
         ...state,
         loading: true,
-        updated: false
+        updated: false,
+        byId: {}
       };
     case GET_MUSIC_SUCCESS:
       return {
@@ -247,6 +249,17 @@ function music(state = initialState.music, action) {
         ...state,
         loading: false,
         updated: false
+      };
+    case ADD_COMMENT_MUSIC:
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.payload.songId]: {
+            ...state.byId[action.payload.songId],
+            comments: action.payload.comments
+          }
+        }
       };
     case LIKE_MUSIC:
       return {

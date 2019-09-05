@@ -51,10 +51,7 @@ const sampleComments = {
   loading: false,
   updated: true
 };
-const sampleUsers = {
-  byId: {},
-  allIds: []
-};
+
 const sampleBookmarks = [];
 const profile = {
   userId: null,
@@ -99,7 +96,6 @@ const music = {
 export const initialState = {
   feed: sampleFeed,
   comments: sampleComments,
-  users: sampleUsers,
   user,
   bookmarks: sampleBookmarks,
   profile,

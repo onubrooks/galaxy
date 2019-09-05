@@ -158,7 +158,7 @@ const MainStackNavigator = createBottomTabNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Profile",
+    initialRouteName: "Feed",
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

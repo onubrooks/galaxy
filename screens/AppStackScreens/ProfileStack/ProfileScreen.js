@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ImageBackground, ScrollView, View, TouchableOpacity, Platform } from "react-native";
+import { ScrollView, View, TouchableOpacity, Platform } from "react-native";
 import {
   Container,
   Header,
@@ -12,8 +12,6 @@ import {
   Body,
   Left,
   Right,
-  ScrollableTab,
-  Text,
   Spinner,
   Icon
 } from "native-base";
@@ -25,8 +23,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 import styles from "../../../components/styles";
 
 import { connect } from "react-redux";
-import { fetchProfile, fetchMyProfile, fetchMusic } from "../../../actions/actions";
-import ProfileSummaryNew from "../../../components/ProfileSummaryNew";
+import { fetchMyProfile, fetchMusic } from "../../../actions/actions";
 export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -34,23 +31,16 @@ export class ProfileScreen extends Component {
   }
   componentDidMount() {
     let userId, userHandle;
-    if (this.props.navigation.getParam('other', false)) {
-      userId = this.props.navigation.getParam("userId", null);
-      userHandle = this.props.navigation.getParam("userHandle", null);
-      this.props.fetchProfile(userHandle, userId);
-      this.props.fetchMusic(userId);
-    } else {
-      userId = this.props.user.id;
-      this.props.fetchMyProfile(userId);
-      this.props.fetchMusic(userId);
-    }
+    userId = this.props.user.id;
+    this.props.fetchMyProfile(userId);
+    this.props.fetchMusic(userId);
   }
   render() {
     let { music } = this.props;
     let display = Object.keys(music.byId).length
       ? Object.keys(music.byId).map(key => music.byId[key])
       : [];
-    let user = this.state.other ? this.props.profile : this.props.user;
+    let user = this.props.user;
     let self = !this.state.other
     if (user.loading) {
       return (
@@ -128,7 +118,7 @@ export class ProfileScreen extends Component {
                 marginLeft: -30
               }}
             >
-              {`@${user.userHandle} (${user.noSongs} Songs)`}
+              {user.userHandle ? `@${user.userHandle} (${user.noSongs} Songs)` : ""}
             </Title>
           </Body>
 
@@ -142,7 +132,7 @@ export class ProfileScreen extends Component {
           </Right>
         </Header>
         <ScrollView>
-          <ProfileSummaryNew user={user}  self={self} navigation={this.props.navigation} />
+          <ProfileSummary user={user}  self={self} navigation={this.props.navigation} />
           <Tabs
             transparent
             // renderTabBar={() => <ScrollableTab />}
@@ -183,13 +173,11 @@ export class ProfileScreen extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    profile: state.profile,
     music: state.music
   };
 };
 
 const mapDispatchToProps = {
-  fetchProfile,
   fetchMyProfile,
   fetchMusic
 };

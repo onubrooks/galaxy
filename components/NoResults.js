@@ -1,7 +1,8 @@
 import React from "react"
 import { Container, Text } from "native-base"
 
-export default NoResults = () => {
+export default NoResults = (props) => {
+  let {route} = props
   return (
     <Container
       style={{
@@ -11,7 +12,11 @@ export default NoResults = () => {
         alignItems: "center"
       }}
     >
-      <Text style={{ fontFamily: "Segoe UI Bold" }}>No Search Results </Text>
+      <Text style={{ fontFamily: "Segoe UI Bold" }}>
+        {route == "Profile" || route == "ViewProfile"
+          ? "No songs to display"
+          : "No Search Results"}{" "}
+      </Text>
     </Container>
   );
 };

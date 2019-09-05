@@ -8,26 +8,24 @@ const defaultAvatar = require("../assets/avatar.png");
 export default class ProfileSummaryNew extends Component {
   constructor(props) {
     super(props);
-    let iFollow = props.user.followers.data
-      ? props.user.followers.data.some(item => item.userId == props.myId)
-      : false;
-    this.state = { iFollow };
+    this.state = {iFollow: false}
   }
+
+  
+  componentWillMount () {
+    let iFollow = this.props.iFollow;
+    this.setState({ iFollow });
+  }
+  
   toggleFollow = () => {
-    let { user } = this.props;
-    let status = this.state.iFollow ? "unfollowed" : "followed";
-    this.props.unFollowUser(
-      { userId: user.userId, userHandle: user.userHandle },
-      { userId: this.props.myId },
-      status
-    );
-    this.setState({ iFollow: !this.state.iFollow });
+    this.props.unFollowUser();
+    //this.setState({ iFollow: !this.state.iFollow });
   };
   render() {
-    let { user, self } = this.props;
+    let { profile, self } = this.props;
     return (
       <ImageBackground
-        source={user.userAvatar ? { uri: user.userAvatar } : defaultAvatar}
+        source={profile.userAvatar ? { uri: profile.userAvatar } : defaultAvatar}
         style={{
           width: "100%",
           height: 260,
@@ -54,7 +52,7 @@ export default class ProfileSummaryNew extends Component {
               fontWeight: "500"
             }}
           >
-            {user.fullname}
+            {profile.fullname}
           </Text>
           <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
             <Text
@@ -72,7 +70,7 @@ export default class ProfileSummaryNew extends Component {
                 fontSize: 15
               }}
             >
-              {user.noFollowing}
+              {profile.noFollowing}
             </Text>{" "}
             Following |{" "}
             <Text
@@ -86,61 +84,28 @@ export default class ProfileSummaryNew extends Component {
                   : null
               }
             >
-              {user.noFollowers}
+              {profile.noFollowers}
             </Text>{" "}
             Followers
           </Text>
-          {self ? (
-            <View
-              style={{
-                borderTopWidth: 0.5,
-                width: "50%",
-                marginTop: 15,
-                marginBottom: 0,
-                marginHorizontal: 15,
-                borderTopColor: "white"
-              }}
-            >
-              <Text />
-            </View>
-          ) : null}
-          {self ? (
-            <Text
-              style={{
-                fontFamily: "Segoe UI Italic",
-                color: "white",
-                marginTop: -10,
-                marginHorizontal: 15,
-                textAlign: "justify"
-              }}
-            >
-              {user.status}
-            </Text>
-          ) : null}
         </View>
         <View style={{ marginTop: 20, flexDirection: "row" }}>
           <Button
             rounded
-            small
+            small 
+            bordered={this.state.iFollow ? false : true}
             style={{ marginRight: 5 }}
-            onPress={() => this.props.navigation.navigate("Playlist")}
+            onPress={this.toggleFollow}
           >
             <Ionicons
-              name="ios-heart"
+              name={this.state.iFollow ? "ios-heart" : "ios-heart-empty"}
               size={20}
               color={"red"}
               style={{ marginLeft: 11 }}
             />
-            <Text style={{ marginLeft: -10 }}>Playlist</Text>
-          </Button>
-          <Button
-            rounded
-            bordered
-            small
-            style={{ marginLeft: 5 }}
-            onPress={() => this.props.navigation.navigate("EditProfile")}
-          >
-            <Text style={{ color: "white" }}>Edit Profile</Text>
+            <Text style={{ marginLeft: -10 }}>
+              {this.state.iFollow ? "Unfollow" : "Follow"}
+            </Text>
           </Button>
         </View>
       </ImageBackground>
