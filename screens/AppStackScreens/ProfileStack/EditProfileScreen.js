@@ -169,7 +169,6 @@ export class EditProfileScreen extends Component {
       <Container style={styles.container}>
         <Header
           style={[styles.header, { backgroundColor: "white", height: 40 }]}
-          androidStatusBarColor="transparent"
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity

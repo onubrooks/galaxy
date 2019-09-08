@@ -66,9 +66,9 @@ const FeedStackNavigator = createStackNavigator(
     // make tab bar hide on the add comment screen
     navigationOptions: ({ navigation }) => {
       let tabBarVisible = true;
-      if (navigation.state.index > 0) {
-        tabBarVisible = false;
-      }
+      // if (navigation.state.index > 0) {
+      //   tabBarVisible = false;
+      // }
 
       return { tabBarVisible };
       // alternative implementation

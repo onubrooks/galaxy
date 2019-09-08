@@ -233,7 +233,7 @@ function music(state = initialState.music, action) {
         ...state,
         loading: true,
         updated: false,
-        byId: {}
+        // byId: {}
       };
     case GET_MUSIC_SUCCESS:
       return {
@@ -241,7 +241,7 @@ function music(state = initialState.music, action) {
         lastUpdated: Date.now(),
         loading: false,
         updated: true,
-        byId: { ...action.payload.byId },
+        byId: { ...state.byId, ...action.payload.byId },
         allIds: null
       };
     case GET_MUSIC_FAIL:

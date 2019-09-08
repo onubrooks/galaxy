@@ -88,7 +88,7 @@ export class PasswordScreen extends Component {
          };
          render() {
            return <Container style={styles.container}>
-               <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor={styles.primaryColor}>
+               <Header style={[styles.header, { backgroundColor: "white" }]} >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                    <Ionicons name="md-close" size={33} color={styles.primaryColor} />

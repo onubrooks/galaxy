@@ -74,6 +74,7 @@ export class CommentsModalContent extends Component {
         <AddCommentScreen
           handlePress={this.handlePress}
           song={this.props.song}
+          navigation={this.props.navigation}
         />
       </View>
     );

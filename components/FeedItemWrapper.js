@@ -203,34 +203,27 @@ export class FeedItemWrapper extends Component {
      * therefore it has to filter what to display based on what page the app is currently in.
      */
     let route = this.props.navigation.state.routeName;
-    // from search screen or profile screen
-    if (route == 'Explore' || route == 'Song') {
-      let item = this.props.navigation.getParam("item", {});
-      let display = [item];
-      // this.props.getMusicSuccess([display]);
-      return display;
-    }
-    // profile page, songs by the logged in user
-    else if (this.props.navigation.state.routeName == "Profile") {
-      let { music } = this.props;
-      let display = Object.keys(music.byId).length
-        ? Object.keys(music.byId).map(key => music.byId[key])
-        : [];
-      return display;
-    }else if (this.props.navigation.state.routeName == "ViewProfile") {
-      let { music } = this.props;
-      let display = Object.keys(music.byId).length
-        ? Object.keys(music.byId).map(key => music.byId[key])
-        : [];
-      return display;
-    }
-    // if none of the above hold, then we are probably in the feed screen
-    else {
+    let item = this.props.navigation.getParam("item", {});
+    let { user } = this.props;
+    if(route == "Feed") {
       let { feed } = this.props;
       let display = Object.keys(feed.byId).length
         ? Object.keys(feed.byId).map(key => feed.byId[key])
         : [];
       return display;
+    } else if(route == "Profile") {
+      let { music } = this.props;
+      let display = Object.keys(music.byId).length
+        ? Object.keys(music.byId).map(key => music.byId[key])
+        : [];
+        return display.filter(song => song.userId == user.id);
+    }
+       else {
+      let { music } = this.props;
+      let display = Object.keys(music.byId).length
+        ? Object.keys(music.byId).map(key => music.byId[key])
+        : [];
+      return display.filter(song => song.songId == item.songId);
     }
   }
 
@@ -372,6 +365,7 @@ export class FeedItemWrapper extends Component {
           <CommentsModalContent
             setModalVisible={this.setModalVisible}
             song={this.state.song}
+            navigation={this.props.navigation}
           />
         </Modal>
       </Container>

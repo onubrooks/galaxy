@@ -36,12 +36,13 @@ export class ProfileScreen extends Component {
     this.props.fetchMusic(userId);
   }
   render() {
-    let { music } = this.props;
-    let display = Object.keys(music.byId).length
+    let self = !this.state.other;
+    let { music, user } = this.props;
+    let items = Object.keys(music.byId).length
       ? Object.keys(music.byId).map(key => music.byId[key])
       : [];
-    let user = this.props.user;
-    let self = !this.state.other
+    let display = items.filter(song => song.userId == user.id);
+    
     if (user.loading) {
       return (
         <Container>
@@ -50,7 +51,6 @@ export class ProfileScreen extends Component {
               styles.header,
               { backgroundColor: "white", height: 40 }
             ]}
-            androidStatusBarColor="transparent"
           >
             <Left style={{ maxWidth: 50 }}>
               <TouchableOpacity
@@ -93,7 +93,6 @@ export class ProfileScreen extends Component {
       <Container style={{ backgroundColor: "white" }}>
         <Header
           style={[styles.header, { backgroundColor: "white", height: 40 }]}
-          androidStatusBarColor="transparent"
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity

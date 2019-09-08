@@ -253,7 +253,6 @@ export class ViewProfileScreen extends Component {
                      styles.header,
                      { backgroundColor: "white", height: 40 }
                    ]}
-                   androidStatusBarColor="black"
                  >
                    <Left style={{ maxWidth: 50 }}>
                      <TouchableOpacity
@@ -301,7 +300,6 @@ export class ViewProfileScreen extends Component {
                    styles.header,
                    { backgroundColor: "white", height: 40 }
                  ]}
-                 androidStatusBarColor="transparent"
                >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity

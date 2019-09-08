@@ -16,7 +16,7 @@ import { Dimensions } from 'react-native';
 import CommentInput from "../../../components/CommentInput";
 
 import { connect } from "react-redux";
-import { commentASong, fetchComments } from "../../../actions/actions";
+import { commentASong, commentMusicAsync, fetchComments } from "../../../actions/actions";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -49,7 +49,10 @@ export class AddCommentScreen extends React.Component {
   }
   addComment(songId, comment) {
     let user = this.props.user;
-    this.props.commentASong(songId, comment, user);
+    if (this.props.navigation.state.routeName == "AddComment")
+      this.props.commentASong(songId, comment, user);
+    else
+      this.props.commentMusicAsync(songId, comment, user);
   }
 
   render() {
@@ -57,7 +60,7 @@ export class AddCommentScreen extends React.Component {
     let { song, user, comments = {} } = this.props;
     //let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
     return <Container style={[{opacity: 0.8, backgroundColor: 'black', marginLeft: 0}]}>
-        <Header style={[styles.header, { backgroundColor: "" }]} androidStatusBarColor="white">
+        <Header style={[styles.header, { backgroundColor: "" }]} >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.handlePress('comments')}>
               <Icon name="md-arrow-back" style={styles.whiteColor} />
@@ -90,6 +93,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   commentASong,
+  commentMusicAsync,
   fetchComments
 };
 

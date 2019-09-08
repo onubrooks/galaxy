@@ -17,7 +17,7 @@ import styles from "../../../components/styles";
 export class FeedScreen extends Component {
   render() {
     return <Container style={styles.container}>
-      <Header style={styles.header} androidStatusBarColor="white">
+      <Header style={styles.header} >
           {/* <Left>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Playlist')}>
               <Ionicons name="ios-musical-notes" size={30} />

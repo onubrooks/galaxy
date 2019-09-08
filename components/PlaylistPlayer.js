@@ -560,7 +560,7 @@ export default class PlaylistPlayer extends React.Component {
   UpNext = (props) => {
     return <View style={{ flexDirection: "row", marginVertical: 2, marginLeft: 30, justifyContent: "space-between", width: "100%", backgroundColor: '#efefef' }}>
       <View style={{ width: "20%", marginTop: 4 }}>
-        <Image source={require("../assets/default.jpg")} style={{ width: 60, height: 60, borderRadius: 5 }} />
+        <Image source={{uri: props.item.coverPath}} style={{ width: 60, height: 60, borderRadius: 5 }} />
       </View>
       <View style={{ width: "60%", justifyContent: "center" }}>
         <Text numberOfLines={2} ellipsizeMode="tail" style={{ fontSize: 15, fontWeight: "900", fontFamily:'Segoe UI' }}>

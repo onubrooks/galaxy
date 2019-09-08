@@ -15,7 +15,7 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 export class PostScreen extends Component {
   render() {
     return <Container>
-        <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#006E8C">
+        <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
