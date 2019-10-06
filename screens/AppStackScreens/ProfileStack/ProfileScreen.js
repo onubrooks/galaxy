@@ -49,7 +49,7 @@ export class ProfileScreen extends Component {
           <Header
             style={[
               styles.header,
-              { backgroundColor: "white", height: 40 }
+              { backgroundColor: "white", height: 45 }
             ]}
           >
             <Left style={{ maxWidth: 50 }}>
@@ -92,14 +92,14 @@ export class ProfileScreen extends Component {
     return (
       <Container style={{ backgroundColor: "white" }}>
         <Header
-          style={[styles.header, { backgroundColor: "white", height: 40 }]}
+          style={[styles.header, { backgroundColor: "white", height: 45 }]}
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => this.props.navigation.navigate("Feed")}
             >
               <Icon
-                name="md-arrow-back"
+                name="ios-arrow-back"
                 style={{
                   color: "#666666",
                   fontFamily: "Segoe UI Bold",
@@ -143,13 +143,11 @@ export class ProfileScreen extends Component {
                 </TabHeading>
               }
             >
-              <ScrollView>
                 <ImageView
                   display={display}
                   navigation={this.props.navigation}
                   fetching={music.loading}
                 />
-              </ScrollView>
             </Tab>
             <Tab
               heading={
@@ -158,9 +156,7 @@ export class ProfileScreen extends Component {
                 </TabHeading>
               }
             >
-              <ScrollView>
                 <FeedItemWrapper navigation={this.props.navigation} />
-              </ScrollView>
             </Tab>
           </Tabs>
         </ScrollView>

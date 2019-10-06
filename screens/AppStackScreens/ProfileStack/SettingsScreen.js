@@ -13,9 +13,9 @@ import {
   Content,
   Body,
   Left,
-  Text
+  Text,
+  Icon
 } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
@@ -51,38 +51,74 @@ export class SettingsScreen extends Component {
     //this.setState({ result });
   };
   render() {
-    return <Container style={styles.container}>
-      <Header style={[styles.header, { backgroundColor: "white" }]} >
-        <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={33} color={styles.primaryColor} />
+    return (
+      <Container style={styles.container}>
+        <Header
+          style={[styles.header, { backgroundColor: "white", height: 45 }]}
+        >
+          <Left style={{ maxWidth: 50 }}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+            >
+              <Icon
+                name="ios-arrow-back"
+                style={{
+                  color: "#666666",
+                  fontFamily: "Segoe UI Bold",
+                  fontSize: 20
+                }}
+              />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{fontWeight: '500', color:styles.primaryColor}}>Settings</Text>
+            <Text
+              style={{
+                color: "#666666",
+                fontFamily: "Segoe UI Bold",
+                fontSize: 15
+              }}
+            >
+              Settings
+            </Text>
           </Body>
         </Header>
         <Content>
           <View style={stl.grid}>
             <Text style={stl.group}>Account</Text>
-            <Text style={stl.item} onPress={() => this.props.navigation.navigate('Password')}>Password</Text>
-          {/* <Text style={stl.item} onPress={() => this.props.navigation.navigate('SavedGrid')}>Saved</Text>
+            <Text
+              style={stl.item}
+              onPress={() => this.props.navigation.navigate("Password")}
+            >
+              Password
+            </Text>
+            {/* <Text style={stl.item} onPress={() => this.props.navigation.navigate('SavedGrid')}>Saved</Text>
           <Text style={stl.item} onPress={() => this.props.navigation.navigate('Likes')}>Songs You've Liked</Text> */}
             <Hr />
             <Text style={stl.group}>About</Text>
-            <Text style={stl.item} onPress={this.showTos}>Terms of Service</Text>
+            <Text style={stl.item} onPress={this.showTos}>
+              Terms of Service
+            </Text>
             <Hr />
             <Text style={stl.group}>Logins</Text>
-            <Text style={[stl.item, stl.itemLast]} onPress={this._signOutAsync}>Log Out</Text>
+            <Text
+              style={[stl.item, stl.itemLast]}
+              onPress={this._signOutAsync}
+            >
+              Log Out
+            </Text>
           </View>
           <View style={{ height: 15 }} />
         </Content>
-        <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState(
-              { isModalVisible: false }
-            )}>
-          <ProfileScreenModalContent setModalVisible={this.setModalVisible} />
+        <Modal
+          isVisible={this.state.isModalVisible}
+          onBackdropPress={() => this.setState({ isModalVisible: false })}
+        >
+          <ProfileScreenModalContent
+            setModalVisible={this.setModalVisible}
+          />
         </Modal>
-      </Container>;
+      </Container>
+    );
   }
 }
 const mapStateToProps = (state) => {
@@ -110,13 +146,11 @@ const stl = StyleSheet.create({
     fontWeight: "900"
   },
   group: {
-    fontWeight: "800",
     marginVertical: 15,
     fontSize: 19,
-    fontFamily: "Segoe UI"
+    fontFamily: "Segoe UI Bold"
   },
   item: {
-    fontWeight: "400",
     marginVertical: 15,
     fontSize: 17,
     fontFamily: "Segoe UI"

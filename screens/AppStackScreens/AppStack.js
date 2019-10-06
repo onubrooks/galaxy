@@ -34,6 +34,7 @@ import {ModalScreen} from "./Modals/ModalScreen";
 
 import { Icon, Thumbnail } from "native-base";
 const avatar = require("../../assets/avatar.png");
+const addIcon = require("../../assets/add.png");
 
 const FeedStackNavigator = createStackNavigator(
   {
@@ -48,9 +49,6 @@ const FeedStackNavigator = createStackNavigator(
     },
     DMChat: {
       screen: DMChatScreen
-    },
-    Playlist: {
-      screen: PlaylistScreen
     },
     ViewProfile: {
       screen: ViewProfileScreen
@@ -181,13 +179,16 @@ const MainStackNavigator = createBottomTabNavigator(
             />
           );
         } else if (routeName === "Add") {
-          iconName = "disc";
+          iconName = "add";
+          
           icon = (
-            <Icon
-              name={iconName}
-              style={{ color: tintColor, fontSize: 20 }}
+            <Thumbnail
+              small
+              source={addIcon}
+              style={{ width: 20, height: 20 }}
             />
           );
+          
         } else if (routeName === "Playlist") {
           iconName = "musical-notes";
           icon = (
@@ -239,7 +240,8 @@ const MainStackNavigator = createBottomTabNavigator(
       //inactiveBackgroundColor: "",
       showLabel: false,
       style: {
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        height: 40
       }
     },
     tabBarComponent: props => (

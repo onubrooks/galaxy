@@ -15,19 +15,27 @@ import FeedItemWrapper from "../../../components/FeedItemWrapper";
 
 export class SongScreen extends Component {
   render() {
-    return <Container>
-      <Header style={[styles.header, {backgroundColor: 'white'}]}>
+    return (
+      <Container>
+        <Header
+          style={[styles.header, { backgroundColor: "white", height: 45 }]}
+        >
           <Left style={{ maxWidth: 50 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Ionicons name="md-arrow-back" size={33} color={styles.primaryColor} />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("ViewProfile")}
+            >
+              <Ionicons name="ios-arrow-back" size={26} color={"#666666"} />
             </TouchableOpacity>
           </Left>
           <Body>
-          <Text style={{ fontWeight: "900", color: styles.primaryColor }}>Song</Text>
+            <Text style={{ fontWeight: "900", color: "#666666" }}>
+              Song
+            </Text>
           </Body>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />
-      </Container>;
+      </Container>
+    );
   }
 }
 

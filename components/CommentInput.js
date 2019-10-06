@@ -95,7 +95,7 @@ export default class CommentInput extends Component {
                   small
                   disabled
                   transparent
-                  style={{ right: 0, paddingBottom: -10, marginTop: 7 }}
+                  style={{ right: 0, paddingBottom: -10 }}
                 >
                   <Text>POST</Text>
                 </Button>

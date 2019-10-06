@@ -18,7 +18,7 @@ export class SavedListScreen extends Component {
         <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#764BA2">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={33} color="#764BA2" />
+            <Ionicons name="ios-arrow-back" size={33} color="#764BA2" />
             </TouchableOpacity>
           </Left>
           <Body>

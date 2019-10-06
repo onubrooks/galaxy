@@ -251,7 +251,7 @@ export class ViewProfileScreen extends Component {
                  <Header
                    style={[
                      styles.header,
-                     { backgroundColor: "white", height: 40 }
+                     { backgroundColor: "white", height: 45 }
                    ]}
                  >
                    <Left style={{ maxWidth: 50 }}>
@@ -298,15 +298,15 @@ export class ViewProfileScreen extends Component {
                <Header
                  style={[
                    styles.header,
-                   { backgroundColor: "white", height: 40 }
+                   { backgroundColor: "white", height: 45 }
                  ]}
                >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity
-                     onPress={() => this.props.navigation.goBack()}
+                     onPress={() => this.props.navigation.navigate("Search")}
                    >
                      <Icon
-                       name="md-arrow-back"
+                       name="ios-arrow-back"
                        style={{
                          color: "#666666",
                          fontFamily: "Segoe UI Bold",
@@ -352,13 +352,13 @@ export class ViewProfileScreen extends Component {
                        </TabHeading>
                      }
                    >
-                     <ScrollView>
+                     
                        <ImageView
                          display={display}
                          navigation={this.props.navigation}
                          fetching={this.state.songsLoading}
                        />
-                     </ScrollView>
+                     
                    </Tab>
                    <Tab
                      heading={
@@ -371,12 +371,10 @@ export class ViewProfileScreen extends Component {
                        </TabHeading>
                      }
                    >
-                     <ScrollView>
                        <FeedItemWrapper
                          navigation={this.props.navigation}
                          display={display}
                        />
-                     </ScrollView>
                    </Tab>
                  </Tabs>
                </ScrollView>

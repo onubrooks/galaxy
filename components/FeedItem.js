@@ -70,59 +70,122 @@ export class FeedItem extends Component {
 
          render() {
            const { song, user } = this.props;
-           return <Card transparent style={styles.noBorder}>
+           return (
+             <Card transparent style={styles.noBorder}>
                <CardItem style={{ height: 50 }}>
                  <Left>
-                   <Thumbnail small source={{uri: song.userAvatar}} style={{ padding: -20 }} />
+                   <Thumbnail
+                     small
+                     source={{ uri: song.userAvatar }}
+                     style={{ padding: -20 }}
+                   />
                    <Body>
-                   <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} />
+                     <UserHandle
+                       userId={song.userId}
+                       userHandle={song.userHandle}
+                       navigation={this.props.navigation}
+                     />
                      {/* <Text style={styles.handle}>{song.userHandle}</Text> */}
                    </Body>
                  </Left>
                  <Right>
-                   <TouchableOpacity style={{ width: 30, paddingRight: 10 }} transparent onPress={ () => this.handlePress(song)}>
+                   <TouchableOpacity
+                     style={{ width: 30, paddingRight: 10 }}
+                     transparent
+                     onPress={() => this.handlePress(song)}
+                   >
                      <Ionicons name="ios-more" size={25} />
                    </TouchableOpacity>
                  </Right>
                </CardItem>
 
                <CardItem cardBody style={{ marginHorizontal: -100 }}>
-                 <ImageBackground style={{ flex: 1 }} source={{uri: song.coverPath}} resizeMode="contain">
-                   <Player title={song.songTitle} songPath={song.songPath} />
+                 <ImageBackground
+                   style={{ flex: 1 }}
+                   source={{ uri: song.coverPath }}
+                   resizeMode="cover"
+                 >
+                   <Player
+                     title={song.songTitle}
+                     songPath={song.songPath}
+                   />
                  </ImageBackground>
                </CardItem>
 
                <CardItem style={{ paddingVertical: -50 }}>
                  <Left>
-                   <TouchableOpacity onPress={() => this.props.toggleLike(song.songId, +user.id)}>
-                     <Animatable.Image animation="bounce" style={{ width: 30, height: 30 }} source={song.iHit ? ICON_HIT_BUTTON : ICON_UNHIT_BUTTON} />
+                   <TouchableOpacity
+                     onPress={() =>
+                       this.props.toggleLike(song.songId, +user.id)
+                     }
+                   >
+                     <Animatable.Image
+                       animation="bounce"
+                       style={{ width: 30, height: 30 }}
+                       source={
+                         song.iHit
+                           ? ICON_HIT_BUTTON
+                           : ICON_UNHIT_BUTTON
+                       }
+                     />
                    </TouchableOpacity>
                    <Text />
-                   <TouchableOpacity onPress={() => this.gotoComments(song)}>
+                   <TouchableOpacity
+                     onPress={() => this.gotoComments(song)}
+                   >
                      <Icon name="comment" size={30} />
                    </TouchableOpacity>
                  </Left>
                  <Body />
                  <Right>
-                   <TouchableOpacity onPress={() => this.props.toggleBookmark(song.songId, +user.id)}>
-                   {/* {song.iFav ? <Ionicons name="md-bookmark" size={25} /> : <Feather style={{marginLeft: 30}} name="bookmark" size={24} />} */}
-                   <Ionicons name={song.iFav ? "ios-heart" : "ios-heart-empty"} size={25} />
+                   <TouchableOpacity
+                     onPress={() =>
+                       this.props.toggleBookmark(
+                         song.songId,
+                         +user.id
+                       )
+                     }
+                   >
+                     <Ionicons
+                       name={
+                         song.iFav ? "ios-heart" : "ios-heart-empty"
+                       }
+                       size={25}
+                       color="red"
+                     />
                    </TouchableOpacity>
                  </Right>
                </CardItem>
-               <View style={{ paddingLeft: 10, marginTop: -15, overflow: "hidden", flex: 1 }}>
-               <Text style={styles.hits}>
-                     {song.noHits} hits
-                   </Text>
+               <View
+                 style={{
+                   paddingLeft: 10,
+                   marginTop: -15,
+                   overflow: "hidden",
+                   flex: 1
+                 }}
+               >
+                 <Text style={styles.hits}>{song.noHits} hits</Text>
                  <Text style={styles.comment_handle}>
-                 <UserHandle userId={song.userId} userHandle={song.userHandle} navigation={this.props.navigation} /> {song.songDescription}
+                   <UserHandle
+                     userId={song.userId}
+                     userHandle={song.userHandle}
+                     navigation={this.props.navigation}
+                   />{" "}
+                   {song.songDescription}
                  </Text>
                  <Text style={styles.note} note>
                    {song.songDate}
                  </Text>
-                 {this.props.navigation.state.routeName == "Feed" ? <CommentInput user={user} song={song} addComment={this.addComment} /> : null}
+                 {this.props.navigation.state.routeName == "Feed" ? (
+                   <CommentInput
+                     user={user}
+                     song={song}
+                     addComment={this.addComment}
+                   />
+                 ) : null}
                </View>
-             </Card>;
+             </Card>
+           );
          }
        }
 export default FeedItem;

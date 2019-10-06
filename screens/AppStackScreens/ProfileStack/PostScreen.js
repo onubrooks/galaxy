@@ -18,7 +18,7 @@ export class PostScreen extends Component {
         <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={33} color="#006E8C" />
+            <Ionicons name="ios-arrow-back" size={33} color="#006E8C" />
             </TouchableOpacity>
           </Left>
           <Body>

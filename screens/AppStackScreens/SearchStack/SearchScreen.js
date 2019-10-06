@@ -23,6 +23,8 @@ export class SearchScreen extends Component {
   constructor(props){
     super(props)
     this.state = {
+      cancel: null,
+      CancelToken: Axios.CancelToken,
       userResults: [],
       songResults: [],
       text: "",
@@ -37,8 +39,8 @@ export class SearchScreen extends Component {
     };
   }
 
-  search = (event) => {
-    let text = this.state.text; //event.nativeEvent.text;
+  search = (text) => {
+    //let text = this.state.text; //event.nativeEvent.text;
     if (text.charAt(0) === "#") {
       this.setState({ s: false, u: false, h: true });
       text = text.slice(1);
@@ -50,7 +52,11 @@ export class SearchScreen extends Component {
     }
     let endpoint = `${this.state.endpoint}${text}`
     this.setState({fetching:true, userResults: [], songResults: []})
-    Axios.get(endpoint)
+    
+    this.state.cancel && this.state.cancel();
+    Axios.get(endpoint, {
+      cancelToken: new this.state.CancelToken((c) => this.setState({cancel: c}))
+    })
       .then(res => {
         let data = res.data;
         if (data.error && data.error === "Unauthenticated.") {
@@ -76,19 +82,17 @@ export class SearchScreen extends Component {
           rounded
           style={[styles.header2, { backgroundColor: "#EFEFEF" }]}
         >
-          <Item>
+          <Item style={{ backgroundColor: "#EFEFEF", marginLeft: 30 }}>
             <Icon name="ios-search" />
             <Input
               placeholder="Search for anything..."
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-              onSubmitEditing={this.search}
+              onChangeText={text => {
+                this.setState({ text });
+                this.search(text);
+              }}
+              onChangeText={this.search}
             />
-            <Icon name="ios-people" />
           </Item>
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
         </Header>
         <Content>
           <View style={styles.segmentView}>
@@ -104,7 +108,14 @@ export class SearchScreen extends Component {
               }}
               style={styles.segmentButton}
             >
-              <Text style={styles.segmentButtonText}>Hashtags</Text>
+              <Text
+                style={[
+                  styles.segmentButtonText,
+                  { textTransform: "capitalize" }
+                ]}
+              >
+                Hashtags
+              </Text>
             </Button>
             <Button
               transparent
@@ -118,7 +129,14 @@ export class SearchScreen extends Component {
               }}
               style={styles.segmentButton}
             >
-              <Text style={styles.segmentButtonText}>Songs</Text>
+              <Text
+                style={[
+                  styles.segmentButtonText,
+                  { textTransform: "capitalize" }
+                ]}
+              >
+                Songs
+              </Text>
             </Button>
             <Button
               transparent
@@ -132,7 +150,14 @@ export class SearchScreen extends Component {
               }}
               style={styles.segmentButton}
             >
-              <Text style={styles.segmentButtonText}>Users</Text>
+              <Text
+                style={[
+                  styles.segmentButtonText,
+                  { textTransform: "capitalize" }
+                ]}
+              >
+                Users
+              </Text>
             </Button>
           </View>
           <ScrollView>

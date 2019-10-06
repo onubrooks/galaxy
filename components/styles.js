@@ -27,7 +27,7 @@ export default {
   title: {
     color: "#555555",
     fontFamily: "segoeprb",
-    fontSize: 25
+    fontSize: 30,
   },
   text: {
     alignSelf: "center",
@@ -179,10 +179,10 @@ export default {
   },
   segmentButton: {
     borderColor: "#555555",
-    borderRadius: 5
+    borderRadius: 5,
   },
   segmentButtonText: {
     color: "#555555",
-    fontFamily: "Segoe UI Bold Italic"
+    fontFamily: "Segoe UI"
   }
 };

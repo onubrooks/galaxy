@@ -52,7 +52,7 @@ const BACKGROUND_COLOR = '#FFF';//'#FFF8ED';
 const DISABLED_OPACITY = 0.5;
 const FONT_SIZE = 14;
 const LOADING_STRING = '... loading ...';
-const BUFFERING_STRING = '...buffering...';
+const BUFFERING_STRING = '';
 const RATE_SCALE = 3.0;
 const VIDEO_CONTAINER_HEIGHT = DEVICE_HEIGHT * 2.0 / 5.0 - FONT_SIZE * 2;
 
@@ -116,6 +116,7 @@ export default class PlaylistPlayer extends React.Component {
         'cutive-mono-regular': require('../assets/fonts/CutiveMono-Regular.ttf'),
       });
       this.setState({ fontLoaded: true });
+      this._updatePlaybackInstanceForIndex(true);
     })();
   }
 
@@ -149,7 +150,6 @@ export default class PlaylistPlayer extends React.Component {
       this.playbackInstance.setOnPlaybackStatusUpdate(null);
       this.playbackInstance = null;
     }
-    console.log('playlist ', this.state.playlist);
     const source = { uri: (this.state.playlist.length && this.state.playlist[this.index].songPath) };
     const initialStatus = {
       shouldPlay: playing,
@@ -472,6 +472,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   render() {
+    // this._setIndex(0);
     return !this.state.fontLoaded ? <View style={stl.emptyContainer} /> : <View style={stl.container}>
         <View style={stl.grid}>
           <Text style={{color: '#555555', fontFamily: 'Segoe UI Bold', marginVertical: 20}}>Now Playing</Text>

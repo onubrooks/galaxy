@@ -168,14 +168,14 @@ export class EditProfileScreen extends Component {
     return (
       <Container style={styles.container}>
         <Header
-          style={[styles.header, { backgroundColor: "white", height: 40 }]}
+          style={[styles.header, { backgroundColor: "white", height: 45 }]}
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Profile")}
+              onPress={() => this.props.navigation.goBack()}
             >
               <Icon
-                name="md-arrow-back"
+                name="ios-arrow-back"
                 style={{
                   color: "#666666",
                   fontFamily: "Segoe UI Bold",

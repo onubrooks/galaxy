@@ -56,18 +56,16 @@ export class AddCommentScreen extends React.Component {
   }
 
   render() {
-    // let { song } = this.props.navigation.state.params; // passed from the feed page
     let { song, user, comments = {} } = this.props;
-    //let commentScreen = this.props.navigation.state.routeName == "AddComment" ? true : false;
-    return <Container style={[{opacity: 0.8, backgroundColor: 'black', marginLeft: 0}]}>
+    return <Container style={[{opacity: 0.6, backgroundColor: 'black', marginLeft: 0}]}>
         <Header style={[styles.header, { backgroundColor: "" }]} >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.handlePress('comments')}>
-              <Icon name="md-arrow-back" style={styles.whiteColor} />
+              <Icon name="ios-arrow-back" style={styles.whiteColor} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: 'white', marginLeft: 60, }}>
+            <Text style={{ fontWeight: "900", color: 'white', marginLeft: 40, }}>
               Comments
             </Text>
           </Body>
@@ -75,7 +73,6 @@ export class AddCommentScreen extends React.Component {
 
       <ScrollView keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} tintColor={styles.primaryColor} title="refreshing" />}>
           <Content style={{ height: height, backgroundColor: '' }}>
-            {/* {comments.loading ? <View style={{alignItems: 'center', justifyContent: 'center', marginVertical:10}}><Text>Loading...</Text></View> : null} */}
           {!comments.loading ? <Comments user={user} song={song} comments={comments} navigation={this.props.navigation} /> : null}
           </Content>
         </ScrollView>
