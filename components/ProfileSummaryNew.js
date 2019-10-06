@@ -4,6 +4,7 @@ import { Button, Text } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const defaultAvatar = require("../assets/avatar.png");
+import styles from "./styles";
 
 export default class ProfileSummaryNew extends Component {
   constructor(props) {
@@ -94,7 +95,7 @@ export default class ProfileSummaryNew extends Component {
             rounded
             small 
             bordered={this.state.iFollow ? false : true}
-            style={{ marginRight: 5 }}
+            style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
             onPress={this.toggleFollow}
           >
             <Ionicons
@@ -103,7 +104,7 @@ export default class ProfileSummaryNew extends Component {
               color={"red"}
               style={{ marginLeft: 11 }}
             />
-            <Text style={{ marginLeft: -10 }}>
+            <Text style={{ marginLeft: -10, color: 'white' }}>
               {this.state.iFollow ? "Unfollow" : "Follow"}
             </Text>
           </Button>

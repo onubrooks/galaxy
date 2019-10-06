@@ -307,7 +307,8 @@ export class EditProfileScreen extends Component {
                   marginLeft: "auto",
                   marginRight: "auto",
                   marginTop: 10,
-                  borderRadius: 6
+                  borderRadius: 10,
+                  backgroundColor:styles.primaryColor
                 }}
                 onPress={this.updateAsync}
                 disabled={this.state.uploading}

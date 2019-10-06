@@ -4,6 +4,7 @@ import { Button, Text } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const defaultAvatar = require("../assets/avatar.png");
+import styles from "./styles";
 
 export default class ProfileSummary extends Component {
   constructor(props) {
@@ -123,7 +124,7 @@ export default class ProfileSummary extends Component {
             <Button
               rounded
               small
-              style={{ marginRight: 5 }}
+              style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
               onPress={() => this.props.navigation.navigate("Playlist")}
             >
               <Ionicons
@@ -138,7 +139,7 @@ export default class ProfileSummary extends Component {
             <Button
               rounded
               small
-              style={{ marginRight: 5 }}
+              style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
               onPress={this.toggleFollow}
             >
               <Ionicons
@@ -155,9 +156,9 @@ export default class ProfileSummary extends Component {
           {self ? (
             <Button
               rounded
-              bordered
+              // bordered
               small
-              style={{ marginLeft: 5 }}
+              style={{ marginLeft: 5, backgroundColor: styles.primaryColor }}
               onPress={() => this.props.navigation.navigate("EditProfile")}
             >
               <Text style={{ color: "white" }}>Edit Profile</Text>

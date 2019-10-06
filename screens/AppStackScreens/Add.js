@@ -216,7 +216,8 @@ export class Add extends Component {
                     marginLeft: "auto",
                     marginRight: "auto",
                     marginTop: 10,
-                    borderRadius: 6
+                    borderRadius: 8,
+                    backgroundColor: styles.primaryColor
                   }}
                   onPress={this.uploadSongAsync}
                   disabled={this.state.uploading}
