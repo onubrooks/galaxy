@@ -23,6 +23,8 @@ export class FeedScreenModalContent extends Component {
   render() {
       return <View style={{ marginHorizontal: 20, backgroundColor:"white", width:"90%", borderRadius:6 }}>
             <View style={{marginLeft: 20}}>
+                  <Text onPress={ () => this.handlePress('facebook') } style={{marginVertical: 13, fontSize: 17}}>Share on Facebook</Text>
+                  <Text onPress={ () => this.handlePress('twitter') } style={{marginVertical: 13, fontSize: 17}}>Tweet this!</Text>
                   <Text onPress={ () => this.handlePress('remove') } style={{marginVertical: 13, fontSize: 17}}>Remove</Text>
                   <Text onPress={ () => this.handlePress('unfollow') } style={{marginVertical: 13, fontSize: 17}}>Unfollow</Text>
                   <Text onPress={() => this.handlePress('block')} style={{ marginVertical: 13, fontSize: 17 }}>Block</Text>

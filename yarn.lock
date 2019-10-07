@@ -6408,6 +6408,11 @@ react-native-scrollable-mixin@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-native-scrollable-mixin/-/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
   integrity sha1-NKMhZ7ZCSFlBVP0NaosD8idAVI4=
 
+react-native-social-share@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/react-native-social-share/-/react-native-social-share-1.6.5.tgz#c3c9cb0152efc3dfa0472c5f67d051540b505d9d"
+  integrity sha512-S61aHlAj9AelpHR4ZJ3w+42UFI5DkqP+hZLfx2/fY2By7QTn+nD0OHeEBrRKWYuabA+XAz8PSaeI9r2LZN8JWw==
+
 react-native-tab-view@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.3.1.tgz#f9932d6bd5ba7dad75ef9335a68f13d85ba5bd56"

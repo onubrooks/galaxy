@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { TouchableOpacity, View, RefreshControl, AsyncStorage } from "react-native";
+import { TouchableOpacity, View, RefreshControl, AsyncStorage, Linking } from "react-native";
 import {
   Container,
   Content,
@@ -115,8 +115,29 @@ export class FeedItemWrapper extends Component {
       });
     }
   }
-
+  
   setModalVisible(visible, song, val) {
+    if(val && val == 'facebook') {
+      let url = `https://leedder.com/song/${song.songId}`;
+      let facebookhref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        url
+      )}&amp;src=sdkpreparse`;
+
+      Linking.openURL(
+        facebookhref
+      );
+    } 
+    if(val && val == 'twitter') {
+      let url = `https://leedder.com/song/${song.songId}`;
+      let twitter = `https://twitter.com/intent/tweet?text=Checkout&url=${encodeURIComponent(
+        url
+      )}`;
+
+      Linking.openURL(
+        twitter
+        // `https://twitter.com/home?status=Use%20my%20Thistle%20referral%20code%20${short_referrer_key}%20to%20get%20$20%20off%20healthy%20meals%20delivered%20https%3A//www.thistle.co/referral/${short_referrer_key}`
+      );
+    } 
     if(val && val == 'remove') {
       this.props.removeSong(this.state.song.songId);
       this.setState({ isModalVisible: visible, song:null });
