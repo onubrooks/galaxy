@@ -18,19 +18,15 @@ import {
   Button,
   Body,
   Left,
-  Right,
   Icon,
   Form,
   Item,
   Input,
-  Label,
   Text,
-  Textarea,
   Picker,
   Toast,
   Spinner
 } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "../../../components/styles";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 const defaultAvatar = require("../../../assets/avatar.png");
@@ -177,7 +173,7 @@ export class EditProfileScreen extends Component {
               <Icon
                 name="ios-arrow-back"
                 style={{
-                  color: "#666666",
+                  color: styles.headerColor,
                   fontFamily: "Segoe UI Bold",
                   fontSize: 20
                 }}
@@ -187,7 +183,7 @@ export class EditProfileScreen extends Component {
           <Body>
             <Title
               style={{
-                color: "#666666",
+                color: styles.headerColor,
                 fontFamily: "Segoe UI Bold",
                 fontSize: 15,
                 marginLeft: -10

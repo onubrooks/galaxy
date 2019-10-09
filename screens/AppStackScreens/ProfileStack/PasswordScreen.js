@@ -91,7 +91,7 @@ export class PasswordScreen extends Component {
                <Header style={[styles.header, { backgroundColor: "white" }]} >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                   <Ionicons name="md-close" size={33} color={styles.primaryColor} />
+                   <Ionicons name="md-close" size={33} color={styles.headerColor} />
                    </TouchableOpacity>
                  </Left>
                  <Body>
@@ -99,7 +99,7 @@ export class PasswordScreen extends Component {
                  </Body>
                  <Right>
                    {this.state.oldPassword && this.state.newPassword && this.state.newPasswordConfirm ? <Button onPress={this.saveAndGoBack} transparent>
-                       <Icon style={{ color: primaryColor }} name="md-checkmark" />
+                       <Icon style={{ color: styles.headerColor }} name="md-checkmark" />
                      </Button> : <Button disabled transparent>
                        <Icon name="md-checkmark" />
                      </Button>}

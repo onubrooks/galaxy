@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ImageBackground } from "react-native";
+import { View, ImageBackground, TouchableOpacity } from "react-native";
 import { Button, Text } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -57,40 +57,35 @@ export default class ProfileSummary extends Component {
           >
             {user.fullname}
           </Text>
-          <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
-            <Text
-              onPress={() =>
-                !self
-                  ? this.props.navigation.navigate("ViewFollows", {
-                      self: false,
-                      initialPage: 0
-                    })
-                  : null
-              }
-              style={{
-                fontWeight: "800",
-                color: "white",
-                fontSize: 15
-              }}
-            >
-              {user.noFollowing}
-            </Text>{" "}
-            Following |{" "}
-            <Text
-              style={{ fontWeight: "800", color: "white" }}
-              onPress={() =>
-                !self
-                  ? this.props.navigation.navigate("ViewFollows", {
-                      self: false,
-                      initialPage: 1
-                    })
-                  : null
-              }
-            >
-              {user.noFollowers}
-            </Text>{" "}
-            Followers
-          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("ViewFollows", {
+                self: true,
+                initialPage: 0,
+                user
+              })
+            }
+          >
+            <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
+              <Text
+                style={{
+                  fontWeight: "800",
+                  color: "white",
+                  fontSize: 15
+                }}
+              >
+                {user.noFollowing}
+              </Text>{" "}
+              Following |{" "}
+              <Text
+                style={{ fontWeight: "800", color: "white" }}
+                
+              >
+                {user.noFollowers}
+              </Text>{" "}
+              Followers
+            </Text>
+          </TouchableOpacity>
           {self ? (
             <View
               style={{
@@ -124,7 +119,10 @@ export default class ProfileSummary extends Component {
             <Button
               rounded
               small
-              style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
+              style={{
+                marginRight: 5,
+                backgroundColor: styles.primaryColor
+              }}
               onPress={() => this.props.navigation.navigate("Playlist")}
             >
               <Ionicons
@@ -139,7 +137,10 @@ export default class ProfileSummary extends Component {
             <Button
               rounded
               small
-              style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
+              style={{
+                marginRight: 5,
+                backgroundColor: styles.primaryColor
+              }}
               onPress={this.toggleFollow}
             >
               <Ionicons
@@ -158,7 +159,10 @@ export default class ProfileSummary extends Component {
               rounded
               // bordered
               small
-              style={{ marginLeft: 5, backgroundColor: styles.primaryColor }}
+              style={{
+                marginLeft: 5,
+                backgroundColor: styles.primaryColor
+              }}
               onPress={() => this.props.navigation.navigate("EditProfile")}
             >
               <Text style={{ color: "white" }}>Edit Profile</Text>

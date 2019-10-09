@@ -22,13 +22,13 @@ export class SongScreen extends Component {
         >
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("ViewProfile")}
+              onPress={() => this.props.navigation.goBack()}
             >
-              <Ionicons name="ios-arrow-back" size={26} color={"#666666"} />
+              <Ionicons name="ios-arrow-back" size={26} color={styles.headerColor} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: "#666666" }}>
+            <Text style={{ fontWeight: "900", color: styles.headerColor }}>
               Song
             </Text>
           </Body>

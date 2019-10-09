@@ -472,7 +472,6 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   render() {
-    // this._setIndex(0);
     return !this.state.fontLoaded ? <View style={stl.emptyContainer} /> : <View style={stl.container}>
         <View style={stl.grid}>
           <Text style={{color: '#555555', fontFamily: 'Segoe UI Bold', marginVertical: 20}}>Now Playing</Text>

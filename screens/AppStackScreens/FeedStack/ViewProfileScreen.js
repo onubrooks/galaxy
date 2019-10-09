@@ -64,9 +64,7 @@ export class ViewProfileScreen extends Component {
            );
            
            this.getProfile()
-             .then(() => this.getSongs())
-             .then(() => this.getFollowers())
-             .then(() => this.getFollowing());
+             .then(() => this.getSongs());
          }
 
          getProfile = () => {
@@ -139,67 +137,6 @@ export class ViewProfileScreen extends Component {
              });
          };
 
-         getFollowers = () => {
-           let userId = this.props.navigation.getParam("userId", null);
-           return Axios.get(
-             `https://api.leedder.com/api/v1.0/users/followers/${userId}`
-           )
-             .then(
-               res => {
-                 let followers = res.data;
-                 let iFollow =
-                   followers.filter(
-                     item => item.userId === this.props.user.id
-                   ).length > 0
-                     ? true
-                     : false;
-                 this.setState({
-                   followers,
-                   iFollow
-                 });
-                 console.log("followers set");
-               },
-               error => {
-                 console.log(error);
-               }
-             )
-             .catch(error => {
-               console.log(error);
-             })
-             .finally(() => {
-               this.setState({
-                 followersLoading: false
-               });
-             });
-         };
-
-         getFollowing = () => {
-           let userId = this.props.navigation.getParam("userId", null);
-           return Axios.get(
-             `https://api.leedder.com/api/v1.0/users/following/${userId}`
-           )
-             .then(
-               res => {
-                 let data = res.data;
-                 this.setState({
-                   following: data
-                 });
-                 console.log("following set");
-               },
-               error => {
-                 console.log(error);
-               }
-             )
-             .catch(error => {
-               console.log(error);
-             })
-             .finally(() => {
-               this.setState({
-                 followingLoading: false
-               });
-             });
-         };
-
          unFollowUser = () => {
            let iFollow = this.state.iFollow;
            this.setState({ followLoading: true });
@@ -211,7 +148,6 @@ export class ViewProfileScreen extends Component {
            })
              .then(
                res => {
-                 console.log(res.data);
                  if (res.data === true) {
                    let noFollowers = iFollow
                      ? this.state.profile.noFollowers - 1
@@ -223,7 +159,6 @@ export class ViewProfileScreen extends Component {
                        noFollowers
                      }
                    });
-                   console.log('no follows', noFollowers)
                  } else {
                    Toast.show({
                      text: "Something went wrong...",
@@ -303,12 +238,12 @@ export class ViewProfileScreen extends Component {
                >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity
-                     onPress={() => this.props.navigation.navigate("Search")}
+                     onPress={() => this.props.navigation.goBack()}
                    >
                      <Icon
                        name="ios-arrow-back"
                        style={{
-                         color: "#666666",
+                         color: styles.headerColor,
                          fontFamily: "Segoe UI Bold",
                          fontSize: 20
                        }}
@@ -318,7 +253,7 @@ export class ViewProfileScreen extends Component {
                  <Body>
                    <Title
                      style={{
-                       color: "#666666",
+                       color: styles.headerColor,
                        fontFamily: "Segoe UI Bold",
                        fontSize: 15,
                        marginLeft: -30

@@ -296,9 +296,9 @@ export default class Player extends React.Component {
     ) {
       return `${this._getMMSSFromMillis(
         this.state.playbackInstancePosition
-      )} / ${this._getMMSSFromMillis(this.state.playbackInstanceDuration)}`;
+      )}/${this._getMMSSFromMillis(this.state.playbackInstanceDuration)}`;
     }
-    return '';
+    return '00:00/00:00';
   }
 
   _onPosterPressed = () => {
@@ -333,7 +333,7 @@ export default class Player extends React.Component {
         <View style={styles.videoContainer}>
           <Video ref={this._mountVideo} style={[styles.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
         </View>
-        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.7 }]}>
+        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 1 }]}>
             <Button transparent style={styles.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
               {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} />}
             </Button>
@@ -461,7 +461,8 @@ const styles = StyleSheet.create({
     maxWidth: DEVICE_WIDTH,
     width: DEVICE_WIDTH,
     opacity: 0.8,
-    backgroundColor: "#000000"
+    backgroundColor: "#FFFFFF",
+    marginBottom: -45,
   },
   playbackSlider: {
     width: DEVICE_WIDTH / 3
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: FONT_SIZE,
     minHeight: FONT_SIZE,
-    color: "#fff"
+    color: "#000"
   },
   buffering: {
     textAlign: "left",

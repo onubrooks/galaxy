@@ -30,7 +30,7 @@ export class LikesScreen extends Component {
             </TouchableOpacity>
           </Left>
           <Body>
-          <Text style={{ fontWeight:"900", color: "#006E8C"}}>Likes</Text>
+          <Text style={{ fontWeight:"900", color: styles.headerColor}}>Likes</Text>
           </Body>
         </Header>
         <Content>

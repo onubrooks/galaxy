@@ -19,11 +19,11 @@ export class ExploreScreen extends Component {
         <Header style={[styles.header, { backgroundColor: "white" }]}>
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name="ios-arrow-back" style={{ color: "#006E8C" }} />
+            <Icon name="ios-arrow-back" style={{ color: styles.headerColor }} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: "#006E8C" }}>Explore</Text>
+            <Text style={{ fontWeight: "900", color: styles.headerColor }}>Explore</Text>
           </Body>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />

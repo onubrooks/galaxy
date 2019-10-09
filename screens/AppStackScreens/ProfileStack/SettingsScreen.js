@@ -63,7 +63,7 @@ export class SettingsScreen extends Component {
               <Icon
                 name="ios-arrow-back"
                 style={{
-                  color: "#666666",
+                  color: styles.headerColor,
                   fontFamily: "Segoe UI Bold",
                   fontSize: 20
                 }}
@@ -73,7 +73,7 @@ export class SettingsScreen extends Component {
           <Body>
             <Text
               style={{
-                color: "#666666",
+                color: styles.headerColor,
                 fontFamily: "Segoe UI Bold",
                 fontSize: 15
               }}

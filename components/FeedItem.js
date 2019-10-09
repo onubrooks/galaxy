@@ -112,7 +112,7 @@ export class FeedItem extends Component {
                  </ImageBackground>
                </CardItem>
 
-               <CardItem style={{ paddingVertical: -50 }}>
+               <CardItem style={{ paddingVertical: -50, marginTop: 44 }}>
                  <Left>
                    <TouchableOpacity
                      onPress={() =>

@@ -101,7 +101,7 @@ export class ProfileScreen extends Component {
               <Icon
                 name="ios-arrow-back"
                 style={{
-                  color: "#666666",
+                  color: styles.headerColor,
                   fontFamily: "Segoe UI Bold",
                   fontSize: 20
                 }}
@@ -111,7 +111,7 @@ export class ProfileScreen extends Component {
           <Body>
             <Title
               style={{
-                color: "#666666",
+                color: styles.headerColor,
                 fontFamily: "Segoe UI Bold",
                 fontSize: 15,
                 marginLeft: -30

@@ -18,11 +18,11 @@ export class SavedGridScreen extends Component {
       <Header style={[styles.header, { backgroundColor: "white" }]} androidStatusBarColor="#764BA2">
           <Left style={{ maxWidth: 50 }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="ios-arrow-back" size={33} color="#764BA2" />
+            <Ionicons name="ios-arrow-back" size={33} color={styles.headerColor} />
             </TouchableOpacity>
           </Left>
           <Body>
-            <Text style={{ fontWeight: "900", color: "#764BA2" }}>Saved</Text>
+            <Text style={{ fontWeight: "900", color: styles.headerColor }}>Saved</Text>
           </Body>
         </Header>
         <ImageView navigation={this.props.navigation} />

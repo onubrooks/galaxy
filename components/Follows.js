@@ -5,6 +5,7 @@ import {
   Text,
   Thumbnail
 } from "native-base";
+import UserHandle from "./UserHandle";
 import stl from "./styles";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
@@ -12,7 +13,9 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 export class Follows extends Component {
    constructor(props) {
     super(props);
-    let iFollow = props.myFollows.data.some(item => item.userId == props.personData.userId);
+    let iFollow = props.myFollows.length && props.myFollows.some(
+      item => item.userId == props.personData.userId
+    ) || false;
     this.state = {iFollow}
   }
 
@@ -25,25 +28,47 @@ export class Follows extends Component {
 
   render() {
       let { personData } = this.props;
-    return <View style={styles.grid}>
+    return (
+      <View style={styles.grid}>
         <View style={styles.col1}>
-          <Thumbnail style={styles.thumbnail} source={{uri: personData.userAvatar}} />
+          <Thumbnail
+            style={styles.thumbnail}
+            source={{ uri: personData.userAvatar }}
+          />
         </View>
         <View style={styles.col2}>
           <Text>
-            <Text style={styles.col2handle}>{personData.userHandle} </Text>
-            <Text style={styles.col2main}>{personData.fullname}. </Text>
-            
+            <UserHandle
+              userId={personData.userId}
+              userHandle={personData.userHandle}
+              navigation={this.props.navigation}
+            />
+            <Text style={styles.col2main}>{" "}{personData.fullname}. </Text>
           </Text>
         </View>
         <View style={styles.col3}>
-          {this.state.iFollow ? <Button style={styles.followingBtn} small bordered onPress={this.toggleFollow}>
+          {this.state.iFollow ? (
+            <Button
+              style={styles.followingBtn}
+              small
+              bordered
+              onPress={this.toggleFollow}
+            >
               <Text style={styles.followingBtnTxt}>unfollow</Text>
-            </Button> : <Button primary small style={styles.followBtn} onPress={this.toggleFollow}>
-            <Text style={styles.followBtnTxt}>follow</Text>
-            </Button>}
+            </Button>
+          ) : (
+            <Button
+              primary
+              small
+              style={styles.followBtn}
+              onPress={this.toggleFollow}
+            >
+              <Text style={styles.followBtnTxt}>follow</Text>
+            </Button>
+          )}
         </View>
-      </View>;
+      </View>
+    );
   }
 }
 
@@ -93,8 +118,8 @@ const styles = StyleSheet.create({
     fontWeight: "100",
     fontSize: 15
   },
-  followingBtn: { borderColor: "grey" },
-  followBtn: { backgroundColor: stl.primaryColor },
+  followingBtn: { borderColor: "grey", marginTop: 10 },
+  followBtn: { backgroundColor: stl.primaryColor, marginTop: 10 },
   followingBtnTxt: { fontSize: 10, color: "grey", left: 0 },
   followBtnTxt: { fontSize: 10, color: "#fff", left: 0 }
 });

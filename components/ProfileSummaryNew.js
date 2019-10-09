@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ImageBackground } from "react-native";
+import { View, ImageBackground, TouchableOpacity } from "react-native";
 import { Button, Text } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -19,14 +19,22 @@ export default class ProfileSummaryNew extends Component {
   }
   
   toggleFollow = () => {
-    this.props.unFollowUser();
-    //this.setState({ iFollow: !this.state.iFollow });
+    let user = this.props.profile;
+    let status = this.state.iFollow ? "unfollowed" : "followed";
+    this.props.unFollowUser(
+      { userId: user.userId, userHandle: user.userHandle },
+      { userId: this.props.myId },
+      status
+    );
+    this.setState({ iFollow: !this.state.iFollow });
   };
   render() {
     let { profile, self } = this.props;
     return (
       <ImageBackground
-        source={profile.userAvatar ? { uri: profile.userAvatar } : defaultAvatar}
+        source={
+          profile.userAvatar ? { uri: profile.userAvatar } : defaultAvatar
+        }
         style={{
           width: "100%",
           height: 260,
@@ -55,45 +63,53 @@ export default class ProfileSummaryNew extends Component {
           >
             {profile.fullname}
           </Text>
-          <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
-            <Text
-              onPress={() =>
-                !self
-                  ? this.props.navigation.navigate("ViewFollows", {
-                      self: false,
-                      initialPage: 0
-                    })
-                  : null
-              }
-              style={{
-                fontWeight: "800",
-                color: "white",
-                fontSize: 15
-              }}
-            >
-              {profile.noFollowing}
-            </Text>{" "}
-            Following |{" "}
-            <Text
-              style={{ fontWeight: "800", color: "white" }}
-              onPress={() =>
-                !self
-                  ? this.props.navigation.navigate("ViewFollows", {
-                      self: false,
-                      initialPage: 1
-                    })
-                  : null
-              }
-            >
-              {profile.noFollowers}
-            </Text>{" "}
-            Followers
-          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("ViewFollows", {
+                self: false,
+                initialPage: 0,
+                profile
+              })
+            }
+          >
+            <Text style={{ fontFamily: "Segoe UI", color: "white" }}>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate("ViewFollows", {
+                    self: false,
+                    initialPage: 0,
+                    profile
+                  })
+                }
+                style={{
+                  fontWeight: "800",
+                  color: "white",
+                  fontSize: 15
+                }}
+              >
+                {profile.noFollowing}
+              </Text>{" "}
+              Following |{" "}
+              <Text
+                style={{ fontWeight: "800", color: "white" }}
+                onPress={() =>
+                  this.props.navigation.navigate("ViewFollows", {
+                    self: false,
+                    initialPage: 1,
+                    profile
+                  })
+                }
+              >
+                {profile.noFollowers}
+              </Text>{" "}
+              Followers
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={{ marginTop: 20, flexDirection: "row" }}>
           <Button
             rounded
-            small 
+            small
             bordered={this.state.iFollow ? false : true}
             style={{ marginRight: 5, backgroundColor: styles.primaryColor }}
             onPress={this.toggleFollow}
@@ -104,7 +120,7 @@ export default class ProfileSummaryNew extends Component {
               color={"red"}
               style={{ marginLeft: 11 }}
             />
-            <Text style={{ marginLeft: -10, color: 'white' }}>
+            <Text style={{ marginLeft: -10, color: "white" }}>
               {this.state.iFollow ? "Unfollow" : "Follow"}
             </Text>
           </Button>

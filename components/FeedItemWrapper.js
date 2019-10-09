@@ -118,7 +118,7 @@ export class FeedItemWrapper extends Component {
   
   setModalVisible(visible, song, val) {
     if(val && val == 'facebook') {
-      let url = `https://leedder.com/song/${song.songId}`;
+      let url = `https://leedder.com/song/${this.state.song.songId}`;
       let facebookhref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
       )}&amp;src=sdkpreparse`;
@@ -128,7 +128,7 @@ export class FeedItemWrapper extends Component {
       );
     } 
     if(val && val == 'twitter') {
-      let url = `https://leedder.com/song/${song.songId}`;
+      let url = `https://leedder.com/song/${this.state.song.songId}`;
       let twitter = `https://twitter.com/intent/tweet?text=Checkout&url=${encodeURIComponent(
         url
       )}`;
