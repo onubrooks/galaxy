@@ -5,7 +5,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const primaryColor = "#764BA2";// 'linear-gradient(178.78deg, #764BA2 0.59%, #6879E3 82.8%)' 
 const secondaryColor = '#006E8C';
-const headerColor = "#666666";
+const headerColor = "#764BA2"; //"#666666"
 
 export default {
   primaryColor,

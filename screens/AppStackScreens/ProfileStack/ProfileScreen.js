@@ -126,7 +126,7 @@ export class ProfileScreen extends Component {
               transparent
               onPress={() => this.props.navigation.navigate("Settings")}
             >
-              <Ionicons name="ios-more" size={33} color={"#666666"} />
+              <Ionicons name="ios-more" size={33} color={styles.headerColor} />
             </Button>
           </Right>
         </Header>
