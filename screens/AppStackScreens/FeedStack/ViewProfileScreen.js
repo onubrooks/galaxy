@@ -49,22 +49,14 @@ export class ViewProfileScreen extends Component {
              profile: null,
              songsLoading: true,
              songs: [],
-             followersLoading: true,
-             followers: null,
              iFollow: false,
+             following: [],
              followingLoading: true
            };
          }
          componentDidMount() {
-           let userId, userHandle;
-           userId = this.props.navigation.getParam("userId", null);
-           userHandle = this.props.navigation.getParam(
-             "userHandle",
-             null
-           );
-           
-           this.getProfile()
-             .then(() => this.getSongs());
+           this.getProfile().then(() => this.getSongs());
+           this.getFollowing()
          }
 
          getProfile = () => {
@@ -135,6 +127,39 @@ export class ViewProfileScreen extends Component {
                  songsLoading: false
                });
              });
+         };
+
+         getFollowing = () => {
+           
+           let endpoint = `https://api.leedder.com/api/v1.0/users/following/${this.props.user.id}`;
+           Axios(endpoint, {
+             method: "get"
+           })
+             .then(res => {
+               let following = res.data;
+               if (!following.error) {
+                 let iFollow = following.some(
+                   d => d.userId == this.props.user.id
+                 );
+                 console.log('ifollow', iFollow);
+                 this.setState({ following, iFollow });
+               } else {
+                 Toast.show({
+                   text: "error fetching data...",
+                   position: "bottom",
+                   duration: 3000
+                 });
+               }
+             })
+             .catch(error => {
+               console.log(error);
+               Toast.show({
+                 text: "operation failed, please check network...",
+                 position: "bottom",
+                 duration: 3000
+               });
+             })
+             .finally(() => this.setState({ followingLoading: false }));
          };
 
          unFollowUser = () => {
@@ -271,6 +296,7 @@ export class ViewProfileScreen extends Component {
                    profile={profile}
                    user={user}
                    iFollow={this.state.iFollow}
+                   followingLoading={this.state.followingLoading}
                    myId={this.props.user.id}
                    unFollowUser={this.unFollowUser}
                  />
@@ -278,7 +304,9 @@ export class ViewProfileScreen extends Component {
                  <Tabs transparent>
                    <Tab
                      heading={
-                       <TabHeading style={{ backgroundColor: "white" }}>
+                       <TabHeading
+                         style={{ backgroundColor: "white" }}
+                       >
                          <Ionicons
                            name="md-apps"
                            size={26}
@@ -287,17 +315,17 @@ export class ViewProfileScreen extends Component {
                        </TabHeading>
                      }
                    >
-                     
-                       <ImageView
-                         display={display}
-                         navigation={this.props.navigation}
-                         fetching={this.state.songsLoading}
-                       />
-                     
+                     <ImageView
+                       display={display}
+                       navigation={this.props.navigation}
+                       fetching={this.state.songsLoading}
+                     />
                    </Tab>
                    <Tab
                      heading={
-                       <TabHeading style={{ backgroundColor: "white" }}>
+                       <TabHeading
+                         style={{ backgroundColor: "white" }}
+                       >
                          <Ionicons
                            name="ios-menu"
                            size={26}
@@ -306,10 +334,10 @@ export class ViewProfileScreen extends Component {
                        </TabHeading>
                      }
                    >
-                       <FeedItemWrapper
-                         navigation={this.props.navigation}
-                         display={display}
-                       />
+                     <FeedItemWrapper
+                       navigation={this.props.navigation}
+                       display={display}
+                     />
                    </Tab>
                  </Tabs>
                </ScrollView>

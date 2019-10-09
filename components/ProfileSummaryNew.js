@@ -9,13 +9,7 @@ import styles from "./styles";
 export default class ProfileSummaryNew extends Component {
   constructor(props) {
     super(props);
-    this.state = {iFollow: false}
-  }
-
-  
-  componentWillMount () {
-    let iFollow = this.props.iFollow;
-    this.setState({ iFollow });
+    this.state = {iFollow: props.iFollow}
   }
   
   toggleFollow = () => {
