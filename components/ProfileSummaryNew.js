@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, ImageBackground, TouchableOpacity } from "react-native";
-import { Button, Text } from "native-base";
+import { View, ImageBackground, TouchableOpacity, Platform } from "react-native";
+import { Button, Text, Spinner } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const defaultAvatar = require("../assets/avatar.png");
@@ -9,8 +9,21 @@ import styles from "./styles";
 export default class ProfileSummaryNew extends Component {
   constructor(props) {
     super(props);
-    this.state = {iFollow: props.iFollow}
+    this.state = {
+      iFollow: props.iFollow,
+      followingLoading: props.followingLoading
+    };
   }
+
+  componentDidUpdate(prevProps) {
+  // Typical usage (don't forget to compare props):
+  if (this.props.iFollow !== prevProps.iFollow) {
+    this.setState({
+      iFollow: this.props.iFollow,
+      followingLoading: this.props.followingLoading
+    });
+  }
+}
   
   toggleFollow = () => {
     let user = this.props.profile;
@@ -109,11 +122,11 @@ export default class ProfileSummaryNew extends Component {
             onPress={this.toggleFollow}
           >
             <Ionicons
-              name={this.state.iFollow ? "ios-heart" : "ios-heart-empty"}
-              size={20}
-              color={"red"}
-              style={{ marginLeft: 11 }}
-            />
+                name={this.state.iFollow ? "ios-heart" : "ios-heart-empty"}
+                size={20}
+                color={"red"}
+                style={{ marginLeft: 11 }}
+              />
             <Text style={{ marginLeft: -10, color: "white" }}>
               {this.state.iFollow ? "Unfollow" : "Follow"}
             </Text>

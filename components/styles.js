@@ -27,9 +27,10 @@ export default {
     // marginTop: 30
   },
   title: {
-    color: "#555555",
-    fontFamily: "segoeprb",
+    color: "#222222",
+    fontFamily: "Awesome Season", //"Adine Kirnberg", //"segoeprb",
     fontSize: 30,
+    marginTop: 15
   },
   text: {
     alignSelf: "center",
@@ -181,7 +182,7 @@ export default {
   },
   segmentButton: {
     borderColor: "#555555",
-    borderRadius: 5,
+    borderRadius: 5
   },
   segmentButtonText: {
     color: "#555555",

@@ -41,16 +41,23 @@ export class SearchScreen extends Component {
 
   search = (text) => {
     //let text = this.state.text; //event.nativeEvent.text;
+    let type;
     if (text.charAt(0) === "#") {
       this.setState({ s: false, u: false, h: true });
+      type = 'hashtag'
+      url = this.state.endpoint
       text = text.slice(1);
     } else if(text.charAt(0) === "@"){
+      type = "user";
+      url = this.state.userEndpoint;
       this.setState({ s: false, u: true, h: false}) 
       text = text.slice(1);
     } else {
+      type = "song";
+      url = this.state.musicEndpoint;
       this.setState({ s: true, u: false, h: false})
     }
-    let endpoint = `${this.state.endpoint}${text}`
+    let endpoint = `${url}${text}`
     this.setState({fetching:true, userResults: [], songResults: []})
     
     this.state.cancel && this.state.cancel();
@@ -63,10 +70,16 @@ export class SearchScreen extends Component {
           AsyncStorage.removeItem("userToken");
           this.props.navigation.navigate("Auth", {});
         }
-        this.setState({
-          userResults: data.users || [],
-          songResults: data.songs || []
-        });
+        if (type == "hashtag") {
+          this.setState({
+            userResults: data.users || [],
+            songResults: data.songs || []
+          });
+        } else if (type == "song") {
+          this.setState({ songResults: data });
+        } else if (type == "user") {
+          this.setState({ userResults: data });
+        }
       })
       .finally(() => this.setState({ fetching: false }));
   }

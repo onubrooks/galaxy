@@ -58,6 +58,12 @@ export class ViewProfileScreen extends Component {
            this.getProfile().then(() => this.getSongs());
            this.getFollowing()
          }
+         componentDidUpdate(prevProps){
+           if(this.props.navigation.getParam("userId", null) != prevProps.navigation.getParam("userId", null)){
+             this.getProfile().then(() => this.getSongs());
+             this.getFollowing();
+           }
+         }
 
          getProfile = () => {
            let userId, userHandle;

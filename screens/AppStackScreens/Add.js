@@ -82,8 +82,9 @@ export class Add extends Component {
     xhr.send(data);
     let that = this;
     xhr.onreadystatechange = function() {
+      let res
       try{
-        let res = JSON.parse(this.responseText);
+         res = JSON.parse(this.responseText);
         console.log('result', res);
       } catch(e) {
         console.log(e)

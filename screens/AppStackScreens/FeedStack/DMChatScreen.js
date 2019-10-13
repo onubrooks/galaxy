@@ -94,10 +94,10 @@ export class DMChatScreen extends React.Component {
          render() {
            let { user, comments } = this.props;
            return <Container style={styles.container}>
-             <Header style={[styles.header, { backgroundColor: "white", height: 70 }]} androidStatusBarColor="#006E8C">
+             <Header style={[styles.header, { height: 70 }]}>
                  <Left>
                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                   <Icon name="md-arrow-back" style={{ color: "#006E8C" }}/>
+                   <Icon name="ios-arrow-back" style={{ color: "#006E8C" }}/>
                    </TouchableOpacity>
                  </Left>
                  <Body>

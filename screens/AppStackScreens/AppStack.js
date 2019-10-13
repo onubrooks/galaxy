@@ -16,9 +16,6 @@ import ExploreScreen from "./SearchStack/ExploreScreen";
 import Add from "./Add";
 import PlaylistScreen from "./PlaylistScreen";
 
-// Notification Stack
-import { NotificationsScreen } from "./NotificationsStack/NotificationsScreen";
-
 // Profile Stack
 import ProfileScreen from "./ProfileStack/ProfileScreen";
 import EditProfileScreen from "./ProfileStack/EditProfileScreen";
@@ -135,10 +132,10 @@ const ProfileStackNavigator = createStackNavigator(
 
 const MainStackNavigator = createBottomTabNavigator(
   {
-    Feed: {
+    FeedStack: {
       screen: FeedStackNavigator
     },
-    Search: {
+    SearchStack: {
       screen: SearchStackNavigator
     },
     Add: {
@@ -147,21 +144,18 @@ const MainStackNavigator = createBottomTabNavigator(
     Playlist: {
       screen: PlaylistScreen
     },
-    // Notifications: {
-    //   screen: NotificationsScreen
-    // },
-    Profile: {
+    ProfileStack: {
       screen: ProfileStackNavigator
     }
   },
   {
     headerMode: "none",
-    initialRouteName: "Feed",
+    initialRouteName: "FeedStack",
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName, icon;
-        if (routeName === "Feed") {
+        if (routeName === "FeedStack") {
           iconName = "ios-home";
           icon = (
             <Icon
@@ -170,63 +164,77 @@ const MainStackNavigator = createBottomTabNavigator(
               style={{ color: tintColor, fontSize: 20 }}
             />
           );
-        } else if (routeName === "Search") {
-          iconName = "search";
-          icon = (
-            <Icon
-              name={iconName}
-              style={{ color: tintColor, fontSize: 20 }}
-            />
-          );
-        } else if (routeName === "Add") {
-          iconName = "add";
-          
-          icon = (
-            <Thumbnail
-              small
-              source={addIcon}
-              style={{ width: 20, height: 20 }}
-            />
-          );
-          
-        } else if (routeName === "Playlist") {
-          iconName = "musical-notes";
-          icon = (
-            <Icon
-              name={iconName}
-              style={{ color: tintColor, fontSize: 20 }}
-            />
-          );
-        } else if (routeName === "Profile") {
-          iconName = "contact";
-          let user = null,
-            source;
-          AsyncStorage.getItem("my_profile").then(profile => {
-            user = JSON.parse(profile);
-          });
-          if (user !== null && user.userAvatar) {
-            source = { uri: user.userAvatar };
-          } else {
-            source = avatar;
-          }
-          // console.log(user);
-          icon = (
-            <Thumbnail
-              small
-              source={source}
-              style={{ width: 32, height: 32 }}
-            />
-          );
-        } else if (routeName === "Notifications") {
-          iconName = "heart";
-          icon = (
-            <Icon
-              name={iconName}
-              size={15}
-              style={{ color: tintColor, fontSize: 20 }}
-            />
-          );
-        }
+        } else if (routeName === "SearchStack") {
+                 iconName = "search";
+                 icon = (
+                   <Icon
+                     name={iconName}
+                     style={{ color: tintColor, fontSize: 20 }}
+                   />
+                 );
+               } else if (routeName === "Add") {
+                 iconName = "add";
+
+                 icon = (
+                   <Thumbnail
+                     small
+                     source={addIcon}
+                     style={{ width: 20, height: 20 }}
+                   />
+                 );
+               } else if (routeName === "Playlist") {
+                 iconName = "musical-notes";
+                 icon = (
+                   <Icon
+                     name={iconName}
+                     style={{ color: tintColor, fontSize: 20 }}
+                   />
+                 );
+               } else if (routeName === "ProfileStack") {
+                        iconName = "contact";
+                        let user = null,
+                          source;
+                        AsyncStorage.getItem(
+                          "my_profile"
+                        ).then(profile => {
+                          user = JSON.parse(profile);
+                        });
+                        if (
+                          user !== null &&
+                          user.userAvatar
+                        ) {
+                          source = {
+                            uri: user.userAvatar
+                          };
+                        } else {
+                          source = avatar;
+                        }
+                        // console.log(user);
+                        icon = (
+                          <Thumbnail
+                            small
+                            source={source}
+                            style={{
+                              width: 32,
+                              height: 32
+                            }}
+                          />
+                        );
+                      } else if (
+                        routeName === "Notifications"
+                      ) {
+                        iconName = "heart";
+                        icon = (
+                          <Icon
+                            name={iconName}
+                            size={15}
+                            style={{
+                              color: tintColor,
+                              fontSize: 20
+                            }}
+                          />
+                        );
+                      }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
@@ -244,9 +252,7 @@ const MainStackNavigator = createBottomTabNavigator(
         height: 40
       }
     },
-    tabBarComponent: props => (
-      <TabBarComponent {...props} />
-    ),
+    tabBarComponent: props => <TabBarComponent {...props} />,
     tabBarPosition: "bottom"
   }
 );

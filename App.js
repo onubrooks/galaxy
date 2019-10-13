@@ -94,6 +94,9 @@ export default class App extends React.Component {
         "Segoe UI Italic": require("./assets/fonts/Segoe-UI-Italic.ttf"),
         "Segoe UI Bold": require("./assets/fonts/Segoe-UI-Bold.ttf"),
         "Segoe UI Bold Italic": require("./assets/fonts/Segoe-UI-Bold-Italic.ttf"),
+        "Adine Kirnberg": require("./assets/fonts/AdineKirnberg.ttf"),
+        "Adine Kirnberg Alternate": require("./assets/fonts/AdineKirnbergAlternate.ttf"),
+        "Awesome Season": require("./assets/fonts/Awesome-Season.ttf"),
         segoeprb: require("./assets/fonts/segoeprb.ttf"),
         Roboto: require("native-base/Fonts/Roboto.ttf"),
         Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
