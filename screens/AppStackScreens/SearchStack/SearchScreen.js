@@ -57,6 +57,7 @@ export class SearchScreen extends Component {
       url = this.state.musicEndpoint;
       this.setState({ s: true, u: false, h: false})
     }
+    if(!text.length) return;
     let endpoint = `${url}${text}`
     this.setState({fetching:true, userResults: [], songResults: []})
     
@@ -70,16 +71,23 @@ export class SearchScreen extends Component {
           AsyncStorage.removeItem("userToken");
           this.props.navigation.navigate("Auth", {});
         }
-        if (type == "hashtag") {
-          this.setState({
-            userResults: data.users || [],
-            songResults: data.songs || []
-          });
-        } else if (type == "song") {
-          this.setState({ songResults: data });
-        } else if (type == "user") {
-          this.setState({ userResults: data });
+        if (data.error) {
+          console.log('error', data);
+        } else{
+          if (type == "hashtag") {
+            this.setState({
+              userResults: data.users || [],
+              songResults: data.songs || []
+            });
+          } else if (type == "song") {
+            console.log("songs", data);
+            this.setState({ songResults: data });
+          } else if (type == "user") {
+            this.setState({ userResults: data });
+          }
+          
         }
+        
       })
       .finally(() => this.setState({ fetching: false }));
   }

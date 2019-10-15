@@ -21,11 +21,11 @@ export class FeedScreen extends Component {
           <Body style={{ marginLeft: 90 }}>
             <Text style={styles.title}>Leedder</Text>
           </Body>
-          <Right>
+          {/* <Right>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('DMList')}>
               <Icon style={styles.title} name="ios-send" size={33} />
             </TouchableOpacity>
-          </Right>
+          </Right> */}
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />
       </Container>;
