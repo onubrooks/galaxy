@@ -28,9 +28,9 @@ export default {
   },
   title: {
     color: "#222222",
-    fontFamily: "Awesome Season", //"Adine Kirnberg", //"segoeprb",
-    fontSize: 30,
-    marginTop: 15
+    fontFamily: "Adine Kirnberg", //"Awesome Season", //"Adine Kirnberg", //"segoeprb",
+    fontSize: 75,
+    marginTop: 0
   },
   text: {
     alignSelf: "center",

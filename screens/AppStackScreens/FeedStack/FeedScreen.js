@@ -18,8 +18,8 @@ export class FeedScreen extends Component {
     return <Container style={styles.container}>
       <Header style={styles.header} >
           
-          <Body style={{ marginLeft: 90 }}>
-            <Text style={styles.title}>Leedder</Text>
+          <Body style={{ marginLeft: 120 }}>
+            <Text style={styles.title}>leedder</Text>
           </Body>
           {/* <Right>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('DMList')}>

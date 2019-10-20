@@ -111,7 +111,8 @@ export default class Player extends React.Component {
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
       // androidImplementation: 'MediaPlayer',
     };
-    const { sound, status } = await Audio.Sound.createAsync(
+    try {
+      const { sound, status } = await Audio.Sound.createAsync(
       source,
       initialStatus,
       this._onPlaybackStatusUpdate
@@ -120,12 +121,10 @@ export default class Player extends React.Component {
     playerService.addPlayer(this.playbackInstance);
 
     this._updateScreenForLoading(false);
+    } catch(err) {
+      console.log(err)
+    }
   }
-
-  _mountVideo = component => {
-    this._video = component;
-    this._loadNewPlaybackInstance(false);
-  };
 
   _updateScreenForLoading(isLoading) {
     if (this.unmounted) return;
@@ -173,18 +172,6 @@ export default class Player extends React.Component {
     }
   };
 
-  _onLoadStart = () => {
-    console.log(`ON LOAD START`);
-  };
-
-  _onLoad = status => {
-    console.log(`ON LOAD : ${JSON.stringify(status)}`);
-  };
-
-  _onError = error => {
-    console.log(`ON ERROR : ${error}`);
-  };
-
   _onReadyForDisplay = event => {
     if (this.unmounted) return;
     const widestHeight = DEVICE_WIDTH * event.naturalSize.height / event.naturalSize.width;
@@ -222,13 +209,17 @@ export default class Player extends React.Component {
   }
 
   _onPlayPausePressed = () => {
-    playerService.stopAll();
+    try {
+      playerService.stopAll();
     if (this.playbackInstance != null) {
       if (this.state.isPlaying) {
         this.playbackInstance.pauseAsync();
       } else {
         this.playbackInstance.playAsync();
       }
+    }
+    } catch(err) {
+      console.log(err)
     }
   };
 
@@ -301,24 +292,6 @@ export default class Player extends React.Component {
     return '00:00/00:00';
   }
 
-  _onPosterPressed = () => {
-    if (this.unmounted) return;
-    this.setState({ poster: !this.state.poster });
-  };
-
-  _onUseNativeControlsPressed = () => {
-    if (this.unmounted) return;
-    this.setState({ useNativeControls: !this.state.useNativeControls });
-  };
-
-  _onFullscreenPressed = () => {
-    try {
-      this._video.presentFullscreenPlayer();
-    } catch (error) {
-      console.log(error.toString());
-    }
-  };
-
   render() {
     return !this.state.fontLoaded ? <View style={styles.emptyContainer} /> : <View style={styles.container}>
         <View />
@@ -333,7 +306,7 @@ export default class Player extends React.Component {
         <View style={styles.videoContainer}>
           <Video ref={this._mountVideo} style={[styles.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
         </View>
-        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 1 }]}>
+        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.9 }]}>
             <Button transparent style={styles.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
               {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} />}
             </Button>
@@ -366,55 +339,6 @@ export default class Player extends React.Component {
           </View> : null}
 
         <View />
-        {this.state.showVideo ? <View>
-            <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
-              <View />
-              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onPosterPressed}>
-                <View style={styles.button}>
-                  <Text
-                    style={[
-                      styles.text,
-                      { fontFamily: "cutive-mono-regular" }
-                    ]}
-                  >
-                    Poster: {this.state.poster ? "yes" : "no"}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-              <View />
-              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onFullscreenPressed}>
-                <View style={styles.button}>
-                  <Text
-                    style={[
-                      styles.text,
-                      { fontFamily: "cutive-mono-regular" }
-                    ]}
-                  >
-                    Fullscreen
-                  </Text>
-                </View>
-              </TouchableHighlight>
-              <View />
-            </View>
-            <View style={styles.space} />
-            <View style={[styles.buttonsContainerBase, styles.buttonsContainerTextRow]}>
-              <View />
-              <TouchableHighlight underlayColor={BACKGROUND_COLOR} style={styles.wrapper} onPress={this._onUseNativeControlsPressed}>
-                <View style={styles.button}>
-                  <Text
-                    style={[
-                      styles.text,
-                      { fontFamily: "cutive-mono-regular" }
-                    ]}
-                  >
-                    Native Controls:{" "}
-                    {this.state.useNativeControls ? "yes" : "no"}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-              <View />
-            </View>
-          </View> : null}
       </View>;
   }
 }
@@ -462,7 +386,7 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH,
     opacity: 0.8,
     backgroundColor: "#FFFFFF",
-    marginBottom: -45,
+    //marginBottom: -45,
   },
   playbackSlider: {
     width: DEVICE_WIDTH / 3

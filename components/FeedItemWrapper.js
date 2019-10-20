@@ -270,6 +270,7 @@ export class FeedItemWrapper extends Component {
     const idx = this.props.navigation.getParam("idx", 0);
     let { user, display = null } = this.props;
     let displayItems = display || this._getItemsToDisplay();
+    displayItems = displayItems.filter((item) => item.songId !== 225)
     if(!displayItems.length && route !== "Feed") 
     return (
       <Text

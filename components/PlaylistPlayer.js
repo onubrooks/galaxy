@@ -161,19 +161,20 @@ export default class PlaylistPlayer extends React.Component {
       // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
       // androidImplementation: 'MediaPlayer',
     };
+    try {
+      const { sound, status } = await Audio.Sound.createAsync(
+        source,
+        initialStatus,
+        this._onPlaybackStatusUpdate
+      );
+      this.playbackInstance = sound;
+      playerService.addPlayer(this.playbackInstance);
 
-    const { sound, status } = await Audio.Sound.createAsync(source, initialStatus, this._onPlaybackStatusUpdate);
-    this.playbackInstance = sound;
-    playerService.addPlayer(this.playbackInstance);
-
-    this._updateScreenForLoading(false);
+      this._updateScreenForLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   }
-
-  _mountVideo = component => {
-    if (this.unmounted) return;
-    this._video = component;
-    this._loadNewPlaybackInstance(false);
-  };
 
   _updateScreenForLoading(isLoading) {
     if (this.unmounted) return;
@@ -219,21 +220,6 @@ export default class PlaylistPlayer extends React.Component {
         console.log(`FATAL PLAYER ERROR: ${status.error}`);
       }
     }
-  };
-
-  _onLoadStart = () => {
-    if (this.unmounted) return;
-    console.log(`ON LOAD START`);
-  };
-
-  _onLoad = status => {
-    if (this.unmounted) return;
-    console.log(`ON LOAD : ${JSON.stringify(status)}`);
-  };
-
-  _onError = error => {
-    if (this.unmounted) return;
-    console.log(`ON ERROR : ${error}`);
   };
 
   _onReadyForDisplay = event => {
@@ -283,13 +269,17 @@ export default class PlaylistPlayer extends React.Component {
   }
 
   _onPlayPausePressed = () => {
-    playerService.stopAll();
-    if (this.playbackInstance != null) {
-      if (this.state.isPlaying) {
-        this.playbackInstance.pauseAsync();
-      } else {
-        this.playbackInstance.playAsync();
+    try {
+      playerService.stopAll();
+      if (this.playbackInstance != null) {
+        if (this.state.isPlaying) {
+          this.playbackInstance.pauseAsync();
+        } else {
+          this.playbackInstance.playAsync();
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -355,6 +345,7 @@ export default class PlaylistPlayer extends React.Component {
   };
 
   _onPitchCorrectionPressed = async value => {
+    if (this.unmounted) return;
     this._trySetRate(this.state.rate, !this.state.shouldCorrectPitch);
   };
 
@@ -433,25 +424,6 @@ export default class PlaylistPlayer extends React.Component {
     }
     return '';
   }
-
-  _onPosterPressed = () => {
-    if (this.unmounted) return;
-    this.setState({ poster: !this.state.poster });
-  };
-
-  _onUseNativeControlsPressed = () => {
-    if (this.unmounted) return;
-    this.setState({ useNativeControls: !this.state.useNativeControls });
-  };
-
-  _onFullscreenPressed = () => {
-    if (this.unmounted) return;
-    try {
-      this._video.presentFullscreenPlayer();
-    } catch (error) {
-      console.log(error.toString());
-    }
-  };
 
   _onSpeakerPressed = () => {
     if (this.unmounted) return;
