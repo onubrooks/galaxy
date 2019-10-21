@@ -878,7 +878,6 @@ export function unFollowUser(song, user, status) {
     partyA: user.userId,
     partyB: song.userId
   };
-  console.log('parties', data)
   let req = {
     method: "POST",
     url: `users/follow`,

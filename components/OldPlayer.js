@@ -83,6 +83,7 @@ export default class Player extends React.Component {
         'cutive-mono-regular': require('../assets/fonts/CutiveMono-Regular.ttf'),
       });
       this.setState({ fontLoaded: true });
+      this._updatePlaybackInstanceForIndex(false);
     })();
   }
 
@@ -188,10 +189,6 @@ export default class Player extends React.Component {
     }
   };
 
-  _onFullscreenUpdate = event => {
-    console.log(`FULLSCREEN UPDATE : ${JSON.stringify(event.fullscreenUpdate)}`);
-  };
-
   _advanceIndex(forward) {
     this.index = (this.index + (forward ? 1 : 1 - 1)) % 1;
   }
@@ -210,7 +207,7 @@ export default class Player extends React.Component {
 
   _onPlayPausePressed = () => {
     try {
-      playerService.stopAll();
+      //playerService.stopAll();
     if (this.playbackInstance != null) {
       if (this.state.isPlaying) {
         this.playbackInstance.pauseAsync();
@@ -220,6 +217,7 @@ export default class Player extends React.Component {
     }
     } catch(err) {
       console.log(err)
+      this._updatePlaybackInstanceForIndex(true);
     }
   };
 
@@ -306,7 +304,7 @@ export default class Player extends React.Component {
         <View style={styles.videoContainer}>
           <Video ref={this._mountVideo} style={[styles.video, { opacity: this.state.showVideo ? 1.0 : 0.0, width: this.state.videoWidth, height: this.state.videoHeight }]} resizeMode={Video.RESIZE_MODE_CONTAIN} onPlaybackStatusUpdate={this._onPlaybackStatusUpdate} onLoadStart={this._onLoadStart} onLoad={this._onLoad} onError={this._onError} onFullscreenUpdate={this._onFullscreenUpdate} onReadyForDisplay={this._onReadyForDisplay} useNativeControls={this.state.useNativeControls} />
         </View>
-        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.9 }]}>
+        {this.state.show ? <View style={[styles.playbackContainer, { opacity: this.state.isLoading ? DISABLED_OPACITY : 0.7 }]}>
             <Button transparent style={styles.wrapper} onPress={this._onPlayPausePressed} disabled={this.state.isLoading}>
               {this.state.isPlaying ? <Ionicons name="ios-pause" size={30} /> : <Ionicons name="ios-play" size={30} />}
             </Button>

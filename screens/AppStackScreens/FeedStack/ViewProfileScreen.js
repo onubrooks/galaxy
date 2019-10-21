@@ -147,7 +147,6 @@ export class ViewProfileScreen extends Component {
                  let iFollow = following.some(
                    d => d.userId == this.props.user.id
                  );
-                 console.log('ifollow', iFollow);
                  this.setState({ following, iFollow });
                } else {
                  Toast.show({

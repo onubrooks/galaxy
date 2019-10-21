@@ -75,7 +75,9 @@ export default class PlaylistPlayer extends React.Component {
       defaultPlaylist:
         props.playlist.length && props.playlist ? false : true,
       playlist:
-        (props.playlist.length && props.playlist) || defaultPlaylist,
+        (props.playlist.length &&
+          props.playlist.filter(item => item.songId !== 225)) ||
+        defaultPlaylist,
       showVideo: false,
       playbackInstanceName: LOADING_STRING,
       loopingType: LOOPING_TYPE_ALL,

@@ -203,6 +203,7 @@ export class ViewFollowsScreen extends Component {
                            myId={this.props.user.id}
                            myFollows={this.state.myFollowing}
                            navigation={this.props.navigation}
+                           following={true}
                          />
                        ))
                      )}

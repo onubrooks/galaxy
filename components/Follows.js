@@ -13,9 +13,9 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 export class Follows extends Component {
    constructor(props) {
     super(props);
-    let iFollow = props.myFollows.length && props.myFollows.some(
+    let iFollow = props.following ? true : (props.myFollows.length && props.myFollows.some(
       item => item.userId == props.personData.userId
-    ) || false;
+    ) || false);
     this.state = {iFollow}
   }
 

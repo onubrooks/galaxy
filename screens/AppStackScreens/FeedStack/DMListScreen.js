@@ -33,7 +33,8 @@ export class DMListScreen extends React.Component {
              text: "",
              userEndpoint:
                "https://api.leedder.com/api/v1.0/search/users/",
-             
+             inboxEndpoint: "https://api.leedder.com/api/v1.0/DM/inbox/",
+
              fetching: false
            };
          }
@@ -41,7 +42,7 @@ export class DMListScreen extends React.Component {
          search = text => {
            if (text.charAt(0) === "@") {
              text = text.slice(1);
-           } 
+           }
            let endpoint = `${this.state.userEndpoint}${text}`;
            this.setState({
              fetching: true,
@@ -56,20 +57,19 @@ export class DMListScreen extends React.Component {
            })
              .then(res => {
                let data = res.data;
-               console.log(data)
                if (data.error && data.error === "Unauthenticated.") {
                  AsyncStorage.removeItem("userToken");
                  this.props.navigation.navigate("Auth", {});
                }
                this.setState({
-                 userResults: data || [],
+                 userResults: data || []
                });
              })
              .finally(() => this.setState({ fetching: false }));
          };
          static navigationOptions = { tabBarVisible: false };
-         go = () => {
-           this.props.navigation.navigate("DMChat");
+         go = chattingWith => {
+           this.props.navigation.navigate("DMChat", { chattingWith });
          };
          render() {
            return (
@@ -77,10 +77,7 @@ export class DMListScreen extends React.Component {
                <Header
                  searchBar
                  rounded
-                 style={[
-                   styles.header2,
-                   { backgroundColor: "#EFEFEF" }
-                 ]}
+                 style={[styles.header2, { backgroundColor: "#EFEFEF" }]}
                >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity
@@ -95,7 +92,7 @@ export class DMListScreen extends React.Component {
                  <Item
                    style={{
                      backgroundColor: "#EFEFEF",
-                     marginLeft: 20
+                     marginLeft: 15
                    }}
                  >
                    <Icon name="ios-search" />
@@ -115,12 +112,12 @@ export class DMListScreen extends React.Component {
                      size={Platform.OS === "ios" ? 1 : 20}
                    />
                  ) : null}
-                 {this.state.userResults.length
-                   ? this.state.userResults.map(item => (
+                 {this.state.userChats.length
+                   ? this.state.userChats.map(item => (
                        <TouchableOpacity
                          key={item.userId}
                          activeOpacity={0.9}
-                         onPress={this.go}
+                         onPress={() => this.go(item)}
                        >
                          <DMItem
                            handle={item.userHandle}
@@ -130,7 +127,21 @@ export class DMListScreen extends React.Component {
                        </TouchableOpacity>
                      ))
                    : null}
-                 
+                 {this.state.userResults.length
+                   ? this.state.userResults.map(item => (
+                       <TouchableOpacity
+                         key={item.userId}
+                         activeOpacity={0.9}
+                         onPress={() => this.go(item)}
+                       >
+                         <DMItem
+                           handle={item.userHandle}
+                           avatar={item.userAvatar}
+                           caption={item.status}
+                         />
+                       </TouchableOpacity>
+                     ))
+                   : null}
                </Content>
              </Container>
            );

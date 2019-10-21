@@ -5,7 +5,8 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
@@ -22,47 +23,92 @@ import { connect } from "react-redux";
 import { commentPost } from "../../../actions/actions";
 
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import Axios from "axios";
 
 import styles from "../../../components/styles";
 const sly = require("../../../assets/avatar.png");
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 
 export class DMChatScreen extends React.Component {
-         //static navigationOptions = { tabBarVisible: false };
-         state = { messages: [] };
+         constructor(props) {
+           super(props);
+           this.interval = null;
+           this.chattingWith = props.navigation.getParam(
+             "chattingWith",
+             null
+           );
+           this.state = {
+             messages: [],
+             cancel: null,
+             CancelToken: Axios.CancelToken,
+             chatEndpoint:
+               "https://api.leedder.com/api/v1.0/DM/conversations/",
+             sendEndpoint: "https://api.leedder.com/api/v1.0/DM/send",
+             fetching: true,
+             posting: false
+           };
+         }
+         static navigationOptions = { tabBarVisible: false };
 
          componentWillMount() {
-           this.setState({
-             messages: [
-               {
-                 _id: 1,
-                 text: "Hello developer",
-                 createdAt: new Date(),
-                 user: {
-                   _id: 2,
-                   name: "React Native",
-                   avatar: "https://placeimg.com/140/140/any"
-                 }
-               },
-               {
-                 _id: 2,
-                 text: "Hi dev ops",
-                 createdAt: new Date(),
-                 user: {
-                   _id: 1,
-                   name: "Native Base",
-                   avatar: "https://placeimg.com/140/140/any"
-                 }
-               }
-             ]
-           });
+           this.fetchConversation();
+           this.interval = setInterval(this.fetchConversation, 30000);
          }
-  componentDidCatch(error, info) {
-    // Display fallback UI
-    this.setState({ hasError: true });
-    // You can also log the error to an error reporting service
-    console.log(error); 
-  }
+         componentWillMount() {
+           this.interval && clearInterval(this.interval)
+         }
+         componentDidCatch(error, info) {
+           // Display fallback UI
+           this.setState({ hasError: true });
+           console.log(error);
+         }
+
+         fetchConversation = () => {
+           let otherId = this.chattingWith.userId;
+           let selfId = this.props.user.id;
+           let otherAvatar = this.chattingWith.userAvatar;
+           let selfAvatar = this.props.user.userAvatar;
+           let otherHandle = this.chattingWith.userHandle;
+           let selfHandle = this.props.user.userHandle;
+           let endpoint = `${
+             this.state.chatEndpoint
+           }${selfId}/${otherId}`;
+           Axios.get(endpoint, {
+             cancelToken: new this.state.CancelToken(c =>
+               this.setState({ cancel: c })
+             )
+           })
+             .then(res => {
+               let data = res.data;
+               if (data.error && data.error === "Unauthenticated.") {
+                 AsyncStorage.removeItem("userToken");
+                 this.props.navigation.navigate("Auth", {});
+               }
+               let messages =
+                 data.map(item => {
+                   return {
+                     _id: item.id,
+                     text: item.message,
+                     createdAt: item.created_at,
+                     user: {
+                       _id: item.sender_id,
+                       name:
+                         item.sender_id == selfId
+                           ? selfHandle
+                           : otherHandle,
+                       avatar:
+                         item.sender_id == selfId
+                           ? selfAvatar
+                           : otherAvatar
+                     }
+                   };
+                 }) || [];
+               this.setState({
+                 messages: messages.reverse().concat(this.state.messages)
+               });
+             })
+             .finally(() => this.setState({ fetching: false }));
+         };
 
          onSend(messages = []) {
            this.setState(previousState => ({
@@ -71,47 +117,91 @@ export class DMChatScreen extends React.Component {
                messages
              )
            }));
+           this.setState({ posting: true });
+           let endpoint = this.state.sendEndpoint;
+           let msg = messages[0].text;
+           Axios(endpoint, {
+             method: "post",
+             data: {
+               sender: this.props.user.id,
+               receiver: this.chattingWith.userId,
+               msg
+             }
+           }).then(res => {
+                let data = res.data;
+                if (data.error && data.error === "Unauthenticated.") {
+                  AsyncStorage.removeItem("userToken");
+                  this.props.navigation.navigate("Auth", {});
+                }
+                console.log(data)
+              })
+              .finally(() => this.setState({ posting: false }));
          }
 
-         renderBubble = (props) => {
+         renderBubble = props => {
            return (
              <Bubble
                {...props}
                textStyle={{
                  right: {
-                   color: 'yellow',
-                 },
+                   color: "yellow"
+                 }
                }}
                wrapperStyle={{
                  left: {
-                   backgroundColor: '#006E8C',
-                 },
+                   backgroundColor: "#006E8C"
+                 }
                }}
              />
            );
-         }
+         };
 
          render() {
            let { user, comments } = this.props;
-           return <Container style={styles.container}>
-             <Header style={[styles.header, { height: 70 }]}>
+           let source = this.chattingWith.userAvatar
+             ? { uri: this.chattingWith.userAvatar }
+             : sly; 
+          let handle = this.chattingWith.userHandle;
+           return (
+             <Container style={styles.container}>
+               <Header style={[styles.header, { height: 70 }]}>
                  <Left>
-                   <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                   <Icon name="ios-arrow-back" style={{ color: "#006E8C" }}/>
+                   <TouchableOpacity
+                     onPress={() => this.props.navigation.goBack()}
+                   >
+                     <Icon
+                       name="ios-arrow-back"
+                       style={{ color: "#006E8C" }}
+                     />
                    </TouchableOpacity>
                  </Left>
                  <Body>
-                   <View style={{ alignItems: "center" }}>
-                     <Thumbnail small source={sly} />
-                   <Text style={{ fontWeight: '500', color: "#006E8C" }}>max_payne</Text>
+                   <View style={{ alignItems: "center", marginLeft: 40, }}>
+                     <Thumbnail small source={source} />
+                     <Text
+                       style={{
+                         fontWeight: "500",
+                         color: "#006E8C"
+                       }}
+                     >
+                       {handle}
+                     </Text>
                    </View>
                  </Body>
                </Header>
-             <View style={{ flex: 1 }}>
-               <GiftedChat messages={this.state.messages} onSend={messages => this.onSend(messages)} user={{ _id: 1 }} />
-               {/* <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={80} /> */}
-             </View>
-             </Container>;
+               <View style={{ flex: 1 }}>
+                 <GiftedChat
+                   messages={this.state.messages}
+                   onSend={messages => this.onSend(messages)}
+                   user={{
+                     _id: +this.props.user.id
+                   }}
+                   showUserAvatar={true}
+                 />
+                 {/* <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={80} /> */}
+               </View>
+             </Container>
+           );
          }
        }
 

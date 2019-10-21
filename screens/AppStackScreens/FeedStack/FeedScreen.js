@@ -18,14 +18,14 @@ export class FeedScreen extends Component {
     return <Container style={styles.container}>
       <Header style={styles.header} >
           
-          <Body style={{ marginLeft: 120 }}>
+          <Body style={{ marginLeft: 115 }}>
             <Text style={styles.title}>leedder</Text>
           </Body>
-          {/* <Right>
+          <Right>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('DMList')}>
-              <Icon style={styles.title} name="ios-send" size={33} />
+          <Icon style={{fontSize: 36, marginTop: 14,}} name="ios-send" />
             </TouchableOpacity>
-          </Right> */}
+          </Right>
         </Header>
         <FeedItemWrapper navigation={this.props.navigation} />
       </Container>;

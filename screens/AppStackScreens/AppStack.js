@@ -65,10 +65,10 @@ const FeedStackNavigator = createStackNavigator(
       //   tabBarVisible = false;
       // }
 
-      return { tabBarVisible };
+      //return { tabBarVisible };
       // alternative implementation
-      // let { routeName } = navigation.state.routes[navigation.state.index];
-      // return { tabBarVisible: routeName == "AddComment" ? false : true };
+      let { routeName } = navigation.state.routes[navigation.state.index];
+      return { tabBarVisible: routeName == "DMChat" ? false : true };
     }
   }
 );
