@@ -46,13 +46,13 @@ const FeedStackNavigator = createStackNavigator(
     },
     DMChat: {
       screen: DMChatScreen
-    },
-    ViewProfile: {
-      screen: ViewProfileScreen
-    },
-    ViewFollows: {
-      screen: ViewFollowsScreen
     }
+    // ViewProfile: {
+    //   screen: ViewProfileScreen
+    // },
+    // ViewFollows: {
+    //   screen: ViewFollowsScreen
+    // }
   },
   {
     headerMode: "none",
@@ -80,6 +80,12 @@ const SearchStackNavigator = createStackNavigator(
     },
     Explore: {
       screen: ExploreScreen
+    },
+    ViewProfile: {
+      screen: ViewProfileScreen
+    },
+    ViewFollows: {
+      screen: ViewFollowsScreen
     }
   },
   {
@@ -165,76 +171,63 @@ const MainStackNavigator = createBottomTabNavigator(
             />
           );
         } else if (routeName === "SearchStack") {
-                 iconName = "search";
-                 icon = (
-                   <Icon
-                     name={iconName}
-                     style={{ color: tintColor, fontSize: 20 }}
-                   />
-                 );
-               } else if (routeName === "Add") {
-                 iconName = "add";
+          iconName = "search";
+          icon = (
+            <Icon name={iconName} style={{ color: tintColor, fontSize: 20 }} />
+          );
+        } else if (routeName === "Add") {
+          iconName = "add";
 
-                 icon = (
-                   <Thumbnail
-                     small
-                     source={addIcon}
-                     style={{ width: 20, height: 20 }}
-                   />
-                 );
-               } else if (routeName === "Playlist") {
-                 iconName = "musical-notes";
-                 icon = (
-                   <Icon
-                     name={iconName}
-                     style={{ color: tintColor, fontSize: 20 }}
-                   />
-                 );
-               } else if (routeName === "ProfileStack") {
-                        iconName = "contact";
-                        let user = null,
-                          source;
-                        AsyncStorage.getItem(
-                          "my_profile"
-                        ).then(profile => {
-                          user = JSON.parse(profile);
-                        });
-                        if (
-                          user !== null &&
-                          user.userAvatar
-                        ) {
-                          source = {
-                            uri: user.userAvatar
-                          };
-                        } else {
-                          source = avatar;
-                        }
-                        // console.log(user);
-                        icon = (
-                          <Thumbnail
-                            small
-                            source={source}
-                            style={{
-                              width: 32,
-                              height: 32
-                            }}
-                          />
-                        );
-                      } else if (
-                        routeName === "Notifications"
-                      ) {
-                        iconName = "heart";
-                        icon = (
-                          <Icon
-                            name={iconName}
-                            size={15}
-                            style={{
-                              color: tintColor,
-                              fontSize: 20
-                            }}
-                          />
-                        );
-                      }
+          icon = (
+            <Thumbnail
+              small
+              source={addIcon}
+              style={{ width: 20, height: 20 }}
+            />
+          );
+        } else if (routeName === "Playlist") {
+          iconName = "musical-notes";
+          icon = (
+            <Icon name={iconName} style={{ color: tintColor, fontSize: 20 }} />
+          );
+        } else if (routeName === "ProfileStack") {
+          iconName = "contact";
+          let user = null,
+            source;
+          AsyncStorage.getItem("my_profile").then(profile => {
+            user = JSON.parse(profile);
+          });
+          if (user !== null && user.userAvatar) {
+            source = {
+              uri: user.userAvatar
+            };
+          } else {
+            source = avatar;
+          }
+          // console.log(user);
+          icon = (
+            <Thumbnail
+              small
+              source={source}
+              style={{
+                width: 32,
+                height: 32
+              }}
+            />
+          );
+        } else if (routeName === "Notifications") {
+          iconName = "heart";
+          icon = (
+            <Icon
+              name={iconName}
+              size={15}
+              style={{
+                color: tintColor,
+                fontSize: 20
+              }}
+            />
+          );
+        }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
@@ -249,7 +242,7 @@ const MainStackNavigator = createBottomTabNavigator(
       showLabel: false,
       style: {
         backgroundColor: "transparent",
-        height: 40
+        height: 45
       }
     },
     tabBarComponent: props => <TabBarComponent {...props} />,

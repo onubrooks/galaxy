@@ -39,6 +39,32 @@ export class DMListScreen extends React.Component {
            };
          }
 
+         componentDidMount(){
+           this.inbox()
+         }
+
+         inbox = () => {
+           
+           let endpoint = `${this.state.inboxEndpoint}${this.props.user.id}`;
+           this.setState({
+             fetching: true,
+             userChats: []
+           });
+
+           Axios.get(endpoint)
+             .then(res => {
+               let data = res.data;
+               console.log('inbox results', data)
+               if (data.error && data.error === "Unauthenticated.") {
+                 AsyncStorage.removeItem("userToken");
+                 this.props.navigation.navigate("Auth", {});
+               }
+               this.setState({
+                 userChats: data || []
+               });
+             })
+             .finally(() => this.setState({ fetching: false }));
+         };
          search = text => {
            if (text.charAt(0) === "@") {
              text = text.slice(1);
@@ -77,7 +103,10 @@ export class DMListScreen extends React.Component {
                <Header
                  searchBar
                  rounded
-                 style={[styles.header2, { backgroundColor: "#EFEFEF" }]}
+                 style={[
+                   styles.header2,
+                   { backgroundColor: "#EFEFEF" }
+                 ]}
                >
                  <Left style={{ maxWidth: 50 }}>
                    <TouchableOpacity
@@ -85,7 +114,11 @@ export class DMListScreen extends React.Component {
                    >
                      <Icon
                        name="ios-arrow-back"
-                       style={{ color: "#006E8C" }}
+                       style={{
+                         color: styles.headerColor,
+                         fontFamily: "Segoe UI Bold",
+                         fontSize: 30
+                       }}
                      />
                    </TouchableOpacity>
                  </Left>
@@ -115,14 +148,20 @@ export class DMListScreen extends React.Component {
                  {this.state.userChats.length
                    ? this.state.userChats.map(item => (
                        <TouchableOpacity
-                         key={item.userId}
+                         key={item.profile.userId}
                          activeOpacity={0.9}
-                         onPress={() => this.go(item)}
+                         onPress={() =>
+                           this.go({
+                             userId: item.profile.userId,
+                             userAvatar: item.profile.avatar,
+                             userHandle: item.profile.handle
+                           })
+                         }
                        >
                          <DMItem
-                           handle={item.userHandle}
-                           avatar={item.userAvatar}
-                           caption={item.status}
+                           handle={item.profile.handle}
+                           avatar={item.profile.avatar}
+                           caption={item.message.message}
                          />
                        </TouchableOpacity>
                      ))

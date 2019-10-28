@@ -106,12 +106,11 @@ export class SearchScreen extends Component {
           <Item style={{ backgroundColor: "#EFEFEF", marginLeft: 30 }}>
             <Icon name="ios-search" />
             <Input
-              placeholder="Search for anything..."
+              placeholder="Use '@' to search for users..."
               onChangeText={text => {
                 this.setState({ text });
                 this.search(text);
               }}
-              onChangeText={this.search}
             />
           </Item>
         </Header>

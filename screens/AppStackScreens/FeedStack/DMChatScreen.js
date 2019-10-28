@@ -50,11 +50,11 @@ export class DMChatScreen extends React.Component {
          }
          static navigationOptions = { tabBarVisible: false };
 
-         componentWillMount() {
+         componentDidMount() {
            this.fetchConversation();
            this.interval = setInterval(this.fetchConversation, 30000);
          }
-         componentWillMount() {
+         componentWillUnmount() {
            this.interval && clearInterval(this.interval)
          }
          componentDidCatch(error, info) {
@@ -157,7 +157,6 @@ export class DMChatScreen extends React.Component {
          };
 
          render() {
-           let { user, comments } = this.props;
            let source = this.chattingWith.userAvatar
              ? { uri: this.chattingWith.userAvatar }
              : sly; 
@@ -171,12 +170,18 @@ export class DMChatScreen extends React.Component {
                    >
                      <Icon
                        name="ios-arrow-back"
-                       style={{ color: "#006E8C" }}
+                       style={{
+                         color: styles.headerColor,
+                         fontFamily: "Segoe UI Bold",
+                         fontSize: 30
+                       }}
                      />
                    </TouchableOpacity>
                  </Left>
                  <Body>
-                   <View style={{ alignItems: "center", marginLeft: 40, }}>
+                   <View
+                     style={{ alignItems: "center", marginLeft: 40 }}
+                   >
                      <Thumbnail small source={source} />
                      <Text
                        style={{
