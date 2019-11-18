@@ -54,7 +54,6 @@ export class DMListScreen extends React.Component {
            Axios.get(endpoint)
              .then(res => {
                let data = res.data;
-               console.log('inbox results', data)
                if (data.error && data.error === "Unauthenticated.") {
                  AsyncStorage.removeItem("userToken");
                  this.props.navigation.navigate("Auth", {});

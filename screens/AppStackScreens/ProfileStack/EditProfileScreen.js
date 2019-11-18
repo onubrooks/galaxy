@@ -269,7 +269,7 @@ export class EditProfileScreen extends Component {
                 </Item>
                 <Item style={[stl.item, { height: 48 }]} last>
                   <Input
-                    placeholder="Phone No"
+                    placeholder="Phone No(Optional)"
                     placeholderTextColor="#888888"
                     onChangeText={val => this.setState({ phone: val })}
                     value={this.state.phone}

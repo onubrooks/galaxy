@@ -96,7 +96,7 @@ export class SignUpScreen extends React.Component {
                   <Input
                     style={styles.item}
                     keyboardType="numeric"
-                    placeholder="Phone Number"
+                    placeholder="Phone Number(Optional)"
                     placeholderTextColor="white"
                     onChangeText={val => this.setState({ phone: val })}
                     value={this.state.phone}

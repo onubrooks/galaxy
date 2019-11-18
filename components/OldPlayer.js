@@ -207,7 +207,7 @@ export default class Player extends React.Component {
 
   _onPlayPausePressed = () => {
     try {
-      //playerService.stopAll();
+      playerService.stopAll();
     if (this.playbackInstance != null) {
       if (this.state.isPlaying) {
         this.playbackInstance.pauseAsync();

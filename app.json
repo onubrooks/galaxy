@@ -24,10 +24,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.artinict.leedder"
+      "bundleIdentifier": "com.artinict.leedder",
+      "infoPlist": {
+        "NSAppleMusicUsageDescription": "This enables the app to upload a song to your feed for other users to listen to and like.",
+        "NSPhotoLibraryUsageDescription": "Firstly, enable Leedder upload a cover art for your song. ALso, allow Leedder to upload a profile picture that is displayed on your profile."
+      }
     },
     "android": {
-      "package": "com.artinict.leedder"
+      "package": "com.artinict.leedderbuilds"
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
