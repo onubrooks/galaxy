@@ -15,7 +15,7 @@
     "@babel/plugin-transform-react-jsx-source": "^7.2.0",
     "@expo/samples": "2.1.1",
     "@expo/vector-icons": "^10.0.0",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "color": "^3.0.0",
     "expo": "^34.0.1",
     "expo-asset": "~7.0.0",
